@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Event Registration</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<nav>
+
+<div class="logo">
+
+🎓 College Event Manager
+
+</div>
+
+<ul>
+
+<li><a href="index.html">Home</a></li>
+
+<li><a href="about.html">About</a></li>
+
+<li><a href="contact.html">Contact</a></li>
+
+</ul>
+
+</nav>
+
+<section class="details">
+
+<h2>Event Registration</h2>
+
+<div class="page-container">
+
+<form id="registrationForm">
+
+<div class="form-group">
+
+<label>Full Name</label>
+
+<input
+type="text"
+id="fullname"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Email Address</label>
+
+<input
+type="email"
+id="email"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>College Name</label>
+
+<input
+type="text"
+id="college"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Department</label>
+
+<input
+type="text"
+id="department"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Year of Study</label>
+
+<select id="year" required>
+
+<option value="">Select Year</option>
+
+<option>1st Year</option>
+
+<option>2nd Year</option>
+
+<option>3rd Year</option>
+
+<option>4th Year</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>Selected Event</label>
+
+<input
+type="text"
+id="event"
+readonly>
+
+</div>
+
+<div style="text-align:center; margin-top:30px;">
+
+<button
+type="submit"
+class="hero-btn">
+
+Proceed to Payment →
+
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+</section>
+<footer>
+
+<div class="footer-container">
+
+<div class="footer-box">
+
+<h3>ABC Engineering College</h3>
+
+<p>
+
+Tech Spark 2027 – Empowering Innovation Through Technology.
+
+</p>
+
+</div>
+
+<div class="footer-box">
+
+<h3>Quick Links</h3>
+
+<a href="index.html">Home</a>
+
+<a href="about.html">About Us</a>
+
+<a href="terms.html">Terms & Conditions</a>
+
+<a href="privacy.html">Privacy Policy</a>
+
+</div>
+
+<div class="footer-box">
+
+<h3>Contact</h3>
+
+<p>📧 abccollegeevents@gmail.com</p>
+
+<p>📞 +91 98765 43210</p>
+
+<p>📍 Chennai, Tamil Nadu</p>
+
+</div>
+
+</div>
+
+<hr>
+
+<p class="copyright">
+
+© 2027 ABC Engineering College Tech Spark. All Rights Reserved.
+
+</p>
+
+</footer>
+
+<script>
+
+// Get selected event from URL
+const params = new URLSearchParams(window.location.search);
+
+const selectedEvent = params.get("event");
+
+if(selectedEvent){
+
+document.getElementById("event").value = selectedEvent;
+
+}
+document.getElementById("registrationForm").addEventListener("submit", async function(e){
+
+    e.preventDefault();
+
+    const studentData = {
+        fullname: document.getElementById("fullname").value,
+        email: document.getElementById("email").value,
+        college: document.getElementById("college").value,
+        department: document.getElementById("department").value,
+        year: document.getElementById("year").value,
+        event: document.getElementById("event").value
+    };
+
+    localStorage.setItem("studentData", JSON.stringify(studentData));
+window.location.href = "payment.html";
+});
+</script>
+
+</body>
+
+</html>
+
+
+
+

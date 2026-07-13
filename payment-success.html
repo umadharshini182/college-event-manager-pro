@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Payment Successful</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<nav>
+
+<div class="logo">
+🎓 College Event Manager
+</div>
+
+<ul>
+
+<li><a href="index.html">Home</a></li>
+
+<li><a href="about.html">About</a></li>
+
+<li><a href="privacy.html">Privacy</a></li>
+
+<li><a href="contact.html">Contact</a></li>
+
+</ul>
+
+</nav>
+
+<section class="details">
+
+<div class="payment-success-card">
+
+<div class="success-circle">
+✔
+</div>
+
+<h1>Payment Successful!</h1>
+
+<p>
+
+Thank you for registering for
+
+<strong id="eventName"></strong>
+
+</p>
+
+<p>
+
+Your registration has been confirmed successfully.
+
+</p>
+
+<p>
+
+A receipt has been generated for your registration.
+
+</p>
+
+<div class="button-group">
+
+<a href="receipt.html" class="hero-btn">
+
+📄 View Receipt
+
+</a>
+
+<a href="index.html" class="hero-btn">
+
+🏠 Home
+
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+<script>
+
+const student=JSON.parse(localStorage.getItem("studentData"));
+
+if(student){
+
+document.getElementById("eventName").innerHTML=student.event;
+
+}
+
+</script>
+
+</body>
+
+</html>

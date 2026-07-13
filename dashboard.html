@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>College Event Manager - Dashboard</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f6f9; margin: 0; padding: 20px; }
+        .nav { display: flex; justify-content: space-between; background: #333; color: #fff; padding: 15px; border-radius: 5px; }
+        .nav a { color: #ffc107; text-decoration: none; font-weight: bold; }
+        .container { margin-top: 20px; }
+        .panel { background: white; padding: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .hidden { display: none; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background: #f2f2f2; }
+        .btn { background: #28a745; color: white; padding: 5px 10px; border: none; cursor: pointer; border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+    <div class="nav">
+        <span id="welcome-text">Loading User Profile...</span>
+        <a href="/auth/logout">Logout</a>
+    </div>
+
+    <div class="container">
+        <div id="admin-panel" class="panel hidden">
+            <h2>Admin Control Center</h2>
+            <p>Manage registrations, process check-ins, and print credential strings.</p>
+            <button onclick="clearRegistrations()" style="background:#dc3545; color:white; border:none; padding:8px; cursor:pointer; margin-bottom:15px;">Clear All Registrations</button>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th><th>Name</th><th>College</th><th>Event</th><th>Attendance</th><th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-table-body"></tbody>
+            </table>
+        </div>
+
+        <div id="student-panel" class="panel hidden">
+            <h2>Student Resource Portal</h2>
+            <p>Track your registered events or lookup certificate credentials below.</p>
+            <a href="/" style="display:inline-block; background:#007bff; color:white; padding:10px; text-decoration:none; border-radius:3px;">Register for a New Event</a>
+        </div>
+    </div>
+
+    <script>
+        // Check Session data immediately on render
+        fetch('/api/current-user')
+            .then(res => res.json())
+            .then(data => {
+                if (!data.loggedIn) {
+                    window.location.href = '/login';
+                    return;
+                }
+
+                const user = data.user;
+                document.getElementById('welcome-text').innerText = `Logged in as: ${user.username} (${user.role.toUpperCase()})`;
+
+                if (user.role === 'admin') {
+                    document.getElementById('admin-panel').classList.remove('hidden');
+                    loadAdminData();
+                } else {
+                    document.getElementById('student-panel').classList.remove('hidden');
+                }
+            });
+
+        function loadAdminData() {
+            fetch('/admin')
+                .then(res => res.json())
+                .then(students => {
+                    const tbody = document.getElementById('admin-table-body');
+                    tbody.innerHTML = "";
+                    students.forEach(student => {
+                        tbody.innerHTML += `
+                            <tr>
+                                <td>${student.id}</td>
+                                <td>${student.fullname}</td>
+                                <td>${student.college}</td>
+                                <td>${student.event}</td>
+                                <td><strong>${student.attendance || 'Absent'}</strong></td>
+                                <td>
+                                    ${student.attendance !== 'Present' ? `<button class="btn" onclick="markPresent(${student.id})">Mark Present</button>` : `ID: ${student.certificate_id || 'Assigned'}`}
+                                </td>
+                            </tr>
+                        `;
+                    });
+                });
+        }
+
+        function markPresent(id) {
+            fetch(`/attendance/${id}`, { method: 'PUT' })
+                .then(res => res.json())
+                .then(data => { if(data.success) loadAdminData(); });
+        }
+
+        function clearRegistrations() {
+            if(confirm("Are you sure you want to delete ALL event registrations?")) {
+                fetch('/clear', { method: 'DELETE' })
+                    .then(res => res.json())
+                    .then(data => { if(data.success) loadAdminData(); });
+            }
+        }
+    </script>
+</body>
+</html>

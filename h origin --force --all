@@ -1,0 +1,19 @@
+[33mcommit 361f921de37ce10d13cf49ca89c55d99e1a3a487[m
+Author: Uma Dharshini <yourgithubemail@example.com>
+Date:   Mon Jul 13 01:03:04 2026 +0530
+
+    Remove Firebase service account key
+
+ ...nt-manager-3cdb8-firebase-adminsdk-fbsvc-dfdcb73bfb.json | 13 [31m-------------[m
+ ...nt-manager-3cdb8-firebase-adminsdk-fbsvc-dfdcb73bfb.json | 13 [31m-------------[m
+ 2 files changed, 26 deletions(-)
+
+[33mcommit f4ced0efa0c1126e94896671759f0079d91329b8[m
+Author: Uma Dharshini <yourgithubemail@example.com>
+Date:   Mon Jul 13 00:30:31 2026 +0530
+
+    Update website and backend
+
+ ...nt-manager-3cdb8-firebase-adminsdk-fbsvc-dfdcb73bfb.json | 13 [32m+++++++++++++[m
+ ...nt-manager-3cdb8-firebase-adminsdk-fbsvc-dfdcb73bfb.json | 13 [32m+++++++++++++[m
+ 2 files changed, 26 insertions(+)

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Registration Receipt</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<nav>
+
+<div class="logo">
+🎓 College Event Manager
+</div>
+
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="about.html">About</a></li>
+<li><a href="privacy.html">Privacy</a></li>
+</ul>
+
+</nav>
+
+<section class="details">
+
+<div class="receipt-box">
+
+<h1>Registration Receipt</h1>
+
+<hr>
+
+<div class="receipt-row">
+<span>Registration ID</span>
+<b id="registrationId"></b>
+</div>
+
+<div class="receipt-row">
+<span>Student Name</span>
+<b id="studentName"></b>
+</div>
+
+<div class="receipt-row">
+<span>Email Address</span>
+<b id="email"></b>
+</div>
+
+<div class="receipt-row">
+<span>College</span>
+<b id="college"></b>
+</div>
+<div class="receipt-row">
+<span>Department</span>
+<b id="department"></b>
+</div>
+
+<div class="receipt-row">
+<span>Year</span>
+<b id="year"></b>
+</div>
+
+<div class="receipt-row">
+<span>Event</span>
+<b id="eventName"></b>
+</div>
+
+<div class="receipt-row">
+<span>Amount Paid</span>
+<b>₹1000</b>
+</div>
+
+<div class="receipt-row">
+<span>Payment Status</span>
+<b style="color:limegreen;">PAID ✅</b>
+</div>
+
+<br>
+
+<div style="text-align:center;">
+
+<button
+class="hero-btn"
+onclick="window.print()">
+
+Download / Print Receipt
+
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+<footer>
+
+<div class="footer-container">
+
+<div class="footer-box">
+
+<h3>ABC Engineering College</h3>
+
+<p>
+Tech Spark 2027 – Empowering Innovation Through Technology.
+</p>
+
+</div>
+
+<div class="footer-box">
+
+<h3>Quick Links</h3>
+
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="privacy.html">Privacy Policy</a>
+
+</div>
+
+<div class="footer-box">
+
+<h3>Contact</h3>
+
+<p>📧 abccollegeevents@gmail.com</p>
+<p>📞 +91 98765 43210</p>
+
+</div>
+
+</div>
+
+<hr>
+
+<p class="copyright">
+
+© 2027 ABC Engineering College. All Rights Reserved.
+
+</p>
+
+</footer>
+<script>
+
+const student = JSON.parse(localStorage.getItem("studentData"));
+
+if(student){
+
+document.getElementById("registrationId").innerHTML =
+student.registrationId || "Not Available";
+
+document.getElementById("studentName").innerHTML =
+student.fullname;
+
+document.getElementById("email").innerHTML =
+student.email;
+
+document.getElementById("college").innerHTML =
+student.college;
+
+document.getElementById("department").innerHTML =
+student.department;
+
+document.getElementById("year").innerHTML =
+student.year;
+
+document.getElementById("eventName").innerHTML =
+student.event;
+
+}
+
+</script>
+</body>
+</html>

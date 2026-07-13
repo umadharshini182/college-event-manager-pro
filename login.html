@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication Gateway</title>
+    <link rel="stylesheet" href="/css/global.css">
+</head>
+<body>
+
+    <div class="auth-card">
+        <h2>Gateway Login</h2>
+        <div id="alert-box" class="alert"></div>
+        
+        <form id="login-form">
+            <div class="form-group">
+                <label>Institutional Email</label>
+                <input type="email" id="email" required placeholder="name@college.edu">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="password" required placeholder="••••••••">
+            </div>
+            <button type="submit" class="btn-primary">Authenticate Identity</button>
+        </form>
+
+        <div class="auth-footer">
+            New to the portal? <a href="/register">Create an identity</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const alertBox = document.getElementById('alert-box');
+
+            const payload = {
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value
+            };
+
+            try {
+                const response = await fetch('/api/v1/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alertBox.className = "alert alert-success";
+                    alertBox.innerText = "Authentication successful. Access granted.";
+                    alertBox.style.display = "block";
+                    setTimeout(() => window.location.href = data.redirectUrl, 1000);
+                } else {
+                    alertBox.className = "alert alert-error";
+                    alertBox.innerText = data.message || "Invalid access credentials.";
+                    alertBox.style.display = "block";
+                }
+            } catch (err) {
+                alertBox.className = "alert alert-error";
+                alertBox.innerText = "Gateway communication error.";
+                alertBox.style.display = "block";
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+
+
+<nav>
+
+<div class="logo">
+🎓 College Event Manager
+</div>
+
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="about.html">About</a></li>
+<li><a href="privacy.html">Privacy</a></li>
+</ul>
+
+</nav>
+
+<section class="details">
+
+<div class="payment-box">
+
+<h1 class="payment-title">
+Complete Payment
+</h1>
+
+<div class="summary-grid">
+
+<div class="summary-card">
+<h3>Name</h3>
+<p id="studentName"></p>
+</div>
+
+<div class="summary-card">
+<h3>Event</h3>
+<p id="eventName"></p>
+</div>
+
+<div class="summary-card">
+<h3>Amount</h3>
+<p>₹1000</p>
+</div>
+
+</div>
+
+<h2 style="text-align:center;color:#FFD54F;">
+Select Payment Method
+</h2>
+
+<div class="payment-methods">
+
+<div class="payment-card">
+<h3>📱 UPI</h3>
+<p>Google Pay</p>
+<p>PhonePe</p>
+<p>Paytm</p>
+<input type="radio" name="payment" checked>
+</div>
+
+<div class="payment-card">
+<h3>💳 Card</h3>
+<p>Debit Card</p>
+<p>Credit Card</p>
+<input type="radio" name="payment">
+</div>
+
+<div class="payment-card">
+<h3>🏦 Net Banking</h3>
+<p>All Banks</p>
+<input type="radio" name="payment">
+</div>
+
+</div>
+
+<button class="pay-btn" onclick="payNow()">
+Pay ₹1000
+</button>
+
+</div>
+
+</section>
+
+<script>
+
+const student = JSON.parse(localStorage.getItem("studentData"));
+
+if(student){
+
+document.getElementById("studentName").innerHTML = student.fullname;
+document.getElementById("eventName").innerHTML = student.event;
+
+}
+
+function payNow(){
+
+console.log("payNow called");
+console.log(student);
+
+fetch("http://localhost:5000/register",{
+
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify(student)
+
+})
+
+.then(res=>res.json())
+
+.then(data=>{
+
+console.log(data);
+
+if(data.success){
+
+student.registrationId = data.id;
+
+localStorage.setItem(
+"studentData",
+JSON.stringify(student)
+);
+
+window.location.href="receipt.html";
+
+}else{
+
+alert(data.message || "Registration Failed");
+
+}
+
+})
+
+.catch(err=>{
+
+console.error(err);
+
+alert("Payment Failed");
+
+});
+}
+</script>
+</body>
+</html>

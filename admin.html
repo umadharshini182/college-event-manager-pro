@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>College Event Manager - Admin</title>
+
+<link rel="stylesheet" href="admin.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<!-- Sidebar -->
+
+<div class="sidebar">
+
+    <h2>🎓 CEM</h2>
+
+    <a href="admin.html" class="active">
+        <i class="fa-solid fa-chart-line"></i>
+        Dashboard
+    </a>
+
+    <a href="#">
+        <i class="fa-solid fa-users"></i>
+        Students
+    </a>
+
+    <a href="#">
+        <i class="fa-solid fa-calendar-days"></i>
+        Events
+    </a>
+
+    <a href="#">
+        <i class="fa-solid fa-money-bill-wave"></i>
+        Payments
+    </a>
+
+    <a href="#">
+        <i class="fa-solid fa-certificate"></i>
+        Certificates
+    </a>
+
+    <a href="#">
+        <i class="fa-solid fa-gear"></i>
+        Settings
+    </a>
+
+    <a href="#" onclick="logout()">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        Logout
+    </a>
+
+</div>
+
+<!-- Main -->
+
+<div class="main">
+
+<div class="topbar">
+
+    <div>
+        <h1>College Event Manager Dashboard</h1>
+        <p class="welcome">Welcome back, Admin 👋</p>
+    </div>
+
+    <div class="top-right">
+
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search...">
+        </div>
+
+        <div class="notification">
+            <i class="fa-solid fa-bell"></i>
+            <span>3</span>
+        </div>
+
+        <div class="profile">
+
+            <img src="https://ui-avatars.com/api/?name=Admin&background=0B3D91&color=fff">
+
+            <div>
+                <h4>Administrator</h4>
+                <small>Super Admin</small>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- Dashboard Cards -->
+
+<div class="cards">
+
+    <div class="card blue">
+        <i class="fa-solid fa-users"></i>
+        <h2 id="count">0</h2>
+        <p>Total Students</p>
+    </div>
+
+    <div class="card green">
+        <i class="fa-solid fa-indian-rupee-sign"></i>
+        <h2 id="revenue">₹0</h2>
+        <p>Total Revenue</p>
+    </div>
+
+    <div class="card orange">
+        <i class="fa-solid fa-circle-check"></i>
+        <h2 id="paid">0</h2>
+        <p>Paid Payments</p>
+    </div>
+
+    <div class="card red">
+        <i class="fa-solid fa-clock"></i>
+        <h2 id="pending">0</h2>
+        <p>Pending Payments</p>
+    </div>
+
+</div>
+
+<!-- Second Row -->
+
+<div class="cards">
+
+    <div class="card purple">
+        <i class="fa-solid fa-building-columns"></i>
+        <h2 id="colleges">0</h2>
+        <p>Participating Colleges</p>
+    </div>
+
+    <div class="card sky">
+        <i class="fa-solid fa-fire"></i>
+        <h2 id="trending">-</h2>
+        <p>Trending Event</p>
+    </div>
+
+    <div class="card dark">
+        <i class="fa-solid fa-calendar-days"></i>
+        <h2>8</h2>
+        <p>Upcoming Events</p>
+    </div>
+
+    <div class="card gold">
+        <i class="fa-solid fa-award"></i>
+        <h2>4</h2>
+        <p>Certificates</p>
+    </div>
+
+</div>
+
+<!-- Charts -->
+
+<div class="charts">
+
+    <div class="chart-card">
+
+        <h2>📊 Registration Analytics</h2>
+
+        <canvas id="barChart"></canvas>
+
+    </div>
+
+    <div class="chart-card">
+
+        <h2>🥧 Event Distribution</h2>
+
+        <canvas id="pieChart"></canvas>
+
+    </div>
+
+</div>
+<div class="analytics">
+
+    <div class="analytics-card">
+
+        <i class="fa-solid fa-chart-line"></i>
+
+        <h3>Registration Growth</h3>
+
+        <p>+18% this month</p>
+
+    </div>
+
+    <div class="analytics-card">
+
+        <i class="fa-solid fa-building"></i>
+
+        <h3> College</h3>
+
+        <p id="topCollege">ABC Engineering College</p>
+
+    </div>
+
+    <div class="analytics-card">
+
+        <i class="fa-solid fa-star"></i>
+
+        <h3>Top Event</h3>
+
+        <p id="topEvent">Hackathon</p>
+
+    </div>
+
+    <div class="analytics-card">
+
+        <i class="fa-solid fa-wallet"></i>
+
+        <h3>Today's Revenue</h3>
+
+        <p id="todayRevenue">₹4000</p>
+
+    </div>
+
+</div>
+<!-- Quick Statistics -->
+
+<div class="quick-stats">
+
+    <div class="stat-box">
+        <h3>Today's Registrations</h3>
+        <h1 id="todayCount">0</h1>
+    </div>
+
+    <div class="stat-box">
+        <h3>Certificates Generated</h3>
+        <h1 id="certificateCount">0</h1>
+    </div>
+
+    <div class="stat-box">
+        <h3>Attendance</h3>
+        <h1 id="attendanceCount">0</h1>
+    </div>
+
+</div>
+
+<!-- Student Table -->
+
+<div class="table-container">
+
+    <div class="table-header">
+
+        <h2>🎓 Student Registrations</h2>
+
+        <input
+            type="text"
+            id="search"
+            placeholder="🔍 Search Student..."
+            onkeyup="searchStudent()">
+
+    </div>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>College</th>
+                <th>Department</th>
+                <th>Year</th>
+                <th>Event</th>
+                <th>Payment</th>
+                <th>Amount</th>
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="studentTable">
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<!-- Recent Activity -->
+
+<div class="recent-section">
+
+    <div class="recent-card">
+
+        <h2>📅 Upcoming Events</h2>
+
+        <ul>
+
+            <li>Hackathon - August 17 </li>
+            <li>AI Workshop - August 18 </li>
+            <li>Ideathon - August 20 </li>
+            <li>Paper Presentation - August 22</li>
+
+        </ul>
+
+    </div>
+
+    <div class="recent-card">
+
+        <h2>🔥 Latest Activity</h2>
+
+        <ul>
+
+        
+            <li>Certificates generated successfully</li>
+            <li>Payment report updated</li>
+            <li>Attendance marked for today's event</li>
+
+        </ul>
+
+    </div>
+
+</div>
+
+<footer>
+
+    <p>
+        © 2027 College Event Manager | Admin Dashboard
+    </p>
+
+</footer>
+
+</div>
+
+<script src="admin.js"></script>
+
+</body>
+
+</html>
