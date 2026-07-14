@@ -381,3 +381,16 @@ document
 };
 
 }
+const menuBtn = document.getElementById("menuBtn");
+
+if(menuBtn){
+
+menuBtn.onclick = function(){
+
+document
+.querySelector(".sidebar")
+.classList.toggle("active");
+
+};
+
+}

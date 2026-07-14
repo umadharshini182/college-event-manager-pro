@@ -632,3 +632,585 @@ color:#0B3D91;
 font-weight:700;
 
 }
+/* =========================================
+   PROFESSIONAL TABLE
+========================================= */
+
+.table-container{
+
+background:white;
+
+padding:25px;
+
+border-radius:20px;
+
+box-shadow:0 12px 30px rgba(0,0,0,.08);
+
+overflow-x:auto;
+
+margin-top:30px;
+
+}
+
+.table-header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+flex-wrap:wrap;
+
+gap:15px;
+
+margin-bottom:20px;
+
+}
+
+.table-header h2{
+
+color:#0B3D91;
+
+font-size:28px;
+
+font-weight:700;
+
+}
+
+.table-header input{
+
+width:300px;
+
+padding:12px 18px;
+
+border:1px solid #ddd;
+
+border-radius:30px;
+
+outline:none;
+
+font-size:15px;
+
+transition:.3s;
+
+}
+
+.table-header input:focus{
+
+border-color:#1976D2;
+
+box-shadow:0 0 10px rgba(25,118,210,.25);
+
+}
+
+table{
+
+width:100%;
+
+min-width:1100px;
+
+border-collapse:collapse;
+
+}
+
+thead{
+
+background:#0B3D91;
+
+}
+
+thead th{
+
+color:white;
+
+padding:16px;
+
+font-size:15px;
+
+text-align:center;
+
+}
+
+tbody td{
+
+padding:16px;
+
+text-align:center;
+
+border-bottom:1px solid #eee;
+
+}
+
+tbody tr{
+
+transition:.25s;
+
+}
+
+tbody tr:hover{
+
+background:#F5F9FF;
+
+}
+
+/* =========================================
+   PAYMENT BADGES
+========================================= */
+
+.paid{
+
+background:#198754;
+
+color:white;
+
+padding:6px 14px;
+
+border-radius:30px;
+
+font-size:13px;
+
+font-weight:bold;
+
+}
+
+.pending{
+
+background:#ffc107;
+
+color:#222;
+
+padding:6px 14px;
+
+border-radius:30px;
+
+font-size:13px;
+
+font-weight:bold;
+
+}
+
+/* =========================================
+   ACTION BUTTONS
+========================================= */
+
+.action-btn{
+
+border:none;
+
+padding:10px 16px;
+
+border-radius:8px;
+
+cursor:pointer;
+
+color:white;
+
+font-size:14px;
+
+font-weight:600;
+
+margin:3px;
+
+transition:.25s;
+
+}
+
+.present-btn{
+
+background:#198754;
+
+}
+
+.present-btn:hover{
+
+background:#157347;
+
+}
+
+.certificate-btn{
+
+background:#1565C0;
+
+}
+
+.certificate-btn:hover{
+
+background:#0D47A1;
+
+}
+
+.delete-btn{
+
+background:#D32F2F;
+
+}
+
+.delete-btn:hover{
+
+background:#B71C1C;
+
+}
+
+/* =========================================
+   RECENT SECTION
+========================================= */
+
+.recent-section{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+
+gap:25px;
+
+margin-top:35px;
+
+}
+
+.recent-card{
+
+background:white;
+
+padding:25px;
+
+border-radius:20px;
+
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+}
+
+.recent-card h2{
+
+color:#0B3D91;
+
+margin-bottom:20px;
+
+}
+
+.recent-card ul{
+
+list-style:none;
+
+}
+
+.recent-card li{
+
+padding:12px 0;
+
+border-bottom:1px solid #eee;
+
+}
+
+.recent-card li:last-child{
+
+border-bottom:none;
+
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+footer{
+
+margin-top:40px;
+
+padding:25px;
+
+text-align:center;
+
+color:#777;
+
+font-size:15px;
+
+}
+/* =========================================
+   RESPONSIVE DESIGN
+========================================= */
+
+/* ---------- Laptop ---------- */
+
+@media (max-width:1200px){
+
+.main{
+margin-left:240px;
+width:calc(100% - 240px);
+padding:20px;
+}
+
+.sidebar{
+width:240px;
+}
+
+.cards,
+.analytics,
+.quick-stats{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+.charts{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+/* ---------- Tablet ---------- */
+
+@media (max-width:992px){
+
+body{
+
+display:block;
+
+}
+
+.sidebar{
+
+position:fixed;
+
+left:-270px;
+
+top:0;
+
+width:260px;
+
+height:100%;
+
+transition:.3s;
+
+z-index:9999;
+
+}
+
+.sidebar.active{
+
+left:0;
+
+}
+
+.main{
+
+margin-left:0;
+
+width:100%;
+
+padding:18px;
+
+}
+
+.menu-btn{
+
+display:block;
+
+}
+
+.topbar{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+gap:20px;
+
+}
+
+.top-right{
+
+width:100%;
+
+display:flex;
+
+flex-wrap:wrap;
+
+gap:15px;
+
+}
+
+.search-box{
+
+width:100%;
+
+}
+
+.search-box input{
+
+width:100%;
+
+}
+
+.cards,
+.analytics,
+.quick-stats{
+
+grid-template-columns:1fr 1fr;
+
+}
+
+.recent-section{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width:768px){
+
+.topbar h1{
+
+font-size:28px;
+
+}
+
+.welcome{
+
+font-size:15px;
+
+}
+
+.cards,
+.analytics,
+.quick-stats{
+
+grid-template-columns:1fr;
+
+}
+
+.chart-card{
+
+padding:18px;
+
+}
+
+.chart-card canvas{
+
+height:260px!important;
+
+}
+
+.table-container{
+
+overflow-x:auto;
+
+}
+
+table{
+
+min-width:900px;
+
+}
+
+.table-header{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+}
+
+.table-header input{
+
+width:100%;
+
+}
+
+.profile{
+
+padding:8px 14px;
+
+}
+
+.notification{
+
+width:46px;
+
+height:46px;
+
+}
+
+}
+
+/* ---------- Small Phones ---------- */
+
+@media (max-width:480px){
+
+.main{
+
+padding:12px;
+
+}
+
+.topbar h1{
+
+font-size:23px;
+
+}
+
+.card{
+
+padding:22px;
+
+}
+
+.card h2{
+
+font-size:28px;
+
+}
+
+.card i{
+
+font-size:34px;
+
+}
+
+.chart-card{
+
+padding:15px;
+
+}
+
+.chart-card h2{
+
+font-size:18px;
+
+}
+
+.analytics-card{
+
+padding:18px;
+
+}
+
+.stat-box{
+
+padding:18px;
+
+}
+
+.profile h4{
+
+font-size:14px;
+
+}
+
+.profile small{
+
+font-size:11px;
+
+}
+
+footer{
+
+font-size:13px;
+
+}
+
+}
