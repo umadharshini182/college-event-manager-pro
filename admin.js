@@ -26,7 +26,7 @@ fetch("/api/current-user", {
 // ===============================
 // LOAD STUDENTS
 // ===============================
-fetch("/attendance/" + id, {
+fetch("/students", {
     credentials: "include"
 })
 .then(res => res.json())
@@ -270,11 +270,12 @@ function searchStudent() {
 
 function markAttendance(id) {
 
-    fetch("/students" + id, {
+    fetch("/attendance/" + id, {
 
-        method: "PUT"
+    method: "PUT",
+    credentials: "include"
 
-    })
+})
 
     .then(res => res.json())
 
