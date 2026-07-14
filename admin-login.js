@@ -9,6 +9,7 @@ form.addEventListener("submit", async function (e) {
     try {
         const response = await fetch("/auth/login", {
             method: "POST",
+            credentials:"include";
             headers: {
                 "Content-Type": "application/json"
             },
