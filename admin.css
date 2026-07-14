@@ -902,10 +902,11 @@ tbody tr:hover{
 /* ==========================================================
    PART 4
    RECENT SECTION
-========================================================== */
+========================================================== ==
+
 .recent-section{
     display:grid;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
     gap:25px;
     margin-top:30px;
 }
@@ -983,9 +984,8 @@ footer{
 }
 
 .sidebar{
-
-width:240px;
-
+left:-270px;
+width:270px;
 }
 
 .cards,
@@ -1224,19 +1224,4 @@ font-size:13px;
 
 }
 
-}
-.full-width{
-    width:100%;
-    overflow-x:auto;
-}
-table{
-    width:100%;
-    min-width:900px;
-}
-.main{
-    margin-left:270px;
-    width:calc(100% - 270px);
-    min-height:100vh;
-    padding:30px;
-    overflow-x:auto;
 }
