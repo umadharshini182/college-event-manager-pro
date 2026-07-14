@@ -2,7 +2,7 @@
 // CHECK LOGIN
 // ===============================
 
-fetch("http://localhost:5000/api/current-user", {
+fetch("/api/current-user", {
     credentials: "include"
 })
 .then(res => {
@@ -18,15 +18,15 @@ fetch("http://localhost:5000/api/current-user", {
 .then(user => {
 
     if (user) {
-        console.log("Welcome", user.user.username);
+        console.log("Welcome", user.user.email);
     }
-
+ 
 });
 
 // ===============================
 // LOAD STUDENTS
 // ===============================
-fetch("http://localhost:5000/students", {
+fetch("/attendance/" + id, {
     credentials: "include"
 })
 .then(res => res.json())
@@ -270,7 +270,7 @@ function searchStudent() {
 
 function markAttendance(id) {
 
-    fetch("http://localhost:5000/attendance/" + id, {
+    fetch("/students" + id, {
 
         method: "PUT"
 
@@ -307,7 +307,7 @@ function generateCertificate(id) {
 
 function logout() {
 
-    fetch("http://localhost:5000/logout")
+    fetch("/logout")
 
     .then(() => {
 
