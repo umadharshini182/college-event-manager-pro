@@ -6,10 +6,8 @@ fetch("/api/current-user", {
 
     if (!data.loggedIn) {
         window.location.href = "admin-login.html";
-        return;
+    
     }
-
-    console.log("Welcome Admin");
 
 });
 // ===============================
