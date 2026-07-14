@@ -146,6 +146,23 @@ Certificate
     }
 
     document.getElementById("trending").innerText = trending;
+    const today = new Date().toISOString().split("T")[0];
+
+let todayCount = 0;
+let todayRevenue = 0;
+
+data.forEach(student => {
+    if (
+        student.createdAt &&
+        student.createdAt.startsWith(today)
+    ) {
+        todayCount++;
+        todayRevenue += Number(student.amount);
+    }
+});
+
+document.getElementById("todayRegistrations").innerText = todayCount;
+document.getElementById("todayRevenue").innerText = "₹" + todayRevenue;
     // ===============================
 // BAR CHART
 // ===============================
