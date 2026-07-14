@@ -31,12 +31,6 @@ fetch("http://localhost:5000/students", {
 })
 .then(res => res.json())
 .then(data => {
-    // your code
-})
-.catch(err => {
-    console.error(err);
-    alert("Unable to load student data.");
-});
 
     document.getElementById("count").innerText = data.length;
 

@@ -40,7 +40,7 @@
             };
 
             try {
-                const response = await fetch('/api/v1/auth/login', {
+                const response = await fetch('/auth/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
@@ -48,14 +48,11 @@
 
                 const data = await response.json();
 
-                if (response.ok) {
-                    alertBox.className = "alert alert-success";
-                    alertBox.innerText = "Authentication successful. Access granted.";
-                    alertBox.style.display = "block";
-                    setTimeout(() => window.location.href = data.redirectUrl, 1000);
-                } else {
+                if (data.success) {
+    window.location.href = "/admin.html";
+} else {
                     alertBox.className = "alert alert-error";
-                    alertBox.innerText = data.message || "Invalid access credentials.";
+                   alertBox.innerText = data.message || "Invalid access credentials.";
                     alertBox.style.display = "block";
                 }
             } catch (err) {

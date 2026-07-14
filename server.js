@@ -29,6 +29,32 @@ db.connect((err) => {
     console.log(err);
   } else {
     console.log("✅ MySQL Connected");
+
+const createTable = `
+CREATE TABLE IF NOT EXISTS registrations (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    fullname VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    college VARCHAR(100) NOT NULL,
+    department VARCHAR(100) NOT NULL,
+    year VARCHAR(20) NOT NULL,
+    event VARCHAR(100) NOT NULL,
+    payment_status VARCHAR(20) DEFAULT 'Paid',
+    amount INT DEFAULT 1000,
+    attendance VARCHAR(20) DEFAULT 'Absent',
+    certificate_id VARCHAR(100),
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+`;
+
+db.query(createTable, (err) => {
+    if (err) {
+        console.log("Table creation failed");
+        console.log(err);
+    } else {
+        console.log("✅ registrations table ready");
+    }
+});
   }
 });
 
