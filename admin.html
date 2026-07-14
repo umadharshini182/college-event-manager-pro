@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>College Event Manager - Admin</title>
+<title>College Event Manager - Admin Dashboard</title>
 
 <link rel="stylesheet" href="admin.css">
 
@@ -19,48 +19,60 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 
 <body>
 
+<!-- ===========================
+SIDEBAR
+=========================== -->
+
 <div class="sidebar">
 
-    <h2>🎓 CEM</h2>
+<h2>🎓 CEM</h2>
 
-    <a href="#" class="active">
-        <i class="fa-solid fa-chart-line"></i>
-        Dashboard
-    </a>
+<a href="#" class="active">
+<i class="fa-solid fa-chart-line"></i>
+Dashboard
+</a>
 
-    <a href="#">
-        <i class="fa-solid fa-users"></i>
-        Students
-    </a>
+<a href="#">
+<i class="fa-solid fa-users"></i>
+Students
+</a>
 
-    <a href="#">
-        <i class="fa-solid fa-calendar-days"></i>
-        Events
-    </a>
+<a href="#">
+<i class="fa-solid fa-calendar-days"></i>
+Events
+</a>
 
-    <a href="#">
-        <i class="fa-solid fa-money-bill-wave"></i>
-        Payments
-    </a>
+<a href="#">
+<i class="fa-solid fa-money-bill-wave"></i>
+Payments
+</a>
 
-    <a href="#">
-        <i class="fa-solid fa-certificate"></i>
-        Certificates
-    </a>
+<a href="#">
+<i class="fa-solid fa-certificate"></i>
+Certificates
+</a>
 
-    <a href="#">
-        <i class="fa-solid fa-gear"></i>
-        Settings
-    </a>
+<a href="#">
+<i class="fa-solid fa-gear"></i>
+Settings
+</a>
 
-    <a href="#" onclick="logout()">
-        <i class="fa-solid fa-right-from-bracket"></i>
-        Logout
-    </a>
+<a href="#" onclick="logout()">
+<i class="fa-solid fa-right-from-bracket"></i>
+Logout
+</a>
 
 </div>
 
+<!-- ===========================
+MAIN
+=========================== -->
+
 <div class="main">
+
+<!-- ===========================
+TOPBAR
+=========================== -->
 
 <div class="topbar">
 
@@ -73,7 +85,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 <h1>College Event Manager Dashboard</h1>
 
 <p class="welcome">
+
 Welcome back, Administrator 👋
+
 </p>
 
 </div>
@@ -118,86 +132,132 @@ src="https://ui-avatars.com/api/?name=Admin&background=0B3D91&color=fff">
 
 </div>
 
+<!-- ===========================
+DASHBOARD CARDS
+=========================== -->
+<!-- ===========================
+FIRST ROW
+=========================== -->
 
 <div class="cards">
 
-    <div class="card blue">
-        <i class="fa-solid fa-users"></i>
-        <h2 id="count">0</h2>
-        <p>Total Students</p>
-    </div>
+<div class="card blue">
 
-    <div class="card green">
-        <i class="fa-solid fa-indian-rupee-sign"></i>
-        <h2 id="revenue">₹0</h2>
-        <p>Total Revenue</p>
-    </div>
+<i class="fa-solid fa-users"></i>
 
-    <div class="card orange">
-        <i class="fa-solid fa-circle-check"></i>
-        <h2 id="paid">0</h2>
-        <p>Paid Payments</p>
-    </div>
+<h2 id="count">0</h2>
 
-    <div class="card red">
-        <i class="fa-solid fa-clock"></i>
-        <h2 id="pending">0</h2>
-        <p>Pending Payments</p>
-    </div>
+<p>Total Students</p>
 
 </div>
 
-<!-- Second Row -->
+<div class="card green">
+
+<i class="fa-solid fa-indian-rupee-sign"></i>
+
+<h2 id="revenue">₹0</h2>
+
+<p>Total Revenue</p>
+
+</div>
+
+<div class="card orange">
+
+<i class="fa-solid fa-circle-check"></i>
+
+<h2 id="paid">0</h2>
+
+<p>Paid Payments</p>
+
+</div>
+
+<div class="card red">
+
+<i class="fa-solid fa-clock"></i>
+
+<h2 id="pending">0</h2>
+
+<p>Pending Payments</p>
+
+</div>
+
+</div>
+
+<!-- ===========================
+SECOND ROW
+=========================== -->
 
 <div class="cards">
 
-    <div class="card purple">
-        <i class="fa-solid fa-building-columns"></i>
-        <h2 id="colleges">0</h2>
-        <p>Participating Colleges</p>
-    </div>
+<div class="card purple">
 
-    <div class="card sky">
-        <i class="fa-solid fa-fire"></i>
-        <h2 id="trending">-</h2>
-        <p>Trending Event</p>
-    </div>
+<i class="fa-solid fa-building-columns"></i>
 
-    <div class="card dark">
-        <i class="fa-solid fa-calendar-days"></i>
-        <h2>4</h2>
-        <p>Upcoming Events</p>
-    </div>
+<h2 id="colleges">0</h2>
 
-    <div class="card gold">
-        <i class="fa-solid fa-award"></i>
-        <h2>4</h2>
-        <p>Certificates</p>
-    </div>
+<p>Participating Colleges</p>
 
 </div>
 
-<!-- Charts -->
+<div class="card sky">
+
+<i class="fa-solid fa-fire"></i>
+
+<h2 id="trending">-</h2>
+
+<p>Trending Event</p>
+
+</div>
+
+<div class="card dark">
+
+<i class="fa-solid fa-calendar-days"></i>
+
+<h2 id="upcomingCount">4</h2>
+
+<p>Upcoming Events</p>
+
+</div>
+
+<div class="card gold">
+
+<i class="fa-solid fa-award"></i>
+
+<h2 id="certificateCount">0</h2>
+
+<p>Certificates Generated</p>
+
+</div>
+
+</div>
+
+<!-- ===========================
+CHARTS
+=========================== -->
 
 <div class="charts">
 
-    <div class="chart-card">
+<div class="chart-card">
 
-        <h2>📊 Registration Analytics</h2>
+<h2>📊 Registration Analytics</h2>
 
-        <canvas id="barChart"></canvas>
-
-    </div>
-
-    <div class="chart-card">
-
-        <h2>🥧 Event Distribution</h2>
-
-        <canvas id="pieChart"></canvas>
-
-    </div>
+<canvas id="barChart"></canvas>
 
 </div>
+
+<div class="chart-card">
+
+<h2>🥧 Event Distribution</h2>
+
+<canvas id="pieChart"></canvas>
+
+</div>
+
+</div>
+<!-- ===========================
+ANALYTICS
+=========================== -->
+
 <div class="analytics">
 
     <div class="analytics-card">
@@ -206,7 +266,7 @@ src="https://ui-avatars.com/api/?name=Admin&background=0B3D91&color=fff">
 
         <h3>Registration Growth</h3>
 
-        <p>+18% this month</p>
+        <p>+18% This Month</p>
 
     </div>
 
@@ -214,9 +274,9 @@ src="https://ui-avatars.com/api/?name=Admin&background=0B3D91&color=fff">
 
         <i class="fa-solid fa-building"></i>
 
-        <h3> College</h3>
+        <h3>Top College</h3>
 
-        <p id="topCollege">ABC Engineering College</p>
+        <p id="topCollege">-</p>
 
     </div>
 
@@ -226,7 +286,7 @@ src="https://ui-avatars.com/api/?name=Admin&background=0B3D91&color=fff">
 
         <h3>Top Event</h3>
 
-        <p id="topEvent">Hackathon</p>
+        <p id="topEvent">-</p>
 
     </div>
 
@@ -241,44 +301,44 @@ src="https://ui-avatars.com/api/?name=Admin&background=0B3D91&color=fff">
     </div>
 
 </div>
-<!-- Quick Statistics -->
-<!-- Quick Statistics -->
+
+<!-- ===========================
+QUICK STATISTICS
+=========================== -->
 
 <div class="quick-stats">
 
     <div class="stat-box">
+
         <h3>Today's Registrations</h3>
+
         <h1 id="todayRegistrations">0</h1>
+
     </div>
 
     <div class="stat-box">
+
         <h3>Certificates Generated</h3>
-        <h1 id="certificateCount">0</h1>
+
+        <h1 id="certificateGenerated">0</h1>
+
     </div>
 
     <div class="stat-box">
-        <h3>Attendance</h3>
+
+        <h3>Attendance Marked</h3>
+
         <h1 id="attendanceCount">0</h1>
+
     </div>
 
 </div>
 
+<!-- ===========================
+STUDENT TABLE
+=========================== -->
 
-    <div class="s<t>at-box">
-        <h3>Certificates Generated</h3>
-        <h1 id="certificateCount">0</h1>
-    </div>
-
-    <div class="stat-box">
-        <h3>Attendance</h3>
-        <h1 id="attendanceCount">0</h1>
-    </div>
-
-</div>
-
-<!-- Student Table -->
-
-<div class="table-container full-width">
+<div class="table-container">
 
     <div class="table-header">
 
@@ -320,8 +380,9 @@ src="https://ui-avatars.com/api/?name=Admin&background=0B3D91&color=fff">
     </table>
 
 </div>
-
-<!-- Recent Activity -->
+<!-- ===========================
+RECENT ACTIVITY
+=========================== -->
 
 <div class="recent-section">
 
@@ -331,10 +392,10 @@ src="https://ui-avatars.com/api/?name=Admin&background=0B3D91&color=fff">
 
         <ul>
 
-            <li>Hackathon - August 17 </li>
-            <li>AI Workshop - August 18 </li>
-            <li>Ideathon - August 20 </li>
-            <li>Paper Presentation - August 22</li>
+            <li><strong>Hackathon</strong> — August 17, 2027</li>
+            <li><strong>AI Workshop</strong> — August 18, 2027</li>
+            <li><strong>Ideathon</strong> — August 20, 2027</li>
+            <li><strong>Paper Presentation</strong> — August 22, 2027</li>
 
         </ul>
 
@@ -344,18 +405,21 @@ src="https://ui-avatars.com/api/?name=Admin&background=0B3D91&color=fff">
 
         <h2>🔥 Latest Activity</h2>
 
-        <ul>
+        <ul id="activityList">
 
-        
-            <li>Certificates generated successfully</li>
-            <li>Payment report updated</li>
-            <li>Attendance marked for today's event</li>
+            <li>System Ready</li>
+            <li>Waiting for registrations...</li>
+            <li>Attendance module active</li>
 
         </ul>
 
     </div>
 
 </div>
+
+<!-- ===========================
+FOOTER
+=========================== -->
 
 <footer>
 
