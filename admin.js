@@ -1,31 +1,74 @@
-// =====================================================
-// COLLEGE EVENT MANAGER - ADMIN PANEL
-// PART 1
-// =====================================================
+// ======================================================
+// COLLEGE EVENT MANAGER
+// ADMIN DASHBOARD
+// ======================================================
 
 let students = [];
 
-// ----------------------------
-// Load Dashboard
-// ----------------------------
+let barChart = null;
+let pieChart = null;
 
-window.onload = function () {
+// ======================================================
+// PAGE LOAD
+// ======================================================
 
-    loadStudents();
+window.addEventListener("load", () => {
 
-    createCharts();
+    checkLogin();
 
-};
+    sidebarFunctions();
 
-// ----------------------------
-// Fetch Students
-// ----------------------------
+    notificationFunctions();
+
+});
+
+// ======================================================
+// LOGIN CHECK
+// ======================================================
+
+async function checkLogin() {
+
+    try {
+
+        const res = await fetch("/api/current-user", {
+            credentials: "include"
+        });
+
+        const data = await res.json();
+
+        if (!data.loggedIn) {
+
+            window.location.href = "admin-login.html";
+
+            return;
+
+        }
+
+        loadStudents();
+
+    }
+
+    catch (err) {
+
+        console.log(err);
+
+        window.location.href = "admin-login.html";
+
+    }
+
+}
+
+// ======================================================
+// LOAD STUDENTS
+// ======================================================
 
 async function loadStudents() {
 
     try {
 
-        const response = await fetch("/students");
+        const response = await fetch("/students", {
+            credentials: "include"
+        });
 
         students = await response.json();
 
@@ -39,58 +82,68 @@ async function loadStudents() {
 
     catch (err) {
 
-        console.error(err);
+        console.log(err);
 
     }
 
 }
-
-// ----------------------------
-// Dashboard Statistics
-// ----------------------------
+// ======================================================
+// DASHBOARD STATISTICS
+// ======================================================
 
 function updateDashboard() {
 
-    const totalStudents = students.length;
-
-    const totalRevenue = students.reduce(
-        (sum, s) => sum + Number(s.amount),
-        0
-    );
-
-    const paidPayments = students.filter(
-        s => s.payment_status === "Paid"
-    ).length;
-
-    const pendingPayments = students.filter(
-        s => s.payment_status !== "Paid"
-    ).length;
-
+    // Total Students
     document.getElementById("count").innerText =
-        totalStudents;
+        students.length;
+
+    // Revenue
+    let revenue = 0;
+
+    students.forEach(student => {
+
+        revenue += Number(student.amount || 0);
+
+    });
 
     document.getElementById("revenue").innerText =
-        "₹" + totalRevenue;
+        "₹" + revenue;
+
+    // Paid / Pending
+    const paid =
+        students.filter(
+            s => s.payment_status === "Paid"
+        ).length;
+
+    const pending =
+        students.filter(
+            s => s.payment_status !== "Paid"
+        ).length;
 
     document.getElementById("paid").innerText =
-        paidPayments;
+        paid;
 
     document.getElementById("pending").innerText =
-        pendingPayments;
-         // ----------------------------
-    // Participating Colleges
-    // ----------------------------
+        pending;
 
-    const colleges = [...new Set(
-        students.map(s => s.college)
-    )];
+    // ==================================================
+    // Participating Colleges
+    // ==================================================
+
+    const collegeMap = {};
+
+    students.forEach(student => {
+
+        collegeMap[student.college] = true;
+
+    });
 
     document.getElementById("colleges").innerText =
-        colleges.length;
+        Object.keys(collegeMap).length;
 
-    // ----------------------------
+    // ==================================================
     // Top College
-    // ----------------------------
+    // ==================================================
 
     const collegeCount = {};
 
@@ -118,9 +171,9 @@ function updateDashboard() {
     document.getElementById("topCollege").innerText =
         topCollege;
 
-    // ----------------------------
+    // ==================================================
     // Top Event
-    // ----------------------------
+    // ==================================================
 
     const eventCount = {};
 
@@ -148,36 +201,41 @@ function updateDashboard() {
     document.getElementById("topEvent").innerText =
         topEvent;
 
-    // ----------------------------
+    document.getElementById("bestEvent").innerText =
+        topEvent;
+
+    // ==================================================
     // Today's Registrations
-    // ----------------------------
+    // ==================================================
 
-    const today = new Date().toISOString().split("T")[0];
+    const today =
+        new Date().toISOString().split("T")[0];
 
-    const todayStudents = students.filter(student =>
-        student.createdAt &&
-        student.createdAt.startsWith(today)
-    );
+    const todayStudents =
+        students.filter(student =>
+            student.createdAt &&
+            student.createdAt.startsWith(today)
+        );
 
     document.getElementById("todayRegistrations").innerText =
         todayStudents.length;
 
-    // ----------------------------
+    // ==================================================
     // Today's Revenue
-    // ----------------------------
+    // ==================================================
 
     const todayRevenue =
         todayStudents.reduce(
-            (sum, s) => sum + Number(s.amount),
+            (sum, s) => sum + Number(s.amount || 0),
             0
         );
 
     document.getElementById("todayRevenue").innerText =
         "₹" + todayRevenue;
 
-    // ----------------------------
+    // ==================================================
     // Attendance
-    // ----------------------------
+    // ==================================================
 
     const attendance =
         students.filter(
@@ -187,30 +245,41 @@ function updateDashboard() {
     document.getElementById("attendanceCount").innerText =
         attendance;
 
-    // ----------------------------
+    // ==================================================
     // Certificates
-    // ----------------------------
+    // ==================================================
 
     const certificates =
         students.filter(
             s => s.certificate_id
         ).length;
 
-    const certificateElement =
-        document.getElementById("certificateGenerated") ||
-        document.getElementById("certificateCount");
+    document.getElementById("certificateCount").innerText =
+        certificates;
 
-    if (certificateElement) {
+    document.getElementById("certificateGenerated").innerText =
+        certificates;
 
-        certificateElement.innerText =
-            certificates;
+    // ==================================================
+    // Summary Cards
+    // ==================================================
 
-    }
+    document.getElementById("summaryStudents").innerText =
+        students.length;
+
+    document.getElementById("summaryRevenue").innerText =
+        "₹" + revenue;
+
+    document.getElementById("summaryAttendance").innerText =
+        attendance;
+
+    document.getElementById("summaryCertificates").innerText =
+        certificates;
 
 }
-   // =====================================================
+// ======================================================
 // STUDENT TABLE
-// =====================================================
+// ======================================================
 
 function loadTable() {
 
@@ -254,6 +323,39 @@ ${student.payment_status}
 
 <td>
 
+${
+student.attendance === "Present"
+?
+
+'<span style="color:green;font-weight:bold;">Present</span>'
+
+:
+
+'<span style="color:red;font-weight:bold;">Absent</span>'
+
+}
+
+</td>
+
+<td>
+
+${
+student.certificate_id
+
+?
+
+student.certificate_id
+
+:
+
+"-"
+
+}
+
+</td>
+
+<td>
+
 <button
 class="action-btn present-btn"
 onclick="markPresent(${student.id})">
@@ -288,11 +390,11 @@ Delete
 
 }
 
-// =====================================================
-// SEARCH STUDENT
-// =====================================================
+// ======================================================
+// SEARCH
+// ======================================================
 
-function searchStudent() {
+function searchStudent(){
 
     const value =
     document
@@ -304,53 +406,78 @@ function searchStudent() {
     document
     .querySelectorAll("#studentTable tr");
 
-    rows.forEach(row => {
+    rows.forEach(row=>{
 
-        if (
+        if(
             row.innerText
             .toLowerCase()
             .includes(value)
-        ) {
+        ){
 
-            row.style.display = "";
+            row.style.display="";
 
         }
 
-        else {
+        else{
 
-            row.style.display = "none";
+            row.style.display="none";
 
         }
 
     });
 
 }
-// =====================================================
+
+// Search from top search box
+
+const globalSearch =
+document.getElementById("globalSearch");
+
+if(globalSearch){
+
+globalSearch.addEventListener(
+
+"keyup",
+
+function(){
+
+document.getElementById("search").value =
+this.value;
+
+searchStudent();
+
+}
+
+);
+
+}
+// ======================================================
 // DELETE STUDENT
-// =====================================================
+// ======================================================
 
 async function deleteStudent(id){
 
-    const confirmDelete = confirm(
-        "Delete this student?"
-    );
+    if(!confirm("Delete this student?")){
 
-    if(!confirmDelete) return;
+        return;
+
+    }
 
     try{
 
-        const res = await fetch(
-            "/student/" + id,
-            {
-                method:"DELETE"
-            }
-        );
+        const response = await fetch("/student/" + id,{
 
-        const data = await res.json();
+            method:"DELETE",
+
+            credentials:"include"
+
+        });
+
+        const data = await response.json();
 
         if(data.success){
 
-            alert("Student Deleted");
+            alert("Student Deleted Successfully");
 
             loadStudents();
 
@@ -374,26 +501,27 @@ async function deleteStudent(id){
 
 }
 
-// =====================================================
+// ======================================================
 // MARK ATTENDANCE
-// =====================================================
+// ======================================================
 
 async function markPresent(id){
 
     try{
 
-        const res = await fetch(
-            "/attendance/" + id,
-            {
-                method:"PUT"
-            }
-        );
+        const response = await fetch("/attendance/" + id,{
 
-        const data = await res.json();
+            method:"PUT",
+
+            credentials:"include"
+
+        });
+
+        const data = await response.json();
 
         if(data.success){
 
-            alert("Attendance Marked");
+            alert("Attendance Marked Successfully");
 
             loadStudents();
 
@@ -401,7 +529,7 @@ async function markPresent(id){
 
         else{
 
-            alert("Failed");
+            alert("Unable to Mark Attendance");
 
         }
 
@@ -415,42 +543,36 @@ async function markPresent(id){
 
 }
 
-// =====================================================
+// ======================================================
 // VIEW CERTIFICATE
-// =====================================================
+// ======================================================
 
 function viewCertificate(id){
 
     window.open(
 
-        "/certificate.html?id=" + id,
+        "/certificate.html?id="+id,
 
         "_blank"
 
     );
 
 }
-// =====================================================
-// CHARTS
-// =====================================================
 
-let barChart = null;
-let pieChart = null;
-
-function createCharts(){}
+// ======================================================
+// BAR & PIE CHARTS
+// ======================================================
 
 function updateCharts(){
 
-    const eventCount = {};
+    const eventCount={};
 
     students.forEach(student=>{
 
-        eventCount[student.event] =
-        (eventCount[student.event] || 0)+1;
+        eventCount[student.event]=
+        (eventCount[student.event]||0)+1;
 
     });
-
-    // Destroy old charts
 
     if(barChart){
 
@@ -464,15 +586,11 @@ function updateCharts(){
 
     }
 
-    // -----------------------
-    // BAR CHART
-    // -----------------------
-
-    const bar = document.getElementById("barChart");
+    const bar=document.getElementById("barChart");
 
     if(bar){
 
-        barChart = new Chart(bar,{
+        barChart=new Chart(bar,{
 
             type:"bar",
 
@@ -487,13 +605,15 @@ function updateCharts(){
 
                 datasets:[{
 
+                    label:"Statistics",
+
                     data:[
 
                         students.length,
 
-                        students.filter(s=>s.payment_status=="Paid").length,
+                        students.filter(s=>s.payment_status==="Paid").length,
 
-                        students.filter(s=>s.payment_status!="Paid").length,
+                        students.filter(s=>s.payment_status!=="Paid").length,
 
                         [...new Set(students.map(s=>s.college))].length
 
@@ -504,28 +624,32 @@ function updateCharts(){
             },
 
             options:{
+
                 responsive:true,
+
                 maintainAspectRatio:false,
+
                 plugins:{
+
                     legend:{
+
                         display:false
+
                     }
+
                 }
+
             }
 
         });
 
     }
 
-    // -----------------------
-    // PIE CHART
-    // -----------------------
-
-    const pie = document.getElementById("pieChart");
+    const pie=document.getElementById("pieChart");
 
     if(pie){
 
-        pieChart = new Chart(pie,{
+        pieChart=new Chart(pie,{
 
             type:"pie",
 
@@ -542,8 +666,11 @@ function updateCharts(){
             },
 
             options:{
+
                 responsive:true,
+
                 maintainAspectRatio:false
+
             }
 
         });
@@ -551,38 +678,157 @@ function updateCharts(){
     }
 
 }
+// ======================================================
+// SIDEBAR
+// ======================================================
 
-// =====================================================
-// LOGOUT
-// =====================================================
+function sidebarFunctions(){
 
-function logout(){
-
-    fetch("/logout")
-
-    .then(()=>{
-
-        window.location.href="admin-login.html";
-
-    });
-
-}
-
-// =====================================================
-// MOBILE MENU
-// =====================================================
+const sidebar =
+document.getElementById("sidebar");
 
 const menuBtn =
 document.getElementById("menuBtn");
+
+const closeBtn =
+document.getElementById("closeSidebar");
+
+const overlay =
+document.getElementById("overlay");
 
 if(menuBtn){
 
 menuBtn.onclick=function(){
 
-document
-.querySelector(".sidebar")
-.classList.toggle("active");
+sidebar.classList.add("active");
+
+overlay.classList.add("show");
+
+};
+
+}
+
+if(closeBtn){
+
+closeBtn.onclick=function(){
+
+sidebar.classList.remove("active");
+
+overlay.classList.remove("show");
+
+};
+
+}
+
+if(overlay){
+
+overlay.onclick=function(){
+
+sidebar.classList.remove("active");
+
+overlay.classList.remove("show");
+
+};
 
 }
 
 }
+
+// ======================================================
+// NOTIFICATION
+// ======================================================
+
+function notificationFunctions(){
+
+const bell =
+document.getElementById("notificationBtn");
+
+const dropdown =
+document.getElementById("notificationDropdown");
+
+if(!bell || !dropdown) return;
+
+bell.onclick=function(e){
+
+e.stopPropagation();
+
+dropdown.classList.toggle("show");
+
+};
+
+document.addEventListener("click",function(e){
+
+if(
+!dropdown.contains(e.target) &&
+!bell.contains(e.target)
+){
+
+dropdown.classList.remove("show");
+
+}
+
+});
+
+}
+
+// ======================================================
+// LOGOUT
+// ======================================================
+
+function logout(){
+
+if(!confirm("Logout from Admin Dashboard?")){
+
+return;
+
+}
+
+fetch("/logout",{
+
+credentials:"include"
+
+})
+
+.then(()=>{
+
+window.location.href="admin-login.html";
+
+});
+
+}
+
+// ======================================================
+// AUTO REFRESH
+// ======================================================
+
+setInterval(function(){
+
+loadStudents();
+
+},30000);
+
+// ======================================================
+// WINDOW RESIZE
+// ======================================================
+
+window.addEventListener("resize",function(){
+
+const sidebar =
+document.getElementById("sidebar");
+
+const overlay =
+document.getElementById("overlay");
+
+if(window.innerWidth>992){
+
+sidebar.classList.remove("active");
+
+overlay.classList.remove("show");
+
+}
+
+});
+
+// ======================================================
+// END
+// ======================================================
