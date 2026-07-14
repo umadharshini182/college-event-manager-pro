@@ -1,3 +1,17 @@
+fetch("/api/current-user", {
+    credentials: "include"
+})
+.then(res => res.json())
+.then(data => {
+
+    if (!data.loggedIn) {
+        window.location.href = "admin-login.html";
+        return;
+    }
+
+    console.log("Welcome Admin");
+
+});
 // ===============================
 // CHECK LOGIN
 // ===============================
