@@ -108,7 +108,7 @@ function payNow(){
 console.log("payNow called");
 console.log(student);
 
-fetch("http://localhost:5000/register",{
+fetch("/register", {
 
 
 method:"POST",
@@ -120,8 +120,15 @@ headers:{
 body:JSON.stringify(student)
 
 })
+.then(async res => {
+    const data = await res.json();
+    console.log(data);
+    if (!res.ok) {
+        throw new Error(data.message || "Server Error");
+    }
+    return data;
+})
 
-.then(res=>res.json())
 
 .then(data=>{
 
@@ -145,13 +152,9 @@ alert(data.message || "Registration Failed");
 }
 
 })
-
-.catch(err=>{
-
-console.error(err);
-
-alert("Payment Failed");
-
+.catch(err => {
+    console.error(err);
+    alert(err.message);
 });
 }
 </script>
