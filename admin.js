@@ -1,76 +1,227 @@
-fetch("/api/current-user", {
-    credentials: "include"
-})
-.then(res => res.json())
-.then(data => {
+// =====================================================
+// COLLEGE EVENT MANAGER - ADMIN PANEL
+// PART 1
+// =====================================================
 
-    if (!data.loggedIn) {
-        window.location.href = "admin-login.html";
-    
+let students = [];
+
+// ----------------------------
+// Load Dashboard
+// ----------------------------
+
+window.onload = function () {
+
+    loadStudents();
+
+    createCharts();
+
+};
+
+// ----------------------------
+// Fetch Students
+// ----------------------------
+
+async function loadStudents() {
+
+    try {
+
+        const response = await fetch("/students");
+
+        students = await response.json();
+
+        updateDashboard();
+
+        loadTable();
+
+        updateCharts();
+
     }
 
-});
-// ===============================
-// CHECK LOGIN
-// ===============================
+    catch (err) {
 
-fetch("/api/current-user", {
-    credentials: "include"
-})
-.then(res => {
+        console.error(err);
 
-    if (!res.ok) {
-        window.location.href = "admin-login.html";
-        return;
     }
 
-    return res.json();
+}
 
-})
-.then(user => {
+// ----------------------------
+// Dashboard Statistics
+// ----------------------------
 
-    if (user) {
-        console.log("Welcome", user.user.email);
-    }
- 
-});
+function updateDashboard() {
 
-// ===============================
-// LOAD STUDENTS
-// ===============================
-fetch("/students", {
-    credentials: "include"
-})
-.then(res => res.json())
-.then(data => {
+    const totalStudents = students.length;
 
-    document.getElementById("count").innerText = data.length;
+    const totalRevenue = students.reduce(
+        (sum, s) => sum + Number(s.amount),
+        0
+    );
 
-    let revenue = 0;
-    let paid = 0;
-    let pending = 0;
+    const paidPayments = students.filter(
+        s => s.payment_status === "Paid"
+    ).length;
 
-    let eventCount = {};
-    let collegeSet = new Set();
+    const pendingPayments = students.filter(
+        s => s.payment_status !== "Paid"
+    ).length;
 
-    let rows = "";
+    document.getElementById("count").innerText =
+        totalStudents;
 
-    data.forEach(student => {
+    document.getElementById("revenue").innerText =
+        "₹" + totalRevenue;
 
-        collegeSet.add(student.college);
+    document.getElementById("paid").innerText =
+        paidPayments;
 
-        revenue += Number(student.amount);
+    document.getElementById("pending").innerText =
+        pendingPayments;
+         // ----------------------------
+    // Participating Colleges
+    // ----------------------------
 
-        if(student.payment_status === "Paid"){
-            paid++;
-        }else{
-            pending++;
+    const colleges = [...new Set(
+        students.map(s => s.college)
+    )];
+
+    document.getElementById("colleges").innerText =
+        colleges.length;
+
+    // ----------------------------
+    // Top College
+    // ----------------------------
+
+    const collegeCount = {};
+
+    students.forEach(student => {
+
+        collegeCount[student.college] =
+            (collegeCount[student.college] || 0) + 1;
+
+    });
+
+    let topCollege = "-";
+    let maxCollege = 0;
+
+    for (const college in collegeCount) {
+
+        if (collegeCount[college] > maxCollege) {
+
+            maxCollege = collegeCount[college];
+            topCollege = college;
+
         }
+
+    }
+
+    document.getElementById("topCollege").innerText =
+        topCollege;
+
+    // ----------------------------
+    // Top Event
+    // ----------------------------
+
+    const eventCount = {};
+
+    students.forEach(student => {
 
         eventCount[student.event] =
             (eventCount[student.event] || 0) + 1;
 
-        rows += `
+    });
+
+    let topEvent = "-";
+    let maxEvent = 0;
+
+    for (const event in eventCount) {
+
+        if (eventCount[event] > maxEvent) {
+
+            maxEvent = eventCount[event];
+            topEvent = event;
+
+        }
+
+    }
+
+    document.getElementById("topEvent").innerText =
+        topEvent;
+
+    // ----------------------------
+    // Today's Registrations
+    // ----------------------------
+
+    const today = new Date().toISOString().split("T")[0];
+
+    const todayStudents = students.filter(student =>
+        student.createdAt &&
+        student.createdAt.startsWith(today)
+    );
+
+    document.getElementById("todayRegistrations").innerText =
+        todayStudents.length;
+
+    // ----------------------------
+    // Today's Revenue
+    // ----------------------------
+
+    const todayRevenue =
+        todayStudents.reduce(
+            (sum, s) => sum + Number(s.amount),
+            0
+        );
+
+    document.getElementById("todayRevenue").innerText =
+        "₹" + todayRevenue;
+
+    // ----------------------------
+    // Attendance
+    // ----------------------------
+
+    const attendance =
+        students.filter(
+            s => s.attendance === "Present"
+        ).length;
+
+    document.getElementById("attendanceCount").innerText =
+        attendance;
+
+    // ----------------------------
+    // Certificates
+    // ----------------------------
+
+    const certificates =
+        students.filter(
+            s => s.certificate_id
+        ).length;
+
+    const certificateElement =
+        document.getElementById("certificateGenerated") ||
+        document.getElementById("certificateCount");
+
+    if (certificateElement) {
+
+        certificateElement.innerText =
+            certificates;
+
+    }
+
+}
+   // =====================================================
+// STUDENT TABLE
+// =====================================================
+
+function loadTable() {
+
+    const tbody = document.getElementById("studentTable");
+
+    tbody.innerHTML = "";
+
+    students.forEach(student => {
+
+        tbody.innerHTML += `
+
 <tr>
 
 <td>${student.id}</td>
@@ -88,202 +239,84 @@ fetch("/students", {
 <td>${student.event}</td>
 
 <td>
-<span class="${student.payment_status=="Paid"?"paid":"pending"}">
+
+<span class="${
+student.payment_status === "Paid"
+? "paid"
+: "pending"
+}">
 ${student.payment_status}
 </span>
+
 </td>
 
 <td>₹${student.amount}</td>
 
 <td>
-<button class="action-btn present-btn"
-onclick="markAttendance(${student.id})">
+
+<button
+class="action-btn present-btn"
+onclick="markPresent(${student.id})">
+
 Present
+
 </button>
 
-<button class="action-btn certificate-btn"
-onclick="generateCertificate(${student.id})">
+<button
+class="action-btn certificate-btn"
+onclick="viewCertificate(${student.id})">
+
 Certificate
+
 </button>
 
-<button class="action-btn delete-btn"
+<button
+class="action-btn delete-btn"
 onclick="deleteStudent(${student.id})">
+
 Delete
+
 </button>
 
 </td>
 
 </tr>
+
 `;
 
     });
 
-    document.getElementById("studentTable").innerHTML = rows;
+}
 
-    document.getElementById("revenue").innerText = "₹" + revenue;
-
-    document.getElementById("paid").innerText = paid;
-
-    document.getElementById("pending").innerText = pending;
-
-    document.getElementById("colleges").innerText = collegeSet.size;
-
-    let trending = "-";
-    let max = 0;
-
-    for(let event in eventCount){
-
-        if(eventCount[event] > max){
-
-            max = eventCount[event];
-
-            trending = event;
-
-        }
-
-    }
-
-    document.getElementById("trending").innerText = trending;
-    const today = new Date().toISOString().split("T")[0];
-
-let todayCount = 0;
-let todayRevenue = 0;
-
-data.forEach(student => {
-    if (
-        student.createdAt &&
-        student.createdAt.startsWith(today)
-    ) {
-        todayCount++;
-        todayRevenue += Number(student.amount);
-    }
-});
-
-document.getElementById("todayRegistrations").innerText = todayCount;
-document.getElementById("todayRevenue").innerText = "₹" + todayRevenue;
-    // ===============================
-// BAR CHART
-// ===============================
-
-const ctx = document.getElementById("barChart");
-
-new Chart(ctx, {
-
-    type: "bar",
-
-    data: {
-
-        labels: [
-            "Students",
-            "Paid",
-            "Pending",
-            "Colleges"
-        ],
-
-        datasets: [{
-
-            label: "Statistics",
-
-            data: [
-                data.length,
-                paid,
-                pending,
-                collegeSet.size
-            ],
-
-            backgroundColor: [
-                "#1565C0",
-                "#2E7D32",
-                "#D32F2F",
-                "#F9A825"
-            ],
-
-            borderRadius: 8
-
-        }]
-
-    },
-
-    options: {
-
-        responsive: true,
-
-        plugins: {
-
-            legend: {
-
-                display: false
-
-            }
-
-        }
-
-    }
-
-});
-
-// ===============================
-// PIE CHART
-// ===============================
-
-const pie = document.getElementById("pieChart");
-
-new Chart(pie, {
-
-    type: "pie",
-
-    data: {
-
-        labels: Object.keys(eventCount),
-
-        datasets: [{
-
-            data: Object.values(eventCount),
-
-            backgroundColor: [
-                "#1565C0",
-                "#2E7D32",
-                "#EF6C00",
-                "#AB47BC",
-                "#29B6F6",
-                "#FDD835"
-            ]
-
-        }]
-
-    }
-
-});
-
-})
-.catch(err => {
-
-    console.error(err);
-
-    alert("Unable to load student data.");
-
-});
-
-// ===============================
-// SEARCH
-// ===============================
+// =====================================================
+// SEARCH STUDENT
+// =====================================================
 
 function searchStudent() {
 
-    let input = document
-        .getElementById("search")
-        .value
-        .toLowerCase();
+    const value =
+    document
+    .getElementById("search")
+    .value
+    .toLowerCase();
 
-    let rows = document.querySelectorAll("#studentTable tr");
+    const rows =
+    document
+    .querySelectorAll("#studentTable tr");
 
     rows.forEach(row => {
 
-        if (row.innerText.toLowerCase().includes(input)) {
+        if (
+            row.innerText
+            .toLowerCase()
+            .includes(value)
+        ) {
 
             row.style.display = "";
 
-        } else {
+        }
+
+        else {
 
             row.style.display = "none";
 
@@ -292,81 +325,255 @@ function searchStudent() {
     });
 
 }
+// =====================================================
+// DELETE STUDENT
+// =====================================================
 
-// ===============================
-// ATTENDANCE
-// ===============================
+async function deleteStudent(id){
 
-function markAttendance(id) {
+    const confirmDelete = confirm(
+        "Delete this student?"
+    );
 
-    fetch("/attendance/" + id, {
+    if(!confirmDelete) return;
 
-    method: "PUT",
-    credentials: "include"
+    try{
 
-})
+        const res = await fetch(
+            "/student/" + id,
+            {
+                method:"DELETE"
+            }
+        );
 
-    .then(res => res.json())
+        const data = await res.json();
 
-    .then(() => {
+        if(data.success){
 
-        alert("Attendance Marked Successfully");
+            alert("Student Deleted");
 
-        location.reload();
+            loadStudents();
 
-    });
+        }
+
+        else{
+
+            alert("Delete Failed");
+
+        }
+
+    }
+
+    catch(err){
+
+        console.log(err);
+
+        alert("Server Error");
+
+    }
 
 }
 
-// ===============================
-// CERTIFICATE
-// ===============================
+// =====================================================
+// MARK ATTENDANCE
+// =====================================================
 
-function generateCertificate(id) {
+async function markPresent(id){
+
+    try{
+
+        const res = await fetch(
+            "/attendance/" + id,
+            {
+                method:"PUT"
+            }
+        );
+
+        const data = await res.json();
+
+        if(data.success){
+
+            alert("Attendance Marked");
+
+            loadStudents();
+
+        }
+
+        else{
+
+            alert("Failed");
+
+        }
+
+    }
+
+    catch(err){
+
+        console.log(err);
+
+    }
+
+}
+
+// =====================================================
+// VIEW CERTIFICATE
+// =====================================================
+
+function viewCertificate(id){
 
     window.open(
-        "certificate.html?id=" + id,
+
+        "/certificate.html?id=" + id,
+
         "_blank"
+
     );
 
 }
+// =====================================================
+// CHARTS
+// =====================================================
 
-// ===============================
+let barChart = null;
+let pieChart = null;
+
+function createCharts(){}
+
+function updateCharts(){
+
+    const eventCount = {};
+
+    students.forEach(student=>{
+
+        eventCount[student.event] =
+        (eventCount[student.event] || 0)+1;
+
+    });
+
+    // Destroy old charts
+
+    if(barChart){
+
+        barChart.destroy();
+
+    }
+
+    if(pieChart){
+
+        pieChart.destroy();
+
+    }
+
+    // -----------------------
+    // BAR CHART
+    // -----------------------
+
+    const bar = document.getElementById("barChart");
+
+    if(bar){
+
+        barChart = new Chart(bar,{
+
+            type:"bar",
+
+            data:{
+
+                labels:[
+                    "Students",
+                    "Paid",
+                    "Pending",
+                    "Colleges"
+                ],
+
+                datasets:[{
+
+                    data:[
+
+                        students.length,
+
+                        students.filter(s=>s.payment_status=="Paid").length,
+
+                        students.filter(s=>s.payment_status!="Paid").length,
+
+                        [...new Set(students.map(s=>s.college))].length
+
+                    ]
+
+                }]
+
+            },
+
+            options:{
+                responsive:true,
+                maintainAspectRatio:false,
+                plugins:{
+                    legend:{
+                        display:false
+                    }
+                }
+            }
+
+        });
+
+    }
+
+    // -----------------------
+    // PIE CHART
+    // -----------------------
+
+    const pie = document.getElementById("pieChart");
+
+    if(pie){
+
+        pieChart = new Chart(pie,{
+
+            type:"pie",
+
+            data:{
+
+                labels:Object.keys(eventCount),
+
+                datasets:[{
+
+                    data:Object.values(eventCount)
+
+                }]
+
+            },
+
+            options:{
+                responsive:true,
+                maintainAspectRatio:false
+            }
+
+        });
+
+    }
+
+}
+
+// =====================================================
 // LOGOUT
-// ===============================
+// =====================================================
 
-function logout() {
+function logout(){
 
     fetch("/logout")
 
-    .then(() => {
+    .then(()=>{
 
-        window.location.href = "admin-login.html";
-
-    });
-
-}
-function deleteStudent(id) {
-
-    if (!confirm("Delete this registration?")) return;
-
-    fetch("/student/" + id, {
-        method: "DELETE"
-    })
-    .then(res => res.json())
-    .then(data => {
-
-        if (data.success) {
-            alert("Student deleted successfully");
-            location.reload();
-        } else {
-            alert("Delete failed");
-        }
+        window.location.href="admin-login.html";
 
     });
 
 }
-const menuBtn = document.getElementById("menuBtn");
+
+// =====================================================
+// MOBILE MENU
+// =====================================================
+
+const menuBtn =
+document.getElementById("menuBtn");
 
 if(menuBtn){
 
@@ -376,6 +583,6 @@ document
 .querySelector(".sidebar")
 .classList.toggle("active");
 
-};
+}
 
 }
