@@ -9,7 +9,10 @@ const mysql = require("mysql2");
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: true,
+    credentials: true
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -57,12 +60,16 @@ db.query(createTable, (err) => {
 });
   }
 });
-
 app.use(session({
-  secret: "college_event_manager_secret",
-  resave: false,
-  saveUninitialized: false
+    secret: "college_event_manager_secret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: false,
+        sameSite: "lax"
+    }
 }));
+
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));

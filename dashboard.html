@@ -48,7 +48,9 @@
 
     <script>
         // Check Session data immediately on render
-        fetch('/api/current-user')
+        fetch('/api/current-user', {
+    credentials: 'include'
+})
             .then(res => res.json())
             .then(data => {
                 if (!data.loggedIn) {
@@ -68,7 +70,9 @@
             });
 
         function loadAdminData() {
-            fetch('/admin')
+            fetch('/admin', {
+    credentials: 'include'
+})
                 .then(res => res.json())
                 .then(students => {
                     const tbody = document.getElementById('admin-table-body');
@@ -91,14 +95,20 @@
         }
 
         function markPresent(id) {
-            fetch(`/attendance/${id}`, { method: 'PUT' })
+            fetch('/attendance/' + id, {
+    method: 'PUT',
+    credentials: 'include'
+})
                 .then(res => res.json())
                 .then(data => { if(data.success) loadAdminData(); });
         }
 
         function clearRegistrations() {
             if(confirm("Are you sure you want to delete ALL event registrations?")) {
-                fetch('/clear', { method: 'DELETE' })
+                fetch('/clear', {
+    method: 'DELETE',
+    credentials: 'include'
+})
                     .then(res => res.json())
                     .then(data => { if(data.success) loadAdminData(); });
             }
