@@ -98,19 +98,19 @@ ${student.payment_status}
 <td>₹${student.amount}</td>
 
 <td>
-
 <button class="action-btn present-btn"
 onclick="markAttendance(${student.id})">
-
 Present
-
 </button>
 
 <button class="action-btn certificate-btn"
 onclick="generateCertificate(${student.id})">
-
 Certificate
+</button>
 
+<button class="action-btn delete-btn"
+onclick="deleteStudent(${student.id})">
+Delete
 </button>
 
 </td>
@@ -344,6 +344,26 @@ function logout() {
     .then(() => {
 
         window.location.href = "admin-login.html";
+
+    });
+
+}
+function deleteStudent(id) {
+
+    if (!confirm("Delete this registration?")) return;
+
+    fetch("/student/" + id, {
+        method: "DELETE"
+    })
+    .then(res => res.json())
+    .then(data => {
+
+        if (data.success) {
+            alert("Student deleted successfully");
+            location.reload();
+        } else {
+            alert("Delete failed");
+        }
 
     });
 

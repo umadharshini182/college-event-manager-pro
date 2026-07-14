@@ -342,7 +342,30 @@ app.delete("/clear", (req, res) => {
     });
 
 });
+// ===============================
+// DELETE STUDENT
+// ===============================
 
+app.delete("/student/:id", (req, res) => {
+
+    const sql = "DELETE FROM registrations WHERE id=?";
+
+    db.query(sql, [req.params.id], (err) => {
+
+        if (err) {
+            console.log(err);
+            return res.json({
+                success: false
+            });
+        }
+
+        res.json({
+            success: true
+        });
+
+    });
+
+});
 // ===============================
 // START SERVER
 // ===============================
