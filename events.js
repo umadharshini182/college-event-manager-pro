@@ -120,6 +120,16 @@ if(participants){
     students.length;
 
 }
+// Registrations
+const registrationCard =
+document.getElementById("eventRegistrations");
+
+if(registrationCard){
+
+    registrationCard.innerText =
+    students.length;
+
+}
 
     let revenue = 0;
 
