@@ -17,6 +17,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 
 <body>
 
+<!-- Overlay -->
+
 <div id="overlay" class="overlay"></div>
 
 <!-- ===========================
@@ -31,45 +33,66 @@ SIDEBAR
 
 <button id="closeSidebar" class="close-btn">
 
-✕
+<i class="fa-solid fa-xmark"></i>
 
 </button>
 
 </div>
 
-<a href="dashboard.html">
+<a href="admin.html">
+
 <i class="fa-solid fa-chart-line"></i>
+
 Dashboard
+
 </a>
 
-<a href="students.html" class="active">
+<a href="students-admin.html" class="active">
+
 <i class="fa-solid fa-users"></i>
+
 Students
+
 </a>
 
-<a href="events.html">
+<a href="events-admin.html">
+
 <i class="fa-solid fa-calendar-days"></i>
+
 Events
+
 </a>
 
-<a href="payments.html">
+<a href="payments-admin.html">
+
 <i class="fa-solid fa-money-bill-wave"></i>
+
 Payments
+
 </a>
 
-<a href="certificates.html">
+<a href="certificates-admin.html">
+
 <i class="fa-solid fa-certificate"></i>
+
 Certificates
+
 </a>
 
-<a href="settings.html">
+<a href="settings-admin.html">
+
 <i class="fa-solid fa-gear"></i>
+
 Settings
+
 </a>
 
 <a href="#" onclick="logout()">
+
 <i class="fa-solid fa-right-from-bracket"></i>
+
 Logout
+
 </a>
 
 </div>
@@ -79,6 +102,9 @@ MAIN
 =========================== -->
 
 <div class="main">
+    <!-- ===========================
+TOPBAR
+=========================== -->
 
 <div class="topbar">
 
@@ -86,7 +112,7 @@ MAIN
 
 <button id="menuBtn" class="menu-btn">
 
-☰
+<i class="fa-solid fa-bars"></i>
 
 </button>
 
@@ -118,11 +144,38 @@ onkeyup="searchStudent()">
 
 </div>
 
+<div class="notification" id="notificationBtn">
+
+<i class="fa-solid fa-bell"></i>
+
+<span id="notificationCount">0</span>
+
 </div>
 
 </div>
+
+</div>
+
 <!-- ===========================
-STUDENT SUMMARY
+NOTIFICATION
+=========================== -->
+
+<div
+class="notification-dropdown"
+id="notificationDropdown">
+
+<h3>Recent Activity</h3>
+
+<div id="activityContainer">
+
+<p>No recent activity.</p>
+
+</div>
+
+</div>
+
+<!-- ===========================
+SUMMARY CARDS
 =========================== -->
 
 <div class="cards">
@@ -163,12 +216,11 @@ STUDENT SUMMARY
 
 <h2 id="studentCertificates">0</h2>
 
-<p>Certificates</p>
+<p>Certificates Generated</p>
 
 </div>
 
 </div>
-
 <!-- ===========================
 STUDENT TABLE
 =========================== -->
@@ -178,6 +230,8 @@ STUDENT TABLE
 <div class="table-header">
 
 <h2>🎓 Registered Students</h2>
+
+<div class="table-actions">
 
 <select id="eventFilter">
 
@@ -191,7 +245,21 @@ STUDENT TABLE
 
 <option>Paper Presentation</option>
 
+<option>Symposium</option>
+
 </select>
+
+<button
+class="action-btn certificate-btn"
+onclick="loadStudents()">
+
+<i class="fa-solid fa-rotate-right"></i>
+
+Refresh
+
+</button>
+
+</div>
 
 </div>
 
@@ -215,6 +283,8 @@ STUDENT TABLE
 
 <th>Event</th>
 
+<th>Payment</th>
+
 <th>Attendance</th>
 
 <th>Certificate</th>
@@ -227,7 +297,7 @@ STUDENT TABLE
 
 <tbody id="studentTable">
 
-<!-- Loaded by students.js -->
+<!-- Loaded from students.js -->
 
 </tbody>
 
@@ -236,7 +306,7 @@ STUDENT TABLE
 </div>
 
 <!-- ===========================
-QUICK ACTIONS
+QUICK SUMMARY
 =========================== -->
 
 <div class="summary-section">
@@ -259,7 +329,7 @@ QUICK ACTIONS
 
 <div class="summary-card">
 
-<h3>Registered Colleges</h3>
+<h3>Participating Colleges</h3>
 
 <h1 id="collegeCount">0</h1>
 
@@ -269,84 +339,40 @@ QUICK ACTIONS
 
 <h3>Events Conducted</h3>
 
-<h1 id="eventCount">4</h1>
+<h1 id="eventCount">0</h1>
 
 </div>
 
 </div>
 <!-- ===========================
-STUDENT SUMMARY
+RECENT ACTIVITY
 =========================== -->
 
-<div class="cards">
+<div class="recent-section">
 
-<div class="card blue">
+<div class="recent-card">
 
-<i class="fa-solid fa-users"></i>
+<h2>
 
-<h2 id="totalStudents">0</h2>
+🕒 Recent Student Activity
 
-<p>Total Students</p>
+</h2>
 
-</div>
+<ul id="activityList">
 
-<div class="card green">
+<li>No activity available.</li>
 
-<i class="fa-solid fa-user-check"></i>
-
-<h2 id="presentStudents">0</h2>
-
-<p>Present</p>
+</ul>
 
 </div>
 
-<div class="card red">
+<div class="recent-card">
 
-<i class="fa-solid fa-user-xmark"></i>
+<h2>
 
-<h2 id="absentStudents">0</h2>
+🎓 Latest Registrations
 
-<p>Absent</p>
-
-</div>
-
-<div class="card gold">
-
-<i class="fa-solid fa-award"></i>
-
-<h2 id="studentCertificates">0</h2>
-
-<p>Certificates</p>
-
-</div>
-
-</div>
-
-<!-- ===========================
-STUDENT TABLE
-=========================== -->
-
-<div class="table-container">
-
-<div class="table-header">
-
-<h2>🎓 Registered Students</h2>
-
-<select id="eventFilter">
-
-<option value="">All Events</option>
-
-<option>Hackathon</option>
-
-<option>AI Workshop</option>
-
-<option>Ideathon</option>
-
-<option>Paper Presentation</option>
-
-</select>
-
-</div>
+</h2>
 
 <table>
 
@@ -354,33 +380,27 @@ STUDENT TABLE
 
 <tr>
 
-<th>ID</th>
-
 <th>Name</th>
-
-<th>Email</th>
-
-<th>College</th>
-
-<th>Department</th>
-
-<th>Year</th>
 
 <th>Event</th>
 
-<th>Attendance</th>
-
-<th>Certificate</th>
-
-<th>Action</th>
+<th>Status</th>
 
 </tr>
 
 </thead>
 
-<tbody id="studentTable">
+<tbody id="latestRegistrations">
 
-<!-- Loaded by students.js -->
+<tr>
+
+<td colspan="3">
+
+No registrations found
+
+</td>
+
+</tr>
 
 </tbody>
 
@@ -388,42 +408,39 @@ STUDENT TABLE
 
 </div>
 
+</div>
+
 <!-- ===========================
-QUICK ACTIONS
+FOOTER
 =========================== -->
 
-<div class="summary-section">
+<footer>
 
-<div class="summary-card">
+<div class="footer-content">
 
-<h3>Present Today</h3>
+<p>
 
-<h1 id="todayPresent">0</h1>
+© 2027 College Event Manager
 
-</div>
+</p>
 
-<div class="summary-card">
+<p>
 
-<h3>Certificates Issued</h3>
+Student Management Module
 
-<h1 id="issuedCertificates">0</h1>
-
-</div>
-
-<div class="summary-card">
-
-<h3>Registered Colleges</h3>
-
-<h1 id="collegeCount">0</h1>
+</p>
 
 </div>
 
-<div class="summary-card">
-
-<h3>Events Conducted</h3>
-
-<h1 id="eventCount">4</h1>
-
+</footer>
 </div>
 
-</div>
+<!-- ===========================
+JAVASCRIPT
+=========================== -->
+
+<script src="students.js"></script>
+
+</body>
+
+</html>
