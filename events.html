@@ -63,7 +63,20 @@ Certificates
 <a href="settings.html">
 <i class="fa-solid fa-gear"></i>
 Settings
-</a>
+</a>const response = await fetch("/students",{
+    credentials:"include"
+});
+
+const students = await response.json();
+
+let revenue = 0;
+
+students.forEach(student=>{
+    revenue += Number(student.amount || 0);
+});
+
+document.getElementById("eventRevenue").innerText = "₹" + revenue;
+
 
 <a href="#" onclick="logout()">
 <i class="fa-solid fa-right-from-bracket"></i>
@@ -161,7 +174,7 @@ EVENT DASHBOARD
         <h2 id="eventRevenue">₹0</h2>
 
         <p>Total Event Fees</p>
-
+                                                                     
     </div>
 
 </div>
@@ -395,37 +408,6 @@ Paper Presentation
 </div>
 
 <!-- ===========================
-QUICK STATISTICS
-=========================== -->
-
-<div class="quick-stats">
-
-<div class="stat-box">
-
-<h3>Open Events</h3>
-
-<h1 id="openCount">0</h1>
-
-</div>
-
-<div class="stat-box">
-
-<h3>Closed Events</h3>
-
-<h1 id="closedCount">0</h1>
-
-</div>
-
-<div class="stat-box">
-
-<h3>Total Fees</h3>
-
-<h1 id="feeCollection">₹0</h1>
-
-</div>
-
-</div>
-<!-- ===========================
 FOOTER
 =========================== -->
 
@@ -447,7 +429,7 @@ Event Management Module | Railway + MySQL
 
 </div>
 
-</footer>
+</footer> 
 
 </div>
 

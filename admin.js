@@ -65,26 +65,19 @@ async function checkLogin() {
 async function loadStudents() {
 
     try {
+ const response = await fetch("/students",{
+    credentials:"include"
+});
 
-        const response = await fetch("/students", {
-            credentials: "include"
-        });
+const students = await response.json();
 
-        students = await response.json();
+let revenue = 0;
 
-        updateDashboard();
+students.forEach(student=>{
+    revenue += Number(student.amount || 0);
+});
 
-        loadTable();
-
-        updateCharts();
-
-    }
-
-    catch (err) {
-
-        console.log(err);
-
-    }
+document.getElementById("eventRevenue").innerText = "₹" + revenue;
 
 }
 // ======================================================
