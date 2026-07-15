@@ -57,7 +57,6 @@ async function checkLogin() {
     }
 
 }
-
 // ======================================================
 // LOAD STUDENTS
 // ======================================================
@@ -65,19 +64,28 @@ async function checkLogin() {
 async function loadStudents() {
 
     try {
- const response = await fetch("/students",{
-    credentials:"include"
-});
 
-const students = await response.json();
+        const response = await fetch("/students", {
 
-let revenue = 0;
+            credentials: "include"
 
-students.forEach(student=>{
-    revenue += Number(student.amount || 0);
-});
+        });
 
-document.getElementById("eventRevenue").innerText = "₹" + revenue;
+        students = await response.json();
+
+        updateDashboard();
+
+        loadTable();
+
+        updateCharts();
+
+    }
+
+    catch (err) {
+
+        console.log(err);
+
+    }
 
 }
 // ======================================================

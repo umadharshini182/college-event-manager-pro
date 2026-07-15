@@ -17,6 +17,29 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(__dirname));
+app.get("/admin.html", (req, res) => {
+    res.sendFile(path.join(__dirname, "admin.html"));
+});
+
+app.get("/students.html", (req, res) => {
+    res.sendFile(path.join(__dirname, "students-admin.html"));
+});
+
+app.get("/events.html", (req, res) => {
+    res.sendFile(path.join(__dirname, "events-admin.html"));
+});
+
+app.get("/payments.html", (req, res) => {
+    res.sendFile(path.join(__dirname, "payments-admin.html"));
+});
+
+app.get("/certificates.html", (req, res) => {
+    res.sendFile(path.join(__dirname, "certificates-admin.html"));
+});
+
+app.get("/settings.html", (req, res) => {
+    res.sendFile(path.join(__dirname, "settings-admin.html"));
+});
 
 const db = mysql.createConnection({
   host: process.env.MYSQLHOST,
