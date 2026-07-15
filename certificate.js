@@ -265,18 +265,14 @@ row.style.display="none";
 // ======================================================
 // PREVIEW CERTIFICATE
 // ======================================================
-
 function previewCertificate(id){
 
-    window.open(
-
-        "/certificate.html?id=" + id,
-
-        "_blank"
-
-    );
+    window.location.href =
+    "/certificate/" + id;
 
 }
+
+
 
 // ======================================================
 // DOWNLOAD CERTIFICATE
