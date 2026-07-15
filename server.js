@@ -58,6 +58,34 @@ db.query(createTable, (err) => {
         console.log("✅ registrations table ready");
     }
 });
+const createEventsTable = `
+CREATE TABLE IF NOT EXISTS events (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    event_name VARCHAR(100) NOT NULL,
+    event_date DATE NOT NULL,
+    venue VARCHAR(150) NOT NULL,
+    fee INT DEFAULT 0,
+    status VARCHAR(30) DEFAULT 'Open',
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+`;
+
+db.query(createEventsTable, (err) => {
+
+    if (err) {
+
+        console.log("❌ Events table creation failed");
+        console.log(err);
+
+    }
+
+    else {
+
+        console.log("✅ events table ready");
+
+    }
+
+});
   }
 });
 app.use(session({
@@ -366,6 +394,148 @@ app.delete("/student/:id", (req, res) => {
     });
 
 });
+// ===============================
+// GET ALL EVENTS
+// ===============================
+
+app.get("/events", (req, res) => {
+
+    const sql = "SELECT * FROM events ORDER BY event_date ASC";
+
+    db.query(sql, (err, results) => {
+
+        if (err) {
+
+            console.log(err);
+
+            return res.status(500).json([]);
+
+        }
+
+        res.json(results);
+
+    });
+
+});
+// ===============================
+// ADD NEW EVENT
+// ===============================
+
+app.post("/events", (req, res) => {
+
+    const {
+        event_name,
+        event_date,
+        venue,
+        fee,
+        status
+    } = req.body;
+
+    const sql = `
+    INSERT INTO events
+    (
+        event_name,
+        event_date,
+        venue,
+        fee,
+        status
+    )
+    VALUES (?, ?, ?, ?, ?)
+    `;
+
+    db.query(
+        sql,
+        [
+            event_name,
+            event_date,
+            venue,
+            fee,
+            status
+        ],
+        (err, result) => {
+
+            if (err) {
+
+                console.log(err);
+
+                return res.json({
+                    success: false
+                });
+
+            }
+
+            res.json({
+                success: true,
+                id: result.insertId
+            });
+
+        }
+    );
+
+});
+// ===============================
+// UPDATE EVENT
+// ===============================
+
+app.put("/events/:id", (req, res) => {
+
+    const { event_name, event_date, venue, fee, status } = req.body;
+
+    const sql = `
+    UPDATE events
+    SET
+        event_name=?,
+        event_date=?,
+        venue=?,
+        fee=?,
+        status=?
+    WHERE id=?
+    `;
+
+    db.query(
+        sql,
+        [
+            event_name,
+            event_date,
+            venue,
+            fee,
+            status,
+            req.params.id
+        ],
+        (err) => {
+
+            if (err) {
+                console.log(err);
+                return res.json({ success: false });
+            }
+
+            res.json({ success: true });
+
+        }
+    );
+
+});
+// ===============================
+// DELETE EVENT
+// ===============================
+
+app.delete("/events/:id", (req, res) => {
+
+    const sql = "DELETE FROM events WHERE id=?";
+
+    db.query(sql, [req.params.id], (err) => {
+
+        if (err) {
+            console.log(err);
+            return res.json({ success: false });
+        }
+
+        res.json({ success: true });
+
+    });
+
+});
+
 // ===============================
 // START SERVER
 // ===============================

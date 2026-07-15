@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Certificates | College Event Manager</title>
+
+<link rel="stylesheet" href="admin.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<div id="overlay" class="overlay"></div>
+
+<!-- ===========================
+SIDEBAR
+=========================== -->
+
+<div class="sidebar" id="sidebar">
+
+<div class="sidebar-header">
+
+<h2>🎓 CEM</h2>
+
+<button id="closeSidebar" class="close-btn">
+✕
+</button>
+
+</div>
+
+<a href="dashboard.html">
+<i class="fa-solid fa-chart-line"></i>
+Dashboard
+</a>
+
+<a href="students.html">
+<i class="fa-solid fa-users"></i>
+Students
+</a>
+
+<a href="events.html">
+<i class="fa-solid fa-calendar-days"></i>
+Events
+</a>
+
+<a href="payments.html">
+<i class="fa-solid fa-money-bill-wave"></i>
+Payments
+</a>
+
+<a href="certificates.html" class="active">
+<i class="fa-solid fa-certificate"></i>
+Certificates
+</a>
+
+<a href="settings.html">
+<i class="fa-solid fa-gear"></i>
+Settings
+</a>
+
+<a href="#" onclick="logout()">
+<i class="fa-solid fa-right-from-bracket"></i>
+Logout
+</a>
+
+</div>
+
+<!-- ===========================
+MAIN
+=========================== -->
+
+<div class="main">
+
+<div class="topbar">
+
+<div class="top-left">
+
+<button id="menuBtn" class="menu-btn">
+
+☰
+
+</button>
+
+<div>
+
+<h1>Certificate Management</h1>
+
+<p class="welcome">
+
+Generate and manage certificates
+
+</p>
+
+</div>
+
+</div>
+
+<div class="top-right">
+
+<div class="search-box">
+
+<i class="fa-solid fa-search"></i>
+
+<input
+type="text"
+id="certificateSearch"
+placeholder="Search Certificate...">
+
+</div>
+
+</div>
+
+</div>
+<!-- ===========================
+CERTIFICATE SUMMARY
+=========================== -->
+
+<div class="cards">
+
+<div class="card gold">
+
+<i class="fa-solid fa-certificate"></i>
+
+<h2 id="totalCertificates">0</h2>
+
+<p>Total Certificates</p>
+
+</div>
+
+<div class="card green">
+
+<i class="fa-solid fa-circle-check"></i>
+
+<h2 id="generatedCertificates">0</h2>
+
+<p>Generated</p>
+
+</div>
+
+<div class="card blue">
+
+<i class="fa-solid fa-download"></i>
+
+<h2 id="downloadedCertificates">0</h2>
+
+<p>Downloads</p>
+
+</div>
+
+<div class="card purple">
+
+<i class="fa-solid fa-envelope"></i>
+
+<h2 id="emailedCertificates">0</h2>
+
+<p>Emailed</p>
+
+</div>
+
+</div>
+
+<!-- ===========================
+CERTIFICATE TABLE
+=========================== -->
+
+<div class="table-container">
+
+<div class="table-header">
+
+<h2>🏆 Generated Certificates</h2>
+
+<select id="certificateFilter">
+
+<option value="">All Events</option>
+
+<option>Hackathon</option>
+
+<option>AI Workshop</option>
+
+<option>Ideathon</option>
+
+<option>Paper Presentation</option>
+
+</select>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+
+<th>Student</th>
+
+<th>Email</th>
+
+<th>College</th>
+
+<th>Event</th>
+
+<th>Certificate ID</th>
+
+<th>Status</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="certificateTable">
+
+<tr>
+
+<td>1</td>
+
+<td>Uma Dharshini</td>
+
+<td>uma@gmail.com</td>
+
+<td>ABC Engineering College</td>
+
+<td>Hackathon</td>
+
+<td>CEM2027-001</td>
+
+<td>
+
+<span class="paid">
+
+Generated
+
+</span>
+
+</td>
+
+<td>
+
+<button class="action-btn present-btn">
+
+<i class="fa-solid fa-eye"></i>
+
+Preview
+
+</button>
+
+<button class="action-btn certificate-btn">
+
+<i class="fa-solid fa-download"></i>
+
+Download
+
+</button>
+
+<button class="action-btn blue">
+
+<i class="fa-solid fa-envelope"></i>
+
+Email
+
+</button>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<!-- ===========================
+SUMMARY
+=========================== -->
+
+<div class="summary-section">
+
+<div class="summary-card">
+
+<h3>Today's Certificates</h3>
+
+<h1 id="todayCertificates">0</h1>
+
+</div>
+
+<div class="summary-card">
+
+<h3>Total Downloads</h3>
+
+<h1 id="downloadCount">0</h1>
+
+</div>
+
+<div class="summary-card">
+
+<h3>Total Emails</h3>
+
+<h1 id="emailCount">0</h1>
+
+</div>
+
+<div class="summary-card">
+
+<h3>Pending Certificates</h3>
+
+<h1 id="pendingCertificates">0</h1>
+
+</div>
+
+</div>
+<!-- ===========================
+RECENT CERTIFICATE ACTIVITY
+=========================== -->
+
+<div class="recent-section">
+
+<div class="recent-card">
+
+<h2>🏆 Recent Certificate Activity</h2>
+
+<ul id="certificateActivity">
+
+<li>Certificate generated for Hackathon</li>
+
+<li>Certificate downloaded successfully</li>
+
+<li>Certificate emailed to participant</li>
+
+<li>Attendance verified before generation</li>
+
+</ul>
+
+</div>
+
+<div class="recent-card">
+
+<h2>📊 Certificate Analytics</h2>
+
+<ul>
+
+<li>
+Generated Today
+<span id="generatedToday">0</span>
+</li>
+
+<li>
+Downloaded Today
+<span id="downloadToday">0</span>
+</li>
+
+<li>
+Emails Sent
+<span id="emailsToday">0</span>
+</li>
+
+<li>
+Pending Approval
+<span id="pendingApproval">0</span>
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+<!-- ===========================
+FOOTER
+=========================== -->
+
+<footer>
+
+<div class="footer-content">
+
+<p>
+
+© 2027 College Event Manager
+
+</p>
+
+<p>
+
+Certificate Management Module
+
+</p>
+
+</div>
+
+</footer>
+
+</div>
+
+<script src="certificates.js"></script>
+
+</body>
+
+</html>

@@ -4,7 +4,8 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>Events | College Event Manager</title>
 
@@ -35,7 +36,7 @@ SIDEBAR
 
 </div>
 
-<a href="admin.html">
+<a href="dashboard.html">
 <i class="fa-solid fa-chart-line"></i>
 Dashboard
 </a>
@@ -94,7 +95,7 @@ MAIN
 
 <p class="welcome">
 
-Manage all technical events
+Create and manage college events
 
 </p>
 
@@ -104,75 +105,74 @@ Manage all technical events
 
 <div class="top-right">
 
-<div class="search-box">
+<button class="action-btn present-btn">
 
-<i class="fa-solid fa-search"></i>
+<i class="fa-solid fa-plus"></i>
 
-<input
-type="text"
-id="searchEvent"
-placeholder="Search Event...">
+Add Event
 
-</div>
+</button>
 
 </div>
 
 </div>
 <!-- ===========================
-EVENT DASHBOARD
+EVENT SUMMARY
 =========================== -->
 
 <div class="cards">
 
-    <div class="card blue">
+<div class="card blue">
 
-        <i class="fa-solid fa-calendar-days"></i>
+<i class="fa-solid fa-calendar-days"></i>
 
-        <h2 id="totalEvents">0</h2>
+<h2 id="totalEvents">4</h2>
 
-        <p>Total Events</p>
+<p>Total Events</p>
 
-    </div>
+</div>
 
-    <div class="card green">
+<div class="card green">
 
-        <i class="fa-solid fa-circle-check"></i>
+<i class="fa-solid fa-users"></i>
 
-        <h2 id="activeEvents">0</h2>
+<h2 id="totalParticipants">0</h2>
 
-        <p>Active Events</p>
+<p>Total Participants</p>
 
-    </div>
+</div>
 
-    <div class="card orange">
+<div class="card orange">
 
-        <i class="fa-solid fa-clock"></i>
+<i class="fa-solid fa-trophy"></i>
 
-        <h2 id="upcomingEvents">0</h2>
+<h2 id="activeEvents">4</h2>
 
-        <p>Upcoming Events</p>
+<p>Active Events</p>
 
-    </div>
+</div>
 
-    <div class="card purple">
+<div class="card red">
 
-        <i class="fa-solid fa-indian-rupee-sign"></i>
+<i class="fa-solid fa-clock"></i>
 
-        <h2 id="eventRevenue">₹0</h2>
+<h2 id="upcomingEvents">4</h2>
 
-        <p>Total Event Fees</p>
+<p>Upcoming Events</p>
 
-    </div>
+</div>
 
 </div>
 
 <!-- ===========================
-ADD EVENT
+ADD EVENT FORM
 =========================== -->
 
 <div class="table-container">
 
-<h2>➕ Add New Event</h2>
+<h2>➕ Create New Event</h2>
+
+<br>
 
 <div class="cards">
 
@@ -183,7 +183,7 @@ ADD EVENT
 <input
 type="text"
 id="eventName"
-placeholder="Hackathon">
+placeholder="Enter Event Name">
 
 </div>
 
@@ -204,7 +204,7 @@ id="eventDate">
 <input
 type="text"
 id="eventVenue"
-placeholder="Main Auditorium">
+placeholder="Venue">
 
 </div>
 
@@ -219,27 +219,11 @@ placeholder="1000">
 
 </div>
 
-<div>
-
-<label>Status</label>
-
-<select id="eventStatus">
-
-<option value="Open">Open</option>
-
-<option value="Closed">Closed</option>
-
-</select>
-
-</div>
-
 </div>
 
 <br>
 
-<button
-class="action-btn present-btn"
-onclick="saveEvent()">
+<button class="action-btn present-btn">
 
 <i class="fa-solid fa-floppy-disk"></i>
 
@@ -248,8 +232,9 @@ Save Event
 </button>
 
 </div>
+
 <!-- ===========================
-EVENTS TABLE
+EVENT TABLE
 =========================== -->
 
 <div class="table-container">
@@ -260,8 +245,8 @@ EVENTS TABLE
 
 <input
 type="text"
-id="searchEventTable"
-placeholder="🔍 Search Event...">
+placeholder="Search Event..."
+id="searchEvent">
 
 </div>
 
@@ -273,13 +258,15 @@ placeholder="🔍 Search Event...">
 
 <th>ID</th>
 
-<th>Event Name</th>
+<th>Event</th>
 
 <th>Date</th>
 
 <th>Venue</th>
 
 <th>Fee</th>
+
+<th>Participants</th>
 
 <th>Status</th>
 
@@ -291,55 +278,97 @@ placeholder="🔍 Search Event...">
 
 <tbody id="eventTable">
 
-<!-- Events will load here from Railway MySQL -->
+<tr>
+
+<td>1</td>
+
+<td>Hackathon</td>
+
+<td>17 Aug 2027</td>
+
+<td>Main Auditorium</td>
+
+<td>₹1000</td>
+
+<td>120</td>
+
+<td>
+
+<span class="paid">
+
+Open
+
+</span>
+
+</td>
+
+<td>
+
+<button class="action-btn certificate-btn">
+
+Edit
+
+</button>
+
+<button class="action-btn delete-btn">
+
+Delete
+
+</button>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>2</td>
+
+<td>AI Workshop</td>
+
+<td>18 Aug 2027</td>
+
+<td>Seminar Hall</td>
+
+<td>₹800</td>
+
+<td>80</td>
+
+<td>
+
+<span class="paid">
+
+Open
+
+</span>
+
+</td>
+
+<td>
+
+<button class="action-btn certificate-btn">
+
+Edit
+
+</button>
+
+<button class="action-btn delete-btn">
+
+Delete
+
+</button>
+
+</td>
+
+</tr>
 
 </tbody>
 
 </table>
 
 </div>
-
 <!-- ===========================
-EVENT SUMMARY
-=========================== -->
-
-<div class="summary-section">
-
-<div class="summary-card">
-
-<h3>Total Revenue</h3>
-
-<h1 id="summaryRevenue">₹0</h1>
-
-</div>
-
-<div class="summary-card">
-
-<h3>Open Events</h3>
-
-<h1 id="summaryOpen">0</h1>
-
-</div>
-
-<div class="summary-card">
-
-<h3>Closed Events</h3>
-
-<h1 id="summaryClosed">0</h1>
-
-</div>
-
-<div class="summary-card">
-
-<h3>Last Updated</h3>
-
-<h1 id="lastUpdated">Today</h1>
-
-</div>
-
-</div>
-<!-- ===========================
-RECENT ACTIVITY
+RECENT EVENT ACTIVITY
 =========================== -->
 
 <div class="recent-section">
@@ -350,13 +379,13 @@ RECENT ACTIVITY
 
 <ul id="eventActivity">
 
-<li>Waiting for new events...</li>
+<li>Hackathon registrations opened</li>
 
-<li>Events will appear here automatically.</li>
+<li>AI Workshop venue updated</li>
 
-<li>Latest updates from admin.</li>
+<li>Paper Presentation schedule published</li>
 
-<li>Railway MySQL Connected.</li>
+<li>Ideathon registration closing soon</li>
 
 </ul>
 
@@ -366,26 +395,26 @@ RECENT ACTIVITY
 
 <h2>📅 Upcoming Schedule</h2>
 
-<ul id="upcomingSchedule">
+<ul>
 
 <li>
 Hackathon
-<span>17 Aug 2027</span>
+<span>17 Aug</span>
 </li>
 
 <li>
 AI Workshop
-<span>18 Aug 2027</span>
+<span>18 Aug</span>
 </li>
 
 <li>
 Ideathon
-<span>20 Aug 2027</span>
+<span>20 Aug</span>
 </li>
 
 <li>
 Paper Presentation
-<span>22 Aug 2027</span>
+<span>22 Aug</span>
 </li>
 
 </ul>
@@ -395,36 +424,45 @@ Paper Presentation
 </div>
 
 <!-- ===========================
-QUICK STATISTICS
+EVENT STATISTICS
 =========================== -->
 
-<div class="quick-stats">
+<div class="summary-section">
 
-<div class="stat-box">
+<div class="summary-card">
 
-<h3>Open Events</h3>
+<h3>Total Revenue</h3>
 
-<h1 id="openCount">0</h1>
-
-</div>
-
-<div class="stat-box">
-
-<h3>Closed Events</h3>
-
-<h1 id="closedCount">0</h1>
+<h1 id="eventRevenue">₹0</h1>
 
 </div>
 
-<div class="stat-box">
+<div class="summary-card">
 
-<h3>Total Fees</h3>
+<h3>Registrations</h3>
 
-<h1 id="feeCollection">₹0</h1>
+<h1 id="eventRegistrations">0</h1>
+
+</div>
+
+<div class="summary-card">
+
+<h3>Completed Events</h3>
+
+<h1 id="completedEvents">0</h1>
+
+</div>
+
+<div class="summary-card">
+
+<h3>Upcoming Events</h3>
+
+<h1 id="futureEvents">4</h1>
 
 </div>
 
 </div>
+
 <!-- ===========================
 FOOTER
 =========================== -->
@@ -441,7 +479,7 @@ FOOTER
 
 <p>
 
-Event Management Module | Railway + MySQL
+Event Management Module
 
 </p>
 
@@ -450,10 +488,6 @@ Event Management Module | Railway + MySQL
 </footer>
 
 </div>
-
-<!-- ===========================
-JAVASCRIPT
-=========================== -->
 
 <script src="events.js"></script>
 

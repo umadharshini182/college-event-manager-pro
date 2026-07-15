@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Students | College Event Manager</title>
+
+<link rel="stylesheet" href="admin.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<div id="overlay" class="overlay"></div>
+
+<!-- ===========================
+SIDEBAR
+=========================== -->
+
+<div class="sidebar" id="sidebar">
+
+<div class="sidebar-header">
+
+<h2>🎓 CEM</h2>
+
+<button id="closeSidebar" class="close-btn">
+
+✕
+
+</button>
+
+</div>
+
+<a href="dashboard.html">
+<i class="fa-solid fa-chart-line"></i>
+Dashboard
+</a>
+
+<a href="students.html" class="active">
+<i class="fa-solid fa-users"></i>
+Students
+</a>
+
+<a href="events.html">
+<i class="fa-solid fa-calendar-days"></i>
+Events
+</a>
+
+<a href="payments.html">
+<i class="fa-solid fa-money-bill-wave"></i>
+Payments
+</a>
+
+<a href="certificates.html">
+<i class="fa-solid fa-certificate"></i>
+Certificates
+</a>
+
+<a href="settings.html">
+<i class="fa-solid fa-gear"></i>
+Settings
+</a>
+
+<a href="#" onclick="logout()">
+<i class="fa-solid fa-right-from-bracket"></i>
+Logout
+</a>
+
+</div>
+
+<!-- ===========================
+MAIN
+=========================== -->
+
+<div class="main">
+
+<div class="topbar">
+
+<div class="top-left">
+
+<button id="menuBtn" class="menu-btn">
+
+☰
+
+</button>
+
+<div>
+
+<h1>Student Management</h1>
+
+<p class="welcome">
+
+Manage all registered students
+
+</p>
+
+</div>
+
+</div>
+
+<div class="top-right">
+
+<div class="search-box">
+
+<i class="fa-solid fa-search"></i>
+
+<input
+type="text"
+id="search"
+placeholder="Search Student..."
+onkeyup="searchStudent()">
+
+</div>
+
+</div>
+
+</div>
+<!-- ===========================
+STUDENT SUMMARY
+=========================== -->
+
+<div class="cards">
+
+<div class="card blue">
+
+<i class="fa-solid fa-users"></i>
+
+<h2 id="totalStudents">0</h2>
+
+<p>Total Students</p>
+
+</div>
+
+<div class="card green">
+
+<i class="fa-solid fa-user-check"></i>
+
+<h2 id="presentStudents">0</h2>
+
+<p>Present</p>
+
+</div>
+
+<div class="card red">
+
+<i class="fa-solid fa-user-xmark"></i>
+
+<h2 id="absentStudents">0</h2>
+
+<p>Absent</p>
+
+</div>
+
+<div class="card gold">
+
+<i class="fa-solid fa-award"></i>
+
+<h2 id="studentCertificates">0</h2>
+
+<p>Certificates</p>
+
+</div>
+
+</div>
+
+<!-- ===========================
+STUDENT TABLE
+=========================== -->
+
+<div class="table-container">
+
+<div class="table-header">
+
+<h2>🎓 Registered Students</h2>
+
+<select id="eventFilter">
+
+<option value="">All Events</option>
+
+<option>Hackathon</option>
+
+<option>AI Workshop</option>
+
+<option>Ideathon</option>
+
+<option>Paper Presentation</option>
+
+</select>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+
+<th>Name</th>
+
+<th>Email</th>
+
+<th>College</th>
+
+<th>Department</th>
+
+<th>Year</th>
+
+<th>Event</th>
+
+<th>Attendance</th>
+
+<th>Certificate</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="studentTable">
+
+<!-- Loaded by students.js -->
+
+</tbody>
+
+</table>
+
+</div>
+
+<!-- ===========================
+QUICK ACTIONS
+=========================== -->
+
+<div class="summary-section">
+
+<div class="summary-card">
+
+<h3>Present Today</h3>
+
+<h1 id="todayPresent">0</h1>
+
+</div>
+
+<div class="summary-card">
+
+<h3>Certificates Issued</h3>
+
+<h1 id="issuedCertificates">0</h1>
+
+</div>
+
+<div class="summary-card">
+
+<h3>Registered Colleges</h3>
+
+<h1 id="collegeCount">0</h1>
+
+</div>
+
+<div class="summary-card">
+
+<h3>Events Conducted</h3>
+
+<h1 id="eventCount">4</h1>
+
+</div>
+
+</div>
+<!-- ===========================
+STUDENT SUMMARY
+=========================== -->
+
+<div class="cards">
+
+<div class="card blue">
+
+<i class="fa-solid fa-users"></i>
+
+<h2 id="totalStudents">0</h2>
+
+<p>Total Students</p>
+
+</div>
+
+<div class="card green">
+
+<i class="fa-solid fa-user-check"></i>
+
+<h2 id="presentStudents">0</h2>
+
+<p>Present</p>
+
+</div>
+
+<div class="card red">
+
+<i class="fa-solid fa-user-xmark"></i>
+
+<h2 id="absentStudents">0</h2>
+
+<p>Absent</p>
+
+</div>
+
+<div class="card gold">
+
+<i class="fa-solid fa-award"></i>
+
+<h2 id="studentCertificates">0</h2>
+
+<p>Certificates</p>
+
+</div>
+
+</div>
+
+<!-- ===========================
+STUDENT TABLE
+=========================== -->
+
+<div class="table-container">
+
+<div class="table-header">
+
+<h2>🎓 Registered Students</h2>
+
+<select id="eventFilter">
+
+<option value="">All Events</option>
+
+<option>Hackathon</option>
+
+<option>AI Workshop</option>
+
+<option>Ideathon</option>
+
+<option>Paper Presentation</option>
+
+</select>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+
+<th>Name</th>
+
+<th>Email</th>
+
+<th>College</th>
+
+<th>Department</th>
+
+<th>Year</th>
+
+<th>Event</th>
+
+<th>Attendance</th>
+
+<th>Certificate</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="studentTable">
+
+<!-- Loaded by students.js -->
+
+</tbody>
+
+</table>
+
+</div>
+
+<!-- ===========================
+QUICK ACTIONS
+=========================== -->
+
+<div class="summary-section">
+
+<div class="summary-card">
+
+<h3>Present Today</h3>
+
+<h1 id="todayPresent">0</h1>
+
+</div>
+
+<div class="summary-card">
+
+<h3>Certificates Issued</h3>
+
+<h1 id="issuedCertificates">0</h1>
+
+</div>
+
+<div class="summary-card">
+
+<h3>Registered Colleges</h3>
+
+<h1 id="collegeCount">0</h1>
+
+</div>
+
+<div class="summary-card">
+
+<h3>Events Conducted</h3>
+
+<h1 id="eventCount">4</h1>
+
+</div>
+
+</div>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Payments | College Event Manager</title>
+
+<link rel="stylesheet" href="admin.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<div id="overlay" class="overlay"></div>
+
+<!-- ===========================
+SIDEBAR
+=========================== -->
+
+<div class="sidebar" id="sidebar">
+
+<div class="sidebar-header">
+
+<h2>🎓 CEM</h2>
+
+<button id="closeSidebar" class="close-btn">
+✕
+</button>
+
+</div>
+
+<a href="dashboard.html">
+<i class="fa-solid fa-chart-line"></i>
+Dashboard
+</a>
+
+<a href="students.html">
+<i class="fa-solid fa-users"></i>
+Students
+</a>
+
+<a href="events.html">
+<i class="fa-solid fa-calendar-days"></i>
+Events
+</a>
+
+<a href="payments.html" class="active">
+<i class="fa-solid fa-money-bill-wave"></i>
+Payments
+</a>
+
+<a href="certificates.html">
+<i class="fa-solid fa-certificate"></i>
+Certificates
+</a>
+
+<a href="settings.html">
+<i class="fa-solid fa-gear"></i>
+Settings
+</a>
+
+<a href="#" onclick="logout()">
+<i class="fa-solid fa-right-from-bracket"></i>
+Logout
+</a>
+
+</div>
+
+<!-- ===========================
+MAIN
+=========================== -->
+
+<div class="main">
+
+<div class="topbar">
+
+<div class="top-left">
+
+<button id="menuBtn" class="menu-btn">
+
+☰
+
+</button>
+
+<div>
+
+<h1>Payment Management</h1>
+
+<p class="welcome">
+
+Manage all payment transactions
+
+</p>
+
+</div>
+
+</div>
+
+<div class="top-right">
+
+<div class="search-box">
+
+<i class="fa-solid fa-search"></i>
+
+<input
+type="text"
+id="paymentSearch"
+placeholder="Search Payment...">
+
+</div>
+
+</div>
+
+</div>
+<!-- ===========================
+PAYMENT SUMMARY
+=========================== -->
+
+<div class="cards">
+
+<div class="card green">
+
+<i class="fa-solid fa-indian-rupee-sign"></i>
+
+<h2 id="totalRevenue">₹0</h2>
+
+<p>Total Revenue</p>
+
+</div>
+
+<div class="card blue">
+
+<i class="fa-solid fa-circle-check"></i>
+
+<h2 id="paidPayments">0</h2>
+
+<p>Paid Payments</p>
+
+</div>
+
+<div class="card red">
+
+<i class="fa-solid fa-clock"></i>
+
+<h2 id="pendingPayments">0</h2>
+
+<p>Pending Payments</p>
+
+</div>
+
+<div class="card purple">
+
+<i class="fa-solid fa-file-invoice-dollar"></i>
+
+<h2 id="todayRevenue">₹0</h2>
+
+<p>Today's Revenue</p>
+
+</div>
+
+</div>
+
+<!-- ===========================
+PAYMENT TABLE
+=========================== -->
+
+<div class="table-container">
+
+<div class="table-header">
+
+<h2>💳 Payment History</h2>
+
+<select id="paymentFilter">
+
+<option value="">All Payments</option>
+
+<option value="Paid">Paid</option>
+
+<option value="Pending">Pending</option>
+
+</select>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+
+<th>Student</th>
+
+<th>Email</th>
+
+<th>Event</th>
+
+<th>Amount</th>
+
+<th>Status</th>
+
+<th>Date</th>
+
+<th>Receipt</th>
+
+</tr>
+
+</thead>
+
+<tbody id="paymentTable">
+
+<tr>
+
+<td>1</td>
+
+<td>Uma Dharshini</td>
+
+<td>uma@gmail.com</td>
+
+<td>Hackathon</td>
+
+<td>₹1000</td>
+
+<td>
+
+<span class="paid">
+
+Paid
+
+</span>
+
+</td>
+
+<td>17 Aug 2027</td>
+
+<td>
+
+<button class="action-btn certificate-btn">
+
+<i class="fa-solid fa-download"></i>
+
+Receipt
+
+</button>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>2</td>
+
+<td>Arun Kumar</td>
+
+<td>arun@gmail.com</td>
+
+<td>AI Workshop</td>
+
+<td>₹800</td>
+
+<td>
+
+<span class="pending">
+
+Pending
+
+</span>
+
+</td>
+
+<td>18 Aug 2027</td>
+
+<td>
+
+<button class="action-btn present-btn">
+
+<i class="fa-solid fa-eye"></i>
+
+View
+
+</button>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+<!-- ===========================
+REVENUE ANALYTICS
+=========================== -->
+
+<div class="summary-section">
+
+<div class="summary-card">
+
+<h3>Total Transactions</h3>
+
+<h1 id="transactionCount">0</h1>
+
+</div>
+
+<div class="summary-card">
+
+<h3>Highest Payment</h3>
+
+<h1 id="highestPayment">₹1000</h1>
+
+</div>
+
+<div class="summary-card">
+
+<h3>Average Payment</h3>
+
+<h1 id="averagePayment">₹1000</h1>
+
+</div>
+
+<div class="summary-card">
+
+<h3>Today's Transactions</h3>
+
+<h1 id="todayTransactions">0</h1>
+
+</div>
+
+</div>
+
+<!-- ===========================
+RECENT PAYMENT ACTIVITY
+=========================== -->
+
+<div class="recent-section">
+
+<div class="recent-card">
+
+<h2>💳 Recent Payments</h2>
+
+<ul id="paymentActivity">
+
+<li>Payment received for Hackathon</li>
+
+<li>AI Workshop payment pending</li>
+
+<li>Receipt downloaded successfully</li>
+
+<li>Payment verified by Admin</li>
+
+</ul>
+
+</div>
+
+<div class="recent-card">
+
+<h2>📈 Revenue Report</h2>
+
+<ul>
+
+<li>
+Today's Revenue
+<span id="todayRevenueReport">₹0</span>
+</li>
+
+<li>
+This Week
+<span id="weekRevenue">₹0</span>
+</li>
+
+<li>
+This Month
+<span id="monthRevenue">₹0</span>
+</li>
+
+<li>
+Overall Revenue
+<span id="overallRevenue">₹0</span>
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+<!-- ===========================
+FOOTER
+=========================== -->
+
+<footer>
+
+<div class="footer-content">
+
+<p>
+
+© 2027 College Event Manager
+
+</p>
+
+<p>
+
+Payment Management Module
+
+</p>
+
+</div>
+
+</footer>
+
+</div>
+
+<script src="payments.js"></script>
+
+</body>
+
+</html>
