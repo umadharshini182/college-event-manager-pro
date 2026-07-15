@@ -112,7 +112,7 @@ function updateCards(){
     document.getElementById("upcomingEvents").innerText =
     events.length;
     const participants =
-document.getElementById("participants");
+document.getElementById("totalParticipants");
 
 if(participants){
 
@@ -137,6 +137,15 @@ if(participants){
         revenueBox.innerText = "₹" + revenue;
 
     }
+
+}
+const registrations =
+document.getElementById("eventRegistrations");
+
+if(registrations){
+
+    registrations.innerText =
+    students.length;
 
 }
 
