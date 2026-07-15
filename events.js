@@ -3,8 +3,8 @@
 // EVENTS.JS
 // Railway + MySQL Version
 // ======================================================
-
 let events = [];
+let students = [];
 let editingId = null;
 
 // ======================================================
@@ -60,18 +60,25 @@ async function checkLogin(){
 // ======================================================
 // LOAD EVENTS
 // ======================================================
-
 async function loadEvents(){
 
     try{
 
-        const response = await fetch("/events",{
+        const eventResponse = await fetch("/events",{
 
             credentials:"include"
 
         });
 
-        events = await response.json();
+        events = await eventResponse.json();
+
+        const studentResponse = await fetch("/students",{
+
+            credentials:"include"
+
+        });
+
+        students = await studentResponse.json();
 
         updateCards();
 
@@ -86,6 +93,7 @@ async function loadEvents(){
     }
 
 }
+
 // ======================================================
 // UPDATE DASHBOARD CARDS
 // ======================================================
@@ -103,6 +111,15 @@ function updateCards(){
 
     document.getElementById("upcomingEvents").innerText =
     events.length;
+    const participants =
+document.getElementById("participants");
+
+if(participants){
+
+    participants.innerText =
+    students.length;
+
+}
 
     let revenue = 0;
 
