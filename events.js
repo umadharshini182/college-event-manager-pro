@@ -185,6 +185,11 @@ function loadTable(){
 <td>${event.venue}</td>
 
 <td>₹${event.fee}</td>
+<td>
+
+${students.filter(s => s.event === event.event_name).length}
+
+</td>
 
 
 <td>
