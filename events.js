@@ -186,21 +186,6 @@ function loadTable(){
 
 <td>₹${event.fee}</td>
 
-<td>
-
-<span class="${
-event.status==="Open"
-?
-"paid"
-:
-"pending"
-}">
-
-${event.status}
-
-</span>
-
-</td>
 
 <td>
 
