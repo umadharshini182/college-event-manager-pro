@@ -488,13 +488,13 @@ topCollege;
 // ======================================================
 // PROFESSIONAL STUDENT TABLE
 // ======================================================
-
 function loadTable(){
 
-const tbody =
-document.getElementById("studentTable");
+const tbody = document.getElementById("studentTable");
 
 if(!tbody){
+
+console.log("studentTable not found");
 
 return;
 
@@ -502,39 +502,15 @@ return;
 
 tbody.innerHTML = "";
 
-if(students.length===0){
-
-tbody.innerHTML=`
-
-<tr>
-
-<td colspan="12" style="text-align:center;padding:30px;">
-
-No registrations found.
-
-</td>
-
-</tr>
-
-`;
-
-return;
-
-}
-
 students.forEach(student=>{
 
-tbody.innerHTML += `
+const row = document.createElement("tr");
 
-<tr>
+row.innerHTML = `
 
-<td>#${student.id}</td>
+<td>${student.id}</td>
 
-<td>
-
-<strong>${student.fullname}</strong>
-
-</td>
+<td>${student.fullname}</td>
 
 <td>${student.email}</td>
 
@@ -544,99 +520,20 @@ tbody.innerHTML += `
 
 <td>${student.year}</td>
 
-<td>
+<td>${student.event}</td>
 
-<span class="event-badge">
+<td>${student.payment_status}</td>
 
-${student.event}
+<td>₹${student.amount}</td>
 
-</span>
+<td>${student.attendance}</td>
 
-</td>
-
-<td>
-
-<span class="${
-student.payment_status==="Paid"
-?
-"paid"
-:
-"pending"
-}">
-
-${student.payment_status}
-
-</span>
-
-</td>
-
-<td>
-
-₹${student.amount}
-
-</td>
+<td>${student.certificate_id || "-"}</td>
 
 <td>
 
 <button
-
-class="${
-student.attendance==="Present"
-?
-"action-btn present-btn"
-:
-"action-btn warning-btn"
-}"
-
-onclick="markAttendance(${student.id})">
-
-${
-student.attendance==="Present"
-?
-"Present"
-:
-"Mark"
-}
-
-</button>
-
-</td>
-
-<td>
-
-${
-student.certificate_id
-
-?
-
-`<button
-class="action-btn certificate-btn"
-onclick="viewCertificate(${student.id})">
-
-View
-
-</button>`
-
-:
-
-`<button
-class="action-btn disabled-btn"
-disabled>
-
-Not Generated
-
-</button>`
-
-}
-
-</td>
-
-<td>
-
-<button
-
 class="action-btn delete-btn"
-
 onclick="deleteStudent(${student.id})">
 
 Delete
@@ -645,13 +542,16 @@ Delete
 
 </td>
 
-</tr>
-
 `;
+
+tbody.appendChild(row);
 
 });
 
+console.log("Rows Added:", tbody.rows.length);
+
 }
+
 // ======================================================
 // SEARCH STUDENT
 // ======================================================
