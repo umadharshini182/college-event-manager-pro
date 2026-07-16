@@ -219,9 +219,6 @@ function updateDashboard() {
             student.createdAt.startsWith(today)
         );
 
-    document.getElementById("todayRegistrations").innerText =
-    students.length;
-
     // ==================================================
     // Today's Revenue
     // ==================================================
@@ -244,8 +241,7 @@ function updateDashboard() {
             s => s.attendance === "Present"
         ).length;
 
-    document.getElementById("attendanceCount").innerText =
-        attendance;
+    
 
     // ==================================================
     // Certificates
@@ -259,8 +255,6 @@ function updateDashboard() {
     document.getElementById("certificateCount").innerText =
         certificates;
 
-    document.getElementById("certificateGenerated").innerText =
-        certificates;
     }
 // ======================================================
 // STUDENT TABLE
