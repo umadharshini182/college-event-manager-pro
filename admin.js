@@ -709,7 +709,15 @@ credentials:"include"
 const data =
 await response.json();
 
-alert(data.message);
+if(data.success){
+
+alert("Attendance marked successfully.");
+
+}else{
+
+alert("Unable to mark attendance.");
+
+}
 
 loadDashboard();
 
@@ -786,7 +794,15 @@ credentials:"include"
 const data =
 await response.json();
 
-alert(data.message);
+if(data.success){
+
+alert("Student deleted successfully.");
+
+}else{
+
+alert("Unable to delete student.");
+
+}
 
 loadDashboard();
 

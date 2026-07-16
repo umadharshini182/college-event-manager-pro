@@ -310,6 +310,7 @@ function clearForm(){
 // ======================================================
 
 function editEvent(id){
+    alert("Edit clicked: " + id);
 
     const event = events.find(e => e.id == id);
 
