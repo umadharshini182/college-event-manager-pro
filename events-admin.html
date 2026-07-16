@@ -4,8 +4,7 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Events | College Event Manager</title>
 
@@ -36,7 +35,7 @@ SIDEBAR
 
 </div>
 
-<a href="admin.html">
+<a href="dashboard.html">
 <i class="fa-solid fa-chart-line"></i>
 Dashboard
 </a>
@@ -74,9 +73,7 @@ MAIN
 <div class="top-left">
 
 <button id="menuBtn" class="menu-btn">
-
 ☰
-
 </button>
 
 <div>
@@ -93,19 +90,8 @@ Create and manage college events
 
 </div>
 
-<div class="top-right">
-
-<button class="action-btn present-btn">
-
-<i class="fa-solid fa-plus"></i>
-
-Add Event
-
-</button>
-
 </div>
 
-</div>
 <!-- ===========================
 EVENT SUMMARY
 =========================== -->
@@ -119,16 +105,6 @@ EVENT SUMMARY
 <h2 id="totalEvents">4</h2>
 
 <p>Total Events</p>
-
-</div>
-
-<div class="card green">
-
-<i class="fa-solid fa-users"></i>
-
-<h2 id="totalParticipants">0</h2>
-
-<p>Total Participants</p>
 
 </div>
 
@@ -153,9 +129,8 @@ EVENT SUMMARY
 </div>
 
 </div>
-
 <!-- ===========================
-ADD EVENT FORM
+CREATE EVENT
 =========================== -->
 
 <div class="table-container">
@@ -164,7 +139,7 @@ ADD EVENT FORM
 
 <br>
 
-<div class="cards">
+<div class="event-form">
 
 <div>
 
@@ -194,7 +169,7 @@ id="eventDate">
 <input
 type="text"
 id="eventVenue"
-placeholder="Venue">
+placeholder="Enter Venue">
 
 </div>
 
@@ -206,6 +181,9 @@ placeholder="Venue">
 type="number"
 id="eventFee"
 placeholder="1000">
+
+</div>
+
 <div>
 
 <label>Status</label>
@@ -222,11 +200,10 @@ placeholder="1000">
 
 </div>
 
-</div>
-
 <br>
 
-<button class="action-btn present-btn">
+<button
+class="action-btn present-btn save-btn">
 
 <i class="fa-solid fa-floppy-disk"></i>
 
@@ -248,8 +225,8 @@ EVENT TABLE
 
 <input
 type="text"
-placeholder="Search Event..."
-id="searchEvent">
+id="searchEvent"
+placeholder="Search Event...">
 
 </div>
 
@@ -269,8 +246,6 @@ id="searchEvent">
 
 <th>Fee</th>
 
-<th>Participants</th>
-
 <th>Action</th>
 
 </tr>
@@ -278,8 +253,7 @@ id="searchEvent">
 </thead>
 
 <tbody id="eventTable">
-
-<tr>
+    <tr>
 
 <td>1</td>
 
@@ -290,18 +264,6 @@ id="searchEvent">
 <td>Main Auditorium</td>
 
 <td>₹1000</td>
-
-<td>120</td>
-
-<td>
-
-<span class="paid">
-
-Open
-
-</span>
-
-</td>
 
 <td>
 
@@ -333,17 +295,65 @@ Delete
 
 <td>₹800</td>
 
-<td>80</td>
+<td>
+
+<button class="action-btn certificate-btn">
+
+Edit
+
+</button>
+
+<button class="action-btn delete-btn">
+
+Delete
+
+</button>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>3</td>
+
+<td>Ideathon</td>
+
+<td>20 Aug 2027</td>
+
+<td>Conference Hall</td>
+
+<td>₹500</td>
 
 <td>
 
-<span class="paid">
+<button class="action-btn certificate-btn">
 
-Open
+Edit
 
-</span>
+</button>
+
+<button class="action-btn delete-btn">
+
+Delete
+
+</button>
 
 </td>
+
+</tr>
+
+<tr>
+
+<td>4</td>
+
+<td>Paper Presentation</td>
+
+<td>22 Aug 2027</td>
+
+<td>Seminar Hall 2</td>
+
+<td>₹300</td>
 
 <td>
 
@@ -368,6 +378,7 @@ Delete
 </table>
 
 </div>
+
 <!-- ===========================
 RECENT EVENT ACTIVITY
 =========================== -->
@@ -382,11 +393,11 @@ RECENT EVENT ACTIVITY
 
 <li>Hackathon registrations opened</li>
 
-<li>AI Workshop venue updated</li>
+<li>AI Workshop schedule updated</li>
 
-<li>Paper Presentation schedule published</li>
+<li>Paper Presentation announced</li>
 
-<li>Ideathon registration closing soon</li>
+<li>Ideathon registrations started</li>
 
 </ul>
 
@@ -423,7 +434,6 @@ Paper Presentation
 </div>
 
 </div>
-
 <!-- ===========================
 EVENT STATISTICS
 =========================== -->
@@ -440,7 +450,7 @@ EVENT STATISTICS
 
 <div class="summary-card">
 
-<h3>Registrations</h3>
+<h3>Total Registrations</h3>
 
 <h1 id="eventRegistrations">0</h1>
 
@@ -480,7 +490,7 @@ FOOTER
 
 <p>
 
-Event Management Module
+Professional Event Management Module
 
 </p>
 
