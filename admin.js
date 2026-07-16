@@ -241,7 +241,8 @@ function updateDashboard() {
             s => s.attendance === "Present"
         ).length;
 
-    
+    document.getElementById("attendanceCount").innerText =
+attendance;
 
     // ==================================================
     // Certificates
@@ -255,20 +256,32 @@ function updateDashboard() {
     document.getElementById("certificateCount").innerText =
         certificates;
 
+document.getElementById("certificateGenerated").innerText =
+certificates;
     }
+
 // ======================================================
 // STUDENT TABLE
 // ======================================================
 
-function loadTable() {
+function loadTable(){
 
-    const tbody = document.getElementById("studentTable");
+const tbody =
+document.getElementById("studentTable");
 
-    tbody.innerHTML = "";
+if(!tbody){
 
-    students.forEach(student => {
+console.error("studentTable not found");
 
-        tbody.innerHTML += `
+return;
+
+}
+
+tbody.innerHTML = "";
+
+students.forEach(student=>{
+
+tbody.innerHTML += `
 
 <tr>
 
@@ -289,11 +302,15 @@ function loadTable() {
 <td>
 
 <span class="${
-student.payment_status === "Paid"
-? "paid"
-: "pending"
+student.payment_status==="Paid"
+?
+"paid"
+:
+"pending"
 }">
+
 ${student.payment_status}
+
 </span>
 
 </td>
@@ -303,33 +320,18 @@ ${student.payment_status}
 <td>
 
 ${
-student.attendance === "Present"
+student.attendance==="Present"
 ?
-
 '<span style="color:green;font-weight:bold;">Present</span>'
-
 :
-
 '<span style="color:red;font-weight:bold;">Absent</span>'
-
 }
 
 </td>
 
 <td>
 
-${
-student.certificate_id
-
-?
-
-student.certificate_id
-
-:
-
-"-"
-
-}
+${student.certificate_id || "-"}
 
 </td>
 
@@ -365,10 +367,9 @@ Delete
 
 `;
 
-    });
+});
 
 }
-
 // ======================================================
 // SEARCH
 // ======================================================
