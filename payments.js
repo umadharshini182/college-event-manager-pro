@@ -170,7 +170,7 @@ function updatePaymentSummary(){
     "₹"+average;
 
     document.getElementById("todayTransactions").innerText =
-    todayPayments.length;
+payments.length;
 
 }
 
@@ -419,7 +419,11 @@ function updateRevenue(){
 
     });
 
-    document.getElementById("todayRevenue").innerText = "₹"+total;
+    document.getElementById("todayRevenue").innerText =
+"₹"+total;
+
+document.getElementById("todayRevenueReport").innerText =
+"₹"+total;
     document.getElementById("weekRevenue").innerText = "₹"+total;
     document.getElementById("monthRevenue").innerText = "₹"+total;
     document.getElementById("overallRevenue").innerText = "₹"+total;
