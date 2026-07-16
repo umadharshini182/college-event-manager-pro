@@ -3,53 +3,73 @@
 // SETTINGS.JS
 // ======================================================
 
+// Sidebar Elements
+
+const sidebar =
+document.getElementById("sidebar");
+
+const menuBtn =
+document.getElementById("menuBtn");
+
+const closeBtn =
+document.getElementById("closeSidebar");
+
+const overlay =
+document.getElementById("overlay");
+
 // ======================================================
 // PAGE LOAD
 // ======================================================
 
-window.addEventListener("load", () => {
+window.addEventListener("load",()=>{
 
-    checkLogin();
+initializeSidebar();
 
-    initializeSidebar();
-
-    loadSettings();
+loadSettings();
 
 });
 
 // ======================================================
-// LOGIN CHECK
+// SIDEBAR
 // ======================================================
 
-async function checkLogin(){
+function initializeSidebar(){
 
-    try{
+if(menuBtn){
 
-        const response = await fetch("/api/current-user",{
+menuBtn.onclick=()=>{
 
-            credentials:"include"
+sidebar.classList.add("active");
 
-        });
+overlay.classList.add("show");
 
-        const data = await response.json();
+};
 
-        if(!data.loggedIn){
+}
 
-            window.location.href="admin-login.html";
+if(closeBtn){
 
-            return;
+closeBtn.onclick=()=>{
 
-        }
+sidebar.classList.remove("active");
 
-    }
+overlay.classList.remove("show");
 
-    catch(err){
+};
 
-        console.log(err);
+}
 
-        window.location.href="admin-login.html";
+if(overlay){
 
-    }
+overlay.onclick=()=>{
+
+sidebar.classList.remove("active");
+
+overlay.classList.remove("show");
+
+};
+
+}
 
 }
 
@@ -59,239 +79,177 @@ async function checkLogin(){
 
 function loadSettings(){
 
-    document.getElementById("adminName").value =
-    localStorage.getItem("adminName") || "Administrator";
+document.getElementById("theme").value =
+localStorage.getItem("theme") || "Light Mode";
 
-    document.getElementById("adminEmail").value =
-    localStorage.getItem("adminEmail") || "admin@gmail.com";
+document.getElementById("notification").value =
+localStorage.getItem("notification") || "Enabled";
 
-    document.getElementById("adminPhone").value =
-    localStorage.getItem("adminPhone") || "";
+document.getElementById("certificate").value =
+localStorage.getItem("certificate") || "Enabled";
 
-    document.getElementById("collegeName").value =
-    localStorage.getItem("collegeName") ||
-    "ABC Engineering College";
+document.getElementById("accountStatus").value =
+localStorage.getItem("accountStatus") || "Active";
 
 }
 // ======================================================
-// SAVE PROFILE
+// SAVE SETTINGS
 // ======================================================
 
-function saveProfile(){
+const saveButton =
+document.querySelector(".save-btn");
 
-    localStorage.setItem(
-        "adminName",
-        document.getElementById("adminName").value
-    );
+if(saveButton){
 
-    localStorage.setItem(
-        "adminEmail",
-        document.getElementById("adminEmail").value
-    );
-
-    localStorage.setItem(
-        "adminPhone",
-        document.getElementById("adminPhone").value
-    );
-
-    localStorage.setItem(
-        "collegeName",
-        document.getElementById("collegeName").value
-    );
-
-    alert("Profile Saved Successfully");
+saveButton.onclick = saveSettings;
 
 }
 
-// ======================================================
-// CHANGE PASSWORD
-// ======================================================
+function saveSettings(){
 
-function changePassword(){
+const newPassword =
+document.getElementById("newPassword").value;
 
-    const current =
-    document.getElementById("currentPassword").value;
+const confirmPassword =
+document.getElementById("confirmPassword").value;
 
-    const newPass =
-    document.getElementById("newPassword").value;
+// Password Validation
 
-    const confirm =
-    document.getElementById("confirmPassword").value;
+if(newPassword!=="" || confirmPassword!==""){
 
-    if(current===""){
+if(newPassword!==confirmPassword){
 
-        alert("Enter Current Password");
+alert("Passwords do not match.");
 
-        return;
-
-    }
-
-    if(newPass===""){
-
-        alert("Enter New Password");
-
-        return;
-
-    }
-
-    if(newPass!==confirm){
-
-        alert("Passwords do not match");
-
-        return;
-
-    }
-
-    alert("Password Changed Successfully");
-
-    document.getElementById("currentPassword").value="";
-
-    document.getElementById("newPassword").value="";
-
-    document.getElementById("confirmPassword").value="";
+return;
 
 }
 
-// ======================================================
-// DARK MODE
-// ======================================================
-
-const darkMode =
-document.getElementById("darkMode");
-
-if(darkMode){
-
-darkMode.onchange=function(){
-
-if(this.checked){
-
-document.body.classList.add("dark");
-
 }
 
-else{
-
-document.body.classList.remove("dark");
-
-}
-
-};
-
-}
-
-// ======================================================
-// NOTIFICATIONS
-// ======================================================
-
-const notifications =
-document.getElementById("notifications");
-
-if(notifications){
-
-notifications.onchange=function(){
+// Save Settings
 
 localStorage.setItem(
 
-"notifications",
+"theme",
 
-this.checked
+document.getElementById("theme").value
+
+);
+
+localStorage.setItem(
+
+"notification",
+
+document.getElementById("notification").value
+
+);
+
+localStorage.setItem(
+
+"certificate",
+
+document.getElementById("certificate").value
+
+);
+
+localStorage.setItem(
+
+"accountStatus",
+
+document.getElementById("accountStatus").value
+
+);
+
+// Save Password (Demo Only)
+
+if(newPassword!=""){
+
+localStorage.setItem(
+
+"adminPassword",
+
+newPassword
+
+);
+
+}
+
+// Profile Image
+
+const profileImage =
+
+document.getElementById("profileImage");
+
+if(profileImage.files.length>0){
+
+const reader = new FileReader();
+
+reader.onload=function(e){
+
+localStorage.setItem(
+
+"profileImage",
+
+e.target.result
 
 );
 
 };
 
-}
-
-const emailAlerts =
-document.getElementById("emailAlerts");
-
-if(emailAlerts){
-
-emailAlerts.onchange=function(){
-
-localStorage.setItem(
-
-"emailAlerts",
-
-this.checked
-
-);
-
-};
+reader.readAsDataURL(profileImage.files[0]);
 
 }
 
-const backup =
-document.getElementById("backup");
-
-if(backup){
-
-backup.onchange=function(){
-
-localStorage.setItem(
-
-"backup",
-
-this.checked
-
-);
-
-};
+alert("Settings saved successfully.");
 
 }
 // ======================================================
-// SIDEBAR
+// LOAD PROFILE IMAGE
 // ======================================================
 
-function initializeSidebar(){
+window.addEventListener("load",()=>{
 
-    const sidebar =
-    document.getElementById("sidebar");
+const savedImage =
+localStorage.getItem("profileImage");
 
-    const menuBtn =
-    document.getElementById("menuBtn");
+if(savedImage){
 
-    const closeBtn =
-    document.getElementById("closeSidebar");
+const preview =
+document.getElementById("profilePreview");
 
-    const overlay =
-    document.getElementById("overlay");
+if(preview){
 
-    if(menuBtn){
+preview.src = savedImage;
 
-        menuBtn.onclick = () => {
+}
 
-            sidebar.classList.add("active");
+}
 
-            overlay.classList.add("show");
+});
 
-        };
+// ======================================================
+// THEME
+// ======================================================
 
-    }
+const theme =
+document.getElementById("theme");
 
-    if(closeBtn){
+if(theme){
 
-        closeBtn.onclick = () => {
+theme.onchange=()=>{
 
-            sidebar.classList.remove("active");
+if(theme.value==="Dark Mode"){
 
-            overlay.classList.remove("show");
+document.body.classList.add("dark-mode");
 
-        };
+}else{
 
-    }
+document.body.classList.remove("dark-mode");
 
-    if(overlay){
+}
 
-        overlay.onclick = () => {
-
-            sidebar.classList.remove("active");
-
-            overlay.classList.remove("show");
-
-        };
-
-    }
+};
 
 }
 
@@ -301,73 +259,32 @@ function initializeSidebar(){
 
 function logout(){
 
-    if(!confirm("Logout from Admin Dashboard?")){
+if(confirm("Logout from Admin Dashboard?")){
 
-        return;
+fetch("/logout",{
 
-    }
+credentials:"include"
 
-    fetch("/logout",{
+})
+.then(()=>{
 
-        credentials:"include"
+window.location.href="admin-login.html";
 
-    })
-    .then(()=>{
+});
 
-        window.location.href="admin-login.html";
-
-    });
+}
 
 }
 
 // ======================================================
-// AUTO SAVE (Optional)
+// AUTO SAVE (OPTIONAL)
 // ======================================================
 
 setInterval(()=>{
 
-    localStorage.setItem(
-        "notifications",
-        document.getElementById("notifications")?.checked || false
-    );
-
-    localStorage.setItem(
-        "emailAlerts",
-        document.getElementById("emailAlerts")?.checked || false
-    );
-
-    localStorage.setItem(
-        "backup",
-        document.getElementById("backup")?.checked || false
-    );
+console.log("Settings Ready");
 
 },30000);
-
-// ======================================================
-// BUTTON EVENTS
-// ======================================================
-
-document.addEventListener("DOMContentLoaded",()=>{
-
-    const saveBtn =
-    document.querySelector(".present-btn");
-
-    if(saveBtn){
-
-        saveBtn.addEventListener("click",saveProfile);
-
-    }
-
-    const passwordBtn =
-    document.querySelector(".certificate-btn");
-
-    if(passwordBtn){
-
-        passwordBtn.addEventListener("click",changePassword);
-
-    }
-
-});
 
 // ======================================================
 // END OF SETTINGS.JS
