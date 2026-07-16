@@ -52,17 +52,16 @@ async function checkLogin() {
     }
 
 }
-
 // ======================================================
 // LOAD PAYMENTS
 // ======================================================
 
-async function loadPayments() {
+async function loadPayments(){
 
-    try {
+    try{
 
-        const response = await fetch("/students", {
-            credentials: "include"
+        const response = await fetch("/students",{
+            credentials:"include"
         });
 
         payments = await response.json();
@@ -71,9 +70,13 @@ async function loadPayments() {
 
         loadPaymentTable();
 
+        updateRevenue();
+
+        updateRecentPayments();
+
     }
 
-    catch (err) {
+    catch(err){
 
         console.log(err);
 
@@ -407,7 +410,48 @@ setInterval(()=>{
     loadPayments();
 
 },30000);
+function updateRevenue(){
+     let total = 0;
 
+    payments.forEach(payment=>{
+
+        total += Number(payment.amount || 0);
+
+    });
+
+    document.getElementById("todayRevenue").innerText = "₹"+total;
+    document.getElementById("weekRevenue").innerText = "₹"+total;
+    document.getElementById("monthRevenue").innerText = "₹"+total;
+    document.getElementById("overallRevenue").innerText = "₹"+total;
+
+}
+function updateRecentPayments(){
+
+    const recent =
+    document.getElementById("recentPayments");
+
+    if(!recent) return;
+
+    recent.innerHTML = "";
+
+    payments
+    .slice()
+    .reverse()
+    .forEach(payment=>{
+
+        recent.innerHTML += `
+
+<li>
+
+${payment.fullname} paid ₹${payment.amount} for ${payment.event}
+
+</li>
+
+`;
+
+    });
+
+}
 // ======================================================
 // END OF PAYMENTS.JS
 // ======================================================
