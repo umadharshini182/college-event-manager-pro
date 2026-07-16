@@ -88,9 +88,6 @@ localStorage.getItem("notification") || "Enabled";
 document.getElementById("certificate").value =
 localStorage.getItem("certificate") || "Enabled";
 
-document.getElementById("accountStatus").value =
-localStorage.getItem("accountStatus") || "Active";
-
 }
 // ======================================================
 // SAVE SETTINGS
@@ -128,14 +125,6 @@ return;
 }
 
 // Save Settings
-
-localStorage.setItem(
-
-"theme",
-
-document.getElementById("theme").value
-
-);
 
 localStorage.setItem(
 
@@ -231,11 +220,16 @@ preview.src = savedImage;
 // ======================================================
 // THEME
 // ======================================================
-
 const theme =
 document.getElementById("theme");
 
 if(theme){
+
+if(theme.value==="Dark Mode"){
+
+document.body.classList.add("dark-mode");
+
+}
 
 theme.onchange=()=>{
 
@@ -252,6 +246,7 @@ document.body.classList.remove("dark-mode");
 };
 
 }
+
 
 // ======================================================
 // LOGOUT
