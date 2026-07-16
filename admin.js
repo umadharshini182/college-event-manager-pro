@@ -219,7 +219,7 @@ function updateDashboard() {
         );
 
     document.getElementById("todayRegistrations").innerText =
-        todayStudents.length;
+    students.length;
 
     // ==================================================
     // Today's Revenue
@@ -232,7 +232,7 @@ function updateDashboard() {
         );
 
     document.getElementById("todayRevenue").innerText =
-        "₹" + todayRevenue;
+    "₹" + revenue;
 
     // ==================================================
     // Attendance
