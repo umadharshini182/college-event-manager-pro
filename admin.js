@@ -78,9 +78,13 @@ await fetch("/students",{
 credentials:"include"
 
 });
+students = await response.json();
 
-students =
-await response.json();
+if(!Array.isArray(students)){
+
+students = [];
+
+}
 
 updateDashboard();
 
@@ -208,9 +212,16 @@ function updateDashboard(){
 
 const totalStudents =
 students.length;
+console.log("Students array:", students);
+console.log("Total:", students.length);
+const count =
+document.getElementById("count");
 
-document.getElementById("count").innerText =
-totalStudents;
+if(count){
+
+count.innerText = totalStudents;
+
+}
 
 // -----------------------------
 // TOTAL REVENUE
@@ -225,8 +236,15 @@ students.reduce(
 
 );
 
-document.getElementById("revenue").innerText =
+const revenue =
+document.getElementById("revenue");
+
+if(revenue){
+
+revenue.innerText =
 "₹"+totalRevenue;
+
+}
 
 // -----------------------------
 // PAID PAYMENTS
@@ -239,8 +257,15 @@ s=>s.payment_status==="Paid"
 
 ).length;
 
-document.getElementById("paid").innerText =
+const paid =
+document.getElementById("paid");
+
+if(paid){
+
+paid.innerText =
 paidPayments;
+
+}
 
 // -----------------------------
 // PENDING PAYMENTS
@@ -253,8 +278,15 @@ s=>s.payment_status!=="Paid"
 
 ).length;
 
-document.getElementById("pending").innerText =
+const pending =
+document.getElementById("pending");
+
+if(pending){
+
+pending.innerText =
 pendingPayments;
+
+}
 
 // -----------------------------
 // PARTICIPATING COLLEGES
@@ -267,9 +299,15 @@ students.map(s=>s.college)
 
 )];
 
-document.getElementById("colleges").innerText =
+const colleges =
+document.getElementById("colleges");
+
+if(colleges){
+
+colleges.innerText =
 uniqueColleges.length;
 
+}
 // -----------------------------
 // CERTIFICATES
 // -----------------------------
@@ -281,8 +319,15 @@ s=>s.certificate_id
 
 ).length;
 
-document.getElementById("certificateCount").innerText =
+const certificateCount =
+document.getElementById("certificateCount");
+
+if(certificateCount){
+
+certificateCount.innerText =
 certificates;
+
+}
 
 // -----------------------------
 // TODAY'S REGISTRATIONS
@@ -382,12 +427,24 @@ topEvent = event;
 }
 
 }
+const topEventCard =
+document.getElementById("topEvent");
 
-document.getElementById("topEvent").innerText =
+if(topEventCard){
+
+topEventCard.innerText =
 topEvent;
 
-document.getElementById("bestEvent").innerText =
+}
+const bestEvent =
+document.getElementById("bestEvent");
+
+if(bestEvent){
+
+bestEvent.innerText =
 topEvent;
+
+}
 
 // -----------------------------
 // TOP COLLEGE
@@ -417,9 +474,15 @@ topCollege = college;
 }
 
 }
+const topCollegeCard =
+document.getElementById("topCollege");
 
-document.getElementById("topCollege").innerText =
+if(topCollegeCard){
+
+topCollegeCard.innerText =
 topCollege;
+
+}
 
 }
 // ======================================================

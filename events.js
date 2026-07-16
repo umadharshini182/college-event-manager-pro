@@ -339,12 +339,24 @@ function editEvent(id){
     event.status;
 
     const btn =
-    document.querySelector(".present-btn");
+document.querySelector(".present-btn");
+
+if(!btn){
+
+alert("Save button not found.");
+
+return;
+
+}
 
     btn.innerHTML =
     '<i class="fa-solid fa-floppy-disk"></i> Update Event';
 
-    btn.onclick = updateEvent;
+    btn.onclick = function(){
+
+updateEvent();
+
+};
 
 }
 
@@ -415,7 +427,11 @@ async function updateEvent(){
         btn.innerHTML =
         '<i class="fa-solid fa-floppy-disk"></i> Save Event';
 
-        btn.onclick = saveEvent;
+        btn.onclick = function(){
+
+saveEvent();
+
+};
 
     }
 
