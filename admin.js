@@ -261,24 +261,7 @@ function updateDashboard() {
 
     document.getElementById("certificateGenerated").innerText =
         certificates;
-
-    // ==================================================
-    // Summary Cards
-    // ==================================================
-
-    document.getElementById("summaryStudents").innerText =
-        students.length;
-
-    document.getElementById("summaryRevenue").innerText =
-        "₹" + revenue;
-
-    document.getElementById("summaryAttendance").innerText =
-        attendance;
-
-    document.getElementById("summaryCertificates").innerText =
-        certificates;
-
-}
+    }
 // ======================================================
 // STUDENT TABLE
 // ======================================================
