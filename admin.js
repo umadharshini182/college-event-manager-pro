@@ -70,15 +70,16 @@ async function loadStudents() {
             credentials: "include"
 
         });
+students = await response.json();
 
-        students = await response.json();
+updateDashboard();
 
-        updateDashboard();
+loadTable();
 
-        loadTable();
+updateCharts();
 
-        updateCharts();
-
+updateActivity();
+        
     }
 
     catch (err) {
@@ -829,7 +830,37 @@ overlay.classList.remove("show");
 }
 
 });
+// ======================================================
+// LATEST ACTIVITY
+// ======================================================
 
+function updateActivity(){
+
+    const activity =
+    document.getElementById("activityList");
+
+    if(!activity) return;
+
+    activity.innerHTML = "";
+
+    students
+    .slice()
+    .reverse()
+    .forEach(student=>{
+
+        activity.innerHTML += `
+
+<li>
+
+${student.fullname} registered for ${student.event}
+
+</li>
+
+`;
+
+    });
+
+}
 // ======================================================
 // END
 // ======================================================
