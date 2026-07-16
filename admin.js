@@ -1,9 +1,12 @@
 // ======================================================
 // COLLEGE EVENT MANAGER
-// ADMIN.JS
+// PROFESSIONAL ADMIN DASHBOARD
 // ======================================================
 
 let students = [];
+
+let barChart = null;
+let pieChart = null;
 
 // ======================================================
 // PAGE LOAD
@@ -14,6 +17,8 @@ window.addEventListener("load",()=>{
 checkLogin();
 
 initializeSidebar();
+
+initializeNotification();
 
 });
 
@@ -44,7 +49,7 @@ return;
 
 }
 
-loadStudents();
+loadDashboard();
 
 }
 
@@ -60,10 +65,10 @@ window.location.href =
 }
 
 // ======================================================
-// LOAD STUDENTS
+// LOAD DASHBOARD
 // ======================================================
 
-async function loadStudents(){
+async function loadDashboard(){
 
 try{
 
@@ -83,10 +88,11 @@ loadTable();
 
 updateCharts();
 
-updateActivity();
+updateLatestActivity();
+
+updateNotifications();
 
 }
-
 catch(err){
 
 console.log(err);
@@ -150,20 +156,67 @@ overlay.classList.remove("show");
 }
 
 }
+
 // ======================================================
-// UPDATE DASHBOARD
+// PROFESSIONAL NOTIFICATION
+// ======================================================
+
+function initializeNotification(){
+
+const bell =
+document.getElementById("notificationBtn");
+
+const popup =
+document.getElementById("notificationDropdown");
+
+if(!bell || !popup){
+
+return;
+
+}
+
+bell.onclick=function(e){
+
+e.stopPropagation();
+
+popup.classList.toggle("show");
+
+};
+
+document.onclick=function(){
+
+popup.classList.remove("show");
+
+};
+
+popup.onclick=function(e){
+
+e.stopPropagation();
+
+};
+
+}
+// ======================================================
+// DASHBOARD CARDS
 // ======================================================
 
 function updateDashboard(){
 
-// Total Students
+// -----------------------------
+// TOTAL STUDENTS
+// -----------------------------
 
-document.getElementById("count").innerText =
+const totalStudents =
 students.length;
 
-// Total Revenue
+document.getElementById("count").innerText =
+totalStudents;
 
-const revenue =
+// -----------------------------
+// TOTAL REVENUE
+// -----------------------------
+
+const totalRevenue =
 students.reduce(
 
 (sum,s)=>sum+Number(s.amount||0),
@@ -173,11 +226,13 @@ students.reduce(
 );
 
 document.getElementById("revenue").innerText =
-"₹"+revenue;
+"₹"+totalRevenue;
 
-// Paid Payments
+// -----------------------------
+// PAID PAYMENTS
+// -----------------------------
 
-const paid =
+const paidPayments =
 students.filter(
 
 s=>s.payment_status==="Paid"
@@ -185,11 +240,13 @@ s=>s.payment_status==="Paid"
 ).length;
 
 document.getElementById("paid").innerText =
-paid;
+paidPayments;
 
-// Pending Payments
+// -----------------------------
+// PENDING PAYMENTS
+// -----------------------------
 
-const pending =
+const pendingPayments =
 students.filter(
 
 s=>s.payment_status!=="Paid"
@@ -197,21 +254,25 @@ s=>s.payment_status!=="Paid"
 ).length;
 
 document.getElementById("pending").innerText =
-pending;
+pendingPayments;
 
-// Participating Colleges
+// -----------------------------
+// PARTICIPATING COLLEGES
+// -----------------------------
 
-const colleges =
-new Set(
+const uniqueColleges =
+[...new Set(
 
 students.map(s=>s.college)
 
-).size;
+)];
 
 document.getElementById("colleges").innerText =
-colleges;
+uniqueColleges.length;
 
-// Certificates
+// -----------------------------
+// CERTIFICATES
+// -----------------------------
 
 const certificates =
 students.filter(
@@ -223,25 +284,21 @@ s=>s.certificate_id
 document.getElementById("certificateCount").innerText =
 certificates;
 
-// Today's Date
+// -----------------------------
+// TODAY'S REGISTRATIONS
+// -----------------------------
 
 const today =
 new Date().toISOString().split("T")[0];
 
-// Today's Students
-
 const todayStudents =
-students.filter(
-
-s=>
+students.filter(s=>
 
 s.createdAt &&
 
 s.createdAt.startsWith(today)
 
 );
-
-// Today's Registrations
 
 const todayRegistration =
 document.getElementById("todayRegistrations");
@@ -253,7 +310,9 @@ todayStudents.length;
 
 }
 
-// Today's Revenue
+// -----------------------------
+// TODAY'S REVENUE
+// -----------------------------
 
 const todayRevenue =
 todayStudents.reduce(
@@ -274,7 +333,9 @@ todayRevenueBox.innerText =
 
 }
 
-// Attendance
+// -----------------------------
+// ATTENDANCE
+// -----------------------------
 
 const attendance =
 students.filter(
@@ -293,59 +354,51 @@ attendance;
 
 }
 
-// Certificate Generated
+// -----------------------------
+// BEST EVENT
+// -----------------------------
 
-const certificateGenerated =
-document.getElementById("certificateGenerated");
+const eventCount = {};
 
-if(certificateGenerated){
+students.forEach(student=>{
 
-certificateGenerated.innerText =
-certificates;
-
-}
-
-// Best Event
-
-let events = {};
-
-students.forEach(s=>{
-
-events[s.event] =
-(events[s.event]||0)+1;
+eventCount[student.event] =
+(eventCount[student.event]||0)+1;
 
 });
 
-let bestEvent = "-";
+let topEvent = "-";
 
 let max = 0;
 
-for(let event in events){
+for(const event in eventCount){
 
-if(events[event]>max){
+if(eventCount[event]>max){
 
-max = events[event];
+max = eventCount[event];
 
-bestEvent = event;
+topEvent = event;
 
 }
 
 }
 
 document.getElementById("topEvent").innerText =
-bestEvent;
+topEvent;
 
 document.getElementById("bestEvent").innerText =
-bestEvent;
+topEvent;
 
-// Top College
+// -----------------------------
+// TOP COLLEGE
+// -----------------------------
 
-let collegeCount = {};
+const collegeCount = {};
 
-students.forEach(s=>{
+students.forEach(student=>{
 
-collegeCount[s.college] =
-(collegeCount[s.college]||0)+1;
+collegeCount[student.college] =
+(collegeCount[student.college]||0)+1;
 
 });
 
@@ -353,7 +406,7 @@ let topCollege = "-";
 
 max = 0;
 
-for(let college in collegeCount){
+for(const college in collegeCount){
 
 if(collegeCount[college]>max){
 
@@ -370,7 +423,7 @@ topCollege;
 
 }
 // ======================================================
-// STUDENT TABLE
+// PROFESSIONAL STUDENT TABLE
 // ======================================================
 
 function loadTable(){
@@ -380,13 +433,31 @@ document.getElementById("studentTable");
 
 if(!tbody){
 
-console.log("studentTable not found");
-
 return;
 
 }
 
 tbody.innerHTML = "";
+
+if(students.length===0){
+
+tbody.innerHTML=`
+
+<tr>
+
+<td colspan="12" style="text-align:center;padding:30px;">
+
+No registrations found.
+
+</td>
+
+</tr>
+
+`;
+
+return;
+
+}
 
 students.forEach(student=>{
 
@@ -394,9 +465,13 @@ tbody.innerHTML += `
 
 <tr>
 
-<td>${student.id}</td>
+<td>#${student.id}</td>
 
-<td>${student.fullname}</td>
+<td>
+
+<strong>${student.fullname}</strong>
+
+</td>
 
 <td>${student.email}</td>
 
@@ -406,7 +481,15 @@ tbody.innerHTML += `
 
 <td>${student.year}</td>
 
-<td>${student.event}</td>
+<td>
+
+<span class="event-badge">
+
+${student.event}
+
+</span>
+
+</td>
 
 <td>
 
@@ -424,19 +507,33 @@ ${student.payment_status}
 
 </td>
 
-<td>₹${student.amount}</td>
+<td>
+
+₹${student.amount}
+
+</td>
 
 <td>
 
 <button
-class="action-btn present-btn"
+
+class="${
+student.attendance==="Present"
+?
+"action-btn present-btn"
+:
+"action-btn warning-btn"
+}"
+
 onclick="markAttendance(${student.id})">
 
-${student.attendance==="Present"
+${
+student.attendance==="Present"
 ?
 "Present"
 :
-"Mark"}
+"Mark"
+}
 
 </button>
 
@@ -446,14 +543,27 @@ ${student.attendance==="Present"
 
 ${
 student.certificate_id
+
 ?
+
 `<button
 class="action-btn certificate-btn"
 onclick="viewCertificate(${student.id})">
+
 View
+
 </button>`
+
 :
-"-"
+
+`<button
+class="action-btn disabled-btn"
+disabled>
+
+Not Generated
+
+</button>`
+
 }
 
 </td>
@@ -461,7 +571,9 @@ View
 <td>
 
 <button
+
 class="action-btn delete-btn"
+
 onclick="deleteStudent(${student.id})">
 
 Delete
@@ -483,13 +595,17 @@ Delete
 
 function searchStudent(){
 
-const input =
+const search =
 document.getElementById("search");
 
-if(!input) return;
+if(!search){
+
+return;
+
+}
 
 const value =
-input.value.toLowerCase();
+search.value.toLowerCase();
 
 const rows =
 document.querySelectorAll("#studentTable tr");
@@ -532,7 +648,7 @@ await response.json();
 
 alert(data.message);
 
-loadStudents();
+loadDashboard();
 
 }
 
@@ -557,7 +673,7 @@ students.find(s=>s.id===id);
 
 if(!student){
 
-alert("Certificate not found.");
+alert("Student not found.");
 
 return;
 
@@ -565,8 +681,13 @@ return;
 
 if(student.certificate_id){
 
-window.location.href =
-"certificate.html?id="+student.id;
+window.open(
+
+"certificate.html?id="+student.id,
+
+"_blank"
+
+);
 
 }else{
 
@@ -582,7 +703,7 @@ alert("Certificate has not been generated yet.");
 
 async function deleteStudent(id){
 
-if(!confirm("Delete this student?")){
+if(!confirm("Delete this student permanently?")){
 
 return;
 
@@ -604,7 +725,7 @@ await response.json();
 
 alert(data.message);
 
-loadStudents();
+loadDashboard();
 
 }
 
@@ -618,35 +739,29 @@ alert("Unable to delete student.");
 
 }
 // ======================================================
-// CHARTS
+// PROFESSIONAL CHARTS
 // ======================================================
-
-let barChart = null;
-let pieChart = null;
 
 function updateCharts(){
 
-const events = {};
+const eventData = {};
 
 students.forEach(student=>{
 
-events[student.event] =
-(events[student.event] || 0) + 1;
+eventData[student.event] =
+(eventData[student.event] || 0) + 1;
 
 });
 
-const labels =
-Object.keys(events);
+const labels = Object.keys(eventData);
+const values = Object.values(eventData);
 
-const values =
-Object.values(events);
+// ---------------- BAR CHART ----------------
 
-// ---------- BAR CHART ----------
-
-const bar =
+const barCanvas =
 document.getElementById("barChart");
 
-if(bar){
+if(barCanvas){
 
 if(barChart){
 
@@ -654,7 +769,7 @@ barChart.destroy();
 
 }
 
-barChart = new Chart(bar,{
+barChart = new Chart(barCanvas,{
 
 type:"bar",
 
@@ -670,11 +785,11 @@ data:values,
 
 backgroundColor:[
 "#0B3D91",
-"#28a745",
-"#ffc107",
-"#dc3545",
-"#17a2b8",
-"#6f42c1"
+"#28A745",
+"#FFC107",
+"#DC3545",
+"#6F42C1",
+"#17A2B8"
 ]
 
 }]
@@ -701,12 +816,12 @@ display:false
 
 }
 
-// ---------- PIE CHART ----------
+// ---------------- PIE CHART ----------------
 
-const pie =
+const pieCanvas =
 document.getElementById("pieChart");
 
-if(pie){
+if(pieCanvas){
 
 if(pieChart){
 
@@ -714,7 +829,7 @@ pieChart.destroy();
 
 }
 
-pieChart = new Chart(pie,{
+pieChart = new Chart(pieCanvas,{
 
 type:"pie",
 
@@ -728,11 +843,11 @@ data:values,
 
 backgroundColor:[
 "#0B3D91",
-"#28a745",
-"#ffc107",
-"#dc3545",
-"#17a2b8",
-"#6f42c1"
+"#28A745",
+"#FFC107",
+"#DC3545",
+"#6F42C1",
+"#17A2B8"
 ]
 
 }]
@@ -752,10 +867,10 @@ responsive:true
 }
 
 // ======================================================
-// LATEST ACTIVITY
+// REAL LATEST ACTIVITY
 // ======================================================
 
-function updateActivity(){
+function updateLatestActivity(){
 
 const activity =
 document.getElementById("activityList");
@@ -771,14 +886,14 @@ activity.innerHTML = "";
 students
 .slice()
 .reverse()
-.slice(0,5)
+.slice(0,6)
 .forEach(student=>{
 
 activity.innerHTML += `
 
 <li>
 
-<strong>${student.fullname}</strong>
+🎓 <strong>${student.fullname}</strong>
 
 registered for
 
@@ -791,42 +906,67 @@ registered for
 });
 
 }
+
 // ======================================================
-// NOTIFICATIONS
+// REAL NOTIFICATIONS
 // ======================================================
 
-const notificationBtn =
-document.getElementById("notificationBtn");
+function updateNotifications(){
 
-const notificationDropdown =
+const popup =
 document.getElementById("notificationDropdown");
 
-if(notificationBtn && notificationDropdown){
+const badge =
+document.querySelector("#notificationBtn span");
 
-notificationBtn.onclick = ()=>{
+if(!popup){
 
-notificationDropdown.classList.toggle("show");
-
-};
-
-document.addEventListener("click",(e)=>{
-
-if(
-
-!notificationBtn.contains(e.target) &&
-
-!notificationDropdown.contains(e.target)
-
-){
-
-notificationDropdown.classList.remove("show");
+return;
 
 }
+
+popup.innerHTML = "<h3>Notifications</h3>";
+
+const latest =
+students.slice().reverse().slice(0,4);
+
+latest.forEach(student=>{
+
+popup.innerHTML += `
+
+<div class="notify-item">
+
+<h4>🎓 New Registration</h4>
+
+<p>
+
+${student.fullname}
+
+registered for
+
+${student.event}
+
+</p>
+
+<small>
+
+${student.payment_status}
+
+</small>
+
+</div>
+
+`;
 
 });
 
+if(badge){
+
+badge.innerText = latest.length;
+
 }
 
+}
 // ======================================================
 // LOGOUT
 // ======================================================
@@ -849,7 +989,9 @@ credentials:"include"
 window.location.href="admin-login.html";
 
 })
-.catch(()=>{
+.catch(err=>{
+
+console.log(err);
 
 window.location.href="admin-login.html";
 
@@ -863,9 +1005,76 @@ window.location.href="admin-login.html";
 
 setInterval(()=>{
 
-loadStudents();
+loadDashboard();
 
 },30000);
+
+// ======================================================
+// REFRESH AFTER TAB CHANGE
+// ======================================================
+
+document.addEventListener("visibilitychange",()=>{
+
+if(!document.hidden){
+
+loadDashboard();
+
+}
+
+});
+
+// ======================================================
+// WINDOW FOCUS
+// ======================================================
+
+window.addEventListener("focus",()=>{
+
+loadDashboard();
+
+});
+
+// ======================================================
+// PROFESSIONAL LOADER
+// ======================================================
+
+function showLoading(){
+
+const tbody =
+document.getElementById("studentTable");
+
+if(!tbody){
+
+return;
+
+}
+
+tbody.innerHTML = `
+
+<tr>
+
+<td colspan="12"
+style="text-align:center;
+padding:30px;">
+
+Loading students...
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+// ======================================================
+// PAGE READY
+// ======================================================
+
+console.log(
+
+"College Event Manager Admin Dashboard Loaded Successfully"
+
+);
 
 // ======================================================
 // END OF ADMIN.JS
