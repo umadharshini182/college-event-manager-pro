@@ -1,24 +1,19 @@
 // ======================================================
 // COLLEGE EVENT MANAGER
-// ADMIN DASHBOARD
+// ADMIN.JS
 // ======================================================
 
 let students = [];
-
-let barChart = null;
-let pieChart = null;
 
 // ======================================================
 // PAGE LOAD
 // ======================================================
 
-window.addEventListener("load", () => {
+window.addEventListener("load",()=>{
 
-    checkLogin();
+checkLogin();
 
-    sidebarFunctions();
-
-    notificationFunctions();
+initializeSidebar();
 
 });
 
@@ -26,51 +21,61 @@ window.addEventListener("load", () => {
 // LOGIN CHECK
 // ======================================================
 
-async function checkLogin() {
+async function checkLogin(){
 
-    try {
+try{
 
-        const res = await fetch("/api/current-user", {
-            credentials: "include"
-        });
+const response =
+await fetch("/api/current-user",{
 
-        const data = await res.json();
+credentials:"include"
 
-        if (!data.loggedIn) {
+});
 
-            window.location.href = "admin-login.html";
+const data =
+await response.json();
 
-            return;
+if(!data.loggedIn){
 
-        }
+window.location.href =
+"admin-login.html";
 
-        loadStudents();
-
-    }
-
-    catch (err) {
-
-        console.log(err);
-
-        window.location.href = "admin-login.html";
-
-    }
+return;
 
 }
+
+loadStudents();
+
+}
+
+catch(err){
+
+console.log(err);
+
+window.location.href =
+"admin-login.html";
+
+}
+
+}
+
 // ======================================================
 // LOAD STUDENTS
 // ======================================================
 
-async function loadStudents() {
+async function loadStudents(){
 
-    try {
+try{
 
-        const response = await fetch("/students", {
+const response =
+await fetch("/students",{
 
-            credentials: "include"
+credentials:"include"
 
-        });
-students = await response.json();
+});
+
+students =
+await response.json();
 
 updateDashboard();
 
@@ -79,185 +84,291 @@ loadTable();
 updateCharts();
 
 updateActivity();
-        
-    }
 
-    catch (err) {
+}
 
-        console.log(err);
+catch(err){
 
-    }
+console.log(err);
+
+}
+
+}
+
+// ======================================================
+// SIDEBAR
+// ======================================================
+
+function initializeSidebar(){
+
+const sidebar =
+document.getElementById("sidebar");
+
+const menuBtn =
+document.getElementById("menuBtn");
+
+const closeBtn =
+document.getElementById("closeSidebar");
+
+const overlay =
+document.getElementById("overlay");
+
+if(menuBtn){
+
+menuBtn.onclick=()=>{
+
+sidebar.classList.add("active");
+
+overlay.classList.add("show");
+
+};
+
+}
+
+if(closeBtn){
+
+closeBtn.onclick=()=>{
+
+sidebar.classList.remove("active");
+
+overlay.classList.remove("show");
+
+};
+
+}
+
+if(overlay){
+
+overlay.onclick=()=>{
+
+sidebar.classList.remove("active");
+
+overlay.classList.remove("show");
+
+};
+
+}
 
 }
 // ======================================================
-// DASHBOARD STATISTICS
+// UPDATE DASHBOARD
 // ======================================================
 
-function updateDashboard() {
+function updateDashboard(){
 
-    // Total Students
-    document.getElementById("count").innerText =
-        students.length;
+// Total Students
 
-    // Revenue
-    let revenue = 0;
+document.getElementById("count").innerText =
+students.length;
 
-    students.forEach(student => {
+// Total Revenue
 
-        revenue += Number(student.amount || 0);
+const revenue =
+students.reduce(
 
-    });
+(sum,s)=>sum+Number(s.amount||0),
 
-    document.getElementById("revenue").innerText =
-        "₹" + revenue;
+0
 
-    // Paid / Pending
-    const paid =
-        students.filter(
-            s => s.payment_status === "Paid"
-        ).length;
+);
 
-    const pending =
-        students.filter(
-            s => s.payment_status !== "Paid"
-        ).length;
+document.getElementById("revenue").innerText =
+"₹"+revenue;
 
-    document.getElementById("paid").innerText =
-        paid;
+// Paid Payments
 
-    document.getElementById("pending").innerText =
-        pending;
+const paid =
+students.filter(
 
-    // ==================================================
-    // Participating Colleges
-    // ==================================================
+s=>s.payment_status==="Paid"
 
-    const collegeMap = {};
+).length;
 
-    students.forEach(student => {
+document.getElementById("paid").innerText =
+paid;
 
-        collegeMap[student.college] = true;
+// Pending Payments
 
-    });
+const pending =
+students.filter(
 
-    document.getElementById("colleges").innerText =
-        Object.keys(collegeMap).length;
+s=>s.payment_status!=="Paid"
 
-    // ==================================================
-    // Top College
-    // ==================================================
+).length;
 
-    const collegeCount = {};
+document.getElementById("pending").innerText =
+pending;
 
-    students.forEach(student => {
+// Participating Colleges
 
-        collegeCount[student.college] =
-            (collegeCount[student.college] || 0) + 1;
+const colleges =
+new Set(
 
-    });
+students.map(s=>s.college)
 
-    let topCollege = "-";
-    let maxCollege = 0;
+).size;
 
-    for (const college in collegeCount) {
+document.getElementById("colleges").innerText =
+colleges;
 
-        if (collegeCount[college] > maxCollege) {
+// Certificates
 
-            maxCollege = collegeCount[college];
-            topCollege = college;
+const certificates =
+students.filter(
 
-        }
+s=>s.certificate_id
 
-    }
+).length;
 
-    document.getElementById("topCollege").innerText =
-        topCollege;
+document.getElementById("certificateCount").innerText =
+certificates;
 
-    // ==================================================
-    // Top Event
-    // ==================================================
+// Today's Date
 
-    const eventCount = {};
+const today =
+new Date().toISOString().split("T")[0];
 
-    students.forEach(student => {
+// Today's Students
 
-        eventCount[student.event] =
-            (eventCount[student.event] || 0) + 1;
+const todayStudents =
+students.filter(
 
-    });
+s=>
 
-    let topEvent = "-";
-    let maxEvent = 0;
+s.createdAt &&
 
-    for (const event in eventCount) {
+s.createdAt.startsWith(today)
 
-        if (eventCount[event] > maxEvent) {
+);
 
-            maxEvent = eventCount[event];
-            topEvent = event;
+// Today's Registrations
 
-        }
+const todayRegistration =
+document.getElementById("todayRegistrations");
 
-    }
+if(todayRegistration){
 
-    document.getElementById("topEvent").innerText =
-        topEvent;
+todayRegistration.innerText =
+todayStudents.length;
 
-    document.getElementById("bestEvent").innerText =
-        topEvent;
+}
 
-    // ==================================================
-    // Today's Registrations
-    // ==================================================
+// Today's Revenue
 
-    const today =
-        new Date().toISOString().split("T")[0];
+const todayRevenue =
+todayStudents.reduce(
 
-    const todayStudents =
-        students.filter(student =>
-            student.createdAt &&
-            student.createdAt.startsWith(today)
-        );
+(sum,s)=>sum+Number(s.amount||0),
 
-    // ==================================================
-    // Today's Revenue
-    // ==================================================
+0
 
-    const todayRevenue =
-        todayStudents.reduce(
-            (sum, s) => sum + Number(s.amount || 0),
-            0
-        );
+);
 
-    document.getElementById("todayRevenue").innerText =
-    "₹" + revenue;
+const todayRevenueBox =
+document.getElementById("todayRevenue");
 
-    // ==================================================
-    // Attendance
-    // ==================================================
+if(todayRevenueBox){
 
-    const attendance =
-        students.filter(
-            s => s.attendance === "Present"
-        ).length;
+todayRevenueBox.innerText =
+"₹"+todayRevenue;
 
-    document.getElementById("attendanceCount").innerText =
+}
+
+// Attendance
+
+const attendance =
+students.filter(
+
+s=>s.attendance==="Present"
+
+).length;
+
+const attendanceBox =
+document.getElementById("attendanceCount");
+
+if(attendanceBox){
+
+attendanceBox.innerText =
 attendance;
 
-    // ==================================================
-    // Certificates
-    // ==================================================
+}
 
-    const certificates =
-        students.filter(
-            s => s.certificate_id
-        ).length;
+// Certificate Generated
 
-    document.getElementById("certificateCount").innerText =
-        certificates;
+const certificateGenerated =
+document.getElementById("certificateGenerated");
 
-    }
+if(certificateGenerated){
 
+certificateGenerated.innerText =
+certificates;
+
+}
+
+// Best Event
+
+let events = {};
+
+students.forEach(s=>{
+
+events[s.event] =
+(events[s.event]||0)+1;
+
+});
+
+let bestEvent = "-";
+
+let max = 0;
+
+for(let event in events){
+
+if(events[event]>max){
+
+max = events[event];
+
+bestEvent = event;
+
+}
+
+}
+
+document.getElementById("topEvent").innerText =
+bestEvent;
+
+document.getElementById("bestEvent").innerText =
+bestEvent;
+
+// Top College
+
+let collegeCount = {};
+
+students.forEach(s=>{
+
+collegeCount[s.college] =
+(collegeCount[s.college]||0)+1;
+
+});
+
+let topCollege = "-";
+
+max = 0;
+
+for(let college in collegeCount){
+
+if(collegeCount[college]>max){
+
+max = collegeCount[college];
+
+topCollege = college;
+
+}
+
+}
+
+document.getElementById("topCollege").innerText =
+topCollege;
+
+}
 // ======================================================
 // STUDENT TABLE
 // ======================================================
@@ -269,7 +380,7 @@ document.getElementById("studentTable");
 
 if(!tbody){
 
-console.error("studentTable not found");
+console.log("studentTable not found");
 
 return;
 
@@ -317,39 +428,37 @@ ${student.payment_status}
 
 <td>
 
-${
-student.attendance==="Present"
+<button
+class="action-btn present-btn"
+onclick="markAttendance(${student.id})">
+
+${student.attendance==="Present"
 ?
-'<span style="color:green;font-weight:bold;">Present</span>'
+"Present"
 :
-'<span style="color:red;font-weight:bold;">Absent</span>'
+"Mark"}
+
+</button>
+
+</td>
+
+<td>
+
+${
+student.certificate_id
+?
+`<button
+class="action-btn certificate-btn"
+onclick="viewCertificate(${student.id})">
+View
+</button>`
+:
+"-"
 }
 
 </td>
 
 <td>
-
-${student.certificate_id || "-"}
-
-</td>
-
-<td>
-
-<button
-class="action-btn present-btn"
-onclick="markPresent(${student.id})">
-
-Present
-
-</button>
-
-<button
-class="action-btn certificate-btn"
-onclick="viewCertificate(${student.id})">
-
-Certificate
-
-</button>
 
 <button
 class="action-btn delete-btn"
@@ -369,113 +478,35 @@ Delete
 
 }
 // ======================================================
-// SEARCH
+// SEARCH STUDENT
 // ======================================================
 
 function searchStudent(){
 
-    const value =
-    document
-    .getElementById("search")
-    .value
-    .toLowerCase();
+const input =
+document.getElementById("search");
 
-    const rows =
-    document
-    .querySelectorAll("#studentTable tr");
+if(!input) return;
 
-    rows.forEach(row=>{
+const value =
+input.value.toLowerCase();
 
-        if(
-            row.innerText
-            .toLowerCase()
-            .includes(value)
-        ){
+const rows =
+document.querySelectorAll("#studentTable tr");
 
-            row.style.display="";
+rows.forEach(row=>{
 
-        }
+if(row.innerText.toLowerCase().includes(value)){
 
-        else{
+row.style.display="";
 
-            row.style.display="none";
+}else{
 
-        }
-
-    });
+row.style.display="none";
 
 }
 
-// Search from top search box
-
-const globalSearch =
-document.getElementById("globalSearch");
-
-if(globalSearch){
-
-globalSearch.addEventListener(
-
-"keyup",
-
-function(){
-
-document.getElementById("search").value =
-this.value;
-
-searchStudent();
-
-}
-
-);
-
-}
-// ======================================================
-// DELETE STUDENT
-// ======================================================
-
-async function deleteStudent(id){
-
-    if(!confirm("Delete this student?")){
-
-        return;
-
-    }
-
-    try{
-
-        const response = await fetch("/student/" + id,{
-
-            method:"DELETE",
-
-            credentials:"include"
-
-        });
-
-        const data = await response.json();
-
-        if(data.success){
-
-            alert("Student Deleted Successfully");
-
-            loadStudents();
-
-        }
-
-        else{
-
-            alert("Delete Failed");
-
-        }
-
-    }
-
-    catch(err){
-
-        console.log(err);
-
-        alert("Server Error");
-
-    }
+});
 
 }
 
@@ -483,41 +514,35 @@ async function deleteStudent(id){
 // MARK ATTENDANCE
 // ======================================================
 
-async function markPresent(id){
+async function markAttendance(id){
 
-    try{
+try{
 
-        const response = await fetch("/attendance/" + id,{
+const response =
+await fetch("/attendance/"+id,{
 
-            method:"PUT",
+method:"PUT",
 
-            credentials:"include"
+credentials:"include"
 
-        });
+});
 
-        const data = await response.json();
+const data =
+await response.json();
 
-        if(data.success){
+alert(data.message);
 
-            alert("Attendance Marked Successfully");
+loadStudents();
 
-            loadStudents();
+}
 
-        }
+catch(err){
 
-        else{
+console.log(err);
 
-            alert("Unable to Mark Attendance");
+alert("Unable to update attendance.");
 
-        }
-
-    }
-
-    catch(err){
-
-        console.log(err);
-
-    }
+}
 
 }
 
@@ -527,221 +552,274 @@ async function markPresent(id){
 
 function viewCertificate(id){
 
-    window.open(
+const student =
+students.find(s=>s.id===id);
 
-        "/certificate.html?id="+id,
+if(!student){
 
-        "_blank"
+alert("Certificate not found.");
 
-    );
+return;
+
+}
+
+if(student.certificate_id){
+
+window.location.href =
+"certificate.html?id="+student.id;
+
+}else{
+
+alert("Certificate has not been generated yet.");
+
+}
 
 }
 
 // ======================================================
-// BAR & PIE CHARTS
+// DELETE STUDENT
 // ======================================================
+
+async function deleteStudent(id){
+
+if(!confirm("Delete this student?")){
+
+return;
+
+}
+
+try{
+
+const response =
+await fetch("/student/"+id,{
+
+method:"DELETE",
+
+credentials:"include"
+
+});
+
+const data =
+await response.json();
+
+alert(data.message);
+
+loadStudents();
+
+}
+
+catch(err){
+
+console.log(err);
+
+alert("Unable to delete student.");
+
+}
+
+}
+// ======================================================
+// CHARTS
+// ======================================================
+
+let barChart = null;
+let pieChart = null;
 
 function updateCharts(){
 
-    const eventCount={};
+const events = {};
 
-    students.forEach(student=>{
+students.forEach(student=>{
 
-        eventCount[student.event]=
-        (eventCount[student.event]||0)+1;
+events[student.event] =
+(events[student.event] || 0) + 1;
 
-    });
+});
 
-    if(barChart){
+const labels =
+Object.keys(events);
 
-        barChart.destroy();
+const values =
+Object.values(events);
 
-    }
+// ---------- BAR CHART ----------
 
-    if(pieChart){
+const bar =
+document.getElementById("barChart");
 
-        pieChart.destroy();
+if(bar){
 
-    }
+if(barChart){
 
-    const bar=document.getElementById("barChart");
-
-    if(bar){
-
-        barChart=new Chart(bar,{
-
-            type:"bar",
-
-            data:{
-
-                labels:[
-                    "Students",
-                    "Paid",
-                    "Pending",
-                    "Colleges"
-                ],
-
-                datasets:[{
-
-                    label:"Statistics",
-
-                    data:[
-
-                        students.length,
-
-                        students.filter(s=>s.payment_status==="Paid").length,
-
-                        students.filter(s=>s.payment_status!=="Paid").length,
-
-                        [...new Set(students.map(s=>s.college))].length
-
-                    ]
-
-                }]
-
-            },
-
-            options:{
-
-                responsive:true,
-
-                maintainAspectRatio:false,
-
-                plugins:{
-
-                    legend:{
-
-                        display:false
-
-                    }
-
-                }
-
-            }
-
-        });
-
-    }
-
-    const pie=document.getElementById("pieChart");
-
-    if(pie){
-
-        pieChart=new Chart(pie,{
-
-            type:"pie",
-
-            data:{
-
-                labels:Object.keys(eventCount),
-
-                datasets:[{
-
-                    data:Object.values(eventCount)
-
-                }]
-
-            },
-
-            options:{
-
-                responsive:true,
-
-                maintainAspectRatio:false
-
-            }
-
-        });
-
-    }
-
-}
-// ======================================================
-// SIDEBAR
-// ======================================================
-
-function sidebarFunctions(){
-
-const sidebar =
-document.getElementById("sidebar");
-
-const menuBtn =
-document.getElementById("menuBtn");
-
-const closeBtn =
-document.getElementById("closeSidebar");
-
-const overlay =
-document.getElementById("overlay");
-
-if(menuBtn){
-
-menuBtn.onclick=function(){
-
-sidebar.classList.add("active");
-
-overlay.classList.add("show");
-
-};
+barChart.destroy();
 
 }
 
-if(closeBtn){
+barChart = new Chart(bar,{
 
-closeBtn.onclick=function(){
+type:"bar",
 
-sidebar.classList.remove("active");
+data:{
 
-overlay.classList.remove("show");
+labels:labels,
 
-};
+datasets:[{
+
+label:"Registrations",
+
+data:values,
+
+backgroundColor:[
+"#0B3D91",
+"#28a745",
+"#ffc107",
+"#dc3545",
+"#17a2b8",
+"#6f42c1"
+]
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+plugins:{
+
+legend:{
+
+display:false
 
 }
 
-if(overlay){
+}
 
-overlay.onclick=function(){
+}
 
-sidebar.classList.remove("active");
+});
 
-overlay.classList.remove("show");
+}
 
-};
+// ---------- PIE CHART ----------
+
+const pie =
+document.getElementById("pieChart");
+
+if(pie){
+
+if(pieChart){
+
+pieChart.destroy();
+
+}
+
+pieChart = new Chart(pie,{
+
+type:"pie",
+
+data:{
+
+labels:labels,
+
+datasets:[{
+
+data:values,
+
+backgroundColor:[
+"#0B3D91",
+"#28a745",
+"#ffc107",
+"#dc3545",
+"#17a2b8",
+"#6f42c1"
+]
+
+}]
+
+},
+
+options:{
+
+responsive:true
+
+}
+
+});
 
 }
 
 }
 
 // ======================================================
-// NOTIFICATION
+// LATEST ACTIVITY
 // ======================================================
 
-function notificationFunctions(){
+function updateActivity(){
 
-const bell =
+const activity =
+document.getElementById("activityList");
+
+if(!activity){
+
+return;
+
+}
+
+activity.innerHTML = "";
+
+students
+.slice()
+.reverse()
+.slice(0,5)
+.forEach(student=>{
+
+activity.innerHTML += `
+
+<li>
+
+<strong>${student.fullname}</strong>
+
+registered for
+
+<strong>${student.event}</strong>
+
+</li>
+
+`;
+
+});
+
+}
+// ======================================================
+// NOTIFICATIONS
+// ======================================================
+
+const notificationBtn =
 document.getElementById("notificationBtn");
 
-const dropdown =
+const notificationDropdown =
 document.getElementById("notificationDropdown");
 
-if(!bell || !dropdown) return;
+if(notificationBtn && notificationDropdown){
 
-bell.onclick=function(e){
+notificationBtn.onclick = ()=>{
 
-e.stopPropagation();
-
-dropdown.classList.toggle("show");
+notificationDropdown.classList.toggle("show");
 
 };
 
-document.addEventListener("click",function(e){
+document.addEventListener("click",(e)=>{
 
 if(
-!dropdown.contains(e.target) &&
-!bell.contains(e.target)
+
+!notificationBtn.contains(e.target) &&
+
+!notificationDropdown.contains(e.target)
+
 ){
 
-dropdown.classList.remove("show");
+notificationDropdown.classList.remove("show");
 
 }
 
@@ -766,8 +844,12 @@ fetch("/logout",{
 credentials:"include"
 
 })
-
 .then(()=>{
+
+window.location.href="admin-login.html";
+
+})
+.catch(()=>{
 
 window.location.href="admin-login.html";
 
@@ -779,64 +861,12 @@ window.location.href="admin-login.html";
 // AUTO REFRESH
 // ======================================================
 
-setInterval(function(){
+setInterval(()=>{
 
 loadStudents();
 
 },30000);
 
 // ======================================================
-// WINDOW RESIZE
-// ======================================================
-
-window.addEventListener("resize",function(){
-
-const sidebar =
-document.getElementById("sidebar");
-
-const overlay =
-document.getElementById("overlay");
-
-if(window.innerWidth>992){
-
-sidebar.classList.remove("active");
-
-overlay.classList.remove("show");
-
-}
-
-});
-// ======================================================
-// LATEST ACTIVITY
-// ======================================================
-
-function updateActivity(){
-
-    const activity =
-    document.getElementById("activityList");
-
-    if(!activity) return;
-
-    activity.innerHTML = "";
-
-    students
-    .slice()
-    .reverse()
-    .forEach(student=>{
-
-        activity.innerHTML += `
-
-<li>
-
-${student.fullname} registered for ${student.event}
-
-</li>
-
-`;
-
-    });
-
-}
-// ======================================================
-// END
+// END OF ADMIN.JS
 // ======================================================

@@ -264,7 +264,6 @@ preview.src = savedImage;
 // ======================================================
 // APPLY THEME
 // ======================================================
-
 function applyTheme(){
 
 const theme =
@@ -279,7 +278,7 @@ themeSelect.value = theme;
 
 }
 
-if(theme==="Dark Mode"){
+if(theme === "Dark Mode"){
 
 document.body.classList.add("dark-mode");
 
@@ -290,7 +289,6 @@ document.body.classList.remove("dark-mode");
 }
 
 }
-
 // ======================================================
 // THEME CHANGE
 // ======================================================
@@ -300,13 +298,16 @@ document.getElementById("theme");
 
 if(themeSelect){
 
-themeSelect.onchange=function(){
+themeSelect.addEventListener("change", function(){
+
+localStorage.setItem("theme", this.value);
 
 applyTheme();
 
-};
+});
 
-}// ======================================================
+}
+// ======================================================
 // LOGOUT
 // ======================================================
 
