@@ -27,6 +27,10 @@ initializeSidebar();
 
 loadSettings();
 
+loadProfileImage();
+
+applyTheme();
+
 });
 
 // ======================================================
@@ -79,14 +83,35 @@ overlay.classList.remove("show");
 
 function loadSettings(){
 
-document.getElementById("theme").value =
+const theme =
+document.getElementById("theme");
+
+const notification =
+document.getElementById("notification");
+
+const certificate =
+document.getElementById("certificate");
+
+if(theme){
+
+theme.value =
 localStorage.getItem("theme") || "Light Mode";
 
-document.getElementById("notification").value =
+}
+
+if(notification){
+
+notification.value =
 localStorage.getItem("notification") || "Enabled";
 
-document.getElementById("certificate").value =
+}
+
+if(certificate){
+
+certificate.value =
 localStorage.getItem("certificate") || "Enabled";
+
+}
 
 }
 // ======================================================
@@ -110,7 +135,7 @@ document.getElementById("newPassword").value;
 const confirmPassword =
 document.getElementById("confirmPassword").value;
 
-// Password Validation
+// Check Password
 
 if(newPassword!=="" || confirmPassword!==""){
 
@@ -122,38 +147,6 @@ return;
 
 }
 
-}
-
-// Save Settings
-
-localStorage.setItem(
-
-"notification",
-
-document.getElementById("notification").value
-
-);
-
-localStorage.setItem(
-
-"certificate",
-
-document.getElementById("certificate").value
-
-);
-
-localStorage.setItem(
-
-"accountStatus",
-
-document.getElementById("accountStatus").value
-
-);
-
-// Save Password (Demo Only)
-
-if(newPassword!=""){
-
 localStorage.setItem(
 
 "adminPassword",
@@ -164,13 +157,63 @@ newPassword
 
 }
 
-// Profile Image
+// Save Theme
+
+const theme =
+document.getElementById("theme");
+
+if(theme){
+
+localStorage.setItem(
+
+"theme",
+
+theme.value
+
+);
+
+}
+
+// Save Notifications
+
+const notification =
+document.getElementById("notification");
+
+if(notification){
+
+localStorage.setItem(
+
+"notification",
+
+notification.value
+
+);
+
+}
+
+// Save Certificate Option
+
+const certificate =
+document.getElementById("certificate");
+
+if(certificate){
+
+localStorage.setItem(
+
+"certificate",
+
+certificate.value
+
+);
+
+}
+
+// Save Profile Image
 
 const profileImage =
-
 document.getElementById("profileImage");
 
-if(profileImage.files.length>0){
+if(profileImage && profileImage.files.length>0){
 
 const reader = new FileReader();
 
@@ -184,6 +227,9 @@ e.target.result
 
 );
 
+document.getElementById("profilePreview").src =
+e.target.result;
+
 };
 
 reader.readAsDataURL(profileImage.files[0]);
@@ -192,22 +238,22 @@ reader.readAsDataURL(profileImage.files[0]);
 
 alert("Settings saved successfully.");
 
+applyTheme();
+
 }
 // ======================================================
 // LOAD PROFILE IMAGE
 // ======================================================
 
-window.addEventListener("load",()=>{
-
-const savedImage =
-localStorage.getItem("profileImage");
-
-if(savedImage){
+function loadProfileImage(){
 
 const preview =
 document.getElementById("profilePreview");
 
-if(preview){
+const savedImage =
+localStorage.getItem("profileImage");
+
+if(preview && savedImage){
 
 preview.src = savedImage;
 
@@ -215,25 +261,25 @@ preview.src = savedImage;
 
 }
 
-});
+// ======================================================
+// APPLY THEME
+// ======================================================
 
-// ======================================================
-// THEME
-// ======================================================
+function applyTheme(){
+
 const theme =
+localStorage.getItem("theme") || "Light Mode";
+
+const themeSelect =
 document.getElementById("theme");
 
-if(theme){
+if(themeSelect){
 
-if(theme.value==="Dark Mode"){
-
-document.body.classList.add("dark-mode");
+themeSelect.value = theme;
 
 }
 
-theme.onchange=()=>{
-
-if(theme.value==="Dark Mode"){
+if(theme==="Dark Mode"){
 
 document.body.classList.add("dark-mode");
 
@@ -243,12 +289,24 @@ document.body.classList.remove("dark-mode");
 
 }
 
-};
-
 }
 
-
 // ======================================================
+// THEME CHANGE
+// ======================================================
+
+const themeSelect =
+document.getElementById("theme");
+
+if(themeSelect){
+
+themeSelect.onchange=function(){
+
+applyTheme();
+
+};
+
+}// ======================================================
 // LOGOUT
 // ======================================================
 
@@ -265,6 +323,11 @@ credentials:"include"
 
 window.location.href="admin-login.html";
 
+})
+.catch(()=>{
+
+window.location.href="admin-login.html";
+
 });
 
 }
@@ -272,7 +335,7 @@ window.location.href="admin-login.html";
 }
 
 // ======================================================
-// AUTO SAVE (OPTIONAL)
+// AUTO STATUS
 // ======================================================
 
 setInterval(()=>{

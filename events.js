@@ -187,13 +187,6 @@ function loadTable(){
 <td>₹${event.fee}</td>
 <td>
 
-${students.filter(s => s.event === event.event_name).length}
-
-</td>
-
-
-<td>
-
 <button
 class="action-btn certificate-btn"
 onclick="editEvent(${event.id})">
