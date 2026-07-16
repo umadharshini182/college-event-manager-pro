@@ -256,8 +256,6 @@ attendance;
     document.getElementById("certificateCount").innerText =
         certificates;
 
-document.getElementById("certificateGenerated").innerText =
-certificates;
     }
 
 // ======================================================
