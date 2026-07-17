@@ -68,16 +68,25 @@ SIDEBAR
     z-index:999;
 
 }
-
 .sidebar-header{
 
-    display:flex;
+display:flex;
 
-    justify-content:space-between;
+align-items:center;
 
-    align-items:center;
+justify-content:space-between;
 
-    margin-bottom:35px;
+padding:25px;
+
+font-size:28px;
+
+font-weight:700;
+
+letter-spacing:1px;
+
+border-bottom:1px solid rgba(255,255,255,.15);
+
+margin-bottom:20px;
 
 }
 
@@ -107,51 +116,78 @@ SIDEBAR
 
 }
 
+
+.close-btn:hover{
+
+background:#2563EB;
+
+color:white;
+
+transform:rotate(180deg);
+
+}
+
 .sidebar a{
 
 display:flex;
 
 align-items:center;
 
-gap:15px;
+gap:16px;
 
-padding:16px 22px;
+margin:10px 15px;
 
-margin:8px 14px;
+padding:16px 20px;
 
-border-radius:14px;
-
-color:white;
+border-radius:18px;
 
 text-decoration:none;
 
-font-size:16px;
+font-size:17px;
 
 font-weight:600;
 
-transition:.3s;
+color:#E5E7EB;
+
+transition:all .35s ease;
 
 }
 
 .sidebar a:hover{
 
-background:rgba(255,255,255,.18);
+background:linear-gradient(135deg,#3B82F6,#6366F1);
+
+color:white;
 
 transform:translateX(8px);
 
-box-shadow:0 8px 20px rgba(255,255,255,.15);
+box-shadow:0 12px 25px rgba(59,130,246,.45);
 
 }
 
 .sidebar a.active{
 
-background:white;
+background:linear-gradient(135deg,#2563EB,#7C3AED);
 
-color:#2563EB;
+color:white;
 
 font-weight:700;
 
-box-shadow:0 12px 30px rgba(255,255,255,.35);
+transform:translateX(8px);
+
+box-shadow:0 14px 30px rgba(37,99,235,.45);
+
+}
+
+.sidebar a i{
+
+font-size:21px;
+
+width:28px;
+
+text-align:center;
+
+transition:.3s;
 
 }
 
@@ -1282,16 +1318,28 @@ justify-content:center;
 align-items:center;
 
 }
-
 .close-btn{
 
-display:flex;
+width:45px;
 
-justify-content:center;
+height:45px;
 
-align-items:center;
+border:none;
+
+border-radius:50%;
+
+background:white;
+
+color:#2563EB;
+
+font-size:22px;
+
+cursor:pointer;
+
+transition:.3s;
 
 }
+
 .sidebar{
 
 position:fixed;
@@ -1304,17 +1352,15 @@ width:270px;
 
 height:100vh;
 
-background:linear-gradient(180deg,#0F172A,#1E3A8A,#2563EB);
+background:linear-gradient(180deg,#0F172A 0%,#1E3A8A 45%,#2563EB 100%);
 
 color:white;
 
-box-shadow:8px 0 30px rgba(0,0,0,.25);
+box-shadow:10px 0 35px rgba(0,0,0,.35);
 
 overflow-y:auto;
 
-transition:.35s;
-
-z-index:999;
+z-index:1000;
 
 }
 

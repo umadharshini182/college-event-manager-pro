@@ -1,3 +1,4 @@
+console.log(window.location.pathname);
 // ======================================================
 // COLLEGE EVENT MANAGER
 // PROFESSIONAL ADMIN DASHBOARD
@@ -14,9 +15,7 @@ let barChart = null;
 
 let pieChart = null;
 
-let notificationSound = new Audio(
-"notification.mp3"
-);
+// let notificationSound = new Audio("notification.mp3");
 
 // ======================================================
 // PAGE LOAD
