@@ -216,90 +216,50 @@ ${new Date(student.createdAt).toLocaleString()}
 
 function loadLatestActivity(){
 
-    const activity =
-    document.getElementById("activityList");
+const activity =
+document.getElementById("activityList");
 
-    if(!activity) return;
+if(!activity) return;
 
-    activity.innerHTML="";
+activity.innerHTML="";
 
-    students
-    .slice()
-    .reverse()
-    .slice(0,10)
-    .forEach(student=>{
+students
+.slice()
+.reverse()
+.slice(0,8)
+.forEach(student=>{
 
-        activity.innerHTML += `
+activity.innerHTML += `
 
 <li>
 
-🎓
-
-${student.fullname}
+🎓 <strong>${student.fullname}</strong>
 
 registered for
 
-${student.event}
+<strong>${student.event}</strong>
 
 </li>
 
 `;
 
-        if(student.payment_status==="Paid"){
+if(student.attendance==="Present"){
 
-            activity.innerHTML += `
+activity.innerHTML += `
 
 <li>
 
-💳
+✅ Attendance marked for
 
-Payment received from
-
-${student.fullname}
+<strong>${student.fullname}</strong>
 
 </li>
 
 `;
 
-        }
+}
 
-        if(student.attendance==="Present"){
-
-            activity.innerHTML += `
-
-<li>
-
-✅
-
-Attendance marked for
-
-${student.fullname}
-
-</li>
-
-`;
-
-        }
-
-        if(student.certificate==="Generated"){
-
-            activity.innerHTML += `
-
-<li>
-
-🏆
-
-Certificate generated for
-
-${student.fullname}
-
-</li>
-
-`;
-
-        }
-
-    });
+});
 
 }
 // ======================================================
@@ -310,15 +270,16 @@ function updateCards(){
 
 document.getElementById("count").innerText =
 students.length;
-
-const revenue =
-students.reduce(
-(sum,s)=>sum+Number(s.amount||0),
+const paidRevenue =
+students
+.filter(student=>student.payment_status==="Paid")
+.reduce(
+(sum,student)=>sum+Number(student.amount||0),
 0
 );
 
 document.getElementById("revenue").innerText =
-"₹"+revenue;
+"₹"+paidRevenue;
 
 const paid =
 students.filter(
@@ -341,7 +302,39 @@ const colleges =
 
 document.getElementById("colleges").innerText =
 colleges.length;
+// Top College
 
+const collegeCount = {};
+
+students.forEach(student=>{
+
+if(student.college){
+
+collegeCount[student.college] =
+(collegeCount[student.college]||0)+1;
+
+}
+
+});
+
+let topCollege = "-";
+
+let highestCollege = 0;
+
+for(const college in collegeCount){
+
+if(collegeCount[college] > highestCollege){
+
+highestCollege = collegeCount[college];
+
+topCollege = college;
+
+}
+
+}
+
+document.getElementById("topCollege").innerText =
+topCollege;
 // Trending Event
 
 const eventCount={};
@@ -375,20 +368,10 @@ top;
 document.getElementById("bestEvent").innerText=
 top;
 
-// Today's Registrations
+// Total Registrations
 
-const today=
-new Date().toDateString();
-
-const todayStudents=
-students.filter(student=>
-
-new Date(student.createdAt).toDateString()===today
-
-);
-
-document.getElementById("todayRegistrations").innerText=
-todayStudents.length;
+document.getElementById("todayRegistrations").innerText =
+students.length;
 
 // Attendance
 
@@ -413,20 +396,10 @@ student.certificate==="Generated"
 
 document.getElementById("certificateGenerated").innerText=
 certificates;
-
 // Today's Revenue
 
-const todayRevenue=
-todayStudents.reduce(
-
-(sum,s)=>sum+Number(s.amount||0),
-
-0
-
-);
-
-document.getElementById("todayRevenue").innerText=
-"₹"+todayRevenue;
+document.getElementById("todayRevenue").innerText =
+"₹"+paidRevenue;
 
 }
 
@@ -503,7 +476,13 @@ ${student.attendance}
 
 <td>
 
-${student.certificate}
+<button
+class="action-btn view-btn"
+onclick="viewCertificate(${student.id})">
+
+View
+
+</button>
 
 </td>
 
@@ -522,6 +501,14 @@ class="action-btn certificate-btn"
 onclick="generateCertificate(${student.id})">
 
 Certificate
+
+</button>
+
+<button
+class="action-btn delete-btn"
+onclick="deleteStudent(${student.id})">
+
+Delete
 
 </button>
 
@@ -666,15 +653,15 @@ beginAtZero:true
 
 );
 
-// Event Statistics (Professional Horizontal Bar)
+// Professional Colorful Pie Chart
 
-window.eventChartInstance=new Chart(
+window.eventChartInstance = new Chart(
 
 document.getElementById("pieChart"),
 
 {
 
-type:"bar",
+type:"pie",
 
 data:{
 
@@ -682,27 +669,26 @@ labels:eventNames,
 
 datasets:[{
 
-label:"Events",
-
 data:eventCounts,
 
 backgroundColor:[
 
-"#7C3AED",
-
 "#2563EB",
-
 "#10B981",
-
 "#F59E0B",
-
+"#EF4444",
+"#8B5CF6",
+"#06B6D4",
 "#EC4899",
-
-"#06B6D4"
+"#14B8A6"
 
 ],
 
-borderRadius:10
+borderColor:"#ffffff",
+
+borderWidth:4,
+
+hoverOffset:18
 
 }]
 
@@ -710,21 +696,37 @@ borderRadius:10
 
 options:{
 
-indexAxis:"y",
-
 responsive:true,
 
 plugins:{
 
-legend:{display:false}
+legend:{
+
+position:"bottom",
+
+labels:{
+
+padding:20,
+
+font:{
+
+size:14,
+
+weight:"bold"
+
+}
+
+}
 
 },
 
-scales:{
+tooltip:{
 
-x:{
+backgroundColor:"#1E293B",
 
-beginAtZero:true
+titleColor:"#ffffff",
+
+bodyColor:"#ffffff"
 
 }
 
@@ -735,6 +737,7 @@ beginAtZero:true
 }
 
 );
+
 
 }
 
@@ -836,6 +839,52 @@ console.log(err);
 
 }
 
+// ======================================================
+// VIEW CERTIFICATE
+// ======================================================
+
+function viewCertificate(id){
+
+window.open(
+
+"/certificate/"+id,
+
+"_blank"
+
+);
+
+}
+
+
+// ======================================================
+// DELETE STUDENT
+// ======================================================
+
+async function deleteStudent(id){
+
+if(!confirm("Delete this student?")) return;
+
+try{
+
+await fetch("/student/"+id,{
+
+method:"DELETE"
+
+});
+
+await loadDashboard();
+
+alert("Student Deleted Successfully");
+
+}
+
+catch(err){
+
+console.log(err);
+
+}
+
+}
 // ======================================================
 // SIDEBAR
 // ======================================================

@@ -321,27 +321,43 @@ app.get("/admin", (req, res) => {
 // MARK ATTENDANCE
 // ===============================
 
-app.put("/attendance/:id", (req, res) => {
+app.put("/attendance/:id",(req,res)=>{
 
-    const certificateId = "ABC2027-" + req.params.id;
+const sql=`
+UPDATE registrations
+SET attendance=?
+WHERE id=?
+`;
 
-    const sql = `
-    UPDATE registrations
-    SET attendance='Present',
-        certificate_id=?
-    WHERE id=?
-    `;
+db.query(
 
-    db.query(sql, [certificateId, req.params.id], (err) => {
+sql,
 
-        if (err) {
-            console.log(err);
-            return res.json({ success: false });
-        }
+["Present",req.params.id],
 
-        res.json({ success: true });
+(err,result)=>{
 
-    });
+if(err){
+
+console.log(err);
+
+return res.json({
+
+success:false
+
+});
+
+}
+
+res.json({
+
+success:true
+
+});
+
+}
+
+);
 
 });
 
@@ -364,6 +380,37 @@ app.get("/certificate/:id", (req, res) => {
     });
 
 });
+
+// ===============================
+// GENERATE CERTIFICATE
+// ===============================
+
+app.put("/certificate/:id",(req,res)=>{
+
+const sql=`
+UPDATE registrations
+SET certificate='Generated'
+WHERE id=?
+`;
+
+db.query(sql,[req.params.id],err=>{
+
+if(err){
+
+console.log(err);
+
+return res.json({success:false});
+
+}
+
+res.json({success:true});
+
+});
+
+});
+
+
+
 
 // ===============================
 // CLEAR ALL
