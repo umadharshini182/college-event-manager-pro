@@ -1964,16 +1964,20 @@ SMALL MOBILE
 ========================================================== */
 
 @media (max-width:480px){
-
 .main{
 
-padding:12px;
+margin-left:285px;
+
+padding:0 20px 20px 20px;
 
 }
-
 .topbar{
 
-padding:80px 18px 18px;
+padding:35px 30px;
+
+margin-bottom:35px;
+
+min-height:180px;
 
 }
 
