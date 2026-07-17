@@ -141,20 +141,19 @@ ${new Date(student.createdAt).toLocaleString()}
 
 });
 
-const total=students.length;
+const total = students.length;
 
-if(total>0){
+count.innerText = total;
 
-count.innerText=total;
-
-count.style.display="flex";
-
-}else{
+if(total===0){
 
 count.style.display="none";
 
-}
+}else{
 
+count.style.display="flex";
+
+}
 }
 
 
