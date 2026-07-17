@@ -1346,7 +1346,310 @@ font-weight:700;
 color:#111827;
 
 }
+/* ==========================================
+   CREATE EVENT FORM
+========================================== */
 
+.event-form{
+
+display:grid;
+
+grid-template-columns:repeat(2,1fr);
+
+gap:25px;
+
+margin-top:25px;
+
+}
+
+.event-form div{
+
+display:flex;
+
+flex-direction:column;
+
+}
+
+.event-form label{
+
+font-size:15px;
+
+font-weight:600;
+
+color:#1E293B;
+
+margin-bottom:8px;
+
+}
+
+.event-form input,
+.event-form select{
+
+width:100%;
+
+padding:14px 16px;
+
+font-size:15px;
+
+border:2px solid #E2E8F0;
+
+border-radius:14px;
+
+outline:none;
+
+transition:0.3s;
+
+background:#fff;
+
+box-sizing:border-box;
+
+}
+
+.event-form input:focus,
+.event-form select:focus{
+
+border-color:#2563EB;
+
+box-shadow:0 0 12px rgba(37,99,235,.15);
+
+}
+
+.table-container{
+
+background:#fff;
+
+padding:30px;
+
+border-radius:20px;
+
+box-shadow:0 8px 25px rgba(0,0,0,.08);
+
+margin-bottom:30px;
+
+}
+
+.table-container h2{
+
+font-size:24px;
+
+font-weight:700;
+
+color:#1E3A8A;
+
+margin-bottom:10px;
+
+}
+.event-form textarea{
+
+width:100%;
+
+padding:14px 16px;
+
+font-size:15px;
+
+border:2px solid #E2E8F0;
+
+border-radius:14px;
+
+outline:none;
+
+resize:vertical;
+
+min-height:120px;
+
+transition:.3s;
+
+background:#fff;
+
+box-sizing:border-box;
+
+}
+
+.event-form textarea:focus{
+
+border-color:#2563EB;
+
+box-shadow:0 0 12px rgba(37,99,235,.15);
+
+}
+
+.event-form input:hover,
+.event-form select:hover,
+.event-form textarea:hover{
+
+border-color:#93C5FD;
+
+}
+
+.event-form .full-width{
+
+grid-column:1 / -1;
+
+}
+/* SAVE EVENT BUTTON */
+
+#saveEventBtn{
+
+grid-column:1 / -1;
+
+width:100%;
+
+padding:16px;
+
+border:none;
+
+border-radius:14px;
+
+background:linear-gradient(135deg,#2563EB,#1D4ED8);
+
+color:#fff;
+
+font-size:17px;
+
+font-weight:700;
+
+cursor:pointer;
+
+transition:.3s;
+
+box-shadow:0 10px 25px rgba(37,99,235,.25);
+
+}
+
+#saveEventBtn:hover{
+
+transform:translateY(-3px);
+
+box-shadow:0 16px 35px rgba(37,99,235,.35);
+
+}
+
+#saveEventBtn:active{
+
+transform:scale(.98);
+
+}
+/* RESPONSIVE EVENT FORM */
+
+@media (max-width:768px){
+
+.event-form{
+
+grid-template-columns:1fr;
+
+gap:18px;
+
+}
+
+#saveEventBtn{
+
+width:100%;
+
+}
+
+}
+
+/* EVENT TABLE */
+
+.table-container{
+
+background:#ffffff;
+
+border-radius:20px;
+
+padding:30px;
+
+box-shadow:0 12px 30px rgba(15,23,42,.08);
+
+margin-top:30px;
+
+overflow:hidden;
+
+}
+
+.table-header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:25px;
+
+flex-wrap:wrap;
+
+gap:15px;
+
+}
+
+.table-header h2{
+
+font-size:26px;
+
+font-weight:700;
+
+color:#1E3A8A;
+
+}
+
+.table-header input{
+
+width:320px;
+
+max-width:100%;
+
+padding:14px 18px;
+
+border:2px solid #E2E8F0;
+
+border-radius:14px;
+
+font-size:15px;
+
+transition:.3s;
+
+}
+
+.table-header input:focus{
+
+outline:none;
+
+border-color:#2563EB;
+
+box-shadow:0 0 12px rgba(37,99,235,.15);
+
+}
+
+table thead{
+
+background:linear-gradient(135deg,#2563EB,#1D4ED8);
+
+}
+
+table thead th{
+
+padding:18px;
+
+font-size:15px;
+
+font-weight:700;
+
+color:#fff;
+
+}
+
+table tbody tr{
+
+transition:.25s;
+
+}
+
+table tbody tr:hover{
+
+background:#F1F5F9;
+
+}
 /* =====================================================
 SETTINGS PAGE
 ===================================================== */
