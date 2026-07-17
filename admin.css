@@ -304,7 +304,6 @@ font-size:16px;
 color:#666;
 
 }
-
 .top-right{
 
 display:flex;
@@ -313,11 +312,12 @@ align-items:center;
 
 justify-content:flex-end;
 
-gap:20px;
+gap:18px;
 
-width:100%;
+flex-wrap:wrap;
 
 }
+
 
 /* ==========================================================
 SEARCH BOX
@@ -391,9 +391,9 @@ NOTIFICATION
 
 position:relative;
 
-width:52px;
+width:50px;
 
-height:52px;
+height:50px;
 
 display:flex;
 
@@ -401,15 +401,15 @@ align-items:center;
 
 justify-content:center;
 
-background:white;
+background:#fff;
 
 border-radius:50%;
 
 box-shadow:0 8px 20px rgba(0,0,0,.08);
 
-cursor:pointer;
-
 flex-shrink:0;
+
+margin:0;
 
 }
 
@@ -1543,15 +1543,17 @@ display:flex;
 
 align-items:center;
 
-gap:10px;
+width:280px;
 
-width:320px;
+height:50px;
 
-padding:12px 18px;
+padding:0 18px;
 
 background:#F8FAFC;
 
-border-radius:50px;
+border-radius:30px;
+
+flex-shrink:0;
 
 }
 
@@ -1695,7 +1697,21 @@ width:100%;
 
 .profile{
 
-padding:8px 14px;
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+padding:10px 18px;
+
+background:#fff;
+
+border-radius:40px;
+
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+flex-shrink:0;
 
 }
 
