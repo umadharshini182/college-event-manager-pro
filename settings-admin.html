@@ -14,6 +14,69 @@
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
 </head>
+<body>
+
+<!-- ==========================================
+SIDEBAR
+========================================== -->
+
+<div class="sidebar" id="sidebar">
+
+<div class="sidebar-header">
+
+<h2>🎓 CEM</h2>
+
+<button id="closeSidebar" class="close-btn">
+
+<i class="fa-solid fa-xmark"></i>
+
+</button>
+
+</div>
+
+<a href="admin.html">
+
+<i class="fa-solid fa-chart-line"></i>
+
+Dashboard
+
+</a>
+
+<a href="events-admin.html">
+
+<i class="fa-solid fa-calendar-days"></i>
+
+Events
+
+</a>
+
+<a href="payments.html">
+
+<i class="fa-solid fa-money-bill-wave"></i>
+
+Payments
+
+</a>
+
+<a href="settings-admin.html" class="active">
+
+<i class="fa-solid fa-gear"></i>
+
+Settings
+
+</a>
+
+<a href="#" onclick="logout()">
+
+<i class="fa-solid fa-right-from-bracket"></i>
+
+Logout
+
+</a>
+
+</div>
+
+<div id="overlay" class="overlay"></div>
 
 <!-- ==========================================
 MAIN
@@ -54,7 +117,7 @@ Manage your account and dashboard preferences
 <div class="profile">
 
 <img
-id="profilePreview"
+id="topProfilePreview"
 src="https://ui-avatars.com/api/?name=Administrator&background=2563EB&color=fff"
 alt="Administrator">
 

@@ -47,9 +47,9 @@ document.getElementById("resetSettingsBtn");
 
 window.addEventListener("load",()=>{
 
-initializeSidebar();
-
 loadSettings();
+
+initializeSidebar();
 
 loadProfileImage();
 
@@ -65,43 +65,37 @@ console.log("Settings Loaded");
 
 function initializeSidebar(){
 
-if(menuBtn){
+    if(!sidebar || !menuBtn || !closeBtn || !overlay){
+        console.log("Sidebar elements not found");
+        return;
+    }
 
-menuBtn.onclick=()=>{
+    menuBtn.onclick = () => {
 
-sidebar.classList.add("active");
+        sidebar.classList.add("active");
 
-overlay.classList.add("show");
+        overlay.classList.add("show");
 
-};
+    };
 
-}
+    closeBtn.onclick = () => {
 
-if(closeBtn){
+        sidebar.classList.remove("active");
 
-closeBtn.onclick=()=>{
+        overlay.classList.remove("show");
 
-sidebar.classList.remove("active");
+    };
 
-overlay.classList.remove("show");
+    overlay.onclick = () => {
 
-};
+        sidebar.classList.remove("active");
 
-}
+        overlay.classList.remove("show");
 
-if(overlay){
-
-overlay.onclick=()=>{
-
-sidebar.classList.remove("active");
-
-overlay.classList.remove("show");
-
-};
+    };
 
 }
 
-}
 
 // ======================================
 // LOAD SETTINGS
@@ -506,15 +500,8 @@ console.log("Settings Running...");
 // ======================================
 // INITIALIZE
 // ======================================
-
 window.addEventListener("DOMContentLoaded",()=>{
 
 checkLogin();
-
-loadSettings();
-
-loadProfileImage();
-
-applyTheme();
 
 });
