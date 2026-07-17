@@ -397,7 +397,10 @@ function editEvent(id) {
     btn.innerHTML =
         '<i class="fa-solid fa-floppy-disk"></i> Update Event';
 
-    btn.onclick = updateEvent;
+    btn.onclick = function () {
+    alert("Button clicked");
+    updateEvent();
+};
 
 }
 
