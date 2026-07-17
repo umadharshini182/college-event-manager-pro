@@ -127,7 +127,11 @@ saveButton.onclick = saveSettings;
 
 }
 
-function saveSettings(){
+function saveSettings() {
+
+    alert("✅ Settings saved successfully!");
+
+}
 
 const newPassword =
 document.getElementById("newPassword").value;

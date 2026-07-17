@@ -236,23 +236,44 @@ students
 .slice()
 .reverse()
 .slice(0,5);
-
 latest.forEach(student=>{
+
+let title="🎓 New Registration";
+let message=`${student.fullname} registered for ${student.event}`;
+
+if(student.payment_status==="Paid"){
+
+title="💳 Payment Received";
+
+message=`${student.fullname} paid ₹${student.amount}`;
+
+}
+
+if(student.attendance==="Present"){
+
+title="✅ Attendance";
+
+message=`Attendance marked for ${student.fullname}`;
+
+}
+
+if(student.certificate_id){
+
+title="🏆 Certificate";
+
+message=`Certificate generated for ${student.fullname}`;
+
+}
 
 popup.innerHTML += `
 
 <div class="notify-item">
 
-<h4>🎓 New Registration</h4>
+<h4>${title}</h4>
 
-<p>${student.fullname} registered for ${student.event}</p>
+<p>${message}</p>
 
-<small>
-
-Payment :
-${student.payment_status}
-
-</small>
+<small>${student.event}</small>
 
 </div>
 
@@ -985,20 +1006,20 @@ backgroundColor:[
 "#2563EB",
 "#8B5CF6",
 "#F97316",
-"#10B981",
+"#22C55E",
 "#EC4899",
-"#06B6D4",
-"#E11D48"
+"#14B8A6",
+"#F43F5E"
 
 ],
 
-borderRadius:14,
+borderRadius:18,
 
 borderSkipped:false,
 
-barThickness:42,
+barThickness:48,
 
-maxBarThickness:50
+maxBarThickness:55
 
 }]
 
@@ -1097,7 +1118,7 @@ pieChart.destroy();
 
 pieChart = new Chart(pieCanvas,{
 
-type:"doughnut",
+type:"polarArea",
 
 data:{
 
@@ -1110,20 +1131,20 @@ data:values,
 backgroundColor:[
 
 "#2563EB",
-"#8B5CF6",
-"#F97316",
-"#10B981",
-"#EC4899",
+"#7C3AED",
 "#06B6D4",
-"#E11D48"
+"#10B981",
+"#F59E0B",
+"#EF4444",
+"#EC4899"
 
 ],
 
 borderColor:"#FFFFFF",
 
-borderWidth:4,
+borderWidth:2,
 
-hoverOffset:18
+hoverOffset:30
 
 }]
 
@@ -1134,8 +1155,6 @@ options:{
 responsive:true,
 
 maintainAspectRatio:false,
-
-cutout:"62%",
 
 animation:{
 
@@ -1243,83 +1262,6 @@ activity.innerHTML += `
 
 }
 
-// ======================================================
-// PROFESSIONAL NOTIFICATIONS
-// ======================================================
-
-function updateNotifications(){
-
-const popup =
-document.getElementById("notificationDropdown");
-
-const badge =
-document.querySelector("#notificationBtn span");
-
-if(!popup){
-
-return;
-
-}
-
-popup.innerHTML = `
-
-<h3>
-
-🔔 Notifications
-
-</h3>
-
-`;
-
-const latest =
-students
-.slice()
-.reverse()
-.slice(0,5);
-
-latest.forEach(student=>{
-
-popup.innerHTML += `
-
-<div class="notify-item">
-
-<h4>
-
-🎓 New Registration
-
-</h4>
-
-<p>
-
-<strong>${student.fullname}</strong>
-
-registered for
-
-<strong>${student.event}</strong>
-
-</p>
-
-<small>
-
-Payment :
-${student.payment_status}
-
-</small>
-
-</div>
-
-`;
-
-});
-
-if(badge){
-
-badge.innerText =
-latest.length;
-
-}
-
-}
 
 // ======================================================
 // LOGOUT

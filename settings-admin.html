@@ -126,14 +126,26 @@ id="profileImage">
 Security
 </h2>
 
-<label><i class="fa-solid fa-key"></i> New Password</label>
+<div class="input-group">
+
+<label>
+<i class="fa-solid fa-key"></i>
+New Password
+</label>
 
 <input
 type="password"
 id="newPassword"
 placeholder="Enter new password">
 
-<label><i class="fa-solid fa-lock"></i> Confirm Password</label>
+</div>
+
+<div class="input-group">
+
+<label>
+<i class="fa-solid fa-lock"></i>
+Confirm Password
+</label>
 
 <input
 type="password"
@@ -184,17 +196,10 @@ Preferences
 </div>
 
 <div style="text-align:center;margin-top:30px;">
-
-<button class="save-btn"></button>
-
-<i class="fa-solid fa-floppy-disk"></i>
-
-Save Changes
-
+<button class="save-btn" onclick="saveSettings()">
+    <i class="fa-solid fa-floppy-disk"></i>
+    Save Changes
 </button>
-
-</div>
-
 <!-- ===========================
 FOOTER
 =========================== -->

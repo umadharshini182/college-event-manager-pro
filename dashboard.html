@@ -111,15 +111,32 @@ placeholder="Search Student..."
 id="globalSearch">
 
 </div>
+
 <!-- ===========================
-NOTIFICATION
+PROFILE
 =========================== -->
 
-<div class="notification" id="notificationBtn">
+<div class="profile">
+
+<div class="notification profile-bell" id="notificationBtn">
 
 <i class="fa-solid fa-bell"></i>
 
-<span>3</span>
+<span id="notificationCount">3</span>
+
+</div>
+
+<img
+src="https://ui-avatars.com/api/?name=Admin&background=0B3D91&color=fff"
+alt="Admin">
+
+<div class="profile-info">
+
+<h4>Administrator</h4>
+
+<small>Super Admin</small>
+
+</div>
 
 </div>
 
@@ -133,7 +150,7 @@ NOTIFICATION
 
 <h4>🎓 New Registration</h4>
 
-<p>A new student registered!</p>
+<p>Uma Dharshini registered for AI Workshop</p>
 
 <small>2 minutes ago</small>
 
@@ -143,7 +160,7 @@ NOTIFICATION
 
 <h4>💳 Payment Received</h4>
 
-<p>₹1000 received successfully</p>
+<p>₹1000 payment received</p>
 
 <small>10 minutes ago</small>
 
@@ -153,34 +170,13 @@ NOTIFICATION
 
 <h4>🏆 Certificate Generated</h4>
 
-<p>Certificate created successfully</p>
+<p>Certificate generated successfully</p>
 
-<small>1 hour ago</small>
-
-</div>
-
-</div>
-
-<!-- ===========================
-PROFILE
-=========================== -->
-
-<div class="profile">
-
-<img
-src="https://ui-avatars.com/api/?name=Admin&background=0B3D91&color=fff"
-alt="Admin">
-
-<div>
-
-<h4>Administrator</h4>
-
-<small>Super Admin</small>
+<small>Today</small>
 
 </div>
 
 </div>
-
 </div>
 
 </div>
@@ -394,14 +390,60 @@ RECENT SECTION
 
         <ul id="activityList">
 
-            <ul id="activityList">
 
 </ul>
 
     </div>
 
 </div>
+<!-- ===========================
+STUDENT REGISTRATIONS
+=========================== -->
 
+<div class="table-container">
+
+<div class="table-header">
+
+<h2>🎓 Student Registrations</h2>
+
+<input
+type="text"
+id="search"
+placeholder="🔍 Search Student..."
+onkeyup="searchStudent()">
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+<th>Name</th>
+<th>Email</th>
+<th>College</th>
+<th>Department</th>
+<th>Year</th>
+<th>Event</th>
+<th>Payment</th>
+<th>Amount</th>
+<th>Attendance</th>
+<th>Certificate</th>
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="studentTable">
+
+</tbody>
+
+</table>
+
+</div>
 <!-- ===========================
 FOOTER
 =========================== -->
