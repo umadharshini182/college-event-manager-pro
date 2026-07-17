@@ -311,9 +311,11 @@ display:flex;
 
 align-items:center;
 
-gap:18px;
+justify-content:flex-end;
 
-flex-wrap:wrap;
+gap:20px;
+
+width:100%;
 
 }
 
@@ -403,11 +405,11 @@ background:white;
 
 border-radius:50%;
 
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+
 cursor:pointer;
 
-box-shadow:0 8px 22px rgba(0,0,0,.08);
-
-transition:.35s;
+flex-shrink:0;
 
 }
 
@@ -559,19 +561,15 @@ align-items:center;
 
 gap:15px;
 
-padding:12px 22px;
+padding:12px 20px;
 
 background:white;
 
 border-radius:50px;
 
-box-shadow:0 10px 25px rgba(0,0,0,.08);
+box-shadow:0 8px 20px rgba(0,0,0,.08);
 
-position:absolute;
-
-top:20px;
-
-right:30px;
+flex-shrink:0;
 
 }
 .profile-info h4{
@@ -1539,12 +1537,24 @@ width:100%;
 justify-content:space-between;
 
 }
-
 .search-box{
 
-width:100%;
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+width:320px;
+
+padding:12px 18px;
+
+background:#F8FAFC;
+
+border-radius:50px;
 
 }
+
 
 .search-box input{
 
