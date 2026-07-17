@@ -67,6 +67,9 @@ MAIN
 =========================== -->
 
 <div class="main">
+<!-- ===========================
+TOPBAR
+=========================== -->
 
 <div class="topbar">
 
@@ -74,17 +77,17 @@ MAIN
 
 <button id="menuBtn" class="menu-btn">
 
-☰
+<i class="fa-solid fa-bars"></i>
 
 </button>
 
 <div>
 
-<h1>⚙️ Settings</h1>
+<h1>Settings</h1>
 
 <p class="welcome">
 
-Manage your account and website preferences
+Manage your account and dashboard preferences
 
 </p>
 
@@ -93,49 +96,75 @@ Manage your account and website preferences
 </div>
 
 </div>
-<div class="settings-grid"></div>
+
+<!-- ===========================
+SETTINGS GRID
+=========================== -->
+
+<div class="settings-grid">
+
+<!-- PROFILE -->
 
 <div class="setting-card">
 
 <h2>
+
 <i class="fa-solid fa-user"></i>
+
 Profile
+
 </h2>
 
-<div style="text-align:center;">
+<div class="profile-center">
 
 <img
-id="profilePreview"
-src="https://ui-avatars.com/api/?name=Admin&background=0B3D91&color=fff"
-class="profile-image">
 
-<br><br>
+id="profilePreview"
+
+class="settings-profile"
+
+src="https://ui-avatars.com/api/?name=Administrator&background=2563EB&color=fff">
 
 <input
+
 type="file"
-id="profileImage">
+
+id="profileImage"
+
+accept="image/*">
 
 </div>
 
 </div>
 
-<div class="setting-profile">
+<!-- SECURITY -->
+
+<div class="setting-card">
 
 <h2>
+
 <i class="fa-solid fa-lock"></i>
+
 Security
+
 </h2>
 
 <div class="input-group">
 
 <label>
+
 <i class="fa-solid fa-key"></i>
+
 New Password
+
 </label>
 
 <input
+
 type="password"
+
 id="newPassword"
+
 placeholder="Enter new password">
 
 </div>
@@ -143,25 +172,46 @@ placeholder="Enter new password">
 <div class="input-group">
 
 <label>
+
 <i class="fa-solid fa-lock"></i>
+
 Confirm Password
+
 </label>
 
 <input
+
 type="password"
+
 id="confirmPassword"
+
 placeholder="Confirm password">
 
 </div>
 
+</div>
+
+<!-- PREFERENCES -->
+
 <div class="setting-card">
 
 <h2>
+
 <i class="fa-solid fa-sliders"></i>
+
 Preferences
+
 </h2>
 
-<label><i class="fa-solid fa-palette"></i> Theme</label>
+<div class="input-group">
+
+<label>
+
+<i class="fa-solid fa-palette"></i>
+
+Theme
+
+</label>
 
 <select id="theme">
 
@@ -171,7 +221,17 @@ Preferences
 
 </select>
 
-<label><i class="fa-solid fa-bell"></i> Email Notifications</label>
+</div>
+
+<div class="input-group">
+
+<label>
+
+<i class="fa-solid fa-bell"></i>
+
+Email Notifications
+
+</label>
 
 <select id="notification">
 
@@ -181,7 +241,17 @@ Preferences
 
 </select>
 
-<label><i class="fa-solid fa-file-arrow-down"></i> Certificate Download</label>
+</div>
+
+<div class="input-group">
+
+<label>
+
+<i class="fa-solid fa-award"></i>
+
+Certificate Download
+
+</label>
 
 <select id="certificate">
 
@@ -195,11 +265,24 @@ Preferences
 
 </div>
 
-<div style="text-align:center;margin-top:30px;">
-<button class="save-btn" id="saveSettingsBtn">
-    <i class="fa-solid fa-floppy-disk"></i>
-    Save Changes
+</div>
+
+<div style="text-align:center;margin:40px 0;">
+
+<button
+
+id="saveSettingsBtn"
+
+class="save-btn">
+
+<i class="fa-solid fa-floppy-disk"></i>
+
+Save Changes
+
 </button>
+
+</div>
+
 <!-- ===========================
 FOOTER
 =========================== -->
@@ -211,6 +294,12 @@ FOOTER
 <p>
 
 © 2027 College Event Manager
+
+</p>
+
+<p>
+
+Professional Settings Module
 
 </p>
 

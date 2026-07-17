@@ -1,35 +1,24 @@
 // ======================================================
-// COLLEGE EVENT MANAGER
-// SETTINGS.JS
+// SETTINGS PAGE
 // ======================================================
 
-// Sidebar Elements
+window.addEventListener("DOMContentLoaded", () => {
 
-const sidebar =
-document.getElementById("sidebar");
+    initializeSidebar();
 
-const menuBtn =
-document.getElementById("menuBtn");
+    loadSettings();
 
-const closeBtn =
-document.getElementById("closeSidebar");
+    loadProfileImage();
 
-const overlay =
-document.getElementById("overlay");
+    applyTheme();
 
-// ======================================================
-// PAGE LOAD
-// ======================================================
+    const saveBtn = document.getElementById("saveSettingsBtn");
 
-window.addEventListener("load",()=>{
+    if (saveBtn) {
 
-initializeSidebar();
+        saveBtn.addEventListener("click", saveSettings);
 
-loadSettings();
-
-loadProfileImage();
-
-applyTheme();
+    }
 
 });
 
@@ -39,9 +28,17 @@ applyTheme();
 
 function initializeSidebar(){
 
+const sidebar=document.getElementById("sidebar");
+
+const menuBtn=document.getElementById("menuBtn");
+
+const closeBtn=document.getElementById("closeSidebar");
+
+const overlay=document.getElementById("overlay");
+
 if(menuBtn){
 
-menuBtn.onclick=()=>{
+menuBtn.onclick=function(){
 
 sidebar.classList.add("active");
 
@@ -53,7 +50,7 @@ overlay.classList.add("show");
 
 if(closeBtn){
 
-closeBtn.onclick=()=>{
+closeBtn.onclick=function(){
 
 sidebar.classList.remove("active");
 
@@ -65,7 +62,7 @@ overlay.classList.remove("show");
 
 if(overlay){
 
-overlay.onclick=()=>{
+overlay.onclick=function(){
 
 sidebar.classList.remove("active");
 
@@ -76,209 +73,144 @@ overlay.classList.remove("show");
 }
 
 }
-
 // ======================================================
 // LOAD SETTINGS
 // ======================================================
 
 function loadSettings(){
 
-const theme =
-document.getElementById("theme");
+const theme=document.getElementById("theme");
 
-const notification =
-document.getElementById("notification");
+const notification=document.getElementById("notification");
 
-const certificate =
-document.getElementById("certificate");
+const certificate=document.getElementById("certificate");
 
 if(theme){
 
-theme.value =
-localStorage.getItem("theme") || "Light Mode";
+theme.value=localStorage.getItem("theme") || "Light Mode";
 
 }
 
 if(notification){
 
-notification.value =
-localStorage.getItem("notification") || "Enabled";
+notification.value=localStorage.getItem("notification") || "Enabled";
 
 }
 
 if(certificate){
 
-certificate.value =
-localStorage.getItem("certificate") || "Enabled";
+certificate.value=localStorage.getItem("certificate") || "Enabled";
 
 }
 
 }
+
 // ======================================================
 // SAVE SETTINGS
 // ======================================================
 
-const saveButton =
-document.querySelector(".save-btn");
+function saveSettings(){
 
-if(saveButton){
+const newPassword=document.getElementById("newPassword").value.trim();
 
-saveButton.onclick = saveSettings;
-
-}
-
-function saveSettings() {
-
-const newPassword =
-document.getElementById("newPassword").value;
-
-const confirmPassword =
-document.getElementById("confirmPassword").value;
-
-// Check Password
+const confirmPassword=document.getElementById("confirmPassword").value.trim();
 
 if(newPassword!=="" || confirmPassword!==""){
 
 if(newPassword!==confirmPassword){
 
-alert("Passwords do not match.");
+alert("❌ Passwords do not match.");
 
 return;
 
 }
 
-localStorage.setItem(
-
-"adminPassword",
-
-newPassword
-
-);
+localStorage.setItem("adminPassword",newPassword);
 
 }
-
-// Save Theme
-
-const theme =
-document.getElementById("theme");
-
-if(theme){
 
 localStorage.setItem(
 
 "theme",
 
-theme.value
+document.getElementById("theme").value
 
 );
-
-}
-
-// Save Notifications
-
-const notification =
-document.getElementById("notification");
-
-if(notification){
 
 localStorage.setItem(
 
 "notification",
 
-notification.value
+document.getElementById("notification").value
 
 );
-
-}
-
-// Save Certificate Option
-
-const certificate =
-document.getElementById("certificate");
-
-if(certificate){
 
 localStorage.setItem(
 
 "certificate",
 
-certificate.value
+document.getElementById("certificate").value
 
 );
 
-}
-
-// Save Profile Image
-
-const profileImage =
-document.getElementById("profileImage");
-
-if(profileImage && profileImage.files.length>0){
-
-const reader = new FileReader();
-
-reader.onload=function(e){
-
-localStorage.setItem(
-
-"profileImage",
-
-e.target.result
-
-);
-
-document.getElementById("profilePreview").src =
-e.target.result;
-
-};
-
-reader.readAsDataURL(profileImage.files[0]);
-
-}
-
-alert("Settings saved successfully.");
+saveProfileImage();
 
 applyTheme();
 
+alert("✅ Settings Saved Successfully!");
+
 }
 // ======================================================
-// LOAD PROFILE IMAGE
+// PROFILE IMAGE
 // ======================================================
+
+function saveProfileImage(){
+
+const file=document.getElementById("profileImage");
+
+if(!file || file.files.length===0){
+
+return;
+
+}
+
+const reader=new FileReader();
+
+reader.onload=function(e){
+
+localStorage.setItem("profileImage",e.target.result);
+
+loadProfileImage();
+
+};
+
+reader.readAsDataURL(file.files[0]);
+
+}
 
 function loadProfileImage(){
 
-const preview =
-document.getElementById("profilePreview");
+const preview=document.getElementById("profilePreview");
 
-const savedImage =
-localStorage.getItem("profileImage");
+const image=localStorage.getItem("profileImage");
 
-if(preview && savedImage){
+if(preview && image){
 
-preview.src = savedImage;
+preview.src=image;
 
 }
 
 }
 
 // ======================================================
-// APPLY THEME
+// THEME
 // ======================================================
+
 function applyTheme(){
 
-const theme =
-localStorage.getItem("theme") || "Light Mode";
+const theme=localStorage.getItem("theme") || "Light Mode";
 
-const themeSelect =
-document.getElementById("theme");
-
-if(themeSelect){
-
-themeSelect.value = theme;
-
-}
-
-if(theme === "Dark Mode"){
+if(theme==="Dark Mode"){
 
 document.body.classList.add("dark-mode");
 
@@ -289,24 +221,21 @@ document.body.classList.remove("dark-mode");
 }
 
 }
-// ======================================================
-// THEME CHANGE
-// ======================================================
 
-const themeSelect =
-document.getElementById("theme");
+const themeSelect=document.getElementById("theme");
 
 if(themeSelect){
 
-themeSelect.addEventListener("change", function(){
+themeSelect.addEventListener("change",function(){
 
-localStorage.setItem("theme", this.value);
+localStorage.setItem("theme",this.value);
 
 applyTheme();
 
 });
 
 }
+
 // ======================================================
 // LOGOUT
 // ======================================================
@@ -320,11 +249,13 @@ fetch("/logout",{
 credentials:"include"
 
 })
+
 .then(()=>{
 
 window.location.href="admin-login.html";
 
 })
+
 .catch(()=>{
 
 window.location.href="admin-login.html";
@@ -335,16 +266,4 @@ window.location.href="admin-login.html";
 
 }
 
-// ======================================================
-// AUTO STATUS
-// ======================================================
-
-setInterval(()=>{
-
-console.log("Settings Ready");
-
-},30000);
-
-// ======================================================
-// END OF SETTINGS.JS
-// ======================================================
+console.log("✅ Settings Loaded Successfully");
