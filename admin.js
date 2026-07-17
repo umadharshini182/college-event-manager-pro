@@ -180,11 +180,7 @@ activity.innerHTML += `
 
 <li>
 
-🎓 <strong>${student.fullname}</strong>
-
-registered for
-
-<strong>${student.event}</strong>
+🎓 <strong>${student.fullname}</strong> registered for <strong>${student.event}</strong>
 
 </li>
 
@@ -196,9 +192,7 @@ activity.innerHTML += `
 
 <li>
 
-✅ Attendance marked for
-
-<strong>${student.fullname}</strong>
+✅ Attendance marked for <strong>${student.fullname}</strong>
 
 </li>
 

@@ -1206,21 +1206,27 @@ margin-bottom:20px;
 }
 #activityList li{
 
-display:flex;
+display:block;
 
-align-items:center;
+padding:14px 18px;
 
-gap:8px;
+margin-bottom:12px;
 
-padding:10px 0;
+background:#F8FAFC;
 
-border-bottom:1px solid #E5E7EB;
+border-left:5px solid #2563EB;
+
+border-radius:12px;
 
 font-size:15px;
 
 font-weight:500;
 
+line-height:1.6;
+
 }
+
+
 
 .recent-card ul{
 
