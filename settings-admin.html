@@ -15,61 +15,15 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 
 </head>
 
-<body>
-
-<div id="overlay" class="overlay"></div>
-
-<!-- ===========================
-SIDEBAR
-=========================== -->
-
-<div class="sidebar" id="sidebar">
-
-<div class="sidebar-header">
-
-<h2>🎓 CEM</h2>
-
-<button id="closeSidebar" class="close-btn">
-✕
-</button>
-
-</div>
-
-<a href="dashboard.html">
-<i class="fa-solid fa-chart-line"></i>
-Dashboard
-</a>
-
-<a href="events-admin.html">
-<i class="fa-solid fa-calendar-days"></i>
-Events
-</a>
-
-<a href="payments.html">
-<i class="fa-solid fa-money-bill-wave"></i>
-Payments
-</a>
-
-<a href="settings.html" class="active">
-<i class="fa-solid fa-gear"></i>
-Settings
-</a>
-
-<a href="#" onclick="logout()">
-<i class="fa-solid fa-right-from-bracket"></i>
-Logout
-</a>
-
-</div>
-
-<!-- ===========================
+<!-- ==========================================
 MAIN
-=========================== -->
+========================================== -->
 
 <div class="main">
-<!-- ===========================
+
+<!-- ==========================================
 TOPBAR
-=========================== -->
+========================================== -->
 
 <div class="topbar">
 
@@ -83,7 +37,7 @@ TOPBAR
 
 <div>
 
-<h1>Settings</h1>
+<h1>⚙️ Settings</h1>
 
 <p class="welcome">
 
@@ -95,76 +49,155 @@ Manage your account and dashboard preferences
 
 </div>
 
+<div class="top-right">
+
+<div class="profile">
+
+<img
+id="profilePreview"
+src="https://ui-avatars.com/api/?name=Administrator&background=2563EB&color=fff"
+alt="Administrator">
+
+<div class="profile-info">
+
+<h4>Administrator</h4>
+
+<p>admin@cem.com</p>
+
+<small>Super Admin</small>
+
 </div>
 
-<!-- ===========================
-SETTINGS GRID
-=========================== -->
+</div>
 
-<div class="settings-grid">
+</div>
 
-<!-- PROFILE -->
+</div>
+<!-- ==========================================
+PROFILE CARD
+========================================== -->
 
-<div class="setting-card">
+<div class="settings-card">
 
-<h2>
+<div class="settings-title">
 
 <i class="fa-solid fa-user"></i>
 
-Profile
+<h2>Profile Information</h2>
 
-</h2>
+</div>
 
-<div class="profile-center">
+<div class="settings-grid">
+
+<div class="profile-left">
 
 <img
-
 id="profilePreview"
-
-class="settings-profile"
-
-src="https://ui-avatars.com/api/?name=Administrator&background=2563EB&color=fff">
+class="profile-large"
+src="https://ui-avatars.com/api/?name=Administrator&background=2563EB&color=fff"
+alt="Administrator">
 
 <input
-
 type="file"
-
 id="profileImage"
-
 accept="image/*">
 
 </div>
 
-</div>
-
-<!-- SECURITY -->
-
-<div class="setting-card">
-
-<h2>
-
-<i class="fa-solid fa-lock"></i>
-
-Security
-
-</h2>
+<div class="profile-right">
 
 <div class="input-group">
 
 <label>
 
-<i class="fa-solid fa-key"></i>
+Full Name
+
+</label>
+
+<input
+type="text"
+value="Administrator"
+readonly>
+
+</div>
+
+<div class="input-group">
+
+<label>
+
+Email Address
+
+</label>
+
+<input
+type="email"
+value="admin@cem.com"
+readonly>
+
+</div>
+
+<div class="input-group">
+
+<label>
+
+Role
+
+</label>
+
+<input
+type="text"
+value="Super Administrator"
+readonly>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<!-- ==========================================
+SECURITY CARD
+========================================== -->
+
+<div class="settings-card">
+
+<div class="settings-title">
+
+<i class="fa-solid fa-lock"></i>
+
+<h2>Security</h2>
+
+</div>
+
+<div class="settings-grid">
+
+<div class="input-group">
+
+<label>
+
+Current Password
+
+</label>
+
+<input
+type="password"
+id="currentPassword"
+placeholder="Enter current password">
+
+</div>
+
+<div class="input-group">
+
+<label>
 
 New Password
 
 </label>
 
 <input
-
 type="password"
-
 id="newPassword"
-
 placeholder="Enter new password">
 
 </div>
@@ -173,41 +206,39 @@ placeholder="Enter new password">
 
 <label>
 
-<i class="fa-solid fa-lock"></i>
-
 Confirm Password
 
 </label>
 
 <input
-
 type="password"
-
 id="confirmPassword"
+placeholder="Confirm new password">
 
-placeholder="Confirm password">
+</div>
 
 </div>
 
 </div>
+<!-- ==========================================
+PREFERENCES CARD
+========================================== -->
 
-<!-- PREFERENCES -->
+<div class="settings-card">
 
-<div class="setting-card">
-
-<h2>
+<div class="settings-title">
 
 <i class="fa-solid fa-sliders"></i>
 
-Preferences
+<h2>Preferences</h2>
 
-</h2>
+</div>
+
+<div class="settings-grid">
 
 <div class="input-group">
 
 <label>
-
-<i class="fa-solid fa-palette"></i>
 
 Theme
 
@@ -215,9 +246,17 @@ Theme
 
 <select id="theme">
 
-<option>Light Mode</option>
+<option value="Light Mode">
 
-<option>Dark Mode</option>
+☀️ Light Mode
+
+</option>
+
+<option value="Dark Mode">
+
+🌙 Dark Mode
+
+</option>
 
 </select>
 
@@ -226,8 +265,6 @@ Theme
 <div class="input-group">
 
 <label>
-
-<i class="fa-solid fa-bell"></i>
 
 Email Notifications
 
@@ -235,9 +272,17 @@ Email Notifications
 
 <select id="notification">
 
-<option>Enabled</option>
+<option value="Enabled">
 
-<option>Disabled</option>
+✅ Enabled
+
+</option>
+
+<option value="Disabled">
+
+❌ Disabled
+
+</option>
 
 </select>
 
@@ -247,17 +292,55 @@ Email Notifications
 
 <label>
 
-<i class="fa-solid fa-award"></i>
-
 Certificate Download
 
 </label>
 
 <select id="certificate">
 
-<option>Enabled</option>
+<option value="Enabled">
 
-<option>Disabled</option>
+✅ Enabled
+
+</option>
+
+<option value="Disabled">
+
+❌ Disabled
+
+</option>
+
+</select>
+
+</div>
+
+<div class="input-group">
+
+<label>
+
+Dashboard Auto Refresh
+
+</label>
+
+<select id="autoRefresh">
+
+<option value="5">
+
+Every 5 Seconds
+
+</option>
+
+<option value="10">
+
+Every 10 Seconds
+
+</option>
+
+<option value="30">
+
+Every 30 Seconds
+
+</option>
 
 </select>
 
@@ -267,12 +350,24 @@ Certificate Download
 
 </div>
 
-<div style="text-align:center;margin:40px 0;">
+<!-- ==========================================
+SAVE SETTINGS
+========================================== -->
+
+<div class="settings-card">
+
+<div class="settings-title">
+
+<i class="fa-solid fa-floppy-disk"></i>
+
+<h2>Save Settings</h2>
+
+</div>
+
+<div class="settings-buttons">
 
 <button
-
 id="saveSettingsBtn"
-
 class="save-btn">
 
 <i class="fa-solid fa-floppy-disk"></i>
@@ -281,11 +376,24 @@ Save Changes
 
 </button>
 
+<button
+id="resetSettingsBtn"
+class="reset-btn"
+type="button">
+
+<i class="fa-solid fa-rotate-left"></i>
+
+Reset Settings
+
+</button>
+
 </div>
 
-<!-- ===========================
+</div>
+
+<!-- ==========================================
 FOOTER
-=========================== -->
+========================================== -->
 
 <footer>
 
@@ -299,7 +407,7 @@ FOOTER
 
 <p>
 
-Professional Settings Module
+Professional Admin Settings
 
 </p>
 

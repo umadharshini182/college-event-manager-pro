@@ -1,44 +1,73 @@
 // ======================================================
-// SETTINGS PAGE
+// COLLEGE EVENT MANAGER
+// SETTINGS.JS
+// Professional Version
 // ======================================================
 
-window.addEventListener("DOMContentLoaded", () => {
+// ======================================
+// ELEMENTS
+// ======================================
 
-    initializeSidebar();
+const sidebar =
+document.getElementById("sidebar");
 
-    loadSettings();
+const menuBtn =
+document.getElementById("menuBtn");
 
-    loadProfileImage();
+const closeBtn =
+document.getElementById("closeSidebar");
 
-    applyTheme();
+const overlay =
+document.getElementById("overlay");
 
-    const saveBtn = document.getElementById("saveSettingsBtn");
+const theme =
+document.getElementById("theme");
 
-    if (saveBtn) {
+const notification =
+document.getElementById("notification");
 
-        saveBtn.addEventListener("click", saveSettings);
+const certificate =
+document.getElementById("certificate");
 
-    }
+const profileImage =
+document.getElementById("profileImage");
+
+const profilePreview =
+document.getElementById("profilePreview");
+
+const saveBtn =
+document.getElementById("saveSettingsBtn");
+
+const resetBtn =
+document.getElementById("resetSettingsBtn");
+
+// ======================================
+// PAGE LOAD
+// ======================================
+
+window.addEventListener("load",()=>{
+
+initializeSidebar();
+
+loadSettings();
+
+loadProfileImage();
+
+applyTheme();
+
+console.log("Settings Loaded");
 
 });
 
-// ======================================================
+// ======================================
 // SIDEBAR
-// ======================================================
+// ======================================
 
 function initializeSidebar(){
 
-const sidebar=document.getElementById("sidebar");
-
-const menuBtn=document.getElementById("menuBtn");
-
-const closeBtn=document.getElementById("closeSidebar");
-
-const overlay=document.getElementById("overlay");
-
 if(menuBtn){
 
-menuBtn.onclick=function(){
+menuBtn.onclick=()=>{
 
 sidebar.classList.add("active");
 
@@ -50,7 +79,7 @@ overlay.classList.add("show");
 
 if(closeBtn){
 
-closeBtn.onclick=function(){
+closeBtn.onclick=()=>{
 
 sidebar.classList.remove("active");
 
@@ -62,7 +91,7 @@ overlay.classList.remove("show");
 
 if(overlay){
 
-overlay.onclick=function(){
+overlay.onclick=()=>{
 
 sidebar.classList.remove("active");
 
@@ -73,144 +102,233 @@ overlay.classList.remove("show");
 }
 
 }
-// ======================================================
+
+// ======================================
 // LOAD SETTINGS
-// ======================================================
+// ======================================
 
 function loadSettings(){
 
-const theme=document.getElementById("theme");
-
-const notification=document.getElementById("notification");
-
-const certificate=document.getElementById("certificate");
-
 if(theme){
 
-theme.value=localStorage.getItem("theme") || "Light Mode";
+theme.value=
+
+localStorage.getItem("theme")
+
+||
+
+"Light Mode";
 
 }
 
 if(notification){
 
-notification.value=localStorage.getItem("notification") || "Enabled";
+notification.value=
+
+localStorage.getItem("notification")
+
+||
+
+"Enabled";
 
 }
 
 if(certificate){
 
-certificate.value=localStorage.getItem("certificate") || "Enabled";
+certificate.value=
+
+localStorage.getItem("certificate")
+
+||
+
+"Enabled";
 
 }
 
 }
-
-// ======================================================
+// ======================================
 // SAVE SETTINGS
-// ======================================================
+// ======================================
+
+if(saveBtn){
+
+saveBtn.onclick=saveSettings;
+
+}
 
 function saveSettings(){
 
-const newPassword=document.getElementById("newPassword").value.trim();
+// Theme
 
-const confirmPassword=document.getElementById("confirmPassword").value.trim();
-
-if(newPassword!=="" || confirmPassword!==""){
-
-if(newPassword!==confirmPassword){
-
-alert("❌ Passwords do not match.");
-
-return;
-
-}
-
-localStorage.setItem("adminPassword",newPassword);
-
-}
+if(theme){
 
 localStorage.setItem(
 
 "theme",
 
-document.getElementById("theme").value
+theme.value
 
 );
+
+}
+
+// Notifications
+
+if(notification){
 
 localStorage.setItem(
 
 "notification",
 
-document.getElementById("notification").value
+notification.value
 
 );
+
+}
+
+// Certificate
+
+if(certificate){
 
 localStorage.setItem(
 
 "certificate",
 
-document.getElementById("certificate").value
+certificate.value
 
 );
 
-saveProfileImage();
-
-applyTheme();
-
-alert("✅ Settings Saved Successfully!");
-
 }
-// ======================================================
-// PROFILE IMAGE
-// ======================================================
 
-function saveProfileImage(){
+// Password
 
-const file=document.getElementById("profileImage");
+const newPassword=
 
-if(!file || file.files.length===0){
+document.getElementById("newPassword").value;
+
+const confirmPassword=
+
+document.getElementById("confirmPassword").value;
+
+if(newPassword!=="" || confirmPassword!==""){
+
+if(newPassword!==confirmPassword){
+
+alert("Passwords do not match");
 
 return;
 
 }
 
+localStorage.setItem(
+
+"adminPassword",
+
+newPassword
+
+);
+
+}
+
+applyTheme();
+
+alert("✅ Settings Saved Successfully");
+
+}
+
+// ======================================
+// PROFILE IMAGE
+// ======================================
+
+if(profileImage){
+
+profileImage.onchange=function(){
+
+const file=this.files[0];
+
+if(!file) return;
+
 const reader=new FileReader();
 
 reader.onload=function(e){
 
-localStorage.setItem("profileImage",e.target.result);
+localStorage.setItem(
 
-loadProfileImage();
+"profileImage",
+
+e.target.result
+
+);
+
+profilePreview.src=
+
+e.target.result;
 
 };
 
-reader.readAsDataURL(file.files[0]);
+reader.readAsDataURL(file);
+
+};
 
 }
 
 function loadProfileImage(){
 
-const preview=document.getElementById("profilePreview");
+const image=
 
-const image=localStorage.getItem("profileImage");
+localStorage.getItem("profileImage");
 
-if(preview && image){
+if(image && profilePreview){
 
-preview.src=image;
-
-}
+profilePreview.src=image;
 
 }
 
-// ======================================================
-// THEME
-// ======================================================
+}
+
+// ======================================
+// RESET SETTINGS
+// ======================================
+
+if(resetBtn){
+
+resetBtn.onclick=function(){
+
+if(!confirm("Reset all settings?")){
+
+return;
+
+}
+
+localStorage.removeItem("theme");
+
+localStorage.removeItem("notification");
+
+localStorage.removeItem("certificate");
+
+localStorage.removeItem("profileImage");
+
+location.reload();
+
+};
+
+}
+// ======================================
+// APPLY THEME
+// ======================================
 
 function applyTheme(){
 
-const theme=localStorage.getItem("theme") || "Light Mode";
+const selectedTheme =
+localStorage.getItem("theme") || "Light Mode";
 
-if(theme==="Dark Mode"){
+if(theme){
+
+theme.value = selectedTheme;
+
+}
+
+if(selectedTheme==="Dark Mode"){
 
 document.body.classList.add("dark-mode");
 
@@ -222,13 +340,21 @@ document.body.classList.remove("dark-mode");
 
 }
 
-const themeSelect=document.getElementById("theme");
+// ======================================
+// THEME CHANGE
+// ======================================
 
-if(themeSelect){
+if(theme){
 
-themeSelect.addEventListener("change",function(){
+theme.addEventListener("change",function(){
 
-localStorage.setItem("theme",this.value);
+localStorage.setItem(
+
+"theme",
+
+this.value
+
+);
 
 applyTheme();
 
@@ -236,13 +362,82 @@ applyTheme();
 
 }
 
-// ======================================================
+// ======================================
+// NOTIFICATION CHANGE
+// ======================================
+
+if(notification){
+
+notification.addEventListener("change",function(){
+
+localStorage.setItem(
+
+"notification",
+
+this.value
+
+);
+
+});
+
+}
+
+// ======================================
+// CERTIFICATE CHANGE
+// ======================================
+
+if(certificate){
+
+certificate.addEventListener("change",function(){
+
+localStorage.setItem(
+
+"certificate",
+
+this.value
+
+);
+
+});
+
+}
+
+// ======================================
+// AUTO REFRESH
+// ======================================
+
+const autoRefresh =
+document.getElementById("autoRefresh");
+
+if(autoRefresh){
+
+autoRefresh.value =
+localStorage.getItem("autoRefresh") || "5";
+
+autoRefresh.addEventListener("change",function(){
+
+localStorage.setItem(
+
+"autoRefresh",
+
+this.value
+
+);
+
+});
+
+}
+// ======================================
 // LOGOUT
-// ======================================================
+// ======================================
 
 function logout(){
 
-if(confirm("Logout from Admin Dashboard?")){
+if(!confirm("Logout from Admin Dashboard?")){
+
+return;
+
+}
 
 fetch("/logout",{
 
@@ -264,6 +459,62 @@ window.location.href="admin-login.html";
 
 }
 
+// ======================================
+// CHECK LOGIN
+// ======================================
+
+async function checkLogin(){
+
+try{
+
+const response = await fetch("/api/current-user",{
+
+credentials:"include"
+
+});
+
+const data = await response.json();
+
+if(!data.loggedIn){
+
+window.location.href="admin-login.html";
+
 }
 
-console.log("✅ Settings Loaded Successfully");
+}
+
+catch(err){
+
+console.log(err);
+
+window.location.href="admin-login.html";
+
+}
+
+}
+
+// ======================================
+// AUTO STATUS
+// ======================================
+
+setInterval(()=>{
+
+console.log("Settings Running...");
+
+},30000);
+
+// ======================================
+// INITIALIZE
+// ======================================
+
+window.addEventListener("DOMContentLoaded",()=>{
+
+checkLogin();
+
+loadSettings();
+
+loadProfileImage();
+
+applyTheme();
+
+});
