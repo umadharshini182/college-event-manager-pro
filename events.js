@@ -332,6 +332,7 @@ function editEvent(id){
     }
 
     editingId = id;
+    console.log("Editing ID:", editingId);
 
     document.getElementById("eventName").value =
     event.event_name;
@@ -375,6 +376,13 @@ updateEvent();
 // ======================================================
 
 async function updateEvent(){
+    if(editingId===null){
+
+alert("Please click Edit first.");
+
+return;
+
+}
 
     const event_name =
     document.getElementById("eventName").value;
@@ -420,6 +428,7 @@ async function updateEvent(){
     );
 
     const data = await response.json();
+    console.log(data);
 
     if(data.success){
 
