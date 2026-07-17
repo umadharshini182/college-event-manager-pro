@@ -1222,6 +1222,47 @@ font-weight:500;
 
 }
 
+.recent-card ul{
+
+list-style:none;
+
+padding:0;
+
+margin:0;
+
+}
+
+.recent-card ul li{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:15px 18px;
+
+margin-bottom:15px;
+
+background:#F8FAFC;
+
+border-left:5px solid #2563EB;
+
+border-radius:12px;
+
+transition:.3s;
+
+}
+
+.recent-card ul li:hover{
+
+background:#EEF4FF;
+
+transform:translateX(5px);
+
+}
+
+
 
 /* =====================================================
 FOOTER
@@ -1238,6 +1279,65 @@ text-align:center;
 color:#64748B;
 
 font-size:15px;
+
+}
+/* =====================================================
+PAYMENT SUMMARY
+===================================================== */
+
+.summary-section{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+
+gap:25px;
+
+margin-bottom:30px;
+
+}
+
+.summary-card{
+
+background:white;
+
+padding:25px;
+
+border-radius:20px;
+
+box-shadow:0 12px 30px rgba(15,23,42,.08);
+
+transition:.3s;
+
+border-left:6px solid #2563EB;
+
+}
+
+.summary-card:hover{
+
+transform:translateY(-6px);
+
+box-shadow:0 18px 35px rgba(37,99,235,.15);
+
+}
+
+.summary-card h3{
+
+font-size:18px;
+
+margin-bottom:15px;
+
+color:#1E3A8A;
+
+}
+
+.summary-card h1{
+
+font-size:34px;
+
+font-weight:700;
+
+color:#111827;
 
 }
 
