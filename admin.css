@@ -233,7 +233,6 @@ MAIN
 /* ==========================================================
    TOPBAR
 ========================================================== */
-
 .topbar{
 
 display:flex;
@@ -242,11 +241,19 @@ justify-content:space-between;
 
 align-items:center;
 
-gap:25px;
+padding:18px 30px;
 
-margin-bottom:35px;
+margin-bottom:28px;
 
-flex-wrap:wrap;
+background:rgba(255,255,255,.92);
+
+backdrop-filter:blur(18px);
+
+border-radius:22px;
+
+box-shadow:0 12px 35px rgba(15,23,42,.10);
+
+border:1px solid rgba(226,232,240,.8);
 
 }
 
@@ -313,22 +320,28 @@ flex-wrap:wrap;
 /* ==========================================================
 SEARCH BOX
 ========================================================== */
-
 .search-box{
 
 display:flex;
 
 align-items:center;
 
-background:white;
+gap:12px;
+
+background:#F8FAFC;
 
 padding:12px 18px;
 
-border-radius:35px;
+border-radius:50px;
 
-box-shadow:0 8px 20px rgba(0,0,0,.08);
+border:2px solid transparent;
+
+transition:.35s;
+
+width:320px;
 
 }
+
 
 .search-box i{
 
@@ -337,54 +350,79 @@ color:#888;
 margin-right:10px;
 
 }
-
 .search-box input{
 
 border:none;
 
-background:none;
+outline:none;
 
-width:240px;
+background:transparent;
+
+width:100%;
 
 font-size:15px;
 
+font-weight:500;
+
+color:#1E293B;
+
 }
+
+.search-box:hover,
+.search-box:focus-within{
+
+background:white;
+
+border-color:#2563EB;
+
+box-shadow:0 0 0 5px rgba(37,99,235,.12);
+
+}
+
+
+
 
 /* ==========================================================
 NOTIFICATION
 ========================================================== */
-
 .notification{
 
 position:relative;
 
-width:55px;
+width:52px;
 
-height:55px;
-
-border-radius:50%;
-
-background:white;
+height:52px;
 
 display:flex;
 
-justify-content:center;
-
 align-items:center;
 
-box-shadow:0 8px 20px rgba(0,0,0,.08);
+justify-content:center;
+
+background:white;
+
+border-radius:50%;
 
 cursor:pointer;
 
-transition:.3s;
+box-shadow:0 8px 22px rgba(0,0,0,.08);
+
+transition:.35s;
 
 }
 
 .notification:hover{
 
-transform:scale(1.05);
+background:#2563EB;
+
+color:white;
+
+transform:translateY(-3px);
+
+box-shadow:0 12px 25px rgba(37,99,235,.35);
 
 }
+
 
 .notification i{
 
@@ -394,13 +432,14 @@ color:#1565C0;
 
 }
 
+
 .notification span{
 
 position:absolute;
 
-top:-5px;
+top:-4px;
 
-right:-5px;
+right:-4px;
 
 width:22px;
 
@@ -408,22 +447,23 @@ height:22px;
 
 border-radius:50%;
 
-background:#ff3b30;
+background:#EF4444;
 
 color:white;
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
 
 font-size:12px;
 
 font-weight:700;
 
-}
+display:flex;
 
+align-items:center;
+
+justify-content:center;
+
+border:2px solid white;
+
+}
 /* ==========================================================
 NOTIFICATION DROPDOWN
 ========================================================== */
@@ -511,22 +551,25 @@ color:#888;
 /* ==========================================================
 PROFILE
 ========================================================== */
-
 .profile{
 
 display:flex;
 
 align-items:center;
 
-gap:12px;
+gap:14px;
+
+padding:10px 18px;
 
 background:white;
 
-padding:10px 16px;
+border-radius:50px;
 
-border-radius:40px;
+box-shadow:0 8px 22px rgba(0,0,0,.08);
 
-box-shadow:0 8px 20px rgba(0,0,0,.08);
+transition:.35s;
+
+cursor:pointer;
 
 }
 
@@ -549,6 +592,13 @@ font-size:16px;
 .profile small{
 
 color:#777;
+
+}
+.profile:hover{
+
+transform:translateY(-3px);
+
+box-shadow:0 12px 28px rgba(37,99,235,.18);
 
 }
 
