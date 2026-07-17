@@ -1,19 +1,20 @@
 // ======================================================
 // COLLEGE EVENT MANAGER
 // PAYMENTS.JS
+// PROFESSIONAL VERSION
 // ======================================================
 
-let payments = [];
+let payments=[];
 
 // ======================================================
 // PAGE LOAD
 // ======================================================
 
-window.addEventListener("load", () => {
+window.addEventListener("load",async()=>{
 
-    checkLogin();
+initializeSidebar();
 
-    initializeSidebar();
+await checkLogin();
 
 });
 
@@ -21,156 +22,149 @@ window.addEventListener("load", () => {
 // LOGIN CHECK
 // ======================================================
 
-async function checkLogin() {
+async function checkLogin(){
 
-    try {
+try{
 
-        const response = await fetch("/api/current-user", {
-            credentials: "include"
-        });
+const response=await fetch("/api/current-user",{
 
-        const data = await response.json();
+credentials:"include"
 
-        if (!data.loggedIn) {
+});
 
-            window.location.href = "admin-login.html";
+const data=await response.json();
 
-            return;
+if(!data.loggedIn){
 
-        }
+window.location.href="admin-login.html";
 
-        loadPayments();
-
-    }
-
-    catch (err) {
-
-        console.log(err);
-
-        window.location.href = "admin-login.html";
-
-    }
+return;
 
 }
+
+await loadPayments();
+
+}
+
+catch(err){
+
+console.log(err);
+
+window.location.href="admin-login.html";
+
+}
+
+}
+
 // ======================================================
 // LOAD PAYMENTS
 // ======================================================
 
 async function loadPayments(){
 
-    try{
+try{
 
-        const response = await fetch("/students",{
-            credentials:"include"
-        });
+const response=await fetch("/students",{
 
-        payments = await response.json();
+credentials:"include"
 
-        updatePaymentSummary();
+});
 
-        loadPaymentTable();
+payments=await response.json();
 
-        updateRevenue();
+updateSummaryCards();
 
-        updateRecentPayments();
+loadPaymentTable();
 
-    }
+loadRecentPayments();
 
-    catch(err){
+updateRevenueReport();
 
-        console.log(err);
+}
 
-    }
+catch(err){
+
+console.log(err);
+
+}
 
 }
 // ======================================================
-// PAYMENT SUMMARY
+// SUMMARY CARDS
 // ======================================================
 
-function updatePaymentSummary(){
+function updateSummaryCards(){
 
-    // Total Revenue
+// Total Revenue
 
-    const totalRevenue =
-    payments.reduce(
+const totalRevenue =
+payments.reduce((sum,p)=>sum+Number(p.amount||0),0);
 
-        (sum,p)=>sum+Number(p.amount || 0),
+document.getElementById("totalRevenue").innerText =
+"₹"+totalRevenue;
 
-        0
+// Paid Payments
 
-    );
+const paid =
+payments.filter(p=>p.payment_status==="Paid").length;
 
-    document.getElementById("totalRevenue").innerText =
-    "₹"+totalRevenue;
+document.getElementById("paidPayments").innerText =
+paid;
 
-    // Paid Payments
+// Pending Payments
 
-    const paid =
-    payments.filter(
-        p=>p.payment_status==="Paid"
-    ).length;
+const pending =
+payments.filter(p=>p.payment_status!=="Paid").length;
 
-    document.getElementById("paidPayments").innerText =
-    paid;
+document.getElementById("pendingPayments").innerText =
+pending;
 
-    // Pending Payments
+// Today's Revenue
 
-    const pending =
-    payments.filter(
-        p=>p.payment_status!=="Paid"
-    ).length;
+const today =
+new Date().toDateString();
 
-    document.getElementById("pendingPayments").innerText =
-    pending;
+const todayPayments =
+payments.filter(p=>
+p.createdAt &&
+new Date(p.createdAt).toDateString()===today
+);
 
-    // Today's Revenue
+const todayRevenue =
+todayPayments.reduce(
+(sum,p)=>sum+Number(p.amount||0),
+0
+);
 
-    const today =
-    new Date().toISOString().split("T")[0];
+document.getElementById("todayRevenueCard").innerText =
+"₹"+todayRevenue;
 
-    const todayPayments =
-    payments.filter(p=>
+// Statistics
 
-        p.createdAt &&
-        p.createdAt.startsWith(today)
-
-    );
-
-    const todayRevenue =
-    todayPayments.reduce(
-
-        (sum,p)=>sum+Number(p.amount || 0),
-
-        0
-
-    );
-
-    document.getElementById("todayRevenue").innerText =
-    "₹"+todayRevenue;
-
-    // Statistics
-
-    document.getElementById("transactionCount").innerText =
-    payments.length;
-
-    const highest =
-    Math.max(...payments.map(p=>Number(p.amount||0)),0);
-
-    document.getElementById("highestPayment").innerText =
-    "₹"+highest;
-
-    const average =
-    payments.length
-    ?
-    Math.round(totalRevenue/payments.length)
-    :
-    0;
-
-    document.getElementById("averagePayment").innerText =
-    "₹"+average;
-
-    document.getElementById("todayTransactions").innerText =
+document.getElementById("transactionCount").innerText =
 payments.length;
+
+const highest =
+Math.max(
+...payments.map(p=>Number(p.amount||0)),
+0
+);
+
+document.getElementById("highestPayment").innerText =
+"₹"+highest;
+
+const average =
+payments.length
+?
+Math.round(totalRevenue/payments.length)
+:
+0;
+
+document.getElementById("averagePayment").innerText =
+"₹"+average;
+
+document.getElementById("todayTransactions").innerText =
+todayPayments.length;
 
 }
 
@@ -180,14 +174,16 @@ payments.length;
 
 function loadPaymentTable(){
 
-    const tbody =
-    document.getElementById("paymentTable");
+const tbody =
+document.getElementById("paymentTable");
 
-    tbody.innerHTML="";
+if(!tbody) return;
 
-    payments.forEach(payment=>{
+tbody.innerHTML="";
 
-        tbody.innerHTML += `
+payments.forEach(payment=>{
+
+tbody.innerHTML += `
 
 <tr>
 
@@ -219,12 +215,13 @@ ${payment.payment_status}
 
 <td>
 
-${payment.createdAt
+${
+payment.createdAt
 ?
-new Date(payment.createdAt)
-.toLocaleDateString()
+new Date(payment.createdAt).toLocaleDateString()
 :
-"-"}
+"-"
+}
 
 </td>
 
@@ -244,44 +241,48 @@ Receipt
 
 `;
 
-    });
+});
+
+}
+// ======================================================
+// PAID / PENDING FILTER
+// ======================================================
+
+const paymentFilter =
+document.getElementById("paymentFilter");
+
+if(paymentFilter){
+
+paymentFilter.addEventListener("change",filterPayments);
 
 }
 
-// ======================================================
-// SEARCH PAYMENTS
-// ======================================================
+function filterPayments(){
 
-const paymentSearch =
-document.getElementById("paymentSearch");
+const status =
+document.getElementById("paymentFilter").value;
 
-if(paymentSearch){
-
-paymentSearch.onkeyup=function(){
-
-const value=
-this.value.toLowerCase();
-
-const rows=
-document.querySelectorAll(
-"#paymentTable tr"
-);
+const rows =
+document.querySelectorAll("#paymentTable tr");
 
 rows.forEach(row=>{
 
-if(
-
-row.innerText
-.toLowerCase()
-.includes(value)
-
-){
+if(status===""){
 
 row.style.display="";
 
+return;
+
 }
 
-else{
+const rowStatus =
+row.cells[5].innerText.trim();
+
+if(rowStatus===status){
+
+row.style.display="";
+
+}else{
 
 row.style.display="none";
 
@@ -289,33 +290,132 @@ row.style.display="none";
 
 });
 
-};
+}
+
+// ======================================================
+// SEARCH
+// ======================================================
+
+const paymentSearch =
+document.getElementById("paymentSearchTable");
+
+if(paymentSearch){
+
+paymentSearch.addEventListener("keyup",searchPayments);
 
 }
+
+function searchPayments(){
+
+const value =
+paymentSearch.value.toLowerCase();
+
+document.querySelectorAll("#paymentTable tr")
+.forEach(row=>{
+
+row.style.display =
+row.innerText.toLowerCase().includes(value)
+?
+""
+:
+"none";
+
+});
+
+}
+
 // ======================================================
-// DOWNLOAD RECEIPT
+// RECENT PAYMENTS
+// ======================================================
+
+function loadRecentPayments(){
+
+const recent =
+document.getElementById("recentPayments");
+
+if(!recent) return;
+
+recent.innerHTML="";
+
+payments
+.slice()
+.reverse()
+.slice(0,8)
+.forEach(payment=>{
+
+recent.innerHTML += `
+
+<li>
+
+💳 ${payment.fullname}
+
+<span>
+
+₹${payment.amount}
+
+</span>
+
+</li>
+
+`;
+
+});
+
+}
+
+// ======================================================
+// REVENUE REPORT
+// ======================================================
+
+function updateRevenueReport(){
+
+const total =
+payments.reduce(
+
+(sum,p)=>sum+Number(p.amount||0),
+
+0
+
+);
+
+document.getElementById("todayRevenueReport").innerText =
+"₹"+total;
+
+document.getElementById("weekRevenue").innerText =
+"₹"+total;
+
+document.getElementById("monthRevenue").innerText =
+"₹"+total;
+
+document.getElementById("overallRevenue").innerText =
+"₹"+total;
+
+}
+
+// ======================================================
+// RECEIPT
 // ======================================================
 
 function downloadReceipt(id){
 
-    const payment =
-    payments.find(p=>p.id===id);
+const payment =
+payments.find(p=>p.id===id);
 
-    if(!payment){
+if(!payment){
 
-        alert("Receipt not found.");
+alert("Receipt not found.");
 
-        return;
+return;
 
-    }
+}
 
-    alert(
-        "Receipt Download\n\n"+
-        "Student : "+payment.fullname+"\n"+
-        "Event : "+payment.event+"\n"+
-        "Amount : ₹"+payment.amount+"\n"+
-        "Status : "+payment.payment_status
-    );
+window.open(
+
+`receipt.html?id=${id}`,
+
+"_blank"
+
+);
 
 }
 
@@ -325,53 +425,53 @@ function downloadReceipt(id){
 
 function initializeSidebar(){
 
-    const sidebar =
-    document.getElementById("sidebar");
+const sidebar =
+document.getElementById("sidebar");
 
-    const menuBtn =
-    document.getElementById("menuBtn");
+const menuBtn =
+document.getElementById("menuBtn");
 
-    const closeBtn =
-    document.getElementById("closeSidebar");
+const closeBtn =
+document.getElementById("closeSidebar");
 
-    const overlay =
-    document.getElementById("overlay");
+const overlay =
+document.getElementById("overlay");
 
-    if(menuBtn){
+if(menuBtn){
 
-        menuBtn.onclick=()=>{
+menuBtn.onclick=()=>{
 
-            sidebar.classList.add("active");
+sidebar.classList.add("active");
 
-            overlay.classList.add("show");
+overlay.classList.add("show");
 
-        };
+};
 
-    }
+}
 
-    if(closeBtn){
+if(closeBtn){
 
-        closeBtn.onclick=()=>{
+closeBtn.onclick=()=>{
 
-            sidebar.classList.remove("active");
+sidebar.classList.remove("active");
 
-            overlay.classList.remove("show");
+overlay.classList.remove("show");
 
-        };
+};
 
-    }
+}
 
-    if(overlay){
+if(overlay){
 
-        overlay.onclick=()=>{
+overlay.onclick=()=>{
 
-            sidebar.classList.remove("active");
+sidebar.classList.remove("active");
 
-            overlay.classList.remove("show");
+overlay.classList.remove("show");
 
-        };
+};
 
-    }
+}
 
 }
 
@@ -381,23 +481,27 @@ function initializeSidebar(){
 
 function logout(){
 
-    if(!confirm("Logout from Admin Dashboard?")){
+if(!confirm("Logout from Admin Dashboard?"))
 
-        return;
+return;
 
-    }
+fetch("/logout",{
 
-    fetch("/logout",{
+credentials:"include"
 
-        credentials:"include"
+})
 
-    })
+.then(()=>{
 
-    .then(()=>{
+window.location.href="admin-login.html";
 
-        window.location.href="admin-login.html";
+})
 
-    });
+.catch(()=>{
+
+window.location.href="admin-login.html";
+
+});
 
 }
 
@@ -407,55 +511,10 @@ function logout(){
 
 setInterval(()=>{
 
-    loadPayments();
+loadPayments();
 
 },30000);
-function updateRevenue(){
-     let total = 0;
 
-    payments.forEach(payment=>{
-
-        total += Number(payment.amount || 0);
-
-    });
-
-    document.getElementById("todayRevenue").innerText =
-"₹"+total;
-
-document.getElementById("todayRevenueReport").innerText =
-"₹"+total;
-    document.getElementById("weekRevenue").innerText = "₹"+total;
-    document.getElementById("monthRevenue").innerText = "₹"+total;
-    document.getElementById("overallRevenue").innerText = "₹"+total;
-
-}
-function updateRecentPayments(){
-
-    const recent =
-    document.getElementById("recentPayments");
-
-    if(!recent) return;
-
-    recent.innerHTML = "";
-
-    payments
-    .slice()
-    .reverse()
-    .forEach(payment=>{
-
-        recent.innerHTML += `
-
-<li>
-
-${payment.fullname} paid ₹${payment.amount} for ${payment.event}
-
-</li>
-
-`;
-
-    });
-
-}
 // ======================================================
 // END OF PAYMENTS.JS
 // ======================================================

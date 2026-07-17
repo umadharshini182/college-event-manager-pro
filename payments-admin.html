@@ -4,11 +4,18 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Payments | College Event Manager</title>
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="admin.css">
+<title>
+
+Payment Management
+
+</title>
+
+<link rel="stylesheet"
+href="admin.css">
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
@@ -19,9 +26,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 
 <div id="overlay" class="overlay"></div>
 
-<!-- ===========================
+<!-- =====================================
 SIDEBAR
-=========================== -->
+===================================== -->
 
 <div class="sidebar" id="sidebar">
 
@@ -29,42 +36,62 @@ SIDEBAR
 
 <h2>🎓 CEM</h2>
 
-<button id="closeSidebar" class="close-btn">
-✕
+<button id="closeSidebar"
+class="close-btn">
+
+<i class="fa-solid fa-xmark"></i>
+
 </button>
 
 </div>
 
-<a href="dashboard.html">
+<a href="admin.html">
+
 <i class="fa-solid fa-chart-line"></i>
+
 Dashboard
+
 </a>
 
-<a href="events.html">
+<a href="events-admin.html">
+
 <i class="fa-solid fa-calendar-days"></i>
+
 Events
+
 </a>
 
-<a href="payments.html" class="active">
+<a href="payments.html"
+class="active">
+
 <i class="fa-solid fa-money-bill-wave"></i>
+
 Payments
+
 </a>
 
-<a href="settings.html">
+<a href="settings-admin.html">
+
 <i class="fa-solid fa-gear"></i>
+
 Settings
+
 </a>
 
-<a href="#" onclick="logout()">
+<a href="#"
+onclick="logout()">
+
 <i class="fa-solid fa-right-from-bracket"></i>
+
 Logout
+
 </a>
 
 </div>
 
-<!-- ===========================
+<!-- =====================================
 MAIN
-=========================== -->
+===================================== -->
 
 <div class="main">
 
@@ -72,16 +99,26 @@ MAIN
 
 <div class="top-left">
 
-<button id="menuBtn" class="menu-btn">
-☰
+<button
+id="menuBtn"
+class="menu-btn">
+
+<i class="fa-solid fa-bars"></i>
+
 </button>
 
 <div>
 
-<h1>Payment Management</h1>
+<h1>
+
+Payment Management
+
+</h1>
 
 <p class="welcome">
-Manage all payment transactions
+
+Manage all student transactions
+
 </p>
 
 </div>
@@ -95,19 +132,18 @@ Manage all payment transactions
 <i class="fa-solid fa-search"></i>
 
 <input
-type="text"
 id="paymentSearch"
-placeholder="Search Payment...">
+type="text"
+placeholder="Search Student...">
 
 </div>
 
 </div>
 
 </div>
-
-<!-- ===========================
+<!-- =====================================
 PAYMENT SUMMARY
-=========================== -->
+===================================== -->
 
 <div class="cards">
 
@@ -143,33 +179,60 @@ PAYMENT SUMMARY
 
 <div class="card purple">
 
-<i class="fa-solid fa-file-invoice-dollar"></i>
+<i class="fa-solid fa-wallet"></i>
 
-<h2 id="todayRevenue">₹0</h2>
+<h2 id="todayRevenueCard">₹0</h2>
 
 <p>Today's Revenue</p>
 
 </div>
 
-</div<!-- ===========================
+</div>
+
+<!-- =====================================
 PAYMENT TABLE
-=========================== -->
+===================================== -->
 
 <div class="table-container">
 
 <div class="table-header">
 
-<h2>💳 Payment History</h2>
+<h2>
+
+💳 Payment History
+
+</h2>
+
+<div style="display:flex;gap:12px;flex-wrap:wrap;">
 
 <select id="paymentFilter">
 
-<option value="">All Payments</option>
+<option value="">
 
-<option value="Paid">Paid</option>
+All Payments
 
-<option value="Pending">Pending</option>
+</option>
+
+<option value="Paid">
+
+Paid
+
+</option>
+
+<option value="Pending">
+
+Pending
+
+</option>
 
 </select>
+
+<input
+type="text"
+id="paymentSearchTable"
+placeholder="Search Payment...">
+
+</div>
 
 </div>
 
@@ -208,16 +271,15 @@ PAYMENT TABLE
 </table>
 
 </div>
-
-<!-- ===========================
-REVENUE ANALYTICS
-=========================== -->
+<!-- =====================================
+PAYMENT STATISTICS
+===================================== -->
 
 <div class="summary-section">
 
 <div class="summary-card">
 
-<h3>Total Transactions</h3>
+<h3>💰 Total Transactions</h3>
 
 <h1 id="transactionCount">0</h1>
 
@@ -225,7 +287,7 @@ REVENUE ANALYTICS
 
 <div class="summary-card">
 
-<h3>Highest Payment</h3>
+<h3>🏆 Highest Payment</h3>
 
 <h1 id="highestPayment">₹0</h1>
 
@@ -233,7 +295,7 @@ REVENUE ANALYTICS
 
 <div class="summary-card">
 
-<h3>Average Payment</h3>
+<h3>📊 Average Payment</h3>
 
 <h1 id="averagePayment">₹0</h1>
 
@@ -241,26 +303,31 @@ REVENUE ANALYTICS
 
 <div class="summary-card">
 
-<h3>Today's Transactions</h3>
+<h3>📅 Today's Transactions</h3>
 
 <h1 id="todayTransactions">0</h1>
 
 </div>
 
 </div>
-<!-- ===========================
-RECENT PAYMENT ACTIVITY
-=========================== -->
+
+<!-- =====================================
+RECENT PAYMENTS
+===================================== -->
 
 <div class="recent-section">
 
 <div class="recent-card">
 
-<h2>💳 Recent Payments</h2>
+<h2>
+
+💳 Recent Payments
+
+</h2>
 
 <ul id="recentPayments">
 
-<!-- Loaded by payments.js -->
+<!-- Loaded from payments.js -->
 
 </ul>
 
@@ -268,28 +335,60 @@ RECENT PAYMENT ACTIVITY
 
 <div class="recent-card">
 
-<h2>📈 Revenue Report</h2>
+<h2>
+
+📈 Revenue Report
+
+</h2>
 
 <ul>
 
 <li>
+
 Today's Revenue
-<span id="todayRevenueReport">₹0</span>
+
+<span id="todayRevenueReport">
+
+₹0
+
+</span>
+
 </li>
 
 <li>
+
 This Week
-<span id="weekRevenue">₹0</span>
+
+<span id="weekRevenue">
+
+₹0
+
+</span>
+
 </li>
 
 <li>
+
 This Month
-<span id="monthRevenue">₹0</span>
+
+<span id="monthRevenue">
+
+₹0
+
+</span>
+
 </li>
 
 <li>
+
 Overall Revenue
-<span id="overallRevenue">₹0</span>
+
+<span id="overallRevenue">
+
+₹0
+
+</span>
+
 </li>
 
 </ul>
@@ -298,20 +397,24 @@ Overall Revenue
 
 </div>
 
-<!-- ===========================
+<!-- =====================================
 FOOTER
-=========================== -->
+===================================== -->
 
 <footer>
 
 <div class="footer-content">
 
 <p>
+
 © 2027 College Event Manager
+
 </p>
 
 <p>
-Payment Management Module
+
+Professional Payment Management Dashboard
+
 </p>
 
 </div>

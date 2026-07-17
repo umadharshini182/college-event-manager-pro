@@ -4,9 +4,10 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>College Event Manager - Admin Dashboard</title>
+<title>College Event Manager | Admin Dashboard</title>
 
 <link rel="stylesheet" href="admin.css">
 
@@ -19,9 +20,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 
 <body>
 
-<!-- ===========================
+<!-- ==========================================
 SIDEBAR
-=========================== -->
+========================================== -->
 
 <div class="sidebar" id="sidebar">
 
@@ -36,47 +37,60 @@ SIDEBAR
 </button>
 
 </div>
+
 <a href="admin.html" class="active">
-    <i class="fa-solid fa-chart-line"></i>
-    Dashboard
+
+<i class="fa-solid fa-chart-line"></i>
+
+Dashboard
+
 </a>
 
-
 <a href="events-admin.html">
-    <i class="fa-solid fa-calendar-days"></i>
-    Events
+
+<i class="fa-solid fa-calendar-days"></i>
+
+Events
+
 </a>
 
 <a href="payments.html">
-    <i class="fa-solid fa-money-bill-wave"></i>
-    Payments
-</a>
 
+<i class="fa-solid fa-money-bill-wave"></i>
+
+Payments
+
+</a>
 
 <a href="settings-admin.html">
-    <i class="fa-solid fa-gear"></i>
-    Settings
+
+<i class="fa-solid fa-gear"></i>
+
+Settings
+
 </a>
+
 <a href="#" onclick="logout()">
+
 <i class="fa-solid fa-right-from-bracket"></i>
-<span>Logout</span>
+
+Logout
+
 </a>
 
 </div>
 
-<!-- Overlay -->
-
 <div id="overlay" class="overlay"></div>
 
-<!-- ===========================
+<!-- ==========================================
 MAIN
-=========================== -->
+========================================== -->
 
 <div class="main">
 
-<!-- ===========================
+<!-- ==========================================
 TOPBAR
-=========================== -->
+========================================== -->
 
 <div class="topbar">
 
@@ -115,26 +129,49 @@ placeholder="Search Student...">
 
 </div>
 
-<div class="notification" id="notificationBtn">
+<div
+class="notification"
+id="notificationBtn">
 
 <i class="fa-solid fa-bell"></i>
 
-<span>3</span>
+<span id="notificationCount">
+
+0
+
+</span>
 
 </div>
 
 <div class="profile">
 
 <img
-src="https://ui-avatars.com/api/?name=Administrator&background=0B3D91&color=fff">
+
+src="https://ui-avatars.com/api/?name=Administrator&background=2563EB&color=fff"
+
+alt="Admin">
 
 <div class="profile-info">
 
-<h4>Administrator</h4>
+<h4>
 
-<p>admin@cem.com</p>
+Administrator
 
-<small>Super Admin</small>
+</h4>
+
+<p>
+
+admin@cem.com
+
+</p>
+
+<small>
+
+Super Admin
+
+</small>
+
+</div>
 
 </div>
 
@@ -142,20 +179,68 @@ src="https://ui-avatars.com/api/?name=Administrator&background=0B3D91&color=fff"
 
 </div>
 
+<!-- ==========================================
+NOTIFICATIONS
+========================================== -->
+<!-- ==========================================
+NOTIFICATION
+========================================== -->
+
+<div class="notification" id="notificationBtn">
+
+    <i class="fa-solid fa-bell"></i>
+
+    <span id="notificationCount">0</span>
+
 </div>
-<!-- Notification Popup -->
 
-<div class="notification-dropdown" id="notificationDropdown">
+<div class="profile">
 
-<h3>Notifications</h3>
+    <img
+    src="https://ui-avatars.com/api/?name=Administrator&background=2563EB&color=fff"
+    alt="Administrator">
 
-<div id="notificationList"></div>
+    <div class="profile-info">
+
+        <h4>Administrator</h4>
+
+        <p>admin@cem.com</p>
+
+        <small>Super Admin</small>
+
+    </div>
 
 </div>
 
-<!-- ===========================
+</div>
+
+</div>
+
+<!-- ==========================================
+NOTIFICATION DROPDOWN
+========================================== -->
+
+<div
+class="notification-dropdown"
+id="notificationDropdown">
+
+<h3>
+
+Recent Notifications
+
+</h3>
+
+<div id="notificationList">
+
+<!-- Loaded automatically by admin.js -->
+
+</div>
+
+</div>
+
+<!-- ==========================================
 FIRST ROW CARDS
-=========================== -->
+========================================== -->
 
 <div class="cards">
 
@@ -201,9 +286,9 @@ FIRST ROW CARDS
 
 </div>
 
-<!-- ===========================
-SECOND ROW
-=========================== -->
+<!-- ==========================================
+SECOND ROW CARDS
+========================================== -->
 
 <div class="cards">
 
@@ -249,9 +334,9 @@ SECOND ROW
 
 </div>
 
-<!-- ===========================
+<!-- ==========================================
 ANALYTICS
-=========================== -->
+========================================== -->
 
 <div class="analytics">
 
@@ -297,40 +382,56 @@ ANALYTICS
 
 </div>
 
-<!-- ==========================
-PREMIUM QUICK STATS
-========================== -->
+<!-- ==========================================
+QUICK STATS
+========================================== -->
 
 <div class="quick-stats">
 
-    <div class="stat-box">
-        <i class="fas fa-user-plus"></i>
-        <h3>Today's Registrations</h3>
-        <h1 id="todayRegistrations">1</h1>
-    </div>
+<div class="stat-box">
 
-    <div class="stat-box">
-        <i class="fas fa-user-check"></i>
-        <h3>Attendance</h3>
-        <h1 id="attendanceCount">1</h1>
-    </div>
+<i class="fa-solid fa-user-plus"></i>
 
-    <div class="stat-box">
-        <i class="fas fa-award"></i>
-        <h3>Certificates Generated</h3>
-        <h1 id="certificateCount">0</h1>
-    </div>
+<h3>Today's Registrations</h3>
+
+<h1 id="todayRegistrations">0</h1>
 
 </div>
-<!-- ===========================
+
+<div class="stat-box">
+
+<i class="fa-solid fa-user-check"></i>
+
+<h3>Attendance</h3>
+
+<h1 id="attendanceCount">0</h1>
+
+</div>
+
+<div class="stat-box">
+
+<i class="fa-solid fa-award"></i>
+
+<h3>Certificates Generated</h3>
+
+<h1 id="certificateGenerated">0</h1>
+
+</div>
+
+</div>
+<!-- ==========================================
 CHARTS
-=========================== -->
+========================================== -->
 
 <div class="charts">
 
 <div class="chart-card">
 
-<h2>📊 Registration Analytics</h2>
+<h2>
+
+📊 Registration Analytics
+
+</h2>
 
 <canvas id="barChart"></canvas>
 
@@ -338,7 +439,11 @@ CHARTS
 
 <div class="chart-card">
 
-<h2>🥧 Event Distribution</h2>
+<h2>
+
+📈 Event Statistics
+
+</h2>
 
 <canvas id="pieChart"></canvas>
 
@@ -346,15 +451,19 @@ CHARTS
 
 </div>
 
-<!-- ===========================
-STUDENT TABLE
-=========================== -->
+<!-- ==========================================
+STUDENT REGISTRATION TABLE
+========================================== -->
 
 <div class="table-container">
 
 <div class="table-header">
 
-<h2>🎓 Student Registrations</h2>
+<h2>
+
+🎓 Student Registrations
+
+</h2>
 
 <input
 type="text"
@@ -400,45 +509,76 @@ onkeyup="searchStudent()">
 
 <tbody id="studentTable">
 
-<!-- Loaded by admin.js -->
+<!-- Loaded automatically from admin.js -->
 
 </tbody>
 
 </table>
 
 </div>
-<!-- ===========================
+
+<!-- ==========================================
 RECENT SECTION
-=========================== -->
+========================================== -->
 
 <div class="recent-section">
 
 <div class="recent-card">
 
 <h2>
+
 📅 Upcoming Events
+
 </h2>
 
-<ul>
+<ul id="upcomingEvents">
 
 <li>
-🚀 Hackathon
-<span>17 Aug 2027</span>
+
+Hackathon
+
+<span>
+
+17 Aug 2027
+
+</span>
+
 </li>
 
 <li>
-🤖 AI Workshop
-<span>18 Aug 2027</span>
+
+AI Workshop
+
+<span>
+
+18 Aug 2027
+
+</span>
+
 </li>
 
 <li>
-💡 Ideathon
-<span>20 Aug 2027</span>
+
+Ideathon
+
+<span>
+
+20 Aug 2027
+
+</span>
+
 </li>
 
 <li>
-📄 Symposium
-<span>22 Aug 2027</span>
+
+Symposium
+
+<span>
+
+22 Aug 2027
+
+</span>
+
 </li>
 
 </ul>
@@ -448,36 +588,23 @@ RECENT SECTION
 <div class="recent-card">
 
 <h2>
+
 🔥 Latest Activity
+
 </h2>
 
 <ul id="activityList">
 
-<li>
-Student registered successfully
-</li>
-
-<li>
-Attendance updated
-</li>
-
-<li>
-Certificate generated
-</li>
-
-<li>
-Payment received
-</li>
+<!-- Loaded automatically from admin.js -->
 
 </ul>
 
 </div>
 
 </div>
-
-<!-- ===========================
+<!-- ==========================================
 FOOTER
-=========================== -->
+========================================== -->
 
 <footer>
 
@@ -491,7 +618,7 @@ FOOTER
 
 <p>
 
-Developed using HTML • CSS • JavaScript • Node.js • MySQL
+Developed using HTML • CSS • JavaScript • Node.js • Express • MySQL
 
 </p>
 
@@ -500,6 +627,12 @@ Developed using HTML • CSS • JavaScript • Node.js • MySQL
 </footer>
 
 </div>
+
+<!-- ==========================================
+SCRIPTS
+========================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script src="admin.js"></script>
 
