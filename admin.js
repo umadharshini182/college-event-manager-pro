@@ -12,13 +12,13 @@ let pieChart = null;
 // PAGE LOAD
 // ======================================================
 
-window.addEventListener("load",()=>{
+window.addEventListener("load", () => {
 
-checkLogin();
+    checkLogin();
 
-initializeSidebar();
+    initializeSidebar();
 
-initializeNotification();
+    initializeNotification();
 
 });
 
@@ -26,41 +26,35 @@ initializeNotification();
 // LOGIN CHECK
 // ======================================================
 
-async function checkLogin(){
+async function checkLogin() {
 
-try{
+    try {
 
-const response =
-await fetch("/api/current-user",{
+        const response = await fetch("/api/current-user", {
+            credentials: "include"
+        });
 
-credentials:"include"
+        const data = await response.json();
 
-});
+        if (!data.loggedIn) {
 
-const data =
-await response.json();
+            window.location.href = "admin-login.html";
 
-if(!data.loggedIn){
+            return;
 
-window.location.href =
-"admin-login.html";
+        }
 
-return;
+        loadDashboard();
 
-}
+    }
 
-loadDashboard();
+    catch (err) {
 
-}
+        console.log(err);
 
-catch(err){
+        window.location.href = "admin-login.html";
 
-console.log(err);
-
-window.location.href =
-"admin-login.html";
-
-}
+    }
 
 }
 
@@ -68,43 +62,41 @@ window.location.href =
 // LOAD DASHBOARD
 // ======================================================
 
-async function loadDashboard(){
+async function loadDashboard() {
 
-try{
+    try {
 
-const response =
-await fetch("/students",{
+        const response = await fetch("/students", {
+            credentials: "include"
+        });
 
-credentials:"include"
+        students = await response.json();
 
-});
-students = await response.json();
+        if (!Array.isArray(students)) {
 
-if(!Array.isArray(students)){
+            students = [];
 
-students = [];
+        }
+
+        updateDashboard();
+
+        loadTable();
+
+        updateCharts();
+
+        updateLatestActivity();
+
+        updateNotifications();
+
+    }
+
+    catch (err) {
+
+        console.log(err);
+
+    }
 
 }
-
-updateDashboard();
-
-loadTable();
-
-updateCharts();
-
-updateLatestActivity();
-
-updateNotifications();
-
-}
-catch(err){
-
-console.log(err);
-
-}
-
-}
-
 // ======================================================
 // SIDEBAR
 // ======================================================
@@ -162,7 +154,7 @@ overlay.classList.remove("show");
 }
 
 // ======================================================
-// PROFESSIONAL NOTIFICATION
+// NOTIFICATION
 // ======================================================
 
 function initializeNotification(){
@@ -210,10 +202,8 @@ function updateDashboard(){
 // TOTAL STUDENTS
 // -----------------------------
 
-const totalStudents =
-students.length;
-console.log("Students array:", students);
-console.log("Total:", students.length);
+const totalStudents = students.length;
+
 const count =
 document.getElementById("count");
 
@@ -228,13 +218,11 @@ count.innerText = totalStudents;
 // -----------------------------
 
 const totalRevenue =
-students.reduce(
+students.reduce((sum,student)=>{
 
-(sum,s)=>sum+Number(s.amount||0),
+return sum + Number(student.amount || 0);
 
-0
-
-);
+},0);
 
 const revenue =
 document.getElementById("revenue");
@@ -242,7 +230,7 @@ document.getElementById("revenue");
 if(revenue){
 
 revenue.innerText =
-"₹"+totalRevenue;
+"₹" + totalRevenue;
 
 }
 
@@ -251,9 +239,9 @@ revenue.innerText =
 // -----------------------------
 
 const paidPayments =
-students.filter(
+students.filter(student=>
 
-s=>s.payment_status==="Paid"
+student.payment_status==="Paid"
 
 ).length;
 
@@ -272,9 +260,9 @@ paidPayments;
 // -----------------------------
 
 const pendingPayments =
-students.filter(
+students.filter(student=>
 
-s=>s.payment_status!=="Paid"
+student.payment_status!=="Paid"
 
 ).length;
 
@@ -295,7 +283,7 @@ pendingPayments;
 const uniqueColleges =
 [...new Set(
 
-students.map(s=>s.college)
+students.map(student=>student.college)
 
 )];
 
@@ -308,14 +296,15 @@ colleges.innerText =
 uniqueColleges.length;
 
 }
+
 // -----------------------------
 // CERTIFICATES
 // -----------------------------
 
 const certificates =
-students.filter(
+students.filter(student=>
 
-s=>s.certificate_id
+student.certificate_id
 
 ).length;
 
@@ -330,43 +319,40 @@ certificates;
 }
 
 // -----------------------------
-// TODAY'S REGISTRATIONS
+// TODAY REGISTRATIONS
 // -----------------------------
 
 const today =
 new Date().toISOString().split("T")[0];
 
 const todayStudents =
-students.filter(s=>
+students.filter(student=>
 
-s.createdAt &&
-
-s.createdAt.startsWith(today)
+student.createdAt &&
+student.createdAt.startsWith(today)
 
 );
 
-const todayRegistration =
+const todayRegistrations =
 document.getElementById("todayRegistrations");
 
-if(todayRegistration){
+if(todayRegistrations){
 
-todayRegistration.innerText =
+todayRegistrations.innerText =
 todayStudents.length;
 
 }
 
 // -----------------------------
-// TODAY'S REVENUE
+// TODAY REVENUE
 // -----------------------------
 
 const todayRevenue =
-todayStudents.reduce(
+todayStudents.reduce((sum,student)=>{
 
-(sum,s)=>sum+Number(s.amount||0),
+return sum + Number(student.amount || 0);
 
-0
-
-);
+},0);
 
 const todayRevenueBox =
 document.getElementById("todayRevenue");
@@ -374,7 +360,7 @@ document.getElementById("todayRevenue");
 if(todayRevenueBox){
 
 todayRevenueBox.innerText =
-"₹"+todayRevenue;
+"₹" + todayRevenue;
 
 }
 
@@ -383,9 +369,9 @@ todayRevenueBox.innerText =
 // -----------------------------
 
 const attendance =
-students.filter(
+students.filter(student=>
 
-s=>s.attendance==="Present"
+student.attendance==="Present"
 
 ).length;
 
@@ -400,7 +386,7 @@ attendance;
 }
 
 // -----------------------------
-// BEST EVENT
+// TOP EVENT
 // -----------------------------
 
 const eventCount = {};
@@ -408,17 +394,16 @@ const eventCount = {};
 students.forEach(student=>{
 
 eventCount[student.event] =
-(eventCount[student.event]||0)+1;
+(eventCount[student.event] || 0) + 1;
 
 });
 
 let topEvent = "-";
-
 let max = 0;
 
 for(const event in eventCount){
 
-if(eventCount[event]>max){
+if(eventCount[event] > max){
 
 max = eventCount[event];
 
@@ -427,6 +412,7 @@ topEvent = event;
 }
 
 }
+
 const topEventCard =
 document.getElementById("topEvent");
 
@@ -436,6 +422,7 @@ topEventCard.innerText =
 topEvent;
 
 }
+
 const bestEvent =
 document.getElementById("bestEvent");
 
@@ -455,7 +442,7 @@ const collegeCount = {};
 students.forEach(student=>{
 
 collegeCount[student.college] =
-(collegeCount[student.college]||0)+1;
+(collegeCount[student.college] || 0) + 1;
 
 });
 
@@ -465,7 +452,7 @@ max = 0;
 
 for(const college in collegeCount){
 
-if(collegeCount[college]>max){
+if(collegeCount[college] > max){
 
 max = collegeCount[college];
 
@@ -474,6 +461,7 @@ topCollege = college;
 }
 
 }
+
 const topCollegeCard =
 document.getElementById("topCollege");
 
@@ -488,9 +476,11 @@ topCollege;
 // ======================================================
 // PROFESSIONAL STUDENT TABLE
 // ======================================================
+
 function loadTable(){
 
-const tbody = document.getElementById("studentTable");
+const tbody =
+document.getElementById("studentTable");
 
 if(!tbody){
 
@@ -502,15 +492,40 @@ return;
 
 tbody.innerHTML = "";
 
+if(students.length===0){
+
+tbody.innerHTML = `
+
+<tr>
+
+<td colspan="12"
+style="text-align:center;padding:35px;">
+
+No student registrations found.
+
+</td>
+
+</tr>
+
+`;
+
+return;
+
+}
+
 students.forEach(student=>{
 
 const row = document.createElement("tr");
 
 row.innerHTML = `
 
-<td>${student.id}</td>
+<td>#${student.id}</td>
 
-<td>${student.fullname}</td>
+<td>
+
+<strong>${student.fullname}</strong>
+
+</td>
 
 <td>${student.email}</td>
 
@@ -520,15 +535,92 @@ row.innerHTML = `
 
 <td>${student.year}</td>
 
-<td>${student.event}</td>
+<td>
 
-<td>${student.payment_status}</td>
+<span class="event-badge">
 
-<td>₹${student.amount}</td>
+${student.event}
 
-<td>${student.attendance}</td>
+</span>
 
-<td>${student.certificate_id || "-"}</td>
+</td>
+
+<td>
+
+<span class="${
+student.payment_status==="Paid"
+?
+"paid"
+:
+"pending"
+}">
+
+${student.payment_status}
+
+</span>
+
+</td>
+
+<td>
+
+₹${student.amount}
+
+</td>
+
+<td>
+
+<button
+
+class="${
+student.attendance==="Present"
+?
+"action-btn present-btn"
+:
+"action-btn warning-btn"
+}"
+
+onclick="markAttendance(${student.id})">
+
+${
+student.attendance==="Present"
+?
+"Present"
+:
+"Mark"
+}
+
+</button>
+
+</td>
+
+<td>
+
+${
+student.certificate_id
+
+?
+
+`<button
+class="action-btn certificate-btn"
+onclick="viewCertificate(${student.id})">
+
+View
+
+</button>`
+
+:
+
+`<button
+class="action-btn disabled-btn"
+disabled>
+
+Not Generated
+
+</button>`
+
+}
+
+</td>
 
 <td>
 
@@ -548,10 +640,7 @@ tbody.appendChild(row);
 
 });
 
-console.log("Rows Added:", tbody.rows.length);
-
 }
-
 // ======================================================
 // SEARCH STUDENT
 // ======================================================
@@ -613,13 +702,13 @@ if(data.success){
 
 alert("Attendance marked successfully.");
 
+loadDashboard();
+
 }else{
 
 alert("Unable to mark attendance.");
 
 }
-
-loadDashboard();
 
 }
 
@@ -627,7 +716,7 @@ catch(err){
 
 console.log(err);
 
-alert("Unable to update attendance.");
+alert("Server error.");
 
 }
 
@@ -640,7 +729,7 @@ alert("Unable to update attendance.");
 function viewCertificate(id){
 
 const student =
-students.find(s=>s.id===id);
+students.find(student=>student.id===id);
 
 if(!student){
 
@@ -650,21 +739,21 @@ return;
 
 }
 
-if(student.certificate_id){
+if(!student.certificate_id){
+
+alert("Certificate not generated.");
+
+return;
+
+}
 
 window.open(
 
-"certificate.html?id="+student.id,
+"/certificate.html?id="+id,
 
 "_blank"
 
 );
-
-}else{
-
-alert("Certificate has not been generated yet.");
-
-}
 
 }
 
@@ -674,7 +763,10 @@ alert("Certificate has not been generated yet.");
 
 async function deleteStudent(id){
 
-if(!confirm("Delete this student permanently?")){
+const confirmDelete =
+confirm("Delete this student?");
+
+if(!confirmDelete){
 
 return;
 
@@ -698,13 +790,13 @@ if(data.success){
 
 alert("Student deleted successfully.");
 
+loadDashboard();
+
 }else{
 
 alert("Unable to delete student.");
 
 }
-
-loadDashboard();
 
 }
 
@@ -712,7 +804,7 @@ catch(err){
 
 console.log(err);
 
-alert("Unable to delete student.");
+alert("Server error.");
 
 }
 
@@ -733,9 +825,12 @@ eventData[student.event] =
 });
 
 const labels = Object.keys(eventData);
+
 const values = Object.values(eventData);
 
-// ---------------- BAR CHART ----------------
+// =====================
+// BAR CHART
+// =====================
 
 const barCanvas =
 document.getElementById("barChart");
@@ -763,13 +858,19 @@ label:"Registrations",
 data:values,
 
 backgroundColor:[
-"#0B3D91",
-"#28A745",
-"#FFC107",
-"#DC3545",
-"#6F42C1",
-"#17A2B8"
-]
+
+"#1565C0",
+"#2E7D32",
+"#EF6C00",
+"#C62828",
+"#6A1B9A",
+"#0288D1"
+
+],
+
+borderRadius:10,
+
+borderSkipped:false
 
 }]
 
@@ -779,11 +880,29 @@ options:{
 
 responsive:true,
 
+maintainAspectRatio:false,
+
 plugins:{
 
 legend:{
 
 display:false
+
+}
+
+},
+
+scales:{
+
+y:{
+
+beginAtZero:true,
+
+ticks:{
+
+stepSize:1
+
+}
 
 }
 
@@ -795,7 +914,9 @@ display:false
 
 }
 
-// ---------------- PIE CHART ----------------
+// =====================
+// PIE CHART
+// =====================
 
 const pieCanvas =
 document.getElementById("pieChart");
@@ -810,7 +931,7 @@ pieChart.destroy();
 
 pieChart = new Chart(pieCanvas,{
 
-type:"pie",
+type:"doughnut",
 
 data:{
 
@@ -821,13 +942,17 @@ datasets:[{
 data:values,
 
 backgroundColor:[
-"#0B3D91",
-"#28A745",
-"#FFC107",
-"#DC3545",
-"#6F42C1",
-"#17A2B8"
-]
+
+"#1565C0",
+"#2E7D32",
+"#EF6C00",
+"#C62828",
+"#6A1B9A",
+"#0288D1"
+
+],
+
+borderWidth:2
 
 }]
 
@@ -835,7 +960,19 @@ backgroundColor:[
 
 options:{
 
-responsive:true
+responsive:true,
+
+maintainAspectRatio:false,
+
+plugins:{
+
+legend:{
+
+position:"bottom"
+
+}
+
+}
 
 }
 
@@ -844,9 +981,8 @@ responsive:true
 }
 
 }
-
 // ======================================================
-// REAL LATEST ACTIVITY
+// LATEST ACTIVITY
 // ======================================================
 
 function updateLatestActivity(){
@@ -862,10 +998,22 @@ return;
 
 activity.innerHTML = "";
 
+if(students.length===0){
+
+activity.innerHTML = `
+
+<li>No recent activity.</li>
+
+`;
+
+return;
+
+}
+
 students
 .slice()
 .reverse()
-.slice(0,6)
+.slice(0,5)
 .forEach(student=>{
 
 activity.innerHTML += `
@@ -907,7 +1055,10 @@ return;
 popup.innerHTML = "<h3>Notifications</h3>";
 
 const latest =
-students.slice().reverse().slice(0,4);
+students
+.slice()
+.reverse()
+.slice(0,5);
 
 latest.forEach(student=>{
 
@@ -929,6 +1080,7 @@ ${student.event}
 
 <small>
 
+Payment :
 ${student.payment_status}
 
 </small>
@@ -946,13 +1098,17 @@ badge.innerText = latest.length;
 }
 
 }
+
 // ======================================================
 // LOGOUT
 // ======================================================
 
 function logout(){
 
-if(!confirm("Logout from Admin Dashboard?")){
+const answer =
+confirm("Are you sure you want to logout?");
+
+if(!answer){
 
 return;
 
@@ -965,19 +1121,20 @@ credentials:"include"
 })
 .then(()=>{
 
-window.location.href="admin-login.html";
+window.location.href =
+"admin-login.html";
 
 })
 .catch(err=>{
 
 console.log(err);
 
-window.location.href="admin-login.html";
+window.location.href =
+"admin-login.html";
 
 });
 
 }
-
 // ======================================================
 // AUTO REFRESH
 // ======================================================
@@ -989,7 +1146,7 @@ loadDashboard();
 },30000);
 
 // ======================================================
-// REFRESH AFTER TAB CHANGE
+// REFRESH WHEN TAB BECOMES ACTIVE
 // ======================================================
 
 document.addEventListener("visibilitychange",()=>{
@@ -1003,7 +1160,7 @@ loadDashboard();
 });
 
 // ======================================================
-// WINDOW FOCUS
+// REFRESH WHEN WINDOW GETS FOCUS
 // ======================================================
 
 window.addEventListener("focus",()=>{
@@ -1013,7 +1170,7 @@ loadDashboard();
 });
 
 // ======================================================
-// PROFESSIONAL LOADER
+// LOADING
 // ======================================================
 
 function showLoading(){
@@ -1032,10 +1189,11 @@ tbody.innerHTML = `
 <tr>
 
 <td colspan="12"
-style="text-align:center;
-padding:30px;">
 
-Loading students...
+style="text-align:center;
+padding:35px;">
+
+Loading student registrations...
 
 </td>
 
@@ -1046,14 +1204,51 @@ Loading students...
 }
 
 // ======================================================
+// GLOBAL SEARCH (TOP SEARCH BAR)
+// ======================================================
+
+const globalSearch =
+document.getElementById("globalSearch");
+
+if(globalSearch){
+
+globalSearch.addEventListener("keyup",()=>{
+
+const value =
+globalSearch.value.toLowerCase();
+
+const rows =
+document.querySelectorAll("#studentTable tr");
+
+rows.forEach(row=>{
+
+if(row.innerText.toLowerCase().includes(value)){
+
+row.style.display="";
+
+}else{
+
+row.style.display="none";
+
+}
+
+});
+
+});
+
+}
+
+// ======================================================
 // PAGE READY
 // ======================================================
 
-console.log(
+console.log("======================================");
 
-"College Event Manager Admin Dashboard Loaded Successfully"
+console.log("College Event Manager Admin Ready");
 
-);
+console.log("Professional Dashboard Loaded");
+
+console.log("======================================");
 
 // ======================================================
 // END OF ADMIN.JS

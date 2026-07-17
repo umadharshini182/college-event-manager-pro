@@ -10,14 +10,23 @@ let editingId = null;
 // ======================================================
 // PAGE LOAD
 // ======================================================
-
 window.addEventListener("load", () => {
 
     checkLogin();
 
     initializeSidebar();
 
+    const btn =
+    document.getElementById("saveEventBtn");
+
+    if(btn){
+
+        btn.onclick = saveEvent;
+
+    }
+
 });
+
 
 // ======================================================
 // LOGIN CHECK
@@ -340,7 +349,7 @@ function editEvent(id){
     event.status;
 
     const btn =
-document.querySelector(".present-btn");
+document.getElementById("saveEventBtn");
 
 if(!btn){
 
@@ -423,7 +432,7 @@ async function updateEvent(){
         loadEvents();
 
         const btn =
-        document.querySelector(".present-btn");
+document.getElementById("saveEventBtn");
 
         btn.innerHTML =
         '<i class="fa-solid fa-floppy-disk"></i> Save Event';
