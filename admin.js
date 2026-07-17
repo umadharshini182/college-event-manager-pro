@@ -171,45 +171,6 @@ overlay.classList.remove("show");
 
 }
 
-// ======================================================
-// NOTIFICATIONS
-// ======================================================
-
-function initializeNotification(){
-
-const bell =
-document.getElementById("notificationBtn");
-
-const popup =
-document.getElementById("notificationDropdown");
-
-if(!bell || !popup){
-
-return;
-
-}
-
-bell.onclick=function(e){
-
-e.stopPropagation();
-
-popup.classList.toggle("show");
-
-};
-
-popup.onclick=function(e){
-
-e.stopPropagation();
-
-};
-
-document.addEventListener("click",function(){
-
-popup.classList.remove("show");
-
-});
-
-}
 
 // ======================================================
 // UPDATE NOTIFICATIONS
@@ -1437,7 +1398,36 @@ console.log("College Event Manager Loaded");
 console.log("Professional Dashboard Ready");
 
 console.log("================================");
+// ======================================
+// NOTIFICATION
+// ======================================
 
+const bell = document.getElementById("notificationBtn");
+const popup = document.getElementById("notificationDropdown");
+
+if(bell && popup){
+
+bell.addEventListener("click",function(e){
+
+e.stopPropagation();
+
+popup.classList.toggle("show");
+
+});
+
+document.addEventListener("click",function(){
+
+popup.classList.remove("show");
+
+});
+
+popup.addEventListener("click",function(e){
+
+e.stopPropagation();
+
+});
+
+}
 // ======================================================
 // END OF ADMIN.JS
 // ======================================================
