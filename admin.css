@@ -723,32 +723,36 @@ color:#64748B;
 /* ==========================================================
 CARD COLORS
 ========================================================== */
-.blue{
+.card.blue{
 
-border-left:8px solid #2563EB;
+background:linear-gradient(135deg,#2563EB,#60A5FA);
+
+color:white;
 
 }
-
 .blue i{
 
 background:#2563EB;
 
 }
-.green{
+.card.green{
 
-border-left:8px solid #10B981;
+background:linear-gradient(135deg,#10B981,#34D399);
+
+color:white;
 
 }
-
 .green i{
 
 background:#10B981;
 
 }
 
-.orange{
+.card.orange{
 
-border-left:8px solid #F97316;
+background:linear-gradient(135deg,#F97316,#FB923C);
+
+color:white;
 
 }
 
@@ -758,9 +762,11 @@ background:#F97316;
 
 }
 
-.red{
+.card.red{
 
-border-left:8px solid #EF4444;
+background:linear-gradient(135deg,#EF4444,#FB7185);
+
+color:white;
 
 }
 
@@ -771,9 +777,11 @@ background:#EF4444;
 }
 
 
-.purple{
+.card.purple{
 
-border-left:8px solid #8B5CF6;
+background:linear-gradient(135deg,#8B5CF6,#A78BFA);
+
+color:white;
 
 }
 
@@ -782,9 +790,11 @@ border-left:8px solid #8B5CF6;
 background:#8B5CF6;
 
 }
-.sky{
+.card.sky{
 
-border-left:8px solid #06B6D4;
+background:linear-gradient(135deg,#06B6D4,#67E8F9);
+
+color:white;
 
 }
 
@@ -793,27 +803,56 @@ border-left:8px solid #06B6D4;
 background:#06B6D4;
 
 }
-.dark{
 
-border-left:8px solid #0F172A;
+.card.dark{
+
+background:linear-gradient(135deg,#1E293B,#334155);
+
+color:white;
 
 }
-
 .dark i{
 
 background:#0F172A;
 
 }
 
-.gold{
+.card.gold{
 
-border-left:8px solid #EAB308;
+background:linear-gradient(135deg,#EAB308,#FACC15);
+
+color:white;
 
 }
 
 .gold i{
 
 background:#EAB308;
+
+}
+.card i{
+
+font-size:32px;
+
+width:70px;
+
+height:70px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+border-radius:18px;
+
+background:rgba(255,255,255,.18);
+
+backdrop-filter:blur(8px);
+
+color:white;
+
+margin-bottom:18px;
 
 }
 /* ==========================================================
