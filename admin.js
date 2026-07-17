@@ -95,30 +95,25 @@ async function loadDashboard(){
 // ======================================================
 // REAL NOTIFICATIONS
 // ======================================================
-
 function loadNotifications(){
 
-    const list =
-    document.getElementById("notificationList");
+const list =
+document.getElementById("notificationList");
 
-    const count =
-    document.getElementById("notificationCount");
+const count =
+document.getElementById("notificationCount");
 
-    if(!list) return;
+if(!list || !count) return;
 
-    list.innerHTML="";
+list.innerHTML="";
 
-    let total=0;
+students
+.slice()
+.reverse()
+.slice(0,5)
+.forEach(student=>{
 
-    students
-    .slice()
-    .reverse()
-    .slice(0,8)
-    .forEach(student=>{
-
-        total++;
-
-        list.innerHTML += `
+list.innerHTML+=`
 
 <div class="notify-item">
 
@@ -144,71 +139,24 @@ ${new Date(student.createdAt).toLocaleString()}
 
 `;
 
-        if(student.payment_status==="Paid"){
+});
 
-            total++;
+const total=students.length;
 
-            list.innerHTML += `
+if(total>0){
 
-<div class="notify-item">
+count.innerText=total;
 
-<h4>💳 Payment Received</h4>
+count.style.display="flex";
 
-<p>
+}else{
 
-${student.fullname}
-
-paid ₹${student.amount}
-
-</p>
-
-<small>
-
-${new Date(student.createdAt).toLocaleString()}
-
-</small>
-
-</div>
-
-`;
-
-        }
-
-        if(student.certificate==="Generated"){
-
-            total++;
-
-            list.innerHTML += `
-
-<div class="notify-item">
-
-<h4>🏆 Certificate Generated</h4>
-
-<p>
-
-Certificate issued for
-
-${student.fullname}
-
-</p>
-
-<small>
-
-${new Date(student.createdAt).toLocaleString()}
-
-</small>
-
-</div>
-
-`;
-
-        }
-
-    });
-
-    count.innerText=total;
+count.style.display="none";
 
 }
+
+}
+
 
 // ======================================================
 // REAL LATEST ACTIVITY
@@ -973,7 +921,7 @@ setInterval(()=>{
 
 loadDashboard();
 
-},30000);
+},3000);
 
 // ======================================================
 // END OF ADMIN.JS

@@ -1204,30 +1204,24 @@ color:#1E3A8A;
 margin-bottom:20px;
 
 }
-
-.recent-card ul{
-
-list-style:none;
-
-padding:0;
-
-}
-
-.recent-card li{
+#activityList li{
 
 display:flex;
 
-justify-content:space-between;
-
 align-items:center;
 
-padding:14px 0;
+gap:8px;
+
+padding:10px 0;
 
 border-bottom:1px solid #E5E7EB;
 
 font-size:15px;
 
+font-weight:500;
+
 }
+
 
 /* =====================================================
 FOOTER
