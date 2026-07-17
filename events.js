@@ -319,7 +319,6 @@ function clearForm(){
 // ======================================================
 
 function editEvent(id){
-    alert("Edit clicked: " + id);
 
     const event = events.find(e => e.id == id);
 
@@ -427,8 +426,7 @@ return;
 
     );
 
-    const data = await response.json();
-    console.log(data);
+     
 
     if(data.success){
 
@@ -456,7 +454,7 @@ saveEvent();
 
     else{
 
-        alert("Update Failed");
+        alert(JSON.stringify(data));
 
     }
 
@@ -476,6 +474,23 @@ async function deleteEvent(id){
     try{
 
         const response = await fetch("/events/" + id,{
+             console.log({
+
+              editingId,
+
+             event_name,
+
+             event_date,
+
+              venue,
+
+               fee,
+
+             status
+
+              }); 
+
+
 
             method:"DELETE",
 
@@ -483,7 +498,15 @@ async function deleteEvent(id){
 
         });
 
-        const data = await response.json();
+if(!response.ok){
+
+alert("Server Error");
+
+return;
+
+}
+    const data = await response.json();
+        console.log(data)
 
         if(data.success){
 
