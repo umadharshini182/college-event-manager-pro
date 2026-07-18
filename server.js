@@ -610,7 +610,36 @@ app.delete("/events/:id", (req, res) => {
     });
 
 });
+// ===============================
+// CREATE RAZORPAY ORDER
+// ===============================
 
+app.get("/create-order", async (req, res) => {
+
+    try {
+
+        const options = {
+            amount: 1000 * 100, // ₹1000 in paise
+            currency: "INR",
+            receipt: "receipt_" + Date.now()
+        };
+
+        const order = await razorpay.orders.create(options);
+
+        res.json(order);
+
+    } catch (err) {
+
+        console.log(err);
+
+        res.status(500).json({
+            success: false,
+            message: "Unable to create order"
+        });
+
+    }
+
+});
 // ===============================
 // START SERVER
 // ===============================
