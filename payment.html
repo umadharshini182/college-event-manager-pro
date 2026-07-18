@@ -164,7 +164,7 @@ async function payNow() {
                 });
 
                 const data = await register.json();
-
+                 console.log("Register API Response:", data);
                 if (data.success) {
 
                     student.registrationId = data.id;
@@ -179,8 +179,7 @@ async function payNow() {
                     window.location.href = "receipt.html";
 
                 } else {
-
-                    alert("Registration Failed");
+               alert(data.message || JSON.stringify(data));
 
                 }
 
