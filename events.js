@@ -193,33 +193,6 @@ function loadTable(){
         tbody.innerHTML+=`
 
 <tr>
-
-<td>${event.id}</td>
-
-<td>${event.event_name}</td>
-
-<td>${event.event_date.substring(0,10)}</td>
-
-<td>${event.venue}</td>
-
-<td>₹${event.fee}</td>
-
-<td>
-
-<span class="${
-event.status==="Open"
-?
-"paid"
-:
-"pending"
-}">
-
-${event.status}
-
-</span>
-
-</td>
-
 <td>
 
 <button
@@ -233,7 +206,6 @@ Delete
 </button>
 
 </td>
-
 </tr>
 
 `;
