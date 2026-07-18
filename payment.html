@@ -111,7 +111,12 @@ async function payNow() {
             method: "POST"
         }).then(res => res.json());
 
-        const options = {
+
+
+
+        const options ={
+
+
 
             key:"rzp_test_TF3qbmTT7mP3gU",
 
@@ -125,6 +130,21 @@ async function payNow() {
 
             order_id: order.id,
 
+method: {
+    card: true
+},
+
+modal: {
+    escape: false
+},
+
+prefill: {
+
+    name: student.fullname,
+
+    email: student.email
+
+},
             prefill: {
 
                 name: student.fullname,
