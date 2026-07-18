@@ -91,6 +91,7 @@ Pay ₹1000
 </div>
 
 </section>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script>
 
@@ -102,60 +103,97 @@ document.getElementById("studentName").innerHTML = student.fullname;
 document.getElementById("eventName").innerHTML = student.event;
 
 }
+async function payNow() {
 
-function payNow(){
+    try {
 
-console.log("payNow called");
-console.log(student);
+        const order = await fetch("/create-order", {
+            method: "POST"
+        }).then(res => res.json());
 
-fetch("/register", {
+        const options = {
 
+            key:rzp_test_TF3qbmTT7mP3gU ,
 
-method:"POST",
+            amount: order.amount,
 
-headers:{
-"Content-Type":"application/json"
-},
+            currency: order.currency,
 
-body:JSON.stringify(student)
+            name: "College Event Manager",
 
-})
-.then(async res => {
-    const data = await res.json();
-    console.log(data);
-    if (!res.ok) {
-        throw new Error(data.message || "Server Error");
+            description: student.event,
+
+            order_id: order.id,
+
+            prefill: {
+
+                name: student.fullname,
+
+                email: student.email
+
+            },
+
+            theme: {
+
+                color: "#2563eb"
+
+            },
+
+            handler: async function (response) {
+
+                const register = await fetch("/register", {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type": "application/json"
+
+                    },
+
+                    body: JSON.stringify(student)
+
+                });
+
+                const data = await register.json();
+
+                if (data.success) {
+
+                    student.registrationId = data.id;
+
+                    student.paymentId = response.razorpay_payment_id;
+
+                    localStorage.setItem(
+                        "studentData",
+                        JSON.stringify(student)
+                    );
+
+                    window.location.href = "receipt.html";
+
+                } else {
+
+                    alert("Registration Failed");
+
+                }
+
+            }
+
+        };
+
+        const rzp = new Razorpay(options);
+
+        rzp.open();
+
     }
-    return data;
-})
 
+    catch (err) {
 
-.then(data=>{
+        console.log(err);
 
-console.log(data);
+        alert("Payment Failed");
 
-if(data.success){
+    }
 
-student.registrationId = data.id;
-
-localStorage.setItem(
-"studentData",
-JSON.stringify(student)
-);
-
-window.location.href="receipt.html";
-
-}else{
-
-alert(data.message || "Registration Failed");
-
-}
-
-})
-.catch(err => {
-    console.error(err);
-    alert(err.message);
-});
 }
 </script>
 </body>
