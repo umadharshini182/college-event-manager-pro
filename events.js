@@ -1,7 +1,7 @@
 // ======================================================
 // COLLEGE EVENT MANAGER
 // EVENTS.JS
-// Railway + MySQL Version
+// Professional Version
 // ======================================================
 
 // ======================================================
@@ -10,7 +10,6 @@
 
 let events = [];
 let students = [];
-let editingId = null;
 
 // ======================================================
 // PAGE LOAD
@@ -24,8 +23,10 @@ window.addEventListener("load", () => {
 
     const btn = document.getElementById("saveEventBtn");
 
-    if (btn) {
+    if(btn){
+
         btn.onclick = saveEvent;
+
     }
 
 });
@@ -34,31 +35,35 @@ window.addEventListener("load", () => {
 // LOGIN CHECK
 // ======================================================
 
-async function checkLogin() {
+async function checkLogin(){
 
-    try {
+    try{
 
-        const response = await fetch("/api/current-user", {
-            credentials: "include"
+        const response = await fetch("/api/current-user",{
+
+            credentials:"include"
+
         });
 
         const data = await response.json();
 
-        if (!data.loggedIn) {
+        if(!data.loggedIn){
 
-            window.location.href = "admin-login.html";
+            window.location.href="admin-login.html";
+
             return;
 
         }
 
-        loadEvents();
+        await loadEvents();
 
     }
 
-    catch (err) {
+    catch(err){
 
         console.log(err);
-        window.location.href = "admin-login.html";
+
+        window.location.href="admin-login.html";
 
     }
 
@@ -68,20 +73,22 @@ async function checkLogin() {
 // LOAD EVENTS
 // ======================================================
 
-async function loadEvents() {
+async function loadEvents(){
 
-    try {
+    try{
 
-        // Load Events
-        const eventResponse = await fetch("/events", {
-            credentials: "include"
+        const eventResponse = await fetch("/events",{
+
+            credentials:"include"
+
         });
 
         events = await eventResponse.json();
 
-        // Load Students
-        const studentResponse = await fetch("/students", {
-            credentials: "include"
+        const studentResponse = await fetch("/students",{
+
+            credentials:"include"
+
         });
 
         students = await studentResponse.json();
@@ -92,9 +99,9 @@ async function loadEvents() {
 
     }
 
-    catch (err) {
+    catch(err){
 
-        console.log("Error loading events:", err);
+        console.log("Error loading events:",err);
 
     }
 
@@ -103,98 +110,87 @@ async function loadEvents() {
 // UPDATE DASHBOARD CARDS
 // ======================================================
 
-function updateCards() {
+function updateCards(){
 
-    // Total Events
-    const totalEvents = document.getElementById("totalEvents");
-
-    if (totalEvents) {
-        totalEvents.innerText = events.length;
+    const totalEvents=document.getElementById("totalEvents");
+    if(totalEvents){
+        totalEvents.innerText=events.length;
     }
 
-    // Active Events
-    const activeEvents = document.getElementById("activeEvents");
-
-    if (activeEvents) {
-
-        const active = events.filter(event => event.status === "Open").length;
-
-        activeEvents.innerText = active;
-
+    const activeEvents=document.getElementById("activeEvents");
+    if(activeEvents){
+        activeEvents.innerText=
+        events.filter(e=>e.status==="Open").length;
     }
 
-    // Upcoming Events
-    const upcomingEvents = document.getElementById("upcomingEvents");
-
-    if (upcomingEvents) {
-        upcomingEvents.innerText = events.length;
+    const upcomingEvents=document.getElementById("upcomingEvents");
+    if(upcomingEvents){
+        upcomingEvents.innerText=events.length;
     }
 
-    // Total Registrations
-    const registrations = document.getElementById("eventRegistrations");
-
-    if (registrations) {
-        registrations.innerText = students.length;
+    const registrations=document.getElementById("eventRegistrations");
+    if(registrations){
+        registrations.innerText=students.length;
     }
 
-    // Total Revenue
-    let revenue = 0;
+    let revenue=0;
 
-    events.forEach(event => {
-        revenue += Number(event.fee || 0);
+    events.forEach(event=>{
+
+        revenue+=Number(event.fee||0);
+
     });
 
-    const revenueBox = document.getElementById("eventRevenue");
+    const revenueBox=document.getElementById("eventRevenue");
 
-    if (revenueBox) {
-        revenueBox.innerText = "₹" + revenue;
-    }
+    if(revenueBox){
 
-    // Completed Events
-    const completedEvents = document.getElementById("completedEvents");
-
-    if (completedEvents) {
-
-        const completed = events.filter(event => event.status === "Closed").length;
-
-        completedEvents.innerText = completed;
+        revenueBox.innerText="₹"+revenue;
 
     }
 
-    // Future Events
-    const futureEvents = document.getElementById("futureEvents");
+    const completed=document.getElementById("completedEvents");
 
-    if (futureEvents) {
+    if(completed){
 
-        const today = new Date();
+        completed.innerText=
 
-        const future = events.filter(event => {
+        events.filter(e=>e.status==="Closed").length;
 
-            return new Date(event.event_date) >= today;
+    }
 
-        }).length;
+    const future=document.getElementById("futureEvents");
 
-        futureEvents.innerText = future;
+    if(future){
+
+        const today=new Date();
+
+        future.innerText=
+
+        events.filter(e=>
+
+        new Date(e.event_date)>=today
+
+        ).length;
 
     }
 
 }
-
 // ======================================================
 // LOAD EVENT TABLE
 // ======================================================
 
-function loadTable() {
+function loadTable(){
 
-    const tbody = document.getElementById("eventTable");
+    const tbody=document.getElementById("eventTable");
 
-    if (!tbody) return;
+    if(!tbody) return;
 
-    tbody.innerHTML = "";
+    tbody.innerHTML="";
 
-    events.forEach(event => {
+    events.forEach(event=>{
 
-        tbody.innerHTML += `
+        tbody.innerHTML+=`
 
 <tr>
 
@@ -210,11 +206,28 @@ function loadTable() {
 
 <td>
 
+<span class="${
+event.status==="Open"
+?
+"paid"
+:
+"pending"
+}">
+
+${event.status}
+
+</span>
+
+</td>
+
+<td>
+
 <button
 class="action-btn delete-btn"
 onclick="deleteEvent(${event.id})">
 
 <i class="fa-solid fa-trash"></i>
+
 Delete
 
 </button>
@@ -233,30 +246,29 @@ Delete
 // SAVE NEW EVENT
 // ======================================================
 
-async function saveEvent() {
+async function saveEvent(){
 
-    const event_name =
-        document.getElementById("eventName").value.trim();
+    const event_name=
+    document.getElementById("eventName").value.trim();
 
-    const event_date =
-        document.getElementById("eventDate").value;
+    const event_date=
+    document.getElementById("eventDate").value;
 
-    const venue =
-        document.getElementById("eventVenue").value.trim();
+    const venue=
+    document.getElementById("eventVenue").value.trim();
 
-    const fee =
-        document.getElementById("eventFee").value;
+    const fee=
+    document.getElementById("eventFee").value;
 
-    const status =
-        document.getElementById("eventStatus").value;
+    const status=
+    document.getElementById("eventStatus").value;
 
-    // Validation
-    if (
-        event_name === "" ||
-        event_date === "" ||
-        venue === "" ||
-        fee === ""
-    ) {
+    if(
+        event_name==="" ||
+        event_date==="" ||
+        venue==="" ||
+        fee===""
+    ){
 
         alert("Please fill all fields.");
 
@@ -264,19 +276,19 @@ async function saveEvent() {
 
     }
 
-    try {
+    try{
 
-        const response = await fetch("/events", {
+        const response=await fetch("/events",{
 
-            method: "POST",
+            method:"POST",
 
-            headers: {
-                "Content-Type": "application/json"
+            headers:{
+                "Content-Type":"application/json"
             },
 
-            credentials: "include",
+            credentials:"include",
 
-            body: JSON.stringify({
+            body:JSON.stringify({
 
                 event_name,
                 event_date,
@@ -288,16 +300,17 @@ async function saveEvent() {
 
         });
 
-        if (!response.ok) {
+        if(!response.ok){
 
             alert("Server Error");
+
             return;
 
         }
 
-        const data = await response.json();
+        const data=await response.json();
 
-        if (data.success) {
+        if(data.success){
 
             alert("Event Added Successfully");
 
@@ -307,7 +320,7 @@ async function saveEvent() {
 
         }
 
-        else {
+        else{
 
             alert("Unable to Add Event");
 
@@ -315,7 +328,7 @@ async function saveEvent() {
 
     }
 
-    catch (err) {
+    catch(err){
 
         console.log(err);
 
@@ -329,200 +342,40 @@ async function saveEvent() {
 // CLEAR FORM
 // ======================================================
 
-function clearForm() {
+function clearForm(){
 
-    document.getElementById("eventName").value = "";
+    document.getElementById("eventName").value="";
 
-    document.getElementById("eventDate").value = "";
+    document.getElementById("eventDate").value="";
 
-    document.getElementById("eventVenue").value = "";
+    document.getElementById("eventVenue").value="";
 
-    document.getElementById("eventFee").value = "";
+    document.getElementById("eventFee").value="";
 
-    document.getElementById("eventStatus").value = "Open";
-
-}
-// ======================================================
-// EDIT EVENT
-// ======================================================
-
-async function updateEvent(){
-...
-}
-
-    const event = events.find(e => e.id == id);
-
-    if (!event) {
-
-        alert("Event not found.");
-
-        return;
-             
-
-    }
-
-    editingId = id;
-
-    document.getElementById("eventName").value =
-        event.event_name;
-
-    document.getElementById("eventDate").value =
-        event.event_date.substring(0, 10);
-
-    document.getElementById("eventVenue").value =
-        event.venue;
-
-    document.getElementById("eventFee").value =
-        event.fee;
-
-    document.getElementById("eventStatus").value =
-        event.status;
-
-    const btn = document.getElementById("saveEventBtn");
-
-    if (!btn) {
-
-        alert("Save button not found.");
-
-        return;
-
-    }
-
-    btn.innerHTML =
-        '<i class="fa-solid fa-floppy-disk"></i> Update Event';
-
-    btn.onclick = function () {
-    alert("Button clicked");
-    updateEvent();
-};
-
-}
-
-// ======================================================
-// UPDATE EVENT
-// ======================================================
-
-async function updateEvent() {
-
-    if (editingId === null) {
-
-        alert("Please click Edit first.");
-
-        return;
-
-    }
-
-    const event_name =
-        document.getElementById("eventName").value.trim();
-
-    const event_date =
-        document.getElementById("eventDate").value;
-
-    const venue =
-        document.getElementById("eventVenue").value.trim();
-
-    const fee =
-        document.getElementById("eventFee").value;
-
-    const status =
-        document.getElementById("eventStatus").value;
-
-    try {
-
-        const response = await fetch("/events/" + editingId, {
-
-            method: "PUT",
-
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            credentials: "include",
-
-            body: JSON.stringify({
-
-                event_name,
-                event_date,
-                venue,
-                fee,
-                status
-
-            })
-
-        });
-
-        if (!response.ok) {
-
-            alert("Server Error");
-
-            return;
-
-        }
-
-        const data = await response.json();
-
-        if (data.success) {
-
-            alert("Event Updated Successfully");
-
-            editingId = null;
-
-            clearForm();
-
-            loadEvents();
-
-            const btn =
-                document.getElementById("saveEventBtn");
-
-            btn.innerHTML =
-                '<i class="fa-solid fa-floppy-disk"></i> Save Event';
-
-            btn.onclick = saveEvent;
-
-        }
-
-        else {
-
-            alert("Update Failed");
-
-        }
-
-    }
-
-    catch (err) {
-
-        console.log(err);
-
-        alert("Something went wrong while updating.");
-
-    }
+    document.getElementById("eventStatus").value="Open";
 
 }
 // ======================================================
 // DELETE EVENT
 // ======================================================
 
-async function deleteEvent(id) {
+async function deleteEvent(id){
 
-    const confirmDelete = confirm(
-        "Are you sure you want to delete this event?"
-    );
-
-    if (!confirmDelete) {
+    if(!confirm("Are you sure you want to delete this event?")){
         return;
     }
 
-    try {
+    try{
 
-        const response = await fetch("/events/" + id, {
+        const response=await fetch("/events/"+id,{
 
-            method: "DELETE",
+            method:"DELETE",
 
-            credentials: "include"
+            credentials:"include"
 
         });
 
-        if (!response.ok) {
+        if(!response.ok){
 
             alert("Server Error");
 
@@ -530,17 +383,15 @@ async function deleteEvent(id) {
 
         }
 
-        const data = await response.json();
+        const data=await response.json();
 
-        if (data.success) {
+        if(data.success){
 
             alert("Event Deleted Successfully");
 
             loadEvents();
 
-        }
-
-        else {
+        }else{
 
             alert("Unable to Delete Event");
 
@@ -548,7 +399,7 @@ async function deleteEvent(id) {
 
     }
 
-    catch (err) {
+    catch(err){
 
         console.log(err);
 
@@ -562,80 +413,67 @@ async function deleteEvent(id) {
 // SEARCH EVENTS
 // ======================================================
 
-const searchBox =
-document.getElementById("searchEvent");
+const searchBox=document.getElementById("searchEvent");
 
-if (searchBox) {
+if(searchBox){
 
-    searchBox.addEventListener("keyup", function () {
+    searchBox.addEventListener("keyup",function(){
 
-        const value =
-        this.value.toLowerCase();
+        const value=this.value.toLowerCase();
 
-        const rows =
-        document.querySelectorAll("#eventTable tr");
+        document.querySelectorAll("#eventTable tr")
+        .forEach(row=>{
 
-        rows.forEach(row => {
+            row.style.display=
 
-            if (row.innerText.toLowerCase().includes(value)) {
+            row.innerText.toLowerCase().includes(value)
 
-                row.style.display = "";
+            ?
 
-            }
+            ""
 
-            else {
+            :
 
-                row.style.display = "none";
-
-            }
+            "none";
 
         });
 
     });
 
 }
+
 // ======================================================
 // SIDEBAR
 // ======================================================
 
-function initializeSidebar() {
+function initializeSidebar(){
 
-    const sidebar =
-        document.getElementById("sidebar");
+    const sidebar=document.getElementById("sidebar");
+    const menuBtn=document.getElementById("menuBtn");
+    const closeBtn=document.getElementById("closeSidebar");
+    const overlay=document.getElementById("overlay");
 
-    const menuBtn =
-        document.getElementById("menuBtn");
-
-    const closeBtn =
-        document.getElementById("closeSidebar");
-
-    const overlay =
-        document.getElementById("overlay");
-
-    if (!sidebar || !menuBtn || !closeBtn || !overlay) {
+    if(!sidebar || !menuBtn || !closeBtn || !overlay){
         return;
     }
 
-    menuBtn.onclick = () => {
+    menuBtn.onclick=()=>{
 
         sidebar.classList.add("active");
-
         overlay.classList.add("show");
 
     };
 
-    closeBtn.onclick = () => {
+    closeBtn.onclick=()=>{
 
         sidebar.classList.remove("active");
-
         overlay.classList.remove("show");
 
     };
 
-    overlay.onclick = () => {
+    overlay.onclick=()=>{
 
         sidebar.classList.remove("active");
-
         overlay.classList.remove("show");
 
     };
@@ -646,29 +484,29 @@ function initializeSidebar() {
 // LOGOUT
 // ======================================================
 
-function logout() {
+function logout(){
 
-    if (!confirm("Logout from Admin Dashboard?")) {
+    if(!confirm("Logout from Admin Dashboard?")){
         return;
     }
 
-    fetch("/logout", {
+    fetch("/logout",{
 
-        credentials: "include"
-
-    })
-
-    .then(() => {
-
-        window.location.href = "admin-login.html";
+        credentials:"include"
 
     })
 
-    .catch(err => {
+    .then(()=>{
+
+        window.location.href="admin-login.html";
+
+    })
+
+    .catch(err=>{
 
         console.log(err);
 
-        alert("Logout failed.");
+        alert("Logout Failed");
 
     });
 
@@ -678,12 +516,15 @@ function logout() {
 // AUTO REFRESH
 // ======================================================
 
-setInterval(() => {
+setInterval(()=>{
 
     loadEvents();
 
-}, 30000);
+},30000);
 
 // ======================================================
 // END OF EVENTS.JS
 // ======================================================
+
+
+
