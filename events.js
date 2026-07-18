@@ -211,15 +211,6 @@ function loadTable() {
 <td>
 
 <button
-class="action-btn certificate-btn"
-onclick="editEvent(${event.id})">
-
-<i class="fa-solid fa-pen"></i>
-Edit
-
-</button>
-
-<button
 class="action-btn delete-btn"
 onclick="deleteEvent(${event.id})">
 
@@ -355,7 +346,9 @@ function clearForm() {
 // EDIT EVENT
 // ======================================================
 
-function editEvent(id) {
+async function updateEvent(){
+...
+}
 
     const event = events.find(e => e.id == id);
 
@@ -364,6 +357,7 @@ function editEvent(id) {
         alert("Event not found.");
 
         return;
+             
 
     }
 
