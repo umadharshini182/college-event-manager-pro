@@ -1159,6 +1159,16 @@ background:#64748B;
 
 }
 
+.view-btn{
+
+background:#CBD5E1;
+
+color:#334155;
+
+font-weight:600;
+
+}
+
 .action-btn:hover{
 
 transform:translateY(-2px);

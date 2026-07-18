@@ -160,7 +160,6 @@ count.style.display="flex";
 // ======================================================
 // REAL LATEST ACTIVITY
 // ======================================================
-
 function loadLatestActivity(){
 
 const activity =
@@ -180,29 +179,21 @@ activity.innerHTML += `
 
 <li>
 
-🎓 <strong>${student.fullname}</strong> registered for <strong>${student.event}</strong>
+🎓 <strong>${student.fullname}</strong><br>
+
+📌 Registered for <strong>${student.event}</strong><br>
+
+✅ Attendance :
+<strong>${student.attendance}</strong>
 
 </li>
 
 `;
-
-if(student.attendance==="Present"){
-
-activity.innerHTML += `
-
-<li>
-
-✅ Attendance marked for <strong>${student.fullname}</strong>
-
-</li>
-
-`;
-
-}
 
 });
 
 }
+
 // ======================================================
 // DASHBOARD CARDS
 // ======================================================
