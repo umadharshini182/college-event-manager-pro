@@ -179,41 +179,34 @@ function updateCards(){
 // ======================================================
 // LOAD EVENT TABLE
 // ======================================================
+function loadTable() {
 
-function loadTable(){
+    const tbody = document.getElementById("eventTable");
 
-    const tbody=document.getElementById("eventTable");
+    if (!tbody) return;
 
-    if(!tbody) return;
+    tbody.innerHTML = "";
 
-    tbody.innerHTML="";
+    events.forEach(event => {
 
-    events.forEach(event=>{
-
-        tbody.innerHTML+=`
-
+        tbody.innerHTML += `
 <tr>
-<td>
-
-<button
-class="action-btn delete-btn"
-onclick="deleteEvent(${event.id})">
-
-<i class="fa-solid fa-trash"></i>
-
-Delete
-
-</button>
-
-</td>
+    <td>${event.id}</td>
+    <td>${event.event_name}</td>
+    <td>${event.event_date.substring(0,10)}</td>
+    <td>${event.venue}</td>
+    <td>₹${event.fee}</td>
+    <td>
+        <button class="action-btn delete-btn"
+            onclick="deleteEvent(${event.id})">
+            <i class="fa-solid fa-trash"></i> Delete
+        </button>
+    </td>
 </tr>
-
 `;
-
     });
 
 }
-
 // ======================================================
 // SAVE NEW EVENT
 // ======================================================
