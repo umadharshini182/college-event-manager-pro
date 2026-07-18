@@ -151,7 +151,15 @@ async function payNow() {
 
                     },
 
-                    body: JSON.stringify(student)
+                  body: JSON.stringify({
+
+    ...student,
+
+    razorpay_order_id: response.razorpay_order_id,
+
+    razorpay_payment_id: response.razorpay_payment_id
+
+})  
 
                 });
 

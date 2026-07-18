@@ -137,45 +137,52 @@ app.get("/", (req, res) => {
 // ===============================
 
 app.post("/register", (req, res) => {
+const {
 
-  const {
     fullname,
     email,
     college,
     department,
     year,
-    event
-  } = req.body;
+    event,
+    razorpay_order_id,
+    razorpay_payment_id
+
+} = req.body;
 
   const sql = `
     INSERT INTO registrations
-    (
-      fullname,
-      email,
-      college,
-      department,
-      year,
-      event,
-      payment_status,
-      amount,
-      attendance
-    )
+(
+    fullname,
+    email,
+    college,
+    department,
+    year,
+    event,
+    payment_status,
+    amount,
+    attendance,
+    razorpay_order_id,
+    razorpay_payment_id
+)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
   db.query(
     sql,
-    [
-      fullname,
-      email,
-      college,
-      department,
-      year,
-      event,
-      "Paid",
-      1000,
-      "Absent"
-    ],
+   [
+    fullname,
+    email,
+    college,
+    department,
+    year,
+    event,
+    "Paid",
+    1000,
+    "Absent",
+    razorpay_order_id,
+    razorpay_payment_id
+],
     (err, result) => {
 
       if (err) {
