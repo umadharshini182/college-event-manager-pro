@@ -74,6 +74,8 @@ CREATE TABLE IF NOT EXISTS registrations (
     amount INT DEFAULT 1000,
     attendance VARCHAR(20) DEFAULT 'Absent',
     certificate_id VARCHAR(100),
+    razorpay_order_id VARCHAR(100),
+razorpay_payment_id VARCHAR(100),
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 `;
