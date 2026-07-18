@@ -614,7 +614,7 @@ app.delete("/events/:id", (req, res) => {
 // CREATE RAZORPAY ORDER
 // ===============================
 
-app.get("/create-order", async (req, res) => {
+app.post("/create-order", async (req, res) => {
 
     try {
 
