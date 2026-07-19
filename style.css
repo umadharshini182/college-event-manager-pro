@@ -2235,3 +2235,56 @@ body{
     }
 
 }
+@media print {
+
+    body {
+        background: #fff !important;
+        color: #000 !important;
+        margin: 0;
+        padding: 0;
+    }
+
+    nav,
+    footer,
+    .hero-btn {
+        display: none !important;
+    }
+
+    .details {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .receipt-box {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 20px !important;
+        background: #fff !important;
+        color: #000 !important;
+        border: 2px solid #000 !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        page-break-inside: avoid;
+    }
+
+    .receipt-row {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 10px 0;
+    }
+
+    .receipt-row b {
+        text-align: right;
+        max-width: 60%;
+        word-break: break-word;
+        overflow-wrap: anywhere;
+    }
+
+    @page {
+        size: A4;
+        margin: 10mm;
+    }
+}
