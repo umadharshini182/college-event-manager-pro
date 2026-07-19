@@ -106,7 +106,6 @@ HERO
     linear-gradient(rgba(0,25,70,.55),rgba(0,25,70,.65)),
     url("IMAGE FOR UMA EVENT.jpeg") center/cover no-repeat;
 }
-
 .overlay{
     width:100%;
     max-width:1200px;
@@ -116,7 +115,7 @@ HERO
     justify-content:center;
     align-items:center;
     text-align:center;
-    padding:100px 20px;
+    padding:35px 20px 20px;
 }
 .overlay h1{
     font-size:68px;
@@ -237,31 +236,26 @@ color:#FFD54F;
 HERO
 ========================================== */
 .hero{
-    min-height:100vh;
-    background:transparent;
+    min-height:520px;
     display:flex;
     justify-content:center;
-    align-items:center;
+    align-items:flex-start;
+    position:relative;
+    margin-top:85px;
+    background:
+    linear-gradient(rgba(0,25,70,.55),rgba(0,25,70,.65)),
+    url("IMAGE FOR UMA EVENT.jpeg") center/cover no-repeat;
 }
-
 .overlay{
-
-width:100%;
-
-height:100%;
-
-display:flex;
-
-flex-direction:column;
-
-justify-content:center;
-
-align-items:center;
-
-text-align:center;
-
-padding:20px;
-
+    width:100%;
+    max-width:1200px;
+    margin:auto;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    align-items:center;
+    text-align:center;
+    padding:20px 20px 40px;
 }
 
 .overlay h1{
