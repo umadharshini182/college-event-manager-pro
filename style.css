@@ -1229,18 +1229,17 @@ RECEIPT STYLE
     color: #FFD54F;
     font-size: 32px;
 }
-
-.receipt-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 12px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+.receipt-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:15px;
 }
-
-.receipt-row span {
-    font-size: 18px;
+.receipt-row span:last-child{
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    white-space: normal;
 }
-
 .receipt-total {
     display: flex;
     justify-content: space-between;
@@ -2219,4 +2218,20 @@ body{
 .details,
 .contact{
     background:transparent;
+}@media (max-width:768px){
+
+    .receipt-row{
+        display:flex;
+        flex-direction:column;
+        align-items:flex-start;
+        gap:6px;
+    }
+
+    .receipt-row span:last-child{
+        width:100%;
+        text-align:left;
+        word-break:break-word;
+        overflow-wrap:anywhere;
+    }
+
 }
