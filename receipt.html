@@ -33,66 +33,108 @@
 <div class="receipt-box" id="receipt">
 
 <div class="receipt-header">
-    <h1>🎓 Registration Receipt</h1>
+    <h1>Payment Receipt</h1>
     <p>ABC Engineering College</p>
+    <p>Payment Successful ✓</p>
+</div>
+<div class="receipt-summary">
+
+    <div class="summary-item">
+        <h4>Amount Paid</h4>
+        <h2>₹1000</h2>
+    </div>
+
+    <div class="summary-item">
+        <h4>Status</h4>
+        <h2 style="color:#16a34a;">PAID ✓</h2>
+    </div>
+
+</div>
+<div class="receipt-row">
+    <div class="receipt-label">Receipt ID</div>
+    <div class="receipt-value" id="receiptId">REC-2026-0001</div>
+</div>
+
+
+<div class="receipt-row">
+    <div class="receipt-label">Payment Date</div>
+    <div class="receipt-value" id="paymentDate"></div>
 </div>
 
 <div class="receipt-row">
-<span>Registration ID</span>
-<b id="registrationId"></b>
+    <div class="receipt-label">Payment Method</div>
+    <div class="receipt-value">Razorpay (Test Mode)</div>
+</div>
+<div class="receipt-row">
+    <div class="receipt-label">Registration ID</div>
+    <div class="receipt-value" id="registrationId"></div>
 </div>
 
 <div class="receipt-row">
-<span>Student Name</span>
-<b id="studentName"></b>
+    <div class="receipt-label">Student Name</div>
+    <div class="receipt-value" id="studentName"></div>    
 </div>
 
 <div class="receipt-row">
-<span>Email Address</span>
-<b id="email"></b>
+    <div class="receipt-label">Email Address</div>
+    <div class="receipt-value" id="email"></div>
 </div>
 
 <div class="receipt-row">
-<span>College</span>
-<b id="college"></b>
-</div>
-<div class="receipt-row">
-<span>Department</span>
-<b id="department"></b>
+    <div class="receipt-label">College</div>
+    <div class="receipt-value" id="college"></div>
 </div>
 
 <div class="receipt-row">
-<span>Year</span>
-<b id="year"></b>
+    <div class="receipt-label">Department</div>
+    <div class="receipt-value" id="department"></div>
 </div>
 
 <div class="receipt-row">
-<span>Event</span>
-<b id="eventName"></b>
+    <div class="receipt-label">Year</div>
+    <div class="receipt-value" id="year"></div>
 </div>
 
 <div class="receipt-row">
-<span>Amount Paid</span>
-<b>₹1000</b>
+    <div class="receipt-label">Event</div>
+    <div class="receipt-value" id="eventName"></div>
 </div>
 
 <div class="receipt-row">
-<span>Payment Status</span>
-<b class="paid-status">PAID ✅</b>
+    <div class="receipt-label">Amount Paid</div>
+    <div class="receipt-value">
+        <span class="amount-box">₹1000</span>
+    </div>
 </div>
 
-<div style="text-align:center;">
+<div class="receipt-row">
+    <div class="receipt-label">Payment Status</div>
+    <div class="receipt-value">
+    <span class="status-badge">✓ Payment Successful</span>
+</div>
+</<hr style="margin:30px 0; border:1px solid #e5e7eb;">
 
-<button
-class="hero-btn"
-onclick="window.print()">
+<div class="receipt-footer">
+    <h3>Thank You!</h3>
+    <p>Your event registration has been confirmed successfully.</p>
+    <p>Please carry this receipt during the event.</p>
 
-Download / Print Receipt
+    <br>
 
-</button>
+    <p><strong>Support:</strong> support@abcevents.com</p>
+    <p><strong>Website:</strong> www.abcevents.com</p>
+</div>
+<div class="receipt-buttons">
+
+    <button class="print-btn" onclick="window.print()">
+        🖨 Print Receipt
+    </button>
+
+    <a href="index.html" class="home-btn">
+        🏠 Back to Home
+    </a>
 
 </div>
-
 </div>
 
 </section>
@@ -147,8 +189,11 @@ const student = JSON.parse(localStorage.getItem("studentData"));
 
 if(student){
 
-document.getElementById("registrationId").innerHTML =
-student.registrationId || "Not Available";
+  const registrationId =
+"REG-" + Math.floor(100000 + Math.random() * 900000);
+
+document.getElementById("registrationId").textContent =
+registrationId;  
 
 document.getElementById("studentName").innerHTML =
 student.fullname;
@@ -169,7 +214,24 @@ document.getElementById("eventName").innerHTML =
 student.event;
 
 }
+document.getElementById("studentName").innerHTML = student.fullname;
+document.getElementById("email").innerHTML = student.email;
+document.getElementById("college").innerHTML = student.college;
+document.getElementById("department").innerHTML = student.department;
+document.getElementById("year").innerHTML = student.year;
+document.getElementById("eventName").innerHTML = student.event;
 
+const today = new Date();
+
+document.getElementById("paymentDate").textContent =
+today.toLocaleDateString("en-IN") + " " +
+today.toLocaleTimeString("en-IN");
+
+const registrationId =
+"REG-" + Math.floor(100000 + Math.random() * 900000);
+
+document.getElementById("registrationId").textContent =
+registrationId;
 </script>
 </body>
 </html>
