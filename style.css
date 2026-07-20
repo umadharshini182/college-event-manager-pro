@@ -776,29 +776,45 @@ footer{
     font-size:16px;
 
 }
+/* ===== Footer Social Icons ===== */
 
 .footer-box a{
 
-    display:block;
+display:flex;
 
-    color:#CBD5E1;
+align-items:center;
 
-    text-decoration:none;
+gap:10px;
 
-    margin-bottom:12px;
+margin:12px 0;
 
-    transition:.3s;
+text-decoration:none;
+
+color:#ffffff;
+
+font-size:17px;
+
+transition:0.3s;
 
 }
 
 .footer-box a:hover{
 
-    color:#FFD54F;
+color:#FFD54F;
 
-    padding-left:6px;
+transform:translateX(5px);
 
 }
 
+.footer-box i{
+
+font-size:22px;
+
+width:28px;
+
+text-align:center;
+
+}
 footer hr{
 
     margin:35px 0 20px;
