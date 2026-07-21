@@ -158,31 +158,19 @@ nav ul li a:hover{
     margin:20px auto;
 }
 .hero-btn{
-
     display:inline-block;
-
     margin-top:25px;
-
+    margin-bottom:20px;
     padding:20px 55px;
-
     border-radius:60px;
-
     background:linear-gradient(135deg,#FFD54F,#F59E0B);
-
     color:#0B3D91;
-
     text-decoration:none;
-
     font-size:22px;
-
     font-weight:800;
-
     transition:.35s;
-
     box-shadow:0 15px 35px rgba(0,0,0,.35);
-
 }
-
 .hero-btn:hover{
 
     transform:translateY(-6px);
@@ -1756,7 +1744,7 @@ img{
     }
 
     .events h2{
-        margin-top:45px;
+        margin-top:10px;
     }
 
 }
