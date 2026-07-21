@@ -300,21 +300,25 @@ nav ul li a{
 /* ==========================================
    EVENT PAGES
 ========================================== */
-
 .event-hero{
 
-    padding:120px 8% 60px;
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
 
     text-align:center;
 
-}
+    padding:110px 8% 15px;
 
+}
 .about-event,
 .event-details,
 .rules-section,
 .register-section{
 
-    padding:60px 8%;
+    padding:35px 8%;
 
 }
 
