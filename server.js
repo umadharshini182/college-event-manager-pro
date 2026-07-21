@@ -6,13 +6,14 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 const path = require("path");
 const mysql = require("mysql2");
-const Razorpay = require("razorpay");
+const checkoutNodeJssdk = require("@paypal/checkout-server-sdk");
+const environment = new checkoutNodeJssdk.core.SandboxEnvironment(
+    process.env.PAYPAL_CLIENT_ID,
+    process.env.PAYPAL_CLIENT_SECRET
+);
 
+const paypalClient = new checkoutNodeJssdk.core.PayPalHttpClient(environment);
 const app = express();
-const razorpay = new Razorpay({
-    key_id: process.env.RAZORPAY_KEY_ID,
-    key_secret: process.env.RAZORPAY_KEY_SECRET
-});
 
 app.use(cors({
     origin: true,
@@ -620,36 +621,49 @@ app.delete("/events/:id", (req, res) => {
 
 });
 // ===============================
-// CREATE RAZORPAY ORDER
+// CREATE PAYPAL ORDER
 // ===============================
 
-app.post("/create-order", async (req, res) => {
+app.post("/create-paypal-order", async (req, res) => {
 
     try {
 
-        const options = {
-            amount: 1000 * 100, // ₹1000 in paise
-            currency: "INR",
-            receipt: "receipt_" + Date.now()
-        };
+        const request = new checkoutNodeJssdk.orders.OrdersCreateRequest();
 
-        const order = await razorpay.orders.create(options);
+        request.prefer("return=representation");
 
-        res.json(order);
+        request.requestBody({
 
-    } 
+            intent: "CAPTURE",
+
+            purchase_units: [
+                {
+                    amount: {
+                        currency_code: "USD",
+                        value: "12.00"
+                    }
+                }
+            ]
+
+        });
+
+        const order = await paypalClient.execute(request);
+
+        res.json(order.result);
+
+    }
 
     catch (err) {
 
-    console.error(err);
+        console.log(err);
 
-    res.status(500).json({
-        success: false,
-        message: err.message,
-        error: err
-    });
+        res.status(500).json({
+            success: false,
+            message: err.message
+        });
 
-}
+    }
+
 });
 // ===============================
 // START SERVER

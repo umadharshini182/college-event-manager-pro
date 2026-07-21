@@ -2,17 +2,19 @@
 <html lang="en">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Payment</title>
 
 <link rel="stylesheet" href="style.css">
 
+<script src="https://www.paypal.com/sdk/js?client-id=EOJ2rUhfKQfTfB0S9d3kxtBP8-x3jiOArmSub7AtOGdxHxJL0M_twxMYqyqtY7pikKFOGnkJyiEXFO8L&currency=USD"></script>
+
 </head>
 
 <body>
-
-
 
 <nav>
 
@@ -21,14 +23,17 @@
 </div>
 
 <ul>
+
 <li><a href="index.html">Home</a></li>
 <li><a href="about.html">About</a></li>
 <li><a href="privacy.html">Privacy</a></li>
+
 </ul>
 
 </nav>
 
 <section class="details">
+
 <div class="payment-box">
 
 <h1>💳 Complete Payment</h1>
@@ -36,166 +41,142 @@
 <p>
 Review your registration details before making payment.
 </p>
+
 <div class="summary-grid">
 
 <div class="summary-card">
+
 <h3>Name</h3>
+
 <p id="studentName"></p>
+
 </div>
 
 <div class="summary-card">
+
 <h3>Event</h3>
+
 <p id="eventName"></p>
+
 </div>
 
 <div class="summary-card">
+
 <h3>Amount</h3>
-<p>₹1000</p>
-</div>
+
+<p>$12.00</p>
 
 </div>
-<button
-class="submit-btn"
-onclick="payNow()">
 
-🟢 Pay ₹1000
+</div>
 
-</button>
+<div id="paypal-button-container"></div>
 
 </div>
 
 </section>
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script>
+  const student = JSON.parse(localStorage.getItem("studentData"));
 
-const student = JSON.parse(localStorage.getItem("studentData"));
+if (student) {
 
-if(student){
-
-document.getElementById("studentName").innerHTML = student.fullname;
-document.getElementById("eventName").innerHTML = student.event;
+    document.getElementById("studentName").innerHTML = student.fullname;
+    document.getElementById("eventName").innerHTML = student.event;
 
 }
-async function payNow() {
 
-    try {
+paypal.Buttons({
 
-        const order = await fetch("/create-order", {
-            method: "POST"
-        }).then(res => res.json());
+    createOrder: async function () {
 
+        try {
 
+            const response = await fetch("/create-paypal-order", {
 
+                method: "POST"
 
-        const options ={
+            });
 
+            const order = await response.json();
 
+            return order.id;
 
-            key:"rzp_test_TGAVfcjvYkbFgB",
+        }
 
-            amount: order.amount,
+        catch (err) {
 
-            currency: order.currency,
+            console.log(err);
 
-            name: "College Event Manager",
+            alert("Unable to create PayPal order.");
 
-            description: student.event,
+        }
 
-            order_id: order.id,
+    },
 
-method: {
-    card: true
-},
+    onApprove: async function (data, actions) {
 
-modal: {
-    escape: false
-},
+        const details = await actions.order.capture();
 
-prefill: {
+        console.log(details);
+               const register = await fetch("/register", {
 
-    name: student.fullname,
+            method: "POST",
 
-    email: student.email
+            headers: {
 
-},
-            prefill: {
-
-                name: student.fullname,
-
-                email: student.email
+                "Content-Type": "application/json"
 
             },
 
-            theme: {
+            body: JSON.stringify({
 
-                color: "#2563eb"
+                ...student,
 
-            },
+                paypal_order_id: data.orderID,
 
-            handler: async function (response) {
+                paypal_transaction_id: details.id
 
-                const register = await fetch("/register", {
+            })
 
-                    method: "POST",
+        });
 
-                    headers: {
+        const result = await register.json();
 
-                        "Content-Type": "application/json"
+        if (result.success) {
 
-                    },
+            student.registrationId = result.id;
 
-                  body: JSON.stringify({
+            student.paymentId = details.id;
 
-    ...student,
+            localStorage.setItem(
+                "studentData",
+                JSON.stringify(student)
+            );
 
-    razorpay_order_id: response.razorpay_order_id,
+            window.location.href = "receipt.html";
 
-    razorpay_payment_id: response.razorpay_payment_id
+        }
 
-})  
+        else {
 
-                });
+            alert(result.message || "Registration failed.");
 
-                const data = await register.json();
-                 console.log("Register API Response:", data);
-                if (data.success) {
+        }
 
-                    student.registrationId = data.id;
+    },
 
-                    student.paymentId = response.razorpay_payment_id;
+    onError: function (err) {
 
-                    localStorage.setItem(
-                        "studentData",
-                        JSON.stringify(student)
-                    );
+        console.log(err);
 
-                    window.location.href = "receipt.html";
-
-                } else {
-               alert(data.message || JSON.stringify(data));
-
-                }
-
-            }
-
-        };
-        console.log(order);
-console.log(options);
-        const rzp = new Razorpay(options);
-
-        rzp.open();
+        alert("Payment Failed.");
 
     }
-catch (err) {
 
-    console.error(err);
-
-    alert(err.message);
-
-}
-
-}
+}).render("#paypal-button-container");   
 </script>
+
 </body>
+
 </html>
