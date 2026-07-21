@@ -137,16 +137,17 @@ nav ul li a:hover{
    HERO
 ========================================== */
 .hero{
-    min-height:85vh;
+    min-height:100vh;
     display:flex;
-    justify-content:flex-start;
+    justify-content:center;
     align-items:center;
     text-align:center;
-    padding:40px 25px 30px;
+    padding:120px 25px 60px;
 }
 .overlay{
-    margin-top:40px;
-    padding-top:0;
+    max-width:900px;
+    width:100%;
+    margin:0 auto;
 }
 .overlay h1{
     font-size:72px;
@@ -235,19 +236,19 @@ nav ul li a{
     padding:8px 12px;
 
 }
-
 .hero{
-
-    padding:180px 20px 70px;
-
+    min-height:auto;
+    padding:150px 20px 60px;
 }
-
 .overlay h1{
 
     font-size:44px;
 
 }
-
+.hero-tag{
+    font-size:24px;
+    margin-bottom:12px;
+}
 .overlay p{
 
     font-size:18px;
@@ -360,7 +361,7 @@ nav ul li a{
 
     color:#FFD54F;
 
-    margin-bottom:60px;
+    margin-bottom:40px;
 
     font-weight:800;
 
@@ -614,18 +615,6 @@ nav ul li a{
 
 }
 
-}
-.hero{
-    min-height:70vh;
-    padding:20px 25px 20px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-}
-.events{
-    margin-top:-140px;
-    padding-top:20px;
 }
 
 /* ==========================================
@@ -1758,5 +1747,39 @@ img{
     align-items:center;
 
 }
+
+}
+@media (min-width:768px){
+
+    .college-name{
+        margin-top:35px;
+    }
+
+    .events h2{
+        margin-top:45px;
+    }
+
+}
+@media (min-width:992px){
+
+    .hero{
+        min-height:85vh;
+        padding-top:110px;
+    }
+
+    .hero-tag{
+        margin-top:40px;
+    }
+
+    .events{
+        margin-top:40px;
+    }
+
+}
+@media (max-width:768px){
+
+    .events h2{
+        margin-top:30px;
+    }
 
 }
