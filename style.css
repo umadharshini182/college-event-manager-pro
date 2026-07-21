@@ -137,49 +137,30 @@ nav ul li a:hover{
    HERO
 ========================================== */
 .hero{
-    min-height:100vh;
+    min-height:85vh;
     display:flex;
-    justify-content:center;
+    justify-content:flex-start;
     align-items:center;
     text-align:center;
-    padding:95px 25px 40px;
+    padding:40px 25px 30px;
 }
 .overlay{
-    margin-top:-120px;
+    margin-top:40px;
     padding-top:0;
 }
-
 .overlay h1{
-
     font-size:72px;
-
-    line-height:1.15;
-
-    font-weight:800;
-
-    color:#FFD54F;
-
-    text-shadow:0 8px 25px rgba(0,0,0,.45);
-
+    line-height:1.1;
+    margin:8px 0;
 }
-
 .overlay p{
-
-    margin-top:15px;
-
-    font-size:24px;
-
-    color:#E2E8F0;
-
-    line-height:1.8;
-
+    margin:20px auto;
 }
-
 .hero-btn{
 
     display:inline-block;
 
-    margin-top:45px;
+    margin-top:25px;
 
     padding:20px 55px;
 
@@ -644,7 +625,7 @@ nav ul li a{
 }
 .events{
     margin-top:-140px;
-    padding-top:10px;
+    padding-top:20px;
 }
 
 /* ==========================================
