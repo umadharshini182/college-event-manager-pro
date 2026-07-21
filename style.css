@@ -296,6 +296,84 @@ nav ul li a{
 }
 
 }
+
+/* ==========================================
+   EVENT PAGES
+========================================== */
+
+.event-hero{
+
+    padding:120px 8% 60px;
+
+    text-align:center;
+
+}
+
+.about-event,
+.event-details,
+.rules-section,
+.register-section{
+
+    padding:60px 8%;
+
+}
+
+.about-event h2,
+.event-details h2,
+.rules-section h2,
+.register-section h2{
+
+    margin-bottom:25px;
+
+    color:#FFD54F;
+
+    text-align:center;
+
+    font-size:40px;
+
+}
+
+.about-event p,
+.event-details p,
+.rules-section p{
+
+    font-size:18px;
+
+    line-height:1.8;
+
+    color:#E2E8F0;
+
+}
+
+.rules-section ul{
+
+    margin-top:20px;
+
+    margin-left:25px;
+
+}
+
+.rules-section li{
+
+    margin-bottom:12px;
+
+    font-size:18px;
+
+    color:#E2E8F0;
+
+}
+
+.register-section{
+
+    text-align:center;
+
+}
+
+.register-section .hero-btn{
+
+    margin-top:25px;
+
+}
 /* ==========================================
    EVENTS
 ========================================== */
