@@ -1007,6 +1007,14 @@ footer{
     transition:.3s;
 
 }
+.register-box select{
+    color:#ffffff;
+}
+
+.register-box select option{
+    background:#0B3D91;
+    color:#ffffff;
+}
 
 .register-box input::placeholder{
 
