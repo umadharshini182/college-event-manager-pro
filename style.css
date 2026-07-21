@@ -136,29 +136,17 @@ nav ul li a:hover{
 /* ==========================================
    HERO
 ========================================== */
-
 .hero{
-
     min-height:100vh;
-
     display:flex;
-
     justify-content:center;
-
     align-items:center;
-
     text-align:center;
-
-    padding:160px 25px 80px;
-
+    padding:95px 25px 40px;
 }
-
 .overlay{
-
-    width:100%;
-
-    max-width:1050px;
-
+    margin-top:0;
+    padding-top:0;
 }
 
 .overlay h1{
@@ -177,7 +165,7 @@ nav ul li a:hover{
 
 .overlay p{
 
-    margin-top:28px;
+    margin-top:15px;
 
     font-size:24px;
 
@@ -301,24 +289,19 @@ nav ul li a{
    EVENT PAGES
 ========================================== */
 .event-hero{
-
     display:flex;
-
     justify-content:center;
-
     align-items:center;
-
     text-align:center;
-
-    padding:110px 8% 15px;
-
+    min-height:70vh;
+    padding:95px 8% 20px;
 }
 .about-event,
 .event-details,
 .rules-section,
 .register-section{
 
-    padding:35px 8%;
+    padding:20px 8%;
 
 }
 
