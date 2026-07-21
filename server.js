@@ -637,15 +637,19 @@ app.post("/create-order", async (req, res) => {
 
         res.json(order);
 
-    } catch (err) {
+    } 
 
-        console.log(err);
+    catch (err) {
 
-        res.status(500).json({
-            success: false,
-            message: "Unable to create order"
-        });
+    console.error(err);
 
+    res.status(500).json({
+        success: false,
+        message: err.message,
+        error: err
+    });
+
+}
     }
 
 });
