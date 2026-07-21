@@ -1518,12 +1518,11 @@ footer{
 /* ==========================================
    ABOUT / TERMS / PRIVACY
 ========================================== */
-
 .page-container{
 
     max-width:1000px;
 
-    margin:120px auto;
+    margin:160px auto 60px;
 
     padding:45px;
 
@@ -1538,16 +1537,17 @@ footer{
     box-shadow:0 20px 50px rgba(0,0,0,.35);
 
 }
-
 .page-container h1{
 
     text-align:center;
 
     color:#FFD54F;
 
-    font-size:42px;
+    font-size:48px;
 
-    margin-bottom:30px;
+    margin-top:10px;
+
+    margin-bottom:40px;
 
 }
 
@@ -1690,11 +1690,10 @@ img{
 ========================================== */
 
 @media(max-width:768px){
-
 .success-box,
 .page-container{
 
-    margin:100px 15px;
+    margin:140px 15px 40px;
 
     padding:28px;
 
