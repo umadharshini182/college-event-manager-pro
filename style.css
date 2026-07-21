@@ -137,7 +137,7 @@ nav ul li a:hover{
    HERO
 ========================================== */
 .hero{
-    min-height:100vh;
+    min-height:70vh;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -226,7 +226,7 @@ nav ul li a{
 }
 .hero{
     min-height:auto;
-    padding:150px 20px 60px;
+    padding:125px 20px 35px;
 }
 .overlay h1{
 
@@ -334,11 +334,8 @@ nav ul li a{
 /* ==========================================
    EVENTS
 ========================================== */
-
 .events{
-
-    padding:90px 8%;
-
+    padding:30px 8% 90px;
 }
 
 .events h2{
@@ -1737,37 +1734,19 @@ img{
 }
 
 }
-@media (min-width:768px){
-
-    .college-name{
-        margin-top:35px;
-    }
-
-    .events h2{
-        margin-top:10px;
-    }
-
-}
 @media (min-width:992px){
 
     .hero{
-        min-height:85vh;
-        padding-top:110px;
+        min-height:78vh;
+        padding-top:135px;
     }
 
     .hero-tag{
-        margin-top:40px;
+        margin-top:15px;
     }
 
     .events{
-        margin-top:40px;
-    }
-
-}
-@media (max-width:768px){
-
-    .events h2{
-        margin-top:30px;
+        margin-top:-30px;
     }
 
 }
