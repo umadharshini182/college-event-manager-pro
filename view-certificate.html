@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>View Certificate</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<nav>
+
+<div class="logo">
+
+🎓 College Event Manager
+
+</div>
+
+<ul>
+
+<li><a href="index.html">Home</a></li>
+
+<li><a href="about.html">About</a></li>
+
+<li><a href="privacy.html">Privacy</a></li>
+
+</ul>
+
+</nav>
+
+<section class="details">
+
+<div class="payment-box">
+
+<h1>🎓 View Your Certificate</h1>
+
+<p>
+
+Enter the same email address you used during event registration.
+
+</p>
+
+<form id="certificateForm">
+
+<div class="input-group">
+
+<label>Email Address</label>
+
+<input
+type="email"
+id="email"
+placeholder="Enter your email"
+required>
+
+</div>
+
+<button
+type="submit"
+class="btn">
+
+View Certificate
+
+</button>
+
+</form>
+
+</div>
+
+</section>
+
+<script>
+
+document.getElementById("certificateForm").addEventListener("submit",async function(e){
+
+e.preventDefault();
+
+const email=document.getElementById("email").value;
+
+window.location.href="certificate.html?email="+encodeURIComponent(email);
+
+});
+
+</script>
+
+</body>
+
+</html>
