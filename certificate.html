@@ -6,150 +6,86 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Participation Certificate</title>
+<title>Certificate</title>
 
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="certificate.css">
 
 </head>
 
 <body>
 
-<div class="certificate-container">
-
 <div class="certificate">
 
-<h4>ABC  Engineering College </h4>
+<div class="border">
 
-<h1>🏆 CERTIFICATE OF PARTICIPATION</h1>
+<h3 class="college">
+🎓 College Event Manager
+</h3>
 
-<p class="cert-text">
+<h1>
+CERTIFICATE OF PARTICIPATION
+</h1>
 
+<p class="subtext">
 This certificate is proudly presented to
-
 </p>
 
-<h2 id="studentName">Student Name</h2>
+<h2 id="studentName">
+Student Name
+</h2>
 
-<p class="cert-text">
+<p class="content">
 
-for successfully participating in
+For successfully participating in
+
+<b id="eventName">
+Hackathon
+</b>
+
+organized by
+
+<b>
+College Event Manager
+</b>
+
+Your enthusiasm, dedication and valuable contribution
+are sincerely appreciated.
 
 </p>
-
-<h2 id="eventName">Event Name</h2>
-
-<p class="cert-text">
-
-conducted during
-
-<b>ABC College Tech Fest 2026</b>
-
-</p>
-
-<p class="cert-text">
-
-We appreciate your enthusiasm, dedication and contribution.
-
-</p>
-<div class="certificate-info">
-
-<p><strong>Date:</strong> 05 July 2026</p>
-
-<p><strong>Venue:</strong> ABC College Campus</p>
-
-</div>
 
 <div class="certificate-footer">
 
-<div class="sign">
+<div>
 
-<img src="images/principal-sign.png" alt="Principal Signature" class="signature">
+<p>Date</p>
 
-<p>____________________</p>
-
-<h4>Principal</h4>
+<h4 id="certificateDate"></h4>
 
 </div>
 
-<div class="seal">
+<div>
 
-<img src="images/college-seal.png" alt="College Seal" class="seal-img">
+<p>Certificate ID</p>
 
-<p>Official Seal</p>
+<h4 id="certificateId"></h4>
 
 </div>
 
-<div class="sign">
+<div>
 
-<img src="images/coordinator-sign.png" alt="Coordinator Signature" class="signature">
+<p>Authorized Signature</p>
 
-<p>____________________</p>
-
-<h4>Faculty Coordinator</h4>
+<h4>Event Coordinator</h4>
 
 </div>
 
 </div>
 
-<p class="certificate-id">
-
-Certificate ID:
-<b id="certificateId">Loading...</b>
-
-</p>
-<div class="seal">
-
-🏅
-
-<p>Official Seal</p>
-
-</div>
-
-<div class="sign">
-
-<p>____________________</p>
-
-<h4>Event Organizer</h4>
-
 </div>
 
 </div>
 
-<button class="print-btn" onclick="window.print()">
-
-🖨️ Download / Print Certificate
-
-</button>
-
-</div>
-<script>
-const params = new URLSearchParams(window.location.search);
-const id = params.get("id");
-
-fetch(`http://localhost:5000/certificate/${id}`)
-.then(res => res.json())
-.then(data => {
-
-    console.log("Data:", data);
-
-    if (!data) {
-        alert("No certificate data found");
-        return;
-    }
-
-    document.getElementById("studentName").textContent = data.fullname;
-    document.getElementById("eventName").textContent = data.event;
-    document.getElementById("certificateId").textContent =
-        data.certificate_id || "Not Generated";
-
-})
-.catch(error => {
-    console.error(e rror);
-    alert("Fetch failed");
-});
-</script>
-
-
+<script src="certificate.js"></script>
 
 </body>
 
