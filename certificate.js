@@ -1,39 +1,43 @@
-const student = JSON.parse(localStorage.getItem("studentData"));
+const params = new URLSearchParams(window.location.search);
 
-if(student){
+const email = params.get("email");
 
-document.getElementById("studentName").innerHTML = student.fullname;
+async function loadCertificate(){
 
-document.getElementById("eventName").innerHTML = student.event;
+try{
 
-}
+const response = await fetch("/certificate/" + encodeURIComponent(email));
 
-const today = new Date();
+const data = await response.json();
 
-const date = today.toLocaleDateString("en-IN",{
+if(!data.success){
 
-day:"2-digit",
+alert("Certificate not found.");
 
-month:"long",
+window.location.href="view-certificate.html";
 
-year:"numeric"
-
-});
-
-document.getElementById("certificateDate").innerHTML = date;
-
-let certificateId = "";
-
-if(student && student.registrationId){
-
-certificateId = "CEM-" + student.registrationId;
+return;
 
 }
 
-else{
+document.getElementById("studentName").innerHTML=data.fullname;
 
-certificateId = "CEM-" + Math.floor(Math.random()*1000000);
+document.getElementById("eventName").innerHTML=data.event;
+
+document.getElementById("certificateId").innerHTML=data.certificate_id;
+
+document.getElementById("certificateDate").innerHTML=data.certificate_date;
 
 }
 
-document.getElementById("certificateId").innerHTML = certificateId;
+catch(err){
+
+console.log(err);
+
+alert("Unable to load certificate.");
+
+}
+
+}
+
+loadCertificate();
