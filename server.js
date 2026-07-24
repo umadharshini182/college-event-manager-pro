@@ -379,23 +379,40 @@ success:true
 // ===============================
 // CERTIFICATE
 // ===============================
+app.get("/certificate/:email", (req, res) => {
 
-app.get("/certificate/:id", (req, res) => {
+    const sql = `
+    SELECT
+        fullname,
+        event,
+        certificate_id,
+        DATE(createdAt) AS certificate_date
+    FROM registrations
+    WHERE email = ?
+    `;
 
-    const sql = "SELECT * FROM registrations WHERE id=?";
+    db.query(sql, [req.params.email], (err, results) => {
 
-    db.query(sql, [req.params.id], (err, results) => {
-
-        if (err || results.length === 0) {
-            return res.json({});
+        if (err) {
+            console.log(err);
+            return res.json({ success: false });
         }
 
-        res.json(results[0]);
+        if (results.length === 0) {
+            return res.json({ success: false });
+        }
+
+        res.json({
+            success: true,
+            fullname: results[0].fullname,
+            event: results[0].event,
+            certificate_id: results[0].certificate_id,
+            certificate_date: results[0].certificate_date
+        });
 
     });
 
 });
-
 // ===============================
 // GENERATE CERTIFICATE
 // ===============================
