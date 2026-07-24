@@ -18,6 +18,7 @@ window.addEventListener("load", async () => {
 
 });
 
+
 // ======================================================
 // LOGIN
 // ======================================================
@@ -410,7 +411,7 @@ ${student.attendance}
 
 <button
 class="action-btn view-btn"
-onclick="viewCertificate(${student.id})">
+onclick="viewCertificate('${student.email}')"
 
 View
 
@@ -775,18 +776,14 @@ console.log(err);
 // VIEW CERTIFICATE
 // ======================================================
 
-function viewCertificate(id){
+function viewCertificate(email){
 
-window.open(
-
-"/certificate/"+id,
-
-"_blank"
-
-);
+    window.open(
+        "/view-certificate.html?email=" + encodeURIComponent(email),
+        "_blank"
+    );
 
 }
-
 
 // ======================================================
 // DELETE STUDENT

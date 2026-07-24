@@ -2,42 +2,33 @@ const params = new URLSearchParams(window.location.search);
 
 const email = params.get("email");
 
-async function loadCertificate(){
+if (!email) {
+    alert("Email not found.");
+} else {
 
-try{
+    fetch("/certificate/" + encodeURIComponent(email))
+        .then(res => res.json())
+        .then(data => {
 
-const response = await fetch("/certificate/" + encodeURIComponent(email));
+            if (!data.success) {
+                alert("Certificate not found.");
+                return;
+            }
 
-const data = await response.json();
+            document.getElementById("studentName").textContent = data.fullname;
+            document.getElementById("eventName").textContent = data.event;
+            document.getElementById("certificateId").textContent =
+                data.certificate_id || "Not Generated";
 
-if(!data.success){
+            const date = new Date(data.certificate_date);
 
-alert("Certificate not found.");
+            document.getElementById("certificateDate").textContent =
+                date.toLocaleDateString();
 
-window.location.href="view-certificate.html";
-
-return;
-
-}
-
-document.getElementById("studentName").innerHTML=data.fullname;
-
-document.getElementById("eventName").innerHTML=data.event;
-
-document.getElementById("certificateId").innerHTML=data.certificate_id;
-
-document.getElementById("certificateDate").innerHTML=data.certificate_date;
-
-}
-
-catch(err){
-
-console.log(err);
-
-alert("Unable to load certificate.");
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Unable to load certificate.");
+        });
 
 }
-
-}
-
-loadCertificate();
