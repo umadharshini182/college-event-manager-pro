@@ -208,6 +208,73 @@ app.post("/register", (req, res) => {
 
 });
 // ===============================
+// LOGIN
+// ===============================
+
+app.post("/auth/login", (req, res) => {
+
+    const { email, password } = req.body;
+
+    if (
+        email === "admin@gmail.com" &&
+        password === "admin123"
+    ) {
+
+        req.session.user = {
+            email,
+            role: "admin"
+        };
+
+        return res.json({
+            success: true,
+            role: "admin"
+        });
+
+    }
+
+    res.json({
+        success: false
+    });
+
+});
+
+// ===============================
+// CURRENT USER
+// ===============================
+
+app.get("/api/current-user", (req, res) => {
+
+    if (!req.session.user) {
+
+        return res.json({
+            loggedIn: false
+        });
+
+    }
+
+    res.json({
+        loggedIn: true,
+        user: req.session.user
+    });
+
+});
+
+// ===============================
+// LOGOUT
+// ===============================
+
+app.get("/logout", (req, res) => {
+
+    req.session.destroy(() => {
+
+        res.json({
+            success: true
+        });
+
+    });
+
+});
+// ===============================
 // DASHBOARD
 // ===============================
 
