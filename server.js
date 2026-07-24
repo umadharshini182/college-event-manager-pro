@@ -138,137 +138,73 @@ app.get("/", (req, res) => {
 // ===============================
 
 app.post("/register", (req, res) => {
-const {
 
-    fullname,
-    email,
-    college,
-    department,
-    year,
-    event,
-    razorpay_order_id,
-    razorpay_payment_id
+    const {
+        fullname,
+        email,
+        college,
+        department,
+        year,
+        event,
+        razorpay_order_id,
+        razorpay_payment_id
+    } = req.body;
 
-} = req.body;
+    const certificateId = "CEM-" + new Date().getFullYear() + "-" + Date.now();
 
-  const sql = `
+    const sql = `
     INSERT INTO registrations
-(
-    fullname,
-    email,
-    college,
-    department,
-    year,
-    event,
-    payment_status,
-    amount,
-    attendance,
-    razorpay_order_id,
-    razorpay_payment_id
-)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `;
+    (
+        fullname,
+        email,
+        college,
+        department,
+        year,
+        event,
+        payment_status,
+        amount,
+        attendance,
+        certificate_id,
+        razorpay_order_id,
+        razorpay_payment_id
+    )
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
 
-  db.query(
-    sql,
-   [
-    fullname,
-    email,
-    college,
-    department,
-    year,
-    event,
-    "Paid",
-    1000,
-    "Absent",
-    razorpay_order_id,
-    razorpay_payment_id
-],
-    (err, result) => {
-
-      if (err) {
-        console.log(err);
-
-        return res.status(500).json({
-          success: false,
-          message: err.message
-        });
-      }
-
-      res.json({
-        success: true,
-        id: result.insertId
-      });
-
-    }
-  );
-
-});
-// ===============================
-// LOGIN
-// ===============================
-
-app.post("/auth/login", (req, res) => {
-
-    const { email, password } = req.body;
-
-    if (
-        email === "admin@gmail.com" &&
-        password === "admin123"
-    ) {
-
-        req.session.user = {
+    db.query(
+        sql,
+        [
+            fullname,
             email,
-            role: "admin"
-        };
+            college,
+            department,
+            year,
+            event,
+            "Paid",
+            1000,
+            "Absent",
+            certificateId,
+            razorpay_order_id,
+            razorpay_payment_id
+        ],
+        (err, result) => {
 
-        return res.json({
-            success: true,
-            role: "admin"
-        });
+            if (err) {
+                console.log(err);
+                return res.status(500).json({
+                    success: false,
+                    message: err.message
+                });
+            }
 
-    }
+            res.json({
+                success: true,
+                id: result.insertId,
+                certificate_id: certificateId
+            });
 
-    res.json({
-        success: false
-    });
-
-});
-
-// ===============================
-// CURRENT USER
-// ===============================
-
-app.get("/api/current-user", (req, res) => {
-
-    if (!req.session.user) {
-
-        return res.json({
-            loggedIn: false
-        });
-
-    }
-
-    res.json({
-        loggedIn: true,
-        user: req.session.user
-    });
-
-});
-
-// ===============================
-// LOGOUT
-// ===============================
-
-app.get("/logout", (req, res) => {
-
-    req.session.destroy(() => {
-
-        res.json({
-            success: true
-        });
-
-    });
+        }
+    );
 
 });
 // ===============================
@@ -417,27 +353,31 @@ app.get("/certificate/:email", (req, res) => {
 // GENERATE CERTIFICATE
 // ===============================
 
-app.put("/certificate/:id",(req,res)=>{
+app.put("/certificate/:id", (req, res) => {
 
-const sql=`
-UPDATE registrations
-SET certificate='Generated'
-WHERE id=?
-`;
+    const certificateId = "CEM-" + new Date().getFullYear() + "-" + Date.now();
 
-db.query(sql,[req.params.id],err=>{
+    const sql = `
+    UPDATE registrations
+    SET certificate_id = ?
+    WHERE id = ?
+    `;
 
-if(err){
+    db.query(sql, [certificateId, req.params.id], (err) => {
 
-console.log(err);
+        if (err) {
+            console.log(err);
+            return res.json({
+                success: false
+            });
+        }
 
-return res.json({success:false});
+        res.json({
+            success: true,
+            certificate_id: certificateId
+        });
 
-}
-
-res.json({success:true});
-
-});
+    });
 
 });
 
