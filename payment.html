@@ -10,7 +10,6 @@
 
 <link rel="stylesheet" href="style.css">
 
-<script src="https://www.paypal.com/sdk/js?client-id=AazfUb-lpv2d2BkFqXIa4RcG2k0_Ya7BIP6JA834NHSRYxs61vSlwXfP46xhZJJzP3Li4-MtBBE3hqBg&currency=USD"></script>
 
 </head>
 
@@ -70,7 +69,11 @@ Review your registration details before making payment.
 
 </div>
 
-<div id="paypal-button-container"></div>
+<button id="demoPayBtn" class="submit-btn">
+
+Pay ₹1000
+
+</button>
 
 </div>
 
@@ -85,96 +88,47 @@ if (student) {
     document.getElementById("eventName").innerHTML = student.event;
 
 }
+  document.getElementById("demoPayBtn").addEventListener("click", async function () {
 
-paypal.Buttons({
+    const register = await fetch("/register", {
 
-    createOrder: async function () {
+        method: "POST",
 
-        try {
+        headers: {
 
-            const response = await fetch("/create-paypal-order", {
+            "Content-Type": "application/json"
 
-                method: "POST"
+        },
 
-            });
+        body: JSON.stringify(student)
 
-            const order = await response.json();
+    });
 
-            return order.id;
+    const result = await register.json();
 
-        }
+    if (result.success) {
 
-        catch (err) {
+        student.registrationId = result.id;
 
-            console.log(err);
+        localStorage.setItem(
 
-            alert("Unable to create PayPal order.");
+            "studentData",
 
-        }
+            JSON.stringify(student)
 
-    },
+        );
 
-    onApprove: async function (data, actions) {
-
-        const details = await actions.order.capture();
-
-        console.log(details);
-               const register = await fetch("/register", {
-
-            method: "POST",
-
-            headers: {
-
-                "Content-Type": "application/json"
-
-            },
-
-            body: JSON.stringify({
-
-                ...student,
-
-                paypal_order_id: data.orderID,
-
-                paypal_transaction_id: details.id
-
-            })
-
-        });
-
-        const result = await register.json();
-
-        if (result.success) {
-
-            student.registrationId = result.id;
-
-            student.paymentId = details.id;
-
-            localStorage.setItem(
-                "studentData",
-                JSON.stringify(student)
-            );
-
-            window.location.href = "receipt.html";
-
-        }
-
-        else {
-
-            alert(result.message || "Registration failed.");
-
-        }
-
-    },
-
-    onError: function (err) {
-
-        console.log(err);
-
-        alert("Payment Failed.");
+        window.location.href = "receipt.html";
 
     }
 
-}).render("#paypal-button-container");   
+    else {
+
+        alert("Registration failed.");
+
+    }
+
+});
 </script>
 
 </body>
