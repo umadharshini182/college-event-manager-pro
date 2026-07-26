@@ -383,16 +383,17 @@ success:true
 // CERTIFICATE
 // ===============================
 app.get("/certificate/:email", (req, res) => {
-
-    const sql = `
-    SELECT
-        fullname,
-        event,
-        certificate_id,
-        DATE(createdAt) AS certificate_date
-    FROM registrations
-    WHERE email = ?
-    `;
+const sql = `
+SELECT
+    fullname,
+    event,
+    certificate_id,
+    DATE(createdAt) AS certificate_date
+FROM registrations
+WHERE email = ?
+ORDER BY id DESC
+LIMIT 1
+`;
 
     db.query(sql, [req.params.email], (err, results) => {
 
