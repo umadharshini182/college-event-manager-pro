@@ -405,7 +405,7 @@ LIMIT 1
         if (results.length === 0) {
             return res.json({ success: false });
         }
-
+         console.log(results[0]);
         res.json({
             success: true,
             fullname: results[0].fullname,
