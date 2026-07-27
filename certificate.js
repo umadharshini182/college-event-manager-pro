@@ -19,12 +19,10 @@ if (!email) {
             document.getElementById("eventName").textContent = data.event;
             document.getElementById("certificateId").textContent =
                 data.certificate_id || "Not Generated";
-
             const date = new Date(data.certificate_date);
 
-            document.getElementById("certificateDate").textContent =
-                date.toLocaleDateString();
-
+document.getElementById("certificateDate").textContent =
+date.toLocaleDateString("en-GB");
         })
         .catch(err => {
             console.error(err);
