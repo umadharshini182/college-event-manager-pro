@@ -2,129 +2,175 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
 }
 
 body{
-background:linear-gradient(135deg,#eef2ff,#dbeafe,#bfdbfe);
-    font-family:Arial, Helvetica, sans-serif;
+    background:#dbeafe;
     display:flex;
     justify-content:center;
     align-items:center;
     min-height:100vh;
-    padding:40px;
+    padding:30px;
 }
+
 .certificate{
-    width:1000px;
-    background:#ffffff;
-    border:6px solid #1e3a8a;
-    outline:2px solid #93c5fd;
-    outline-offset:-12px;
+    width:1100px;
+    background:#fff;
+    border:8px solid #1e3a8a;
     border-radius:12px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.12);
-    padding:45px;
+    padding:18px;
+    box-shadow:0 15px 40px rgba(0,0,0,0.18);
 }
 
 .border{
-    border-radius:8px;
-    padding:60px;
+    border:2px solid #93c5fd;
+    padding:50px;
     text-align:center;
 }
 
 .college{
-    font-size:32px;
+    font-size:34px;
     color:#1d4ed8;
-    margin-bottom:20px;
     font-weight:bold;
+    margin-bottom:20px;
 }
 
 h1{
-    font-size:42px;
+    font-size:60px;
+    letter-spacing:6px;
     color:#111827;
-    letter-spacing:4px;
     margin-bottom:35px;
 }
 
 .subtext{
-    font-size:22px;
+    font-size:26px;
     color:#6b7280;
-    margin-bottom:25px;
+    margin-bottom:18px;
 }
+
 #studentName{
-    font-size:46px;
-    color:#1e40af;
-    margin-bottom:30px;
     display:inline-block;
-    border-bottom:2px solid #93c5fd;
-    padding-bottom:8px;
+    font-size:56px;
+    color:#1e40af;
+    border-bottom:3px solid #93c5fd;
+    padding-bottom:10px;
+    margin-bottom:40px;
 }
+
 .content{
-    font-size:22px;
-    line-height:2;
+    font-size:26px;
+    line-height:1.9;
     color:#374151;
-    margin-top:20px;
+    margin-bottom:70px;
 }
 
 .content b{
     color:#111827;
 }
 
-.certificate-footer{
-    margin-top:70px;
+.footer{
     display:flex;
     justify-content:space-between;
-    align-items:center;
-}
-
-.certificate-footer div{
-    width:220px;
+    align-items:flex-end;
+    margin-top:60px;
     text-align:center;
+    gap:30px;
 }
 
-.certificate-footer p{
-    font-size:17px;
+.footer div{
+    flex:1;
+}
+
+.footer p{
+    font-size:18px;
     color:#6b7280;
-    margin-bottom:10px;
+    margin-bottom:12px;
 }
 
-.certificate-footer h4{
-    font-size:20px;
+.footer h3{
+    font-size:22px;
     color:#111827;
-    border-top:1px solid #9ca3af;
-    padding-top:10px;
 }
 
-@media print{
-
-    body{
-        background:white;
-        padding:0;
-    }
-
-    .certificate{
-        width:100%;
-        border:none;
-        box-shadow:none;
-    }
-
+.download-btn{
+    display:block;
+    margin:25px auto 0;
+    padding:14px 30px;
+    background:#2563eb;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:18px;
+    cursor:pointer;
+    transition:.3s;
 }
-@media (max-width:768px){
+
+.download-btn:hover{
+    background:#1d4ed8;
+}
+
+@media(max-width:768px){
+
+body{
+    padding:10px;
+}
 
 .certificate{
-    width:95%;
-    padding:20px;
+    width:100%;
+    padding:10px;
+}
+
+.border{
+    padding:25px;
 }
 
 h1{
-    font-size:38px;
+    font-size:34px;
+    letter-spacing:2px;
+}
+
+.college{
+    font-size:24px;
+}
+
+.subtext{
+    font-size:18px;
 }
 
 #studentName{
     font-size:34px;
 }
 
-.details{
+.content{
+    font-size:18px;
+}
+
+.footer{
     flex-direction:column;
-    gap:20px;
+    gap:25px;
+}
+
+.download-btn{
+    width:100%;
+}
+
+}
+
+@media print{
+
+body{
+    background:white;
+    padding:0;
+}
+
+.download-btn{
+    display:none;
+}
+
+.certificate{
+    width:100%;
+    box-shadow:none;
 }
 
 }
