@@ -13,11 +13,12 @@ background:linear-gradient(135deg,#eef2ff,#dbeafe,#bfdbfe);
     min-height:100vh;
     padding:40px;
 }
-
 .certificate{
     width:1000px;
     background:#ffffff;
-    border:2px solid #d1d5db;
+    border:6px solid #1e3a8a;
+    outline:2px solid #93c5fd;
+    outline-offset:-12px;
     border-radius:12px;
     box-shadow:0 10px 25px rgba(0,0,0,0.12);
     padding:45px;
@@ -48,16 +49,14 @@ h1{
     color:#6b7280;
     margin-bottom:25px;
 }
-
 #studentName{
     font-size:46px;
-    color:#2563eb;
+    color:#1e40af;
     margin-bottom:30px;
     display:inline-block;
-    border-bottom:2px solid #d1d5db;
+    border-bottom:2px solid #93c5fd;
     padding-bottom:8px;
 }
-
 .content{
     font-size:22px;
     line-height:2;
