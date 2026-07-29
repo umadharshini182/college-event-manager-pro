@@ -19,6 +19,12 @@ if (!email) {
             document.getElementById("eventName").textContent = data.event;
             document.getElementById("certificateId").textContent =
                 data.certificate_id || "Not Generated";
+                const verifyURL =
+window.location.href;
+
+document.getElementById("qrCode").src =
+"https://api.qrserver.com/v1/create-qr-code/?size=150x150&data="
++ encodeURIComponent(verifyURL);
             const date = new Date(data.certificate_date);
 
 document.getElementById("certificateDate").textContent =
