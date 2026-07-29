@@ -30,3 +30,32 @@ date.toLocaleDateString("en-GB");
         });
 
 }
+async function downloadCertificate() {
+
+    const { jsPDF } = window.jspdf;
+
+    const certificate = document.querySelector(".certificate");
+
+    const canvas = await html2canvas(certificate, {
+        scale: 2
+    });
+
+    const imgData = canvas.toDataURL("image/png");
+
+    const pdf = new jsPDF("landscape", "mm", "a4");
+
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+
+    pdf.addImage(
+        imgData,
+        "PNG",
+        0,
+        0,
+        pageWidth,
+        pageHeight
+    );
+
+    pdf.save("Certificate.pdf");
+
+}
