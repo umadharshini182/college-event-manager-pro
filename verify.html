@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Certificate Verification</title>
+
+<style>
+
+body{
+
+font-family:Arial,sans-serif;
+background:#f4f7fb;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
+
+}
+
+.card{
+
+background:white;
+padding:40px;
+border-radius:15px;
+box-shadow:0 5px 20px rgba(0,0,0,.2);
+text-align:center;
+width:450px;
+
+}
+
+h1{
+
+color:#0b8f3d;
+
+}
+
+p{
+
+font-size:18px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>🎓 Certificate Verification</h1>
+
+<h2>✅ Certificate Verified</h2>
+
+<p id="certificateId"></p>
+
+</div>
+
+<script>
+
+const params = new URLSearchParams(window.location.search);
+
+const id = params.get("id");
+
+document.getElementById("certificateId").innerHTML =
+"<b>Certificate ID:</b> " + id;
+
+</script>
+
+</body>
+
+</html>
