@@ -110,7 +110,11 @@ document.getElementById("demoPayBtn").addEventListener("click", async function (
 
         });
 
-        const result = await register.json();
+        console.log(register.status);
+
+const result = await register.json();
+
+console.log(result);
 
         if (result.success) {
 
