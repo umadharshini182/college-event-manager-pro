@@ -378,40 +378,82 @@ success:true
 );
 
 });
+// ===============================
+// GET CERTIFICATE
+// ===============================
 
-// ===============================
-// CERTIFICATE
-// ===============================
 app.get("/certificate/:email", (req, res) => {
-const sql = `
-SELECT
-    fullname,
-    event,
-    certificate_id,
-    DATE(createdAt) AS certificate_date
-FROM registrations
-WHERE email = ?
-ORDER BY id DESC
-LIMIT 1
-`;
+
+    const sql = `
+    SELECT
+        fullname,
+        email,
+        college,
+        department,
+        year,
+        event,
+        attendance,
+        certificate_generated,
+        certificate_id,
+        certificate_date
+    FROM registrations
+    WHERE email = ?
+    ORDER BY id DESC
+    LIMIT 1
+    `;
 
     db.query(sql, [req.params.email], (err, results) => {
 
         if (err) {
+
             console.log(err);
-            return res.json({ success: false });
+
+            return res.status(500).json({
+
+                success: false,
+
+                message: "Database Error"
+
+            });
+
         }
 
         if (results.length === 0) {
-            return res.json({ success: false });
+
+            return res.status(404).json({
+
+                success: false,
+
+                message: "Student not found"
+
+            });
+
         }
-         console.log(results[0]);
+
+        const student = results[0];
+
+        if (
+            student.attendance !== "Present" ||
+            student.certificate_generated != 1
+        ) {
+
+            return res.json({
+
+                success: false,
+
+                message:
+                    "Certificate has not been generated because your attendance is marked as Absent."
+
+            });
+
+        }
+
         res.json({
+
             success: true,
-            fullname: results[0].fullname,
-            event: results[0].event,
-            certificate_id: results[0].certificate_id,
-            certificate_date: results[0].certificate_date
+
+            student
+
         });
 
     });
@@ -420,36 +462,48 @@ LIMIT 1
 // ===============================
 // GENERATE CERTIFICATE
 // ===============================
+app.put("/attendance/:id", (req, res) => {
 
-app.put("/certificate/:id", (req, res) => {
-
-    const certificateId = "CEM-" + new Date().getFullYear() + "-" + Date.now();
+    const certificateId =
+        "CEM-" +
+        new Date().getFullYear() +
+        "-" +
+        Date.now();
 
     const sql = `
     UPDATE registrations
-    SET certificate_id = ?
+    SET
+        attendance = 'Present',
+        certificate_generated = TRUE,
+        certificate_date = CURDATE(),
+        certificate_id = ?
     WHERE id = ?
     `;
 
-    db.query(sql, [certificateId, req.params.id], (err) => {
+    db.query(
+        sql,
+        [certificateId, req.params.id],
+        (err) => {
 
-        if (err) {
-            console.log(err);
-            return res.json({
-                success: false
+            if (err) {
+
+                console.log(err);
+
+                return res.json({
+                    success: false
+                });
+
+            }
+
+            res.json({
+                success: true,
+                certificate_id: certificateId
             });
+
         }
-
-        res.json({
-            success: true,
-            certificate_id: certificateId
-        });
-
-    });
+    );
 
 });
-
-
 
 
 // ===============================
