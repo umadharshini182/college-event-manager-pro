@@ -24,12 +24,24 @@ document.getElementById("eventName").textContent =
 // ===============================
 // CERTIFICATE DATE
 // ===============================
+const rawDate = localStorage.getItem("certificateDate");
 
-const certificateDate =
-    localStorage.getItem("certificateDate") || "";
+let formattedDate = "";
+
+if (rawDate) {
+
+    const date = new Date(rawDate);
+
+    formattedDate = date.toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric"
+    });
+
+}
 
 document.getElementById("certificateDate").textContent =
-    certificateDate;
+    formattedDate;
 
 
 // ===============================
