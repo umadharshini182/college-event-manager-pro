@@ -1,5 +1,5 @@
 /* ==========================
-   GOOGLE RESET
+RESET
 ========================== */
 
 *{
@@ -12,7 +12,7 @@ body{
 
     font-family:'Poppins',sans-serif;
 
-    background:linear-gradient(135deg,#eef5ff,#dfefff);
+    background:#eef4ff;
 
     display:flex;
 
@@ -22,14 +22,9 @@ body{
 
     min-height:100vh;
 
-    padding:40px;
+    padding:30px;
 
 }
-
-
-/* ==========================
-   PAGE
-========================== */
 
 .page{
 
@@ -43,45 +38,34 @@ body{
 
 }
 
-
-/* ==========================
-   CERTIFICATE
-========================== */
-
 .certificate{
 
     width:100%;
 
     max-width:1100px;
 
-    background:white;
+    background:#fff;
 
     border-radius:18px;
 
-    box-shadow:0 20px 45px rgba(0,0,0,.18);
-
-    overflow:hidden;
+    box-shadow:0 15px 40px rgba(0,0,0,.15);
 
 }
-
 
 .certificate-border{
 
-    border:14px solid #0b4fa8;
-
     margin:18px;
 
-    padding:60px;
+    border:12px solid #0b4fa8;
+
+    padding:55px;
 
     text-align:center;
 
-    position:relative;
-
 }
 
-
 /* ==========================
-   COLLEGE NAME
+TITLE
 ========================== */
 
 .college-name{
@@ -90,16 +74,9 @@ body{
 
     font-size:30px;
 
-    font-weight:700;
-
     margin-bottom:15px;
 
 }
-
-
-/* ==========================
-   TITLE
-========================== */
 
 .title{
 
@@ -109,452 +86,55 @@ body{
 
     color:#1d3557;
 
-    letter-spacing:2px;
-
-    margin-bottom:18px;
-
 }
-
-
-/* ==========================
-   SUB TITLE
-========================== */
 
 .subtitle{
 
+    margin-top:18px;
+
     font-size:20px;
 
-    color:#555;
-
-    margin-bottom:22px;
+    color:#666;
 
 }
 
-
-/* ==========================
-   STUDENT NAME
-========================== */
-
 #studentName{
 
-    font-family:'Cinzel',serif;
-
-    font-size:50px;
+    margin:28px 0;
 
     color:#d4a017;
 
-    margin:25px 0;
+    font-size:48px;
 
     border-bottom:2px solid #d4a017;
 
     display:inline-block;
 
-    padding:0 25px 10px;
+    padding-bottom:10px;
 
 }
 
-
-/* ==========================
-   DESCRIPTION
-========================== */
-
 .description{
-
-    font-size:22px;
-
-    color:#444;
-
-    line-height:1.9;
 
     max-width:850px;
 
     margin:auto;
 
+    font-size:21px;
+
+    line-height:1.8;
+
+    color:#444;
+
 }
 
-
-.description span{
+.description b{
 
     color:#0b4fa8;
 
-    font-weight:700;
-
-}
-
-
-.description strong{
-
-    color:#111;
-
-}
-
-
-/* ==========================
-   QR SECTION
-========================== */
-.qr-section{
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-
-    justify-content:center;
-
-    margin-top:25px;
-
-    width:180px;
-
-}
-#qrCode{
-
-    width:140px;
-
-    height:140px;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    margin:0 auto;
-
-    padding:8px;
-
-    border:3px solid #ddd;
-
-    border-radius:10px;
-
-    background:white;
-
-}
-.qr-section p{
-
-    margin-top:18px;
-
-    text-align:center;
-
-    color:#555;
-
-    font-size:15px;
-
-    line-height:1.5;
-
-}
-
-
-/* ==========================
-   DOWNLOAD BUTTON
-========================== */
-
-.download-btn{
-
-    margin-top:35px;
-
-    padding:15px 38px;
-
-    font-size:18px;
-
-    font-weight:600;
-
-    border:none;
-
-    border-radius:12px;
-
-    cursor:pointer;
-
-    color:white;
-
-    background:#0b4fa8;
-
-    transition:.3s;
-
-}
-
-
-.download-btn:hover{
-
-    background:#083b7d;
-
-    transform:translateY(-2px);
-
 }
 /* ==========================
-   TABLETS
-========================== */
-
-@media (max-width:992px){
-
-    body{
-
-        padding:25px;
-
-    }
-
-    .certificate-border{
-
-        padding:45px 35px;
-
-    }
-
-    .title{
-
-        font-size:38px;
-
-    }
-
-    #studentName{
-
-        font-size:40px;
-
-    }
-
-    .description{
-
-        font-size:19px;
-
-    }
-
-    .details{
-
-        gap:20px;
-
-    }
-
-}
-
-
-/* ==========================
-   MOBILE
-========================== */
-
-@media (max-width:768px){
-
-    body{
-
-        padding:15px;
-
-    }
-
-    .certificate-border{
-
-        margin:10px;
-
-        padding:30px 20px;
-
-        border-width:8px;
-
-    }
-
-    .college-name{
-
-        font-size:22px;
-
-    }
-
-    .title{
-
-        font-size:28px;
-
-        letter-spacing:1px;
-
-    }
-
-    .subtitle{
-
-        font-size:17px;
-
-    }
-
-    #studentName{
-
-        font-size:30px;
-
-        padding-bottom:6px;
-
-    }
-
-    .description{
-
-        font-size:17px;
-
-        line-height:1.8;
-
-    }
-
-    .details{
-
-        flex-direction:column;
-
-        align-items:center;
-
-        gap:28px;
-
-        margin-top:40px;
-
-    }
-
-    .detail-box{
-
-        width:100%;
-
-    }
-
-    #qrCode{
-
-        width:100px;
-
-        height:100px;
-
-    }
-
-    .download-btn{
-
-        width:100%;
-
-        font-size:17px;
-
-        padding:14px;
-
-    }
-
-/* ==========================
-   SMALL MOBILE
-========================== */
-
-@media (max-width:480px){
-
-    .certificate-border{
-
-        padding:22px 15px;
-
-    }
-
-    .college-name{
-
-        font-size:18px;
-
-    }
-
-    .title{
-
-        font-size:22px;
-
-    }
-
-    .subtitle{
-
-        font-size:15px;
-
-    }
-
-    #studentName{
-
-        font-size:24px;
-
-    }
-
-    .description{
-
-        font-size:15px;
-
-    }
-
-    .detail-box h3{
-
-        font-size:18px;
-
-    }
-
-    .detail-box p{
-
-        font-size:14px;
-
-    }
-
-    .qr-section p{
-
-        font-size:13px;
-
-    }
-
-}
-
-
-/* ==========================
-   LARGE DESKTOP
-========================== */
-
-@media (min-width:1400px){
-
-    .certificate{
-
-        max-width:1250px;
-
-    }
-
-    .certificate-border{
-
-        padding:75px;
-
-    }
-
-    .title{
-
-        font-size:55px;
-
-    }
-
-    #studentName{
-
-        font-size:58px;
-
-    }
-
-    .description{
-
-        font-size:24px;
-
-    }
-
-}
-
-
-/* ==========================
-   PRINT / PDF
-========================== */
-
-@media print{
-
-    body{
-
-        background:white;
-
-        padding:0;
-
-    }
-
-    .download-btn{
-
-        display:none;
-
-    }
-
-    .certificate{
-
-        box-shadow:none;
-
-        border-radius:0;
-
-        width:100%;
-
-    }
-
-}
-/* ==========================
-   CERTIFICATE FOOTER
+CERTIFICATE FOOTER
 ========================== */
 
 .certificate-footer{
@@ -567,7 +147,7 @@ body{
 
     align-items:flex-end;
 
-    gap:30px;
+    gap:40px;
 
 }
 
@@ -579,15 +159,53 @@ body{
 
 }
 
+#qrCode{
+
+    width:120px;
+
+    height:120px;
+
+    margin:auto;
+
+    padding:8px;
+
+    border:2px solid #ddd;
+
+    border-radius:10px;
+
+    background:white;
+
+}
+
+.footer-left p{
+
+    margin-top:15px;
+
+    color:#666;
+
+    font-size:15px;
+
+}
+
 .footer-center{
 
     flex:1;
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:80px;
+
+}
+
+.info{
 
     text-align:center;
 
 }
 
-.footer-center p{
+.info p{
 
     color:#666;
 
@@ -597,7 +215,7 @@ body{
 
 }
 
-.footer-center h3{
+.info h3{
 
     font-size:22px;
 
@@ -615,46 +233,172 @@ body{
 
 .signature-img{
 
-    width:130px;
+    width:140px;
 
     height:auto;
 
-    margin-bottom:8px;
+    margin-bottom:10px;
 
 }
 
 .footer-right h3{
 
-    margin:0;
-
     font-size:22px;
+
+    margin:0;
 
 }
 
 .footer-right p{
 
-    margin-top:5px;
-
     color:#666;
 
+    margin-top:5px;
+
 }
-@media (max-width:768px){
+
+/* ==========================
+DOWNLOAD BUTTON
+========================== */
+
+.download-btn{
+
+    margin-top:30px;
+
+    padding:14px 35px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#0b4fa8;
+
+    color:white;
+
+    font-size:18px;
+
+    cursor:pointer;
+
+}
+
+.download-btn:hover{
+
+    background:#083b7d;
+
+}
+
+/* ==========================
+TABLET
+========================== */
+
+@media(max-width:992px){
+
+.title{
+
+font-size:40px;
+
+}
+
+#studentName{
+
+font-size:40px;
+
+}
+
+.description{
+
+font-size:19px;
+
+}
+
+.footer-center{
+
+gap:40px;
+
+}
+
+}
+
+/* ==========================
+MOBILE
+========================== */
+
+@media(max-width:768px){
+
+body{
+
+padding:15px;
+
+}
+
+.certificate-border{
+
+padding:30px 20px;
+
+border-width:8px;
+
+}
+
+.title{
+
+font-size:30px;
+
+}
+
+#studentName{
+
+font-size:30px;
+
+}
+
+.description{
+
+font-size:17px;
+
+}
 
 .certificate-footer{
 
-    flex-direction:column;
+flex-direction:column;
 
-    align-items:center;
+align-items:center;
 
-    gap:35px;
+gap:35px;
+
+}
+
+.footer-center{
+
+flex-direction:column;
+
+gap:25px;
 
 }
 
 .footer-left,
-.footer-center,
 .footer-right{
 
-    width:100%;
+width:100%;
+
+}
+
+.signature-img{
+
+width:110px;
+
+}
+
+#qrCode{
+
+width:100px;
+
+height:100px;
+
+}
+
+.download-btn{
+
+width:100%;
 
 }
 

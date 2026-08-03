@@ -3,20 +3,19 @@
 
 <head>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
 
-    <title>Certificate of Participation</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Google Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>Certificate</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Cinzel:wght@600;700&display=swap"
-        rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="certificate.css">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="certificate.css">
 
 </head>
 
@@ -24,125 +23,108 @@
 
 <div class="page">
 
-    <div class="certificate" id="certificate">
+<div class="certificate" id="certificate">
 
-        <div class="certificate-border">
+<div class="certificate-border">
 
-            <!-- College Name -->
+<h3 class="college-name">
+🎓 College Event Manager
+</h3>
 
-            <h3 class="college-name">
-                🎓 College Event Manager
-            </h3>
+<h1 class="title">
+Certificate of Participation
+</h1>
 
-            <!-- Certificate Title -->
+<p class="subtitle">
+This certificate is proudly presented to
+</p>
 
-            <h1 class="title">
-                Certificate of Participation
-            </h1>
+<h2 id="studentName">
+Student Name
+</h2>
 
-            <p class="subtitle">
-                This certificate is proudly presented to
-            </p>
+<p class="description">
 
-            <!-- Student Name -->
+For successfully participating in
 
-            <h2 id="studentName">
-                Student Name
-            </h2>
+<b id="eventName">
+Hackathon
+</b>
 
-            <!-- Certificate Text -->
+organized by
 
-            <p class="description">
+<strong>
+College Event Manager
+</strong>
 
-                For successfully participating in
+Your enthusiasm and contribution are sincerely appreciated.
 
-                <span id="eventName">
-                    Hackathon
-                </span>
+</p>
 
-                organized by
+<div class="certificate-footer">
 
-                <strong>
-                    College Event Manager
-                </strong>.
+<div class="footer-left">
 
-                Your enthusiasm, dedication and valuable contribution
-                are sincerely appreciated.
+<div id="qrCode"></div>
 
-            </p>
-
-            <!-- Information -->
-         
-         <div class="certificate-footer">
-
-    <div class="footer-left">
-
-        <div id="qrCode"></div>
-
-        <p>Scan to Verify Certificate</p>
-
-    </div>
-
-    <div class="footer-center">
-
-        <p>Date</p>
-
-        <h3 id="certificateDate"></h3>
-
-    </div>
-
-    <div class="footer-center">
-
-        <p>Certificate ID</p>
-
-        <h3 id="certificateId"></h3>
-
-    </div>
-
-    <div class="footer-right">
-
-        <img
-            src="signature.png"
-            class="signature-img"
-            alt="Signature">
-
-        <h3>Dr. R. Charulatha</h3>
-
-        <p>Event Coordinator</p>
-
-    </div>
-
-</div>
-</div>
-        </div>
-
-    </div>
-
-    <!-- Download Button -->
-
-    <button
-        class="download-btn"
-        onclick="downloadCertificate()">
-
-        Download Certificate
-
-    </button>
+<p>Scan to Verify</p>
 
 </div>
 
-<!-- QR Code Library -->
+<div class="footer-center">
+
+<div class="info">
+
+<p>Date</p>
+
+<h3 id="certificateDate"></h3>
+
+</div>
+
+<div class="info">
+
+<p>Certificate ID</p>
+
+<h3 id="certificateId"></h3>
+
+</div>
+
+</div>
+
+<div class="footer-right">
+
+<img
+src="signature.png"
+class="signature-img"
+alt="Signature">
+
+<h3>Dr. R. Charulatha</h3>
+
+<p>Event Coordinator</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<button
+class="download-btn"
+onclick="downloadCertificate()">
+
+Download Certificate
+
+</button>
+
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-<!-- html2canvas -->
-
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
-<!-- jsPDF -->
-
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-
-<!-- JavaScript -->
 
 <script src="certificate.js"></script>
 
