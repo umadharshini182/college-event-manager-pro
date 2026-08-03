@@ -56,7 +56,6 @@ db.connect((err) => {
     console.log("✅ MySQL Connected");
 
     createTables();
-    updateDatabase();
 
 });
 function createTables() {
