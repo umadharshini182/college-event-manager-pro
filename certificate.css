@@ -150,20 +150,23 @@ CERTIFICATE FOOTER
     gap:40px;
 
 }
-
 .footer-left{
 
     width:180px;
 
-    text-align:center;
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
 
 }
 
 #qrCode{
 
-    width:120px;
+    width:130px;
 
-    height:120px;
+    height:130px;
 
     margin:auto;
 
@@ -176,14 +179,17 @@ CERTIFICATE FOOTER
     background:white;
 
 }
-
 .footer-left p{
 
-    margin-top:15px;
+    margin-top:12px;
 
     color:#666;
 
     font-size:15px;
+
+    width:140px;
+
+    text-align:center;
 
 }
 
