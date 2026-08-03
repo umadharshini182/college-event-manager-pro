@@ -338,44 +338,37 @@ app.get("/admin", (req, res) => {
 // ===============================
 // MARK ATTENDANCE
 // ===============================
+app.put("/attendance/:id", (req, res) => {
 
-app.put("/attendance/:id",(req,res)=>{
+    const certificateId =
+        "CEM-" +
+        new Date().getFullYear() +
+        "-" +
+        Date.now();
 
-const sql=`
-UPDATE registrations
-SET attendance=?
-WHERE id=?
-`;
+    const sql = `
+    UPDATE registrations
+    SET
+        attendance = 'Present',
+        certificate_generated = TRUE,
+        certificate_date = CURDATE(),
+        certificate_id = ?
+    WHERE id = ?
+    `;
 
-db.query(
+    db.query(sql, [certificateId, req.params.id], (err) => {
 
-sql,
+        if (err) {
+            console.log(err);
+            return res.json({ success: false });
+        }
 
-["Present",req.params.id],
+        res.json({
+            success: true,
+            certificate_id: certificateId
+        });
 
-(err,result)=>{
-
-if(err){
-
-console.log(err);
-
-return res.json({
-
-success:false
-
-});
-
-}
-
-res.json({
-
-success:true
-
-});
-
-}
-
-);
+    });
 
 });
 // ===============================
