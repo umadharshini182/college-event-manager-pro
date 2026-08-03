@@ -21,26 +21,15 @@ document.getElementById("studentName").textContent =
 document.getElementById("eventName").textContent =
     eventName;
 
-
 // ===============================
-// TODAY DATE
+// CERTIFICATE DATE
 // ===============================
 
-const today = new Date();
-
-const formattedDate =
-    today.toLocaleDateString("en-GB", {
-
-        day: "2-digit",
-
-        month: "long",
-
-        year: "numeric"
-
-    });
+const certificateDate =
+    localStorage.getItem("certificateDate") || "";
 
 document.getElementById("certificateDate").textContent =
-    formattedDate;
+    certificateDate;
 
 
 // ===============================
@@ -51,17 +40,11 @@ let certificateId =
     localStorage.getItem("certificateId");
 
 if (!certificateId) {
-
-    certificateId =
-        "CEM-" +
-        today.getFullYear() +
-        "-" +
-        Math.floor(100000 + Math.random() * 900000);
-
-    localStorage.setItem(
-        "certificateId",
-        certificateId
-    );
+certificateId =
+    "CEM-" +
+    new Date().getFullYear() +
+    "-" +
+    Math.floor(100000 + Math.random() * 900000);
 
 }
 
