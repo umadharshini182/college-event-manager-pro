@@ -321,12 +321,10 @@ attendance;
 // Certificates
 
 const certificates=
-students.filter(student=>
 
-student.certificate==="Generated"
-
+students.filter(student =>
+    student.certificate_generated == 1
 ).length;
-
 document.getElementById("certificateGenerated").innerText=
 certificates;
 // Today's Revenue

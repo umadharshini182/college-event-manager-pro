@@ -28,6 +28,7 @@ const db = mysql.createConnection({
 });
 
 db.connect((err) => {
+        db.connect((err) => {
 
     if (err) {
 
@@ -37,6 +38,12 @@ db.connect((err) => {
     } else {
 
         console.log("✅ MySQL Connected");
+        console.log("HOST:", process.env.MYSQLHOST);
+        console.log("DATABASE:", process.env.MYSQLDATABASE);
+
+    }
+
+});
 
         const createTable = `
         CREATE TABLE IF NOT EXISTS registrations (
