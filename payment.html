@@ -78,99 +78,66 @@ Pay ₹1000
 </div>
 
 </section>
-
 <script>
-  const student = JSON.parse(localStorage.getItem("studentData"));
+
+alert("Payment JS Loaded");
+
+const student = JSON.parse(localStorage.getItem("studentData"));
 
 if (!student) {
     alert("Student data not found. Please register again.");
     window.location.href = "register.html";
 }
 
-if (student) {
+document.getElementById("studentName").innerHTML = student.fullname;
+document.getElementById("eventName").innerHTML = student.event;
 
-    document.getElementById("studentName").innerHTML = student.fullname;
-    document.getElementById("eventName").innerHTML = student.event;
-
-}
-  document.getElementById("demoPayBtn").addEventListener("click", async function () {
+document.getElementById("demoPayBtn").addEventListener("click", async function () {
 
     alert("Button clicked");
 
-    const register = await fetch("/register", {
+    try {
 
-        method: "POST",
+        const register = await fetch("/register", {
 
-        headers: {
+            method: "POST",
 
-            "Content-Type": "application/json"
+            headers: {
+                "Content-Type": "application/json"
+            },
 
-        },
+            body: JSON.stringify(student)
 
-        body: JSON.stringify(student)
+        });
 
-    });
+        const result = await register.json();
 
-    const result = await register.json();
+        if (result.success) {
 
-    if (result.success) {
+            student.registrationId = result.id;
 
-        student.registrationId = result.id;
+            localStorage.setItem(
+                "studentData",
+                JSON.stringify(student)
+            );
 
-        localStorage.setItem(
-            "studentData",
-            JSON.stringify(student)
-        );
+            window.location.href = "receipt.html";
 
-        window.location.href = "receipt.html";
+        } else {
 
-    } else {
+            alert(result.message || "Registration failed.");
 
-        alert("Registration failed.");
+        }
 
-    }
+    } catch (err) {
 
-});
-
-    const register = await fetch("/register", {
-
-        method: "POST",
-
-        headers: {
-
-            "Content-Type": "application/json"
-
-        },
-
-        body: JSON.stringify(student)
-
-    });
-
-    const result = await register.json();
-
-    if (result.success) {
-
-        student.registrationId = result.id;
-
-        localStorage.setItem(
-
-            "studentData",
-
-            JSON.stringify(student)
-
-        );
-
-        window.location.href = "receipt.html";
-
-    }
-
-    else {
-
-        alert("Registration failed.");
+        console.error(err);
+        alert("Server connection failed.");
 
     }
 
 });
+
 </script>
 
 </body>
