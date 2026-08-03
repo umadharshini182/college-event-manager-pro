@@ -161,16 +161,15 @@ CERTIFICATE FOOTER
     align-items:center;
 
 }
-
 #qrCode{
 
     width:130px;
 
     height:130px;
 
-    margin:auto;
+    margin:0 auto 18px auto;
 
-    padding:8px;
+    padding:10px;
 
     border:2px solid #ddd;
 
@@ -380,28 +379,29 @@ flex-direction:column;
 gap:25px;
 
 }
+.footer-left{
 
-.footer-left,
-.footer-right{
-
-width:100%;
-
-}
-
-.signature-img{
-
-width:110px;
+    margin-bottom:20px;
 
 }
 
 #qrCode{
 
-width:100px;
+    width:110px;
 
-height:100px;
+    height:110px;
+
+    margin-bottom:20px;
 
 }
 
+.footer-left p{
+
+    margin-top:0;
+
+    font-size:14px;
+
+}
 .download-btn{
 
 width:100%;
