@@ -68,8 +68,8 @@ document.getElementById("certificateId").textContent =
 // QR CODE
 // ===============================
 const verifyLink =
-    "https://college-event-manager-pro.onrender.com/verify.html?id=" +
-    certificateId;
+"https://college-event-manager-pro.onrender.com/verify.html?certificate=" +
+certificateId;
 
 const qrContainer = document.getElementById("qrCode");
 

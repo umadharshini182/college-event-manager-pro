@@ -52,23 +52,59 @@ font-size:18px;
 <body>
 
 <div class="card">
-
 <h1>🎓 Certificate Verification</h1>
 
-<h2>✅ Certificate Verified</h2>
+<h2 style="color:green;">
+✅ Certificate Verified
+</h2>
+
+<p id="studentName"></p>
+
+<p id="eventName"></p>
 
 <p id="certificateId"></p>
 
+<p id="date"></p>
 </div>
-
 <script>
 
-const params = new URLSearchParams(window.location.search);
+async function verifyCertificate() {
 
-const id = params.get("id");
+    const params = new URLSearchParams(window.location.search);
 
-document.getElementById("certificateId").innerHTML =
-"<b>Certificate ID:</b> " + id;
+    const id = params.get("certificate");
+
+    const response = await fetch("/verify/" + id);
+
+    const data = await response.json();
+
+    if (!data.success) {
+
+        document.body.innerHTML = `
+        <h1 style="color:red;text-align:center;margin-top:100px;">
+        ❌ Certificate Not Found
+        </h1>
+        `;
+
+        return;
+
+    }
+
+    document.getElementById("certificateId").innerHTML =
+        "<b>Certificate ID:</b> " + data.student.certificate_id;
+
+    document.getElementById("studentName").innerHTML =
+        "<b>Student:</b> " + data.student.fullname;
+
+    document.getElementById("eventName").innerHTML =
+        "<b>Event:</b> " + data.student.event;
+
+    document.getElementById("date").innerHTML =
+        "<b>Issued:</b> " + data.student.certificate_date;
+
+}
+
+verifyCertificate();
 
 </script>
 

@@ -749,6 +749,54 @@ app.delete("/events/:id", (req, res) => {
 
 });
 // ======================================
+// VERIFY CERTIFICATE
+// ======================================
+
+app.get("/verify/:id", (req, res) => {
+
+    const sql = `
+    SELECT
+        fullname,
+        event,
+        certificate_id,
+        certificate_date
+    FROM registrations
+    WHERE certificate_id = ?
+    `;
+
+    db.query(sql, [req.params.id], (err, results) => {
+
+        if (err) {
+
+            console.log(err);
+
+            return res.status(500).json({
+                success: false
+            });
+
+        }
+
+        if (results.length === 0) {
+
+            return res.json({
+                success: false,
+                message: "Certificate Not Found"
+            });
+
+        }
+
+        res.json({
+
+            success: true,
+
+            student: results[0]
+
+        });
+
+    });
+
+});
+// ======================================
 // SERVER START
 // ======================================
 
