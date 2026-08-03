@@ -72,10 +72,10 @@ document.getElementById("certificateId").textContent =
 // ===============================
 // QR CODE
 // ===============================
-
 const verifyLink =
     "https://collegeeventmanager.com/verify?certificate=" +
     certificateId;
+
 const qrContainer = document.getElementById("qrCode");
 
 qrContainer.innerHTML = "";
@@ -85,20 +85,6 @@ new QRCode(qrContainer, {
     width: 120,
     height: 120
 });
-
-const qrImage =
-    qr._el.querySelector("img");
-
-if (qrImage) {
-
-    qrImage.onload = function () {
-
-        document.getElementById("qrCode").src =
-            qrImage.src;
-
-    };
-
-}
 // ===============================
 // DOWNLOAD CERTIFICATE AS PDF
 // ===============================
