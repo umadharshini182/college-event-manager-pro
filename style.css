@@ -1791,3 +1791,30 @@ grid-template-columns:1fr;
 }
 
 }
+.social-links{
+
+display:flex;
+
+justify-content:center;
+
+gap:20px;
+
+margin-top:20px;
+
+}
+
+.social-links a{
+
+font-size:28px;
+
+color:#0A66C2;
+
+transition:.3s;
+
+}
+
+.social-links a:hover{
+
+transform:scale(1.2);
+
+}
