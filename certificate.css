@@ -190,66 +190,6 @@ body{
 
 
 /* ==========================
-   DETAILS
-========================== */
-.details{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:flex-start;
-
-    gap:30px;
-
-    margin-top:60px;
-
-    flex-wrap:wrap;
-
-}
-
-
-.detail-box{
-
-    flex:1;
-
-    min-width:220px;
-
-}
-
-
-.detail-box p{
-
-    color:#666;
-
-    margin-bottom:8px;
-
-    font-size:16px;
-
-}
-
-
-.detail-box h3{
-
-    color:#222;
-
-    font-size:22px;
-
-    margin-bottom:6px;
-
-}
-
-
-.detail-box span{
-
-    color:#666;
-
-    font-size:15px;
-
-}
-
-
-/* ==========================
    QR SECTION
 ========================== */
 .qr-section{
@@ -479,22 +419,6 @@ body{
         padding:14px;
 
     }
-.qr-section,
-.signature{
-
-    width:100%;
-
-    margin-top:25px;
-
-}
-
-.signature-img{
-
-    width:110px;
-
-}
-}
-
 
 /* ==========================
    SMALL MOBILE
@@ -629,32 +553,77 @@ body{
     }
 
 }
-.signature{
+/* ==========================
+   CERTIFICATE FOOTER
+========================== */
+
+.certificate-footer{
+
+    margin-top:60px;
 
     display:flex;
 
-    flex-direction:column;
+    justify-content:space-between;
 
-    align-items:center;
+    align-items:flex-end;
 
-    justify-content:center;
+    gap:30px;
+
+}
+
+.footer-left{
+
+    width:180px;
+
+    text-align:center;
+
+}
+
+.footer-center{
+
+    flex:1;
+
+    text-align:center;
+
+}
+
+.footer-center p{
+
+    color:#666;
+
+    margin-bottom:8px;
+
+    font-size:16px;
+
+}
+
+.footer-center h3{
+
+    font-size:22px;
+
+    color:#222;
+
+}
+
+.footer-right{
 
     width:220px;
 
-    margin-top:15px;
+    text-align:center;
 
 }
+
 .signature-img{
 
-    width:140px;
+    width:130px;
 
     height:auto;
 
-    margin-bottom:-5px;
+    margin-bottom:8px;
 
 }
 
-.signature h3{
+.footer-right h3{
 
     margin:0;
 
@@ -662,30 +631,30 @@ body{
 
 }
 
-.signature p{
+.footer-right p{
 
-    margin:0;
+    margin-top:5px;
 
-    color:#555;
-
-    font-size:16px;
+    color:#666;
 
 }
-.bottom-row{
-
-    display:flex;
-
-    justify-content:flex-start;
-
-    margin-top:35px;
-
-}
-
 @media (max-width:768px){
 
-.bottom-row{
+.certificate-footer{
 
-    justify-content:center;
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:35px;
+
+}
+
+.footer-left,
+.footer-center,
+.footer-right{
+
+    width:100%;
 
 }
 
