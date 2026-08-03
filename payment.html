@@ -82,6 +82,11 @@ Pay ₹1000
 <script>
   const student = JSON.parse(localStorage.getItem("studentData"));
 
+if (!student) {
+    alert("Student data not found. Please register again.");
+    window.location.href = "register.html";
+}
+
 if (student) {
 
     document.getElementById("studentName").innerHTML = student.fullname;
@@ -89,6 +94,43 @@ if (student) {
 
 }
   document.getElementById("demoPayBtn").addEventListener("click", async function () {
+
+    alert("Button clicked");
+
+    const register = await fetch("/register", {
+
+        method: "POST",
+
+        headers: {
+
+            "Content-Type": "application/json"
+
+        },
+
+        body: JSON.stringify(student)
+
+    });
+
+    const result = await register.json();
+
+    if (result.success) {
+
+        student.registrationId = result.id;
+
+        localStorage.setItem(
+            "studentData",
+            JSON.stringify(student)
+        );
+
+        window.location.href = "receipt.html";
+
+    } else {
+
+        alert("Registration failed.");
+
+    }
+
+});
 
     const register = await fetch("/register", {
 
