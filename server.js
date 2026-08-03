@@ -6,132 +6,146 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 const path = require("path");
 const mysql = require("mysql2");
-const checkoutNodeJssdk = require("@paypal/checkout-server-sdk");
-const environment = new checkoutNodeJssdk.core.SandboxEnvironment(
-    process.env.PAYPAL_CLIENT_ID,
-    process.env.PAYPAL_CLIENT_SECRET
-);
 
-const paypalClient = new checkoutNodeJssdk.core.PayPalHttpClient(environment);
 const app = express();
 
 app.use(cors({
     origin: true,
     credentials: true
 }));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(__dirname));
-app.get("/admin.html", (req, res) => {
-    res.sendFile(path.join(__dirname, "admin.html"));
-});
-
-app.get("/students.html", (req, res) => {
-    res.sendFile(path.join(__dirname, "students-admin.html"));
-});
-
-app.get("/events.html", (req, res) => {
-    res.sendFile(path.join(__dirname, "events-admin.html"));
-});
-
-app.get("/payments.html", (req, res) => {
-    res.sendFile(path.join(__dirname, "payments-admin.html"));
-});
-
-app.get("/certificates.html", (req, res) => {
-    res.sendFile(path.join(__dirname, "certificates-admin.html"));
-});
-
-app.get("/settings.html", (req, res) => {
-    res.sendFile(path.join(__dirname, "settings-admin.html"));
-});
 
 const db = mysql.createConnection({
-  host: process.env.MYSQLHOST,
-  user: process.env.MYSQLUSER,
-  password: process.env.MYSQLPASSWORD,
-  database: process.env.MYSQLDATABASE,
-  port: process.env.MYSQLPORT
+    host: process.env.MYSQLHOST,
+    user: process.env.MYSQLUSER,
+    password: process.env.MYSQLPASSWORD,
+    database: process.env.MYSQLDATABASE,
+    port: process.env.MYSQLPORT
 });
 
 db.connect((err) => {
-  if (err) {
-    console.log("❌ MySQL Connection Failed");
-    console.log(err);
-  } else {
-    console.log("✅ MySQL Connected");
 
-const createTable = `
-CREATE TABLE IF NOT EXISTS registrations (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    fullname VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    college VARCHAR(100) NOT NULL,
-    department VARCHAR(100) NOT NULL,
-    year VARCHAR(20) NOT NULL,
-    event VARCHAR(100) NOT NULL,
-    payment_status VARCHAR(20) DEFAULT 'Paid',
-    amount INT DEFAULT 1000,
-    attendance VARCHAR(20) DEFAULT 'Absent',
-    certificate_id VARCHAR(100),
-    razorpay_order_id VARCHAR(100),
-razorpay_payment_id VARCHAR(100),
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-`;
-
-db.query(createTable, (err) => {
     if (err) {
-        console.log("Table creation failed");
+
+        console.log("❌ MySQL Connection Failed");
         console.log(err);
+
     } else {
-        console.log("✅ registrations table ready");
+
+        console.log("✅ MySQL Connected");
+
+        const createTable = `
+        CREATE TABLE IF NOT EXISTS registrations (
+
+            id INT AUTO_INCREMENT PRIMARY KEY,
+
+            fullname VARCHAR(100) NOT NULL,
+
+            email VARCHAR(100) NOT NULL,
+
+            college VARCHAR(100) NOT NULL,
+
+            department VARCHAR(100) NOT NULL,
+
+            year VARCHAR(20) NOT NULL,
+
+            event VARCHAR(100) NOT NULL,
+
+            payment_status VARCHAR(20) DEFAULT 'Paid',
+
+            amount INT DEFAULT 1000,
+
+            attendance VARCHAR(20) DEFAULT 'Absent',
+
+            certificate_generated BOOLEAN DEFAULT FALSE,
+
+            certificate_date DATE,
+
+            certificate_id VARCHAR(100),
+
+            createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
+        );
+        `;
+
+        db.query(createTable, (err) => {
+
+            if (err) {
+
+                console.log(err);
+
+            } else {
+
+                console.log("✅ registrations table ready");
+
+            }
+
+        });
+
+        const createEventsTable = `
+        CREATE TABLE IF NOT EXISTS events (
+
+            id INT AUTO_INCREMENT PRIMARY KEY,
+
+            event_name VARCHAR(100) NOT NULL,
+
+            event_date DATE NOT NULL,
+
+            venue VARCHAR(150) NOT NULL,
+
+            fee INT DEFAULT 0,
+
+            status VARCHAR(30) DEFAULT 'Open',
+
+            createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
+        );
+        `;
+
+        db.query(createEventsTable, (err) => {
+
+            if (err) {
+
+                console.log(err);
+
+            } else {
+
+                console.log("✅ events table ready");
+
+            }
+
+        });
+
     }
-});
-const createEventsTable = `
-CREATE TABLE IF NOT EXISTS events (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    event_name VARCHAR(100) NOT NULL,
-    event_date DATE NOT NULL,
-    venue VARCHAR(150) NOT NULL,
-    fee INT DEFAULT 0,
-    status VARCHAR(30) DEFAULT 'Open',
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-`;
-
-db.query(createEventsTable, (err) => {
-
-    if (err) {
-
-        console.log("❌ Events table creation failed");
-        console.log(err);
-
-    }
-
-    else {
-
-        console.log("✅ events table ready");
-
-    }
 
 });
-  }
-});
+
 app.use(session({
+
     secret: "college_event_manager_secret",
+
     resave: false,
+
     saveUninitialized: false,
+
     cookie: {
+
         secure: false,
+
         sameSite: "lax"
+
     }
+
 }));
 
-
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
+
+    res.sendFile(path.join(__dirname, "index.html"));
+
 });
 // ===============================
 // REGISTER
@@ -145,12 +159,14 @@ app.post("/register", (req, res) => {
         college,
         department,
         year,
-        event,
-        razorpay_order_id,
-        razorpay_payment_id
+        event
     } = req.body;
 
-    const certificateId = "CEM-" + new Date().getFullYear() + "-" + Date.now();
+    const certificateId =
+        "CEM-" +
+        new Date().getFullYear() +
+        "-" +
+        Date.now();
 
     const sql = `
     INSERT INTO registrations
@@ -164,9 +180,9 @@ app.post("/register", (req, res) => {
         payment_status,
         amount,
         attendance,
-        certificate_id,
-        razorpay_order_id,
-        razorpay_payment_id
+        certificate_generated,
+        certificate_date,
+        certificate_id
     )
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
@@ -183,18 +199,21 @@ app.post("/register", (req, res) => {
             "Paid",
             1000,
             "Absent",
-            certificateId,
-            razorpay_order_id,
-            razorpay_payment_id
+            false,
+            null,
+            certificateId
         ],
         (err, result) => {
 
             if (err) {
+
                 console.log(err);
+
                 return res.status(500).json({
                     success: false,
-                    message: err.message
+                    message: "Registration Failed"
                 });
+
             }
 
             res.json({
@@ -207,8 +226,10 @@ app.post("/register", (req, res) => {
     );
 
 });
+
+
 // ===============================
-// LOGIN
+// ADMIN LOGIN
 // ===============================
 
 app.post("/auth/login", (req, res) => {
@@ -221,22 +242,33 @@ app.post("/auth/login", (req, res) => {
     ) {
 
         req.session.user = {
+
             email,
+
             role: "admin"
+
         };
 
         return res.json({
+
             success: true,
+
             role: "admin"
+
         });
 
     }
 
     res.json({
-        success: false
+
+        success: false,
+
+        message: "Invalid Email or Password"
+
     });
 
 });
+
 
 // ===============================
 // CURRENT USER
@@ -247,17 +279,23 @@ app.get("/api/current-user", (req, res) => {
     if (!req.session.user) {
 
         return res.json({
+
             loggedIn: false
+
         });
 
     }
 
     res.json({
+
         loggedIn: true,
+
         user: req.session.user
+
     });
 
 });
+
 
 // ===============================
 // LOGOUT
@@ -268,7 +306,9 @@ app.get("/logout", (req, res) => {
     req.session.destroy(() => {
 
         res.json({
+
             success: true
+
         });
 
     });
@@ -281,12 +321,15 @@ app.get("/logout", (req, res) => {
 app.get("/dashboard", (req, res) => {
 
     if (!req.session.user) {
-        return res.redirect("/login.html");
+
+        return res.redirect("/admin-login.html");
+
     }
 
     res.sendFile(path.join(__dirname, "admin.html"));
 
 });
+
 
 // ===============================
 // GET ALL STUDENTS
@@ -294,13 +337,20 @@ app.get("/dashboard", (req, res) => {
 
 app.get("/students", (req, res) => {
 
-    const sql = "SELECT * FROM registrations ORDER BY id DESC";
+    const sql = `
+    SELECT *
+    FROM registrations
+    ORDER BY id DESC
+    `;
 
     db.query(sql, (err, results) => {
 
         if (err) {
+
             console.log(err);
+
             return res.status(500).json([]);
+
         }
 
         res.json(results);
@@ -308,6 +358,7 @@ app.get("/students", (req, res) => {
     });
 
 });
+
 
 // ===============================
 // ADMIN DATA
@@ -316,18 +367,31 @@ app.get("/students", (req, res) => {
 app.get("/admin", (req, res) => {
 
     if (!req.session.user || req.session.user.role !== "admin") {
+
         return res.status(403).json({
+
+            success: false,
+
             message: "Access Denied"
+
         });
+
     }
 
-    const sql = "SELECT * FROM registrations ORDER BY id DESC";
+    const sql = `
+    SELECT *
+    FROM registrations
+    ORDER BY id DESC
+    `;
 
     db.query(sql, (err, results) => {
 
         if (err) {
+
             console.log(err);
+
             return res.status(500).json([]);
+
         }
 
         res.json(results);
@@ -335,9 +399,87 @@ app.get("/admin", (req, res) => {
     });
 
 });
+
+
 // ===============================
-// MARK ATTENDANCE
+// DELETE STUDENT
 // ===============================
+
+app.delete("/student/:id", (req, res) => {
+
+    const sql = `
+    DELETE FROM registrations
+    WHERE id = ?
+    `;
+
+    db.query(sql, [req.params.id], (err) => {
+
+        if (err) {
+
+            console.log(err);
+
+            return res.json({
+
+                success: false
+
+            });
+
+        }
+
+        res.json({
+
+            success: true
+
+        });
+
+    });
+
+});
+
+
+// ===============================
+// CLEAR ALL STUDENTS
+// ===============================
+
+app.delete("/clear", (req, res) => {
+
+    if (!req.session.user || req.session.user.role !== "admin") {
+
+        return res.status(403).json({
+
+            success: false
+
+        });
+
+    }
+
+    db.query("DELETE FROM registrations", (err) => {
+
+        if (err) {
+
+            console.log(err);
+
+            return res.json({
+
+                success: false
+
+            });
+
+        }
+
+        res.json({
+
+            success: true
+
+        });
+
+    });
+
+});
+// ===============================
+// MARK ATTENDANCE + GENERATE CERTIFICATE
+// ===============================
+
 app.put("/attendance/:id", (req, res) => {
 
     const certificateId =
@@ -359,8 +501,14 @@ app.put("/attendance/:id", (req, res) => {
     db.query(sql, [certificateId, req.params.id], (err) => {
 
         if (err) {
+
             console.log(err);
-            return res.json({ success: false });
+
+            return res.status(500).json({
+                success: false,
+                message: "Attendance update failed"
+            });
+
         }
 
         res.json({
@@ -371,18 +519,22 @@ app.put("/attendance/:id", (req, res) => {
     });
 
 });
+
+
 // ===============================
-// GET CERTIFICATE
+// VIEW CERTIFICATE
 // ===============================
 
 app.get("/certificate/:email", (req, res) => {
+
     const sql = `
-SELECT *
-FROM registrations
-WHERE email = ?
-ORDER BY id DESC
-LIMIT 1
-`;
+    SELECT *
+    FROM registrations
+    WHERE email = ?
+    ORDER BY id DESC
+    LIMIT 1
+    `;
+
     db.query(sql, [req.params.email], (err, results) => {
 
         if (err) {
@@ -390,55 +542,54 @@ LIMIT 1
             console.log(err);
 
             return res.status(500).json({
-
                 success: false,
-
                 message: "Database Error"
-
             });
 
         }
 
         if (results.length === 0) {
 
-            return res.status(404).json({
-
+            return res.json({
                 success: false,
-
-                message: "Student not found"
-
+                message: "Student not found."
             });
 
         }
 
         const student = results[0];
-       
-if (!student.certificate_generated) {
 
-    return res.json({
-        success: false,
-        message: "Certificate has not been generated by the administrator yet."
-        message: "HELLO UMA TEST"
-    });
+        if (student.attendance !== "Present") {
 
-}
+            return res.json({
+                success: false,
+                message: "You were marked Absent for this event. Certificate is not available."
+            });
+
+        }
+
+        if (!student.certificate_generated) {
+
+            return res.json({
+                success: false,
+                message: "Certificate has not been generated by the administrator yet."
+            });
+
+        }
 
         res.json({
-
             success: true,
-
             student
-
         });
 
     });
 
-});
+})
 // ===============================
 // GENERATE CERTIFICATE
 // ===============================
 
-app.put("/attendance/:id", (req, res) => {
+app.put("/certificate/:id", (req, res) => {
 
     const certificateId =
         "CEM-" +
@@ -449,7 +600,6 @@ app.put("/attendance/:id", (req, res) => {
     const sql = `
     UPDATE registrations
     SET
-        attendance = 'Present',
         certificate_generated = TRUE,
         certificate_date = CURDATE(),
         certificate_id = ?
@@ -459,67 +609,19 @@ app.put("/attendance/:id", (req, res) => {
     db.query(sql, [certificateId, req.params.id], (err) => {
 
         if (err) {
+
             console.log(err);
-            return res.json({
-                success: false
+
+            return res.status(500).json({
+                success: false,
+                message: "Certificate generation failed."
             });
+
         }
 
         res.json({
             success: true,
             certificate_id: certificateId
-        });
-
-    });
-
-});
-// ===============================
-// CLEAR ALL
-// ===============================
-
-app.delete("/clear", (req, res) => {
-
-    if (!req.session.user || req.session.user.role !== "admin") {
-        return res.status(403).json({
-            success: false
-        });
-    }
-
-    db.query("DELETE FROM registrations", (err) => {
-
-        if (err) {
-            console.log(err);
-            return res.json({
-                success: false
-            });
-        }
-
-        res.json({
-            success: true
-        });
-
-    });
-
-});
-// ===============================
-// DELETE STUDENT
-// ===============================
-
-app.delete("/student/:id", (req, res) => {
-
-    const sql = "DELETE FROM registrations WHERE id=?";
-
-    db.query(sql, [req.params.id], (err) => {
-
-        if (err) {
-            console.log(err);
-            return res.json({
-                success: false
-            });
-        }
-
-        res.json({
-            success: true
         });
 
     });
@@ -531,7 +633,11 @@ app.delete("/student/:id", (req, res) => {
 
 app.get("/events", (req, res) => {
 
-    const sql = "SELECT * FROM events ORDER BY event_date ASC";
+    const sql = `
+    SELECT *
+    FROM events
+    ORDER BY event_date ASC
+    `;
 
     db.query(sql, (err, results) => {
 
@@ -548,8 +654,10 @@ app.get("/events", (req, res) => {
     });
 
 });
+
+
 // ===============================
-// ADD NEW EVENT
+// ADD EVENT
 // ===============================
 
 app.post("/events", (req, res) => {
@@ -604,13 +712,21 @@ app.post("/events", (req, res) => {
     );
 
 });
+
+
 // ===============================
 // UPDATE EVENT
 // ===============================
 
 app.put("/events/:id", (req, res) => {
 
-    const { event_name, event_date, venue, fee, status } = req.body;
+    const {
+        event_name,
+        event_date,
+        venue,
+        fee,
+        status
+    } = req.body;
 
     const sql = `
     UPDATE events
@@ -636,92 +752,95 @@ app.put("/events/:id", (req, res) => {
         (err) => {
 
             if (err) {
+
                 console.log(err);
-                return res.json({ success: false });
+
+                return res.json({
+                    success: false
+                });
+
             }
 
-            res.json({ success: true });
+            res.json({
+                success: true
+            });
 
         }
     );
 
 });
+
+
 // ===============================
 // DELETE EVENT
 // ===============================
 
 app.delete("/events/:id", (req, res) => {
 
-    const sql = "DELETE FROM events WHERE id=?";
+    const sql = `
+    DELETE FROM events
+    WHERE id=?
+    `;
 
     db.query(sql, [req.params.id], (err) => {
 
         if (err) {
+
             console.log(err);
-            return res.json({ success: false });
+
+            return res.json({
+                success: false
+            });
+
         }
 
-        res.json({ success: true });
+        res.json({
+            success: true
+        });
 
     });
 
 });
 // ===============================
-// CREATE PAYPAL ORDER
+// ADMIN PAGES
 // ===============================
 
-app.post("/create-paypal-order", async (req, res) => {
-
-    try {
-
-        const request = new checkoutNodeJssdk.orders.OrdersCreateRequest();
-
-        request.prefer("return=representation");
-
-        request.requestBody({
-
-            intent: "CAPTURE",
-
-            purchase_units: [
-                {
-                    amount: {
-                        currency_code: "USD",
-                        value: "12.00"
-                    }
-                }
-            ]
-
-        });
-
-        const order = await paypalClient.execute(request);
-
-        res.json(order.result);
-
-    }
-
-    catch (err) {
-
-        console.log(err);
-
-        res.status(500).json({
-            success: false,
-            message: err.message
-        });
-
-    }
-
+app.get("/admin.html", (req, res) => {
+    res.sendFile(path.join(__dirname, "admin.html"));
 });
+
+app.get("/students.html", (req, res) => {
+    res.sendFile(path.join(__dirname, "students-admin.html"));
+});
+
+app.get("/events.html", (req, res) => {
+    res.sendFile(path.join(__dirname, "events-admin.html"));
+});
+
+app.get("/payments.html", (req, res) => {
+    res.sendFile(path.join(__dirname, "payments-admin.html"));
+});
+
+app.get("/certificates.html", (req, res) => {
+    res.sendFile(path.join(__dirname, "certificates-admin.html"));
+});
+
+app.get("/settings.html", (req, res) => {
+    res.sendFile(path.join(__dirname, "settings-admin.html"));
+});
+
+
 // ===============================
-// START SERVER
+// SERVER START
 // ===============================
 
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
 
-    console.log("==================================");
-    console.log("🚀 College Event Manager Running");
-    console.log("Port : " + PORT);
-    console.log("==================================");
+    console.log("====================================");
+    console.log("🚀 College Event Manager Started");
+    console.log("🌐 Server running on Port:", PORT);
+    console.log("====================================");
 
 });

@@ -751,7 +751,7 @@ async function generateCertificate(id){
 
     try{
 
-        const response = await fetch("/attendance/" + id, {
+        const response = await fetch("/certificate/" + id, {
 
             method: "PUT"
 
@@ -765,7 +765,7 @@ async function generateCertificate(id){
 
         }else{
 
-            alert("Certificate Generation Failed");
+            alert(data.message);
 
         }
 
@@ -776,6 +776,8 @@ async function generateCertificate(id){
     catch(err){
 
         console.log(err);
+
+        alert("Server Error");
 
     }
 
