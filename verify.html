@@ -99,8 +99,15 @@ async function verifyCertificate() {
     document.getElementById("eventName").innerHTML =
         "<b>Event:</b> " + data.student.event;
 
-    document.getElementById("date").innerHTML =
-        "<b>Issued:</b> " + data.student.certificate_date;
+    const formattedDate = new Date(data.student.certificate_date)
+    .toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric"
+    });
+
+document.getElementById("date").innerHTML =
+    "<b>Issued:</b> " + formattedDate;
 
 }
 
