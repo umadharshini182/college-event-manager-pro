@@ -747,28 +747,37 @@ console.log(err);
 // ======================================================
 // CERTIFICATE
 // ======================================================
-
 async function generateCertificate(id){
 
-try{
+    try{
 
-await fetch("/certificate/"+id,{
+        const response = await fetch("/attendance/" + id, {
 
-method:"PUT"
+            method: "PUT"
 
-});
+        });
 
-await loadDashboard();
+        const data = await response.json();
 
-alert("Certificate Generated Successfully");
+        if(data.success){
 
-}
+            alert("Certificate Generated Successfully");
 
-catch(err){
+        }else{
 
-console.log(err);
+            alert("Certificate Generation Failed");
 
-}
+        }
+
+        await loadDashboard();
+
+    }
+
+    catch(err){
+
+        console.log(err);
+
+    }
 
 }
 
