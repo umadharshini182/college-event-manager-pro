@@ -384,17 +384,7 @@ success:true
 
 app.get("/certificate/:email", (req, res) => {
     const sql = `
-SELECT
-    fullname,
-    email,
-    college,
-    department,
-    year,
-    event,
-    attendance,
-    certificate_generated,
-    certificate_id,
-    certificate_date
+SELECT *
 FROM registrations
 WHERE email = ?
 ORDER BY id DESC
