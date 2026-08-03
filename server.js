@@ -448,52 +448,6 @@ if (!student.certificate_generated) {
     });
 
 });
-// ===============================
-// GENERATE CERTIFICATE
-// ===============================
-app.put("/attendance/:id", (req, res) => {
-
-    const certificateId =
-        "CEM-" +
-        new Date().getFullYear() +
-        "-" +
-        Date.now();
-
-    const sql = `
-    UPDATE registrations
-    SET
-        attendance = 'Present',
-        certificate_generated = TRUE,
-        certificate_date = CURDATE(),
-        certificate_id = ?
-    WHERE id = ?
-    `;
-
-    db.query(
-        sql,
-        [certificateId, req.params.id],
-        (err) => {
-
-            if (err) {
-
-                console.log(err);
-
-                return res.json({
-                    success: false
-                });
-
-            }
-
-            res.json({
-                success: true,
-                certificate_id: certificateId
-            });
-
-        }
-    );
-
-});
-
 
 // ===============================
 // CLEAR ALL
