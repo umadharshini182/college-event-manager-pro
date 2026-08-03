@@ -412,15 +412,7 @@ LIMIT 1
         }
 
         const student = results[0];
-        if (student.attendance !== "Present") {
-
-    return res.json({
-        success: false,
-        message: "You were marked Absent for this event. Certificate is not available."
-    });
-
-}
-
+       
 if (!student.certificate_generated) {
 
     return res.json({
