@@ -74,13 +74,13 @@ certificateId;
 const qrContainer = document.getElementById("qrCode");
 
 qrContainer.innerHTML = "";
-new QRCode(qrContainer,{
+new QRCode(qrContainer, {
 
-    text:verifyLink,
+    text: verifyLink,
 
-    width:110,
+    width:90,
 
-    height:110,
+    height:90,
 
     correctLevel:QRCode.CorrectLevel.H
 

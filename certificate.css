@@ -160,6 +160,8 @@ CERTIFICATE FOOTER
 
     align-items:center;
 
+    justify-content:center;
+
 }
 #qrCode{
 
@@ -176,6 +178,14 @@ CERTIFICATE FOOTER
     border-radius:10px;
 
     background:white;
+
+}
+#qrCode img,
+#qrCode canvas{
+
+    display:block;
+
+    margin:auto;
 
 }
 .footer-left p{
