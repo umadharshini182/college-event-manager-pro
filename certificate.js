@@ -78,9 +78,9 @@ new QRCode(qrContainer, {
 
     text: verifyLink,
 
-    width:90,
+    width:150,
 
-    height:90,
+    height:150,
 
     correctLevel:QRCode.CorrectLevel.H
 

@@ -165,17 +165,19 @@ CERTIFICATE FOOTER
 }
 #qrCode{
 
-    width:130px;
+    width:170px;
 
-    height:130px;
+    height:170px;
 
-    margin:0 auto 18px auto;
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    margin:0 auto;
 
     padding:10px;
-
-    border:2px solid #ddd;
-
-    border-radius:10px;
 
     background:white;
 
