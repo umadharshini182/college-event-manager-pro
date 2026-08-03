@@ -74,11 +74,16 @@ certificateId;
 const qrContainer = document.getElementById("qrCode");
 
 qrContainer.innerHTML = "";
+new QRCode(qrContainer,{
 
-new QRCode(qrContainer, {
-    text: verifyLink,
-    width: 100,
-    height: 100
+    text:verifyLink,
+
+    width:110,
+
+    height:110,
+
+    correctLevel:QRCode.CorrectLevel.H
+
 });
 // ===============================
 // DOWNLOAD CERTIFICATE AS PDF
@@ -96,16 +101,19 @@ async function downloadCertificate() {
     button.style.display = "none";
 
     try {
+      const canvas = await html2canvas(certificate, {
 
-        const canvas = await html2canvas(certificate, {
+    scale: 4,
 
-            scale: 3,
+    useCORS: true,
 
-            useCORS: true,
+    backgroundColor: "#ffffff",
 
-            backgroundColor: "#ffffff"
+    logging: false,
 
-        });
+    allowTaint: true
+
+});
 
         const imageData =
             canvas.toDataURL("image/png");
@@ -128,22 +136,22 @@ async function downloadCertificate() {
 
         const pageHeight =
             pdf.internal.pageSize.getHeight();
-
+         
         pdf.addImage(
 
-            imageData,
+    imageData,
 
-            "PNG",
+    "PNG",
 
-            0,
+    5,
 
-            0,
+    5,
 
-            pageWidth,
+    pageWidth - 10,
 
-            pageHeight
+    pageHeight - 10
 
-        );
+);
 
         const student =
             document.getElementById("studentName")
