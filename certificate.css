@@ -598,3 +598,38 @@ body{
     }
 
 }
+.signature{
+
+    text-align:center;
+
+    margin-top:20px;
+
+}
+
+.signature-img{
+
+    width:170px;
+
+    height:auto;
+
+    margin-bottom:-10px;
+
+}
+
+.signature h3{
+
+    margin:0;
+
+    font-size:22px;
+
+}
+
+.signature p{
+
+    margin:0;
+
+    color:#555;
+
+    font-size:16px;
+
+}
