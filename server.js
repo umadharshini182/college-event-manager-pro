@@ -1,11 +1,11 @@
 require("dotenv").config();
 
 const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-const session = require("express-session");
-const path = require("path");
 const mysql = require("mysql2");
+const cors = require("cors");
+const session = require("express-session");
+const bodyParser = require("body-parser");
+const path = require("path");
 
 const app = express();
 
@@ -19,12 +19,28 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(__dirname));
 
+app.use(session({
+    secret: "college_event_manager_secret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: false,
+        sameSite: "lax"
+    }
+}));
+
 const db = mysql.createConnection({
+
     host: process.env.MYSQLHOST,
+
     user: process.env.MYSQLUSER,
+
     password: process.env.MYSQLPASSWORD,
+
     database: process.env.MYSQLDATABASE,
+
     port: process.env.MYSQLPORT
+
 });
 
 db.connect((err) => {
@@ -33,139 +49,125 @@ db.connect((err) => {
 
         console.log("❌ MySQL Connection Failed");
         console.log(err);
-
-    } else {
-
-        console.log("✅ MySQL Connected");
-        console.log("HOST:", process.env.MYSQLHOST);
-        console.log("DATABASE:", process.env.MYSQLDATABASE);
+        return;
 
     }
+
+    console.log("✅ MySQL Connected");
+
+    createTables();
+    updateDatabase();
 
 });
+function createTables() {
 
-        const createTable = `
-        CREATE TABLE IF NOT EXISTS registrations (
+    const registrationTable = `
 
-            id INT AUTO_INCREMENT PRIMARY KEY,
+    CREATE TABLE IF NOT EXISTS registrations(
 
-            fullname VARCHAR(100) NOT NULL,
+        id INT AUTO_INCREMENT PRIMARY KEY,
 
-            email VARCHAR(100) NOT NULL,
+        fullname VARCHAR(100),
 
-            college VARCHAR(100) NOT NULL,
+        email VARCHAR(100),
 
-            department VARCHAR(100) NOT NULL,
+        college VARCHAR(150),
 
-            year VARCHAR(20) NOT NULL,
+        department VARCHAR(100),
 
-            event VARCHAR(100) NOT NULL,
+        year VARCHAR(20),
 
-            payment_status VARCHAR(20) DEFAULT 'Paid',
+        event VARCHAR(100),
 
-            amount INT DEFAULT 1000,
+        payment_status VARCHAR(30) DEFAULT 'Paid',
 
-            attendance VARCHAR(20) DEFAULT 'Absent',
+        amount INT DEFAULT 1000,
 
-            certificate_generated BOOLEAN DEFAULT FALSE,
+        attendance VARCHAR(20) DEFAULT 'Absent',
 
-            certificate_date DATE,
+        certificate_generated BOOLEAN DEFAULT FALSE,
 
-            certificate_id VARCHAR(100),
+        certificate_id VARCHAR(100),
 
-            createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        certificate_date DATE,
 
-        );
-        `;
+        createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 
-        db.query(createTable, (err) => {
+    )
 
-            if (err) {
+    `;
 
-                console.log(err);
+    db.query(registrationTable, (err) => {
 
-            } else {
+        if (err) {
 
-                console.log("✅ registrations table ready");
+            console.log(err);
 
-            }
+        } else {
 
-        });
+            console.log("✅ registrations table ready");
 
-        const createEventsTable = `
-        CREATE TABLE IF NOT EXISTS events (
+        }
 
-            id INT AUTO_INCREMENT PRIMARY KEY,
+    });
 
-            event_name VARCHAR(100) NOT NULL,
+    const eventsTable = `
 
-            event_date DATE NOT NULL,
+    CREATE TABLE IF NOT EXISTS events(
 
-            venue VARCHAR(150) NOT NULL,
+        id INT AUTO_INCREMENT PRIMARY KEY,
 
-            fee INT DEFAULT 0,
+        event_name VARCHAR(100),
 
-            status VARCHAR(30) DEFAULT 'Open',
+        event_date DATE,
 
-            createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        venue VARCHAR(100),
 
-        );
-        `;
+        fee INT,
 
-        db.query(createEventsTable, (err) => {
+        status VARCHAR(30),
 
-            if (err) {
+        createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 
-                console.log(err);
+    )
 
-            } else {
+    `;
 
-                console.log("✅ events table ready");
+    db.query(eventsTable, (err) => {
 
-            }
+        if (err) {
 
-        });
+            console.log(err);
 
-    }
+        } else {
 
-});
+            console.log("✅ events table ready");
 
-app.use(session({
+        }
 
-    secret: "college_event_manager_secret",
+    });
 
-    resave: false,
-
-    saveUninitialized: false,
-
-    cookie: {
-
-        secure: false,
-
-        sameSite: "lax"
-
-    }
-
-}));
-
+}
 app.get("/", (req, res) => {
 
     res.sendFile(path.join(__dirname, "index.html"));
 
 });
-// ===============================
-// REGISTER
-// ===============================
+// ======================================
+// STUDENT REGISTRATION
+// ======================================
 
 app.post("/register", (req, res) => {
 
     const {
+
         fullname,
         email,
         college,
         department,
         year,
         event
+
     } = req.body;
 
     const certificateId =
@@ -175,8 +177,9 @@ app.post("/register", (req, res) => {
         Date.now();
 
     const sql = `
-    INSERT INTO registrations
-    (
+
+    INSERT INTO registrations(
+
         fullname,
         email,
         college,
@@ -187,15 +190,21 @@ app.post("/register", (req, res) => {
         amount,
         attendance,
         certificate_generated,
-        certificate_date,
-        certificate_id
+        certificate_id,
+        certificate_date
+
     )
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+
+    VALUES(?,?,?,?,?,?,?,?,?,?,?,?)
+
     `;
 
     db.query(
+
         sql,
+
         [
+
             fullname,
             email,
             college,
@@ -206,9 +215,11 @@ app.post("/register", (req, res) => {
             1000,
             "Absent",
             false,
-            null,
-            certificateId
+            certificateId,
+            null
+
         ],
+
         (err, result) => {
 
             if (err) {
@@ -216,27 +227,64 @@ app.post("/register", (req, res) => {
                 console.log(err);
 
                 return res.status(500).json({
+
                     success: false,
+
                     message: "Registration Failed"
+
                 });
 
             }
 
             res.json({
+
                 success: true,
-                id: result.insertId,
-                certificate_id: certificateId
+
+                message: "Registration Successful",
+
+                id: result.insertId
+
             });
 
         }
+
     );
 
 });
+// ======================================
+// GET ALL STUDENTS
+// ======================================
 
+app.get("/students", (req, res) => {
 
-// ===============================
+    const sql = `
+
+    SELECT *
+
+    FROM registrations
+
+    ORDER BY id DESC
+
+    `;
+
+    db.query(sql, (err, results) => {
+
+        if (err) {
+
+            console.log(err);
+
+            return res.status(500).json([]);
+
+        }
+
+        res.json(results);
+
+    });
+
+});
+// ======================================
 // ADMIN LOGIN
-// ===============================
+// ======================================
 
 app.post("/auth/login", (req, res) => {
 
@@ -248,173 +296,101 @@ app.post("/auth/login", (req, res) => {
     ) {
 
         req.session.user = {
-
             email,
-
             role: "admin"
-
         };
 
         return res.json({
-
             success: true,
-
-            role: "admin"
-
+            message: "Login Successful"
         });
 
     }
 
     res.json({
-
         success: false,
-
         message: "Invalid Email or Password"
-
     });
 
 });
-
-
-// ===============================
+// ======================================
 // CURRENT USER
-// ===============================
+// ======================================
 
 app.get("/api/current-user", (req, res) => {
 
     if (!req.session.user) {
 
         return res.json({
-
             loggedIn: false
-
         });
 
     }
 
     res.json({
-
         loggedIn: true,
-
         user: req.session.user
-
     });
 
 });
-
-
-// ===============================
+// ======================================
 // LOGOUT
-// ===============================
+// ======================================
 
 app.get("/logout", (req, res) => {
 
     req.session.destroy(() => {
 
         res.json({
-
             success: true
-
         });
 
     });
 
 });
-// ===============================
-// DASHBOARD
-// ===============================
-
-app.get("/dashboard", (req, res) => {
-
-    if (!req.session.user) {
-
-        return res.redirect("/admin-login.html");
-
-    }
-
-    res.sendFile(path.join(__dirname, "admin.html"));
-
-});
-
-
-// ===============================
-// GET ALL STUDENTS
-// ===============================
-
-app.get("/students", (req, res) => {
-
-    const sql = `
-    SELECT *
-    FROM registrations
-    ORDER BY id DESC
-    `;
-
-    db.query(sql, (err, results) => {
-
-        if (err) {
-
-            console.log(err);
-
-            return res.status(500).json([]);
-
-        }
-
-        res.json(results);
-
-    });
-
-});
-
-
-// ===============================
-// ADMIN DATA
-// ===============================
+// ======================================
+// ADMIN DASHBOARD
+// ======================================
 
 app.get("/admin", (req, res) => {
 
-    if (!req.session.user || req.session.user.role !== "admin") {
+    if (!req.session.user) {
 
         return res.status(403).json({
-
             success: false,
-
-            message: "Access Denied"
-
+            message: "Please login first"
         });
 
     }
 
-    const sql = `
-    SELECT *
-    FROM registrations
-    ORDER BY id DESC
-    `;
+    db.query(
+        "SELECT * FROM registrations ORDER BY id DESC",
+        (err, results) => {
 
-    db.query(sql, (err, results) => {
+            if (err) {
 
-        if (err) {
+                console.log(err);
 
-            console.log(err);
+                return res.status(500).json([]);
 
-            return res.status(500).json([]);
+            }
+
+            res.json(results);
 
         }
 
-        res.json(results);
-
-    });
+    );
 
 });
+// ======================================
+// MARK ATTENDANCE
+// ======================================
 
-
-// ===============================
-// DELETE STUDENT
-// ===============================
-
-app.delete("/student/:id", (req, res) => {
+app.put("/attendance/:id", (req, res) => {
 
     const sql = `
-    DELETE FROM registrations
+    UPDATE registrations
+    SET attendance = 'Present'
     WHERE id = ?
     `;
 
@@ -424,87 +400,34 @@ app.delete("/student/:id", (req, res) => {
 
             console.log(err);
 
-            return res.json({
-
-                success: false
-
+            return res.status(500).json({
+                success: false,
+                message: "Attendance Update Failed"
             });
 
         }
 
         res.json({
-
-            success: true
-
+            success: true,
+            message: "Attendance Updated"
         });
 
     });
 
 });
+// ======================================
+// GENERATE CERTIFICATE
+// ======================================
 
+app.put("/certificate/:id", (req, res) => {
 
-// ===============================
-// CLEAR ALL STUDENTS
-// ===============================
-
-app.delete("/clear", (req, res) => {
-
-    if (!req.session.user || req.session.user.role !== "admin") {
-
-        return res.status(403).json({
-
-            success: false
-
-        });
-
-    }
-
-    db.query("DELETE FROM registrations", (err) => {
-
-        if (err) {
-
-            console.log(err);
-
-            return res.json({
-
-                success: false
-
-            });
-
-        }
-
-        res.json({
-
-            success: true
-
-        });
-
-    });
-
-});
-// ===============================
-// MARK ATTENDANCE + GENERATE CERTIFICATE
-// ===============================
-
-app.put("/attendance/:id", (req, res) => {
-
-    const certificateId =
-        "CEM-" +
-        new Date().getFullYear() +
-        "-" +
-        Date.now();
-
-    const sql = `
-    UPDATE registrations
-    SET
-        attendance = 'Present',
-        certificate_generated = TRUE,
-        certificate_date = CURDATE(),
-        certificate_id = ?
+    const getStudent = `
+    SELECT event, attendance
+    FROM registrations
     WHERE id = ?
     `;
 
-    db.query(sql, [certificateId, req.params.id], (err) => {
+    db.query(getStudent, [req.params.id], (err, result) => {
 
         if (err) {
 
@@ -512,24 +435,99 @@ app.put("/attendance/:id", (req, res) => {
 
             return res.status(500).json({
                 success: false,
-                message: "Attendance update failed"
+                message: "Database Error"
             });
 
         }
 
-        res.json({
-            success: true,
-            certificate_id: certificateId
+        if (result.length === 0) {
+
+            return res.json({
+                success: false,
+                message: "Student Not Found"
+            });
+
+        }
+
+        if (result[0].attendance !== "Present") {
+
+            return res.json({
+                success: false,
+                message: "Mark attendance first."
+            });
+
+        }
+
+        const certificateId =
+            "CEM-" +
+            new Date().getFullYear() +
+            "-" +
+            Date.now();
+
+        const sql = `
+        UPDATE registrations
+        SET
+            certificate_generated = TRUE,
+            certificate_id = ?,
+            certificate_date = CURDATE()
+        WHERE id = ?
+        `;
+
+        db.query(sql, [certificateId, req.params.id], (err) => {
+
+            if (err) {
+
+                console.log(err);
+
+                return res.status(500).json({
+                    success: false,
+                    message: "Certificate Generation Failed"
+                });
+
+            }
+
+            res.json({
+                success: true,
+                certificateId
+            });
+
         });
 
     });
 
 });
+// ======================================
+// DELETE STUDENT
+// ======================================
 
+app.delete("/student/:id", (req, res) => {
 
-// ===============================
+    db.query(
+        "DELETE FROM registrations WHERE id=?",
+        [req.params.id],
+        (err) => {
+
+            if (err) {
+
+                console.log(err);
+
+                return res.status(500).json({
+                    success: false
+                });
+
+            }
+
+            res.json({
+                success: true
+            });
+
+        }
+    );
+
+});
+// ======================================
 // VIEW CERTIFICATE
-// ===============================
+// ======================================
 
 app.get("/certificate/:email", (req, res) => {
 
@@ -565,16 +563,18 @@ app.get("/certificate/:email", (req, res) => {
 
         const student = results[0];
 
+        // Student must be present
         if (student.attendance !== "Present") {
 
             return res.json({
                 success: false,
-                message: "You were marked Absent for this event. Certificate is not available."
+                message: "You were absent for this event."
             });
 
         }
 
-        if (!student.certificate_generated) {
+        // Certificate must be generated
+        if (student.certificate_generated != 1) {
 
             return res.json({
                 success: false,
@@ -584,211 +584,35 @@ app.get("/certificate/:email", (req, res) => {
         }
 
         res.json({
+
             success: true,
-            student
-        });
 
-    });
+            student: {
 
-})
-// ===============================
-// GENERATE CERTIFICATE
-// ===============================
+                fullname: student.fullname,
 
-app.put("/certificate/:id", (req, res) => {
+                email: student.email,
 
-    const certificateId =
-        "CEM-" +
-        new Date().getFullYear() +
-        "-" +
-        Date.now();
+                event: student.event,
 
-    const sql = `
-    UPDATE registrations
-    SET
-        certificate_generated = TRUE,
-        certificate_date = CURDATE(),
-        certificate_id = ?
-    WHERE id = ?
-    `;
+                certificate_id: student.certificate_id,
 
-    db.query(sql, [certificateId, req.params.id], (err) => {
+                certificate_date: student.certificate_date
 
-        if (err) {
+            }
 
-            console.log(err);
-
-            return res.status(500).json({
-                success: false,
-                message: "Certificate generation failed."
-            });
-
-        }
-
-        res.json({
-            success: true,
-            certificate_id: certificateId
         });
 
     });
 
 });
-// ===============================
-// GET ALL EVENTS
-// ===============================
+// ======================================
+// CLEAR ALL STUDENTS
+// ======================================
 
-app.get("/events", (req, res) => {
+app.delete("/clear", (req, res) => {
 
-    const sql = `
-    SELECT *
-    FROM events
-    ORDER BY event_date ASC
-    `;
-
-    db.query(sql, (err, results) => {
-
-        if (err) {
-
-            console.log(err);
-
-            return res.status(500).json([]);
-
-        }
-
-        res.json(results);
-
-    });
-
-});
-
-
-// ===============================
-// ADD EVENT
-// ===============================
-
-app.post("/events", (req, res) => {
-
-    const {
-        event_name,
-        event_date,
-        venue,
-        fee,
-        status
-    } = req.body;
-
-    const sql = `
-    INSERT INTO events
-    (
-        event_name,
-        event_date,
-        venue,
-        fee,
-        status
-    )
-    VALUES (?, ?, ?, ?, ?)
-    `;
-
-    db.query(
-        sql,
-        [
-            event_name,
-            event_date,
-            venue,
-            fee,
-            status
-        ],
-        (err, result) => {
-
-            if (err) {
-
-                console.log(err);
-
-                return res.json({
-                    success: false
-                });
-
-            }
-
-            res.json({
-                success: true,
-                id: result.insertId
-            });
-
-        }
-    );
-
-});
-
-
-// ===============================
-// UPDATE EVENT
-// ===============================
-
-app.put("/events/:id", (req, res) => {
-
-    const {
-        event_name,
-        event_date,
-        venue,
-        fee,
-        status
-    } = req.body;
-
-    const sql = `
-    UPDATE events
-    SET
-        event_name=?,
-        event_date=?,
-        venue=?,
-        fee=?,
-        status=?
-    WHERE id=?
-    `;
-
-    db.query(
-        sql,
-        [
-            event_name,
-            event_date,
-            venue,
-            fee,
-            status,
-            req.params.id
-        ],
-        (err) => {
-
-            if (err) {
-
-                console.log(err);
-
-                return res.json({
-                    success: false
-                });
-
-            }
-
-            res.json({
-                success: true
-            });
-
-        }
-    );
-
-});
-
-
-// ===============================
-// DELETE EVENT
-// ===============================
-
-app.delete("/events/:id", (req, res) => {
-
-    const sql = `
-    DELETE FROM events
-    WHERE id=?
-    `;
-
-    db.query(sql, [req.params.id], (err) => {
+    db.query("DELETE FROM registrations", (err) => {
 
         if (err) {
 
@@ -807,46 +631,135 @@ app.delete("/events/:id", (req, res) => {
     });
 
 });
-// ===============================
-// ADMIN PAGES
-// ===============================
+// ======================================
+// GET EVENTS
+// ======================================
 
-app.get("/admin.html", (req, res) => {
-    res.sendFile(path.join(__dirname, "admin.html"));
+app.get("/events", (req, res) => {
+
+    db.query(
+
+        "SELECT * FROM events ORDER BY event_date ASC",
+
+        (err, results) => {
+
+            if (err) {
+
+                console.log(err);
+
+                return res.status(500).json([]);
+
+            }
+
+            res.json(results);
+
+        }
+
+    );
+
 });
 
-app.get("/students.html", (req, res) => {
-    res.sendFile(path.join(__dirname, "students-admin.html"));
+
+// ======================================
+// ADD EVENT
+// ======================================
+
+app.post("/events", (req, res) => {
+
+    const {
+
+        event_name,
+        event_date,
+        venue,
+        fee,
+        status
+
+    } = req.body;
+
+    db.query(
+
+        `INSERT INTO events
+        (event_name,event_date,venue,fee,status)
+        VALUES(?,?,?,?,?)`,
+
+        [
+
+            event_name,
+            event_date,
+            venue,
+            fee,
+            status
+
+        ],
+
+        (err, result) => {
+
+            if (err) {
+
+                console.log(err);
+
+                return res.json({
+                    success: false
+                });
+
+            }
+
+            res.json({
+                success: true,
+                id: result.insertId
+            });
+
+        }
+
+    );
+
 });
 
-app.get("/events.html", (req, res) => {
-    res.sendFile(path.join(__dirname, "events-admin.html"));
+
+// ======================================
+// DELETE EVENT
+// ======================================
+
+app.delete("/events/:id", (req, res) => {
+
+    db.query(
+
+        "DELETE FROM events WHERE id=?",
+
+        [req.params.id],
+
+        (err) => {
+
+            if (err) {
+
+                console.log(err);
+
+                return res.json({
+                    success: false
+                });
+
+            }
+
+            res.json({
+                success: true
+            });
+
+        }
+
+    );
+
 });
-
-app.get("/payments.html", (req, res) => {
-    res.sendFile(path.join(__dirname, "payments-admin.html"));
-});
-
-app.get("/certificates.html", (req, res) => {
-    res.sendFile(path.join(__dirname, "certificates-admin.html"));
-});
-
-app.get("/settings.html", (req, res) => {
-    res.sendFile(path.join(__dirname, "settings-admin.html"));
-});
-
-
-// ===============================
+// ======================================
 // SERVER START
-// ===============================
+// ======================================
 
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
 
-    console.log("====================================");
+    console.log("======================================");
     console.log("🚀 College Event Manager Started");
-    console.log("🌐 Server running on Port:", PORT);
-    console.log("====================================");
+    console.log("🌐 Running on Port:", PORT);
+    console.log("======================================");
 
 });
