@@ -168,13 +168,12 @@ app.post("/register", (req, res) => {
         event
 
     } = req.body;
-
     const certificateId =
-        "CEM-" +
-        new Date().getFullYear() +
-        "-" +
-        Date.now();
-
+    "CEM-" +
+    new Date().getFullYear() +
+    "-" +
+    String(Math.floor(Math.random() * 999999))
+        .padStart(6, "0");
     const sql = `
 
     INSERT INTO registrations(
@@ -456,12 +455,12 @@ app.put("/certificate/:id", (req, res) => {
             });
 
         }
-
         const certificateId =
-            "CEM-" +
-            new Date().getFullYear() +
-            "-" +
-            Date.now();
+    "CEM-" +
+    new Date().getFullYear() +
+    "-" +
+    String(Math.floor(Math.random() * 999999))
+        .padStart(6, "0");
 
         const sql = `
         UPDATE registrations
