@@ -28,8 +28,7 @@ app.use(session({
         sameSite: "lax"
     }
 }));
-
-const db = mysql.createConnection({
+const db = mysql.createPool({
 
     host: process.env.MYSQLHOST,
 
@@ -39,25 +38,17 @@ const db = mysql.createConnection({
 
     database: process.env.MYSQLDATABASE,
 
-    port: process.env.MYSQLPORT
+    port: process.env.MYSQLPORT,
+
+    waitForConnections: true,
+
+    connectionLimit: 10,
+
+    queueLimit: 0
 
 });
 
-db.connect((err) => {
-
-    if (err) {
-
-        console.log("❌ MySQL Connection Failed");
-        console.log(err);
-        return;
-
-    }
-
-    console.log("✅ MySQL Connected");
-
-    createTables();
-
-});
+createTables();
 function createTables() {
 
     const registrationTable = `
