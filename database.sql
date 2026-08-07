@@ -23,7 +23,7 @@ VALUES
 (
 'Demo Student',
 'demo@gmail.com',
-'ABC Engineering College',
+' Innovation Institute of Technology',
 'CSE',
 '2nd Year',
 'Hackathon',
