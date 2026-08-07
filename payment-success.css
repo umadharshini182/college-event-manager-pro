@@ -1,0 +1,194 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Poppins", Arial, sans-serif;
+    background: #f1f5f9;
+    min-height: 100vh;
+    padding: 40px 20px;
+    color: #0f172a;
+}
+
+/* MAIN RECEIPT */
+
+.receipt-container {
+    width: 100%;
+    max-width: 950px;
+    margin: auto;
+    background: #ffffff;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 15px 45px rgba(15, 23, 42, 0.12);
+    border: 1px solid #e2e8f0;
+}
+
+/* HEADER */
+
+.receipt-header {
+    background: linear-gradient(135deg, #1d4ed8, #2563eb);
+    color: white;
+    text-align: center;
+    padding: 35px 25px;
+}
+
+.receipt-header h1 {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.receipt-header p {
+    font-size: 17px;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* SUCCESS */
+
+.success-box {
+    width: fit-content;
+    margin: 28px auto;
+    padding: 12px 25px;
+    border-radius: 50px;
+    background: #dcfce7;
+    color: #15803d;
+    font-weight: 700;
+    font-size: 16px;
+    border: 1px solid #bbf7d0;
+}
+
+/* CARDS */
+
+.receipt-card,
+.student-card {
+    margin: 25px 35px;
+    padding: 25px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+}
+
+.receipt-card h2,
+.student-card h2 {
+    font-size: 21px;
+    color: #1d4ed8;
+    margin-bottom: 20px;
+}
+
+/* TEMPORARY PLACEHOLDER */
+
+.receipt-card::after {
+    content: "Receipt details will appear here";
+    color: #64748b;
+    font-size: 15px;
+}
+
+.student-card::after {
+    content: "Student details will appear here";
+    color: #64748b;
+    font-size: 15px;
+}
+
+/* QR + SEAL */
+
+.bottom-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 80px;
+    margin: 35px;
+    padding: 25px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.qr-box,
+.seal-box {
+    width: 130px;
+    height: 130px;
+    border: 2px dashed #94a3b8;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #64748b;
+    font-weight: 600;
+}
+
+/* BUTTONS */
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding: 25px 35px 35px;
+}
+
+.buttons button {
+    border: none;
+    padding: 13px 22px;
+    border-radius: 9px;
+    background: #2563eb;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.buttons button:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    body {
+        padding: 15px;
+    }
+
+    .receipt-header {
+        padding: 28px 18px;
+    }
+
+    .receipt-header h1 {
+        font-size: 22px;
+    }
+
+    .receipt-header p {
+        font-size: 13px;
+        letter-spacing: 1px;
+    }
+
+    .receipt-card,
+    .student-card {
+        margin: 18px 15px;
+        padding: 20px;
+    }
+
+    .bottom-section {
+        gap: 20px;
+        margin: 20px 15px;
+    }
+
+    .qr-box,
+    .seal-box {
+        width: 105px;
+        height: 105px;
+    }
+
+    .buttons {
+        flex-direction: column;
+        padding: 20px 15px 25px;
+    }
+
+    .buttons button {
+        width: 100%;
+    }
+}

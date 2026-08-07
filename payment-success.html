@@ -1,62 +1,315 @@
-<div class="receipt-container">
+<!DOCTYPE html>
+<html lang="en">
 
-    <div class="receipt-header">
+<head>
 
-        <h1>🎓 Innovation Institute of Technology</h1>
+    <meta charset="UTF-8">
 
-        <p>Official Event Payment Receipt</p>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    </div>
+    <title>Payment Receipt | Innovation Institute of Technology</title>
 
-    <div class="success-box">
+    <link rel="stylesheet" href="payment-success.css">
 
-        ✅ PAYMENT SUCCESSFUL
+    <link rel="preconnect" href="https://fonts.googleapis.com">
 
-    </div>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <div class="receipt-card">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-        <h2>Receipt Information</h2>
+</head>
 
-    </div>
+<body>
 
-    <div class="student-card">
+    <div class="receipt-container">
 
-        <h2>Student Information</h2>
+        <!-- ================= HEADER ================= -->
 
-    </div>
+        <div class="receipt-header">
 
-    <div class="bottom-section">
+            <h1>
+                🎓 Innovation Institute of Technology
+            </h1>
 
-        <div class="qr-box">
-
-            QR Code
-
-        </div>
-
-        <div class="seal-box">
-
-            Official Seal
+            <p>
+                Official Event Payment Receipt
+            </p>
 
         </div>
 
+
+        <!-- ================= PAYMENT STATUS ================= -->
+
+        <div class="success-box">
+
+            ✅ PAYMENT SUCCESSFUL
+
+        </div>
+
+
+        <!-- ================= RECEIPT INFORMATION ================= -->
+
+        <div class="receipt-card">
+
+            <h2>
+                Receipt Information
+            </h2>
+
+            <div class="receipt-row">
+
+                <span>
+                    Receipt Number
+                </span>
+
+                <strong id="receiptId">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="receipt-row">
+
+                <span>
+                    Registration ID
+                </span>
+
+                <strong id="registrationId">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="receipt-row">
+
+                <span>
+                    Transaction ID
+                </span>
+
+                <strong id="transactionId">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="receipt-row">
+
+                <span>
+                    Payment Date
+                </span>
+
+                <strong id="paymentDate">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="receipt-row">
+
+                <span>
+                    Payment Method
+                </span>
+
+                <strong>
+                    Online Payment
+                </strong>
+
+            </div>
+
+
+            <div class="receipt-row">
+
+                <span>
+                    Amount Paid
+                </span>
+
+                <strong class="amount">
+                    ₹1000
+                </strong>
+
+            </div>
+
+
+            <div class="receipt-row">
+
+                <span>
+                    Status
+                </span>
+
+                <strong class="paid">
+                    PAID ✓
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= STUDENT INFORMATION ================= -->
+
+        <div class="student-card">
+
+            <h2>
+                Student Information
+            </h2>
+
+
+            <div class="receipt-row">
+
+                <span>
+                    Student Name
+                </span>
+
+                <strong id="studentName">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="receipt-row">
+
+                <span>
+                    Email
+                </span>
+
+                <strong id="studentEmail">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="receipt-row">
+
+                <span>
+                    College
+                </span>
+
+                <strong id="college">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="receipt-row">
+
+                <span>
+                    Department
+                </span>
+
+                <strong id="department">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="receipt-row">
+
+                <span>
+                    Year
+                </span>
+
+                <strong id="year">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="receipt-row">
+
+                <span>
+                    Event
+                </span>
+
+                <strong id="event">
+                    —
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= QR + SEAL ================= -->
+
+        <div class="bottom-section">
+
+            <div class="qr-box">
+
+                <p>
+                    Verify Receipt
+                </p>
+
+                <img
+                    id="qrCode"
+                    alt="Receipt QR Code"
+                >
+
+            </div>
+
+
+            <div class="seal-box">
+
+                <span>
+                    🎓
+                    <br>
+                    Innovation Institute
+                    <br>
+                    Official Seal
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= BUTTONS ================= -->
+
+        <div class="buttons">
+
+            <button onclick="downloadReceipt()">
+
+                ⬇ Download PDF
+
+            </button>
+
+
+            <button onclick="window.print()">
+
+                🖨 Print
+
+            </button>
+
+
+            <button onclick="window.location.href='index.html'">
+
+                🏠 Back Home
+
+            </button>
+
+        </div>
+
     </div>
 
-    <div class="buttons">
 
-        <button>⬇ Download PDF</button>
+    <!-- ================= PDF LIBRARIES ================= -->
 
-        <button>🖨 Print</button>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
-        <button>🏠 Back Home</button>
-
-    </div>
-
-</div>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 
 
+    <!-- ================= PAGE JAVASCRIPT ================= -->
 
+    <script src="payment-success.js"></script>
 
+</body>
 
-
-
+</html>
