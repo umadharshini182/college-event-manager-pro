@@ -1,0 +1,572 @@
+// =========================================================
+// COLLEGE EVENT MANAGER
+// PAYMENT.JS
+// =========================================================
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    // =====================================================
+    // STUDENT DATA
+    // =====================================================
+
+    const student = JSON.parse(
+        localStorage.getItem("studentData")
+    );
+
+    if (!student) {
+        alert("Student data not found. Please register again.");
+        window.location.href = "register.html";
+        return;
+    }
+
+
+    // =====================================================
+    // MAIN PAGE
+    // =====================================================
+
+    const studentName =
+        document.getElementById("studentName");
+
+    const eventName =
+        document.getElementById("eventName");
+
+    if (studentName) {
+        studentName.textContent =
+            student.fullname || "-";
+    }
+
+    if (eventName) {
+        eventName.textContent =
+            student.event || "-";
+    }
+
+
+    // =====================================================
+    // PAYMENT ELEMENTS
+    // =====================================================
+
+    const payButton =
+        document.getElementById("demoPayBtn");
+
+    const paymentModal =
+        document.getElementById("paymentModal");
+
+    const paymentOverlay =
+        document.getElementById("paymentOverlay");
+
+    const closePayment =
+        document.getElementById("closePayment");
+
+    const checkoutStudent =
+        document.getElementById("checkoutStudent");
+
+    const checkoutEvent =
+        document.getElementById("checkoutEvent");
+
+    const continuePayment =
+        document.getElementById("continuePayment");
+
+    const selectedMethod =
+        document.getElementById("selectedMethod");
+
+    const methodOptions =
+        document.querySelectorAll(".method-option");
+
+
+    // =====================================================
+    // PAYMENT DETAILS SCREEN
+    // =====================================================
+
+    const paymentDetailsScreen =
+        document.getElementById(
+            "paymentDetailsScreen"
+        );
+
+    const backToMethods =
+        document.getElementById(
+            "backToMethods"
+        );
+
+    const detailsMethodTitle =
+        document.getElementById(
+            "detailsMethodTitle"
+        );
+
+    const detailsMethodName =
+        document.getElementById(
+            "detailsMethodName"
+        );
+
+    const detailsMethodDescription =
+        document.getElementById(
+            "detailsMethodDescription"
+        );
+
+    const detailsMethodIcon =
+        document.getElementById(
+            "detailsMethodIcon"
+        );
+
+    const upiDetails =
+        document.getElementById(
+            "upiDetails"
+        );
+
+    const bankDetails =
+        document.getElementById(
+            "bankDetails"
+        );
+
+    const cardDetails =
+        document.getElementById(
+            "cardDetails"
+        );
+
+    const detailsBankName =
+        document.getElementById(
+            "detailsBankName"
+        );
+
+    const startPaymentButton =
+        document.getElementById(
+            "startPaymentButton"
+        );
+
+
+    // =====================================================
+    // SELECTED PAYMENT METHOD
+    // =====================================================
+
+    let selectedPaymentMethod = null;
+
+
+    // =====================================================
+    // OPEN PAYMENT CHECKOUT
+    // =====================================================
+
+    if (payButton) {
+
+        payButton.addEventListener(
+            "click",
+            function () {
+
+                if (checkoutStudent) {
+                    checkoutStudent.textContent =
+                        student.fullname || "-";
+                }
+
+                if (checkoutEvent) {
+                    checkoutEvent.textContent =
+                        student.event || "-";
+                }
+
+                paymentModal.classList.add(
+                    "active"
+                );
+
+                document.body.style.overflow =
+                    "hidden";
+            }
+        );
+
+    }
+
+
+    // =====================================================
+    // CLOSE PAYMENT CHECKOUT
+    // =====================================================
+
+    function closeCheckout() {
+
+        paymentModal.classList.remove(
+            "active"
+        );
+
+        document.body.style.overflow = "";
+
+    }
+
+
+    if (closePayment) {
+
+        closePayment.addEventListener(
+            "click",
+            closeCheckout
+        );
+
+    }
+
+
+    if (paymentOverlay) {
+
+        paymentOverlay.addEventListener(
+            "click",
+            closeCheckout
+        );
+
+    }
+
+
+    // =====================================================
+    // SELECT PAYMENT METHOD
+    // =====================================================
+
+    methodOptions.forEach(
+        function (option) {
+
+            option.addEventListener(
+                "click",
+                function () {
+
+                    // Remove previous selection
+
+                    methodOptions.forEach(
+                        function (item) {
+
+                            item.classList.remove(
+                                "selected"
+                            );
+
+                        }
+                    );
+
+
+                    // Select current option
+
+                    this.classList.add(
+                        "selected"
+                    );
+
+
+                    // Save selected method
+
+                    selectedPaymentMethod =
+                        this.dataset.method;
+
+
+                    // Display selected method
+
+                    if (selectedMethod) {
+
+                        selectedMethod.textContent =
+                            selectedPaymentMethod;
+
+                    }
+
+
+                    // Enable continue button
+
+                    if (continuePayment) {
+
+                        continuePayment.disabled =
+                            false;
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+
+    // =====================================================
+    // CONTINUE TO PAYMENT DETAILS
+    // =====================================================
+
+    if (continuePayment) {
+
+        continuePayment.addEventListener(
+            "click",
+            function () {
+
+                if (!selectedPaymentMethod) {
+
+                    alert(
+                        "Please select a payment method."
+                    );
+
+                    return;
+
+                }
+
+
+                // Show payment details screen
+
+                if (paymentDetailsScreen) {
+
+                    paymentDetailsScreen.classList.add(
+                        "active"
+                    );
+
+                }
+
+
+                // Hide all information boxes
+
+                if (upiDetails) {
+                    upiDetails.classList.remove(
+                        "active"
+                    );
+                }
+
+                if (bankDetails) {
+                    bankDetails.classList.remove(
+                        "active"
+                    );
+                }
+
+                if (cardDetails) {
+                    cardDetails.classList.remove(
+                        "active"
+                    );
+                }
+
+
+                // =========================================
+                // GOOGLE PAY
+                // =========================================
+
+                if (
+                    selectedPaymentMethod ===
+                    "Google Pay"
+                ) {
+
+                    detailsMethodIcon.textContent =
+                        "G";
+
+                    detailsMethodTitle.textContent =
+                        "Google Pay";
+
+                    detailsMethodName.textContent =
+                        "Google Pay";
+
+                    detailsMethodDescription.textContent =
+                        "Continue securely with Google Pay.";
+
+                    upiDetails.classList.add(
+                        "active"
+                    );
+
+                }
+
+
+                // =========================================
+                // PHONEPE
+                // =========================================
+
+                else if (
+                    selectedPaymentMethod ===
+                    "PhonePe"
+                ) {
+
+                    detailsMethodIcon.textContent =
+                        "P";
+
+                    detailsMethodTitle.textContent =
+                        "PhonePe";
+
+                    detailsMethodName.textContent =
+                        "PhonePe";
+
+                    detailsMethodDescription.textContent =
+                        "Continue securely with PhonePe.";
+
+                    upiDetails.classList.add(
+                        "active"
+                    );
+
+                }
+
+
+                // =========================================
+                // PAYTM
+                // =========================================
+
+                else if (
+                    selectedPaymentMethod ===
+                    "Paytm"
+                ) {
+
+                    detailsMethodIcon.textContent =
+                        "P";
+
+                    detailsMethodTitle.textContent =
+                        "Paytm";
+
+                    detailsMethodName.textContent =
+                        "Paytm";
+
+                    detailsMethodDescription.textContent =
+                        "Continue securely with Paytm.";
+
+                    upiDetails.classList.add(
+                        "active"
+                    );
+
+                }
+
+
+                // =========================================
+                // OTHER UPI
+                // =========================================
+
+                else if (
+                    selectedPaymentMethod ===
+                    "Other UPI"
+                ) {
+
+                    detailsMethodIcon.textContent =
+                        "UPI";
+
+                    detailsMethodTitle.textContent =
+                        "UPI Payment";
+
+                    detailsMethodName.textContent =
+                        "Other UPI";
+
+                    detailsMethodDescription.textContent =
+                        "Continue with your preferred UPI application.";
+
+                    upiDetails.classList.add(
+                        "active"
+                    );
+
+                }
+
+
+                // =========================================
+                // SCAN QR
+                // =========================================
+
+                else if (
+                    selectedPaymentMethod ===
+                    "Scan QR"
+                ) {
+
+                    detailsMethodIcon.textContent =
+                        "▦";
+
+                    detailsMethodTitle.textContent =
+                        "QR Payment";
+
+                    detailsMethodName.textContent =
+                        "Scan QR";
+
+                    detailsMethodDescription.textContent =
+                        "Scan the QR code using your UPI application.";
+
+                    upiDetails.classList.add(
+                        "active"
+                    );
+
+                }
+
+
+                // =========================================
+                // CARD
+                // =========================================
+
+                else if (
+                    selectedPaymentMethod ===
+                    "Credit / Debit Card"
+                ) {
+
+                    detailsMethodIcon.textContent =
+                        "💳";
+
+                    detailsMethodTitle.textContent =
+                        "Card Payment";
+
+                    detailsMethodName.textContent =
+                        "Credit / Debit Card";
+
+                    detailsMethodDescription.textContent =
+                        "Continue with secure card payment.";
+
+                    cardDetails.classList.add(
+                        "active"
+                    );
+
+                }
+
+
+                // =========================================
+                // NET BANKING
+                // =========================================
+
+                else {
+
+                    detailsMethodIcon.textContent =
+                        "🏦";
+
+                    detailsMethodTitle.textContent =
+                        "Net Banking";
+
+                    detailsMethodName.textContent =
+                        selectedPaymentMethod;
+
+                    detailsMethodDescription.textContent =
+                        "Continue securely with your selected bank.";
+
+                    detailsBankName.textContent =
+                        selectedPaymentMethod;
+
+                    bankDetails.classList.add(
+                        "active"
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    // =====================================================
+    // BACK TO PAYMENT METHODS
+    // =====================================================
+
+    if (backToMethods) {
+
+        backToMethods.addEventListener(
+            "click",
+            function () {
+
+                if (paymentDetailsScreen) {
+
+                    paymentDetailsScreen.classList.remove(
+                        "active"
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    // =====================================================
+    // FINAL PAYMENT BUTTON
+    // TEMPORARY TEST ACTION
+    // =====================================================
+
+    if (startPaymentButton) {
+
+        startPaymentButton.addEventListener(
+            "click",
+            function () {
+
+                alert(
+                    "Payment processing for " +
+                    selectedPaymentMethod
+                );
+
+            }
+        );
+
+    }
+
+});
