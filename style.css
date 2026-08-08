@@ -3291,7 +3291,7 @@ body {
     }
 }
 /* =========================================================
-   SMALL LAPTOP / TABLET LANDSCAPE
+   PROFESSIONAL SMALL LAPTOP / TABLET
    ========================================================= */
 
 @media (min-width: 769px) and (max-width: 1100px) {
@@ -3299,32 +3299,32 @@ body {
     /* NAVBAR */
 
     nav {
-        padding: 12px 20px;
+        padding: 12px 24px;
     }
 
     nav ul {
-        gap: 14px;
+        gap: 18px;
     }
 
     nav ul li a {
         font-size: 14px;
-        padding: 8px 9px;
     }
 
 
     /* EVENT DETAILS */
 
     .details {
-        padding: 45px 20px 60px;
+        padding: 45px 28px 65px;
     }
 
     .details-container {
         width: 100%;
-        max-width: 900px;
+        max-width: 760px;
 
         margin: 0 auto;
 
-        grid-template-columns: 1fr 1fr;
+        display: grid;
+        grid-template-columns: 1fr;
 
         gap: 18px;
     }
@@ -3332,28 +3332,40 @@ body {
     .detail-card {
         width: 100%;
 
-        min-height: 180px;
+        min-height: 145px;
 
-        padding: 25px 20px;
+        padding: 25px 30px;
 
-        border-radius: 20px;
+        border-radius: 18px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        text-align: center;
     }
 
     .detail-card h3 {
-        font-size: 22px;
+        margin-bottom: 12px;
+
+        font-size: 23px;
     }
 
     .detail-card p {
+        margin: 0 auto;
+
+        max-width: 650px;
+
         font-size: 15px;
 
-        line-height: 1.6;
+        line-height: 1.7;
     }
 
 
     /* HERO */
 
     .hero {
-        min-height: 500px;
+        min-height: 520px;
 
         padding:
             90px
@@ -3361,38 +3373,61 @@ body {
             60px;
     }
 
+    .overlay {
+        max-width: 850px;
+
+        margin: 0 auto;
+    }
+
     .overlay h1 {
         font-size: 46px;
+
+        line-height: 1.15;
     }
 
     .overlay p {
         max-width: 750px;
 
+        margin: 20px auto;
+
         font-size: 16px;
+
+        line-height: 1.7;
     }
 
 
-    /* FOOTER */
+    /* PROFESSIONAL FOOTER */
 
     .professional-footer .footer-container {
         grid-template-columns:
             1.4fr
             1fr
-            1fr
-            1.2fr;
+            1fr;
 
-        gap: 25px;
+        gap: 35px;
 
         padding:
-            45px
-            35px;
+            50px
+            40px;
     }
 
-    .footer-logo span {
-        font-size: 18px;
+    .footer-brand {
+        grid-column: span 3;
+
+        text-align: center;
+
+        align-items: center !important;
     }
 
     .footer-description {
+        max-width: 600px;
+    }
+
+    .professional-footer .footer-column h3 {
+        font-size: 17px;
+    }
+
+    .professional-footer .footer-column a {
         font-size: 13px;
     }
 
