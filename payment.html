@@ -10,249 +10,149 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Complete Payment</title>
+    <title>Secure Payment | College Event Manager</title>
 
-    <!-- Main website CSS -->
     <link rel="stylesheet" href="style.css">
 
-    <!-- Payment page CSS -->
-    <link rel="stylesheet" href="payment-success.css">
+    <link
+        rel="stylesheet"
+        href="payment-success.css"
+    >
 
 </head>
 
-
 <body>
 
+    <!-- =========================================
+         NAVBAR
+    ========================================== -->
 
-<!-- ==========================================
-     NAVIGATION
-========================================== -->
+    <nav>
 
-<nav>
-
-    <div class="logo">
-        🎓 College Event Manager
-    </div>
-
-    <ul>
-
-        <li>
-            <a href="index.html">
-                Home
-            </a>
-        </li>
-
-        <li>
-            <a href="about.html">
-                About
-            </a>
-        </li>
-
-        <li>
-            <a href="privacy.html">
-                Privacy
-            </a>
-        </li>
-
-    </ul>
-
-</nav>
-
-
-
-<!-- ==========================================
-     MAIN PAYMENT SUMMARY
-========================================== -->
-
-<section class="details">
-
-    <div class="payment-box">
-
-        <h1>
-            💳 Complete Payment
-        </h1>
-
-        <p>
-            Review your registration details
-            before making payment.
-        </p>
-
-
-        <!-- SUMMARY -->
-
-        <div class="summary-grid">
-
-
-            <!-- NAME -->
-
-            <div class="summary-card">
-
-                <h3>
-                    Name
-                </h3>
-
-                <p id="studentName">
-                    -
-                </p>
-
-            </div>
-
-
-            <!-- EVENT -->
-
-            <div class="summary-card">
-
-                <h3>
-                    Event
-                </h3>
-
-                <p id="eventName">
-                    -
-                </p>
-
-            </div>
-
-
-            <!-- AMOUNT -->
-
-            <div class="summary-card">
-
-                <h3>
-                    Amount
-                </h3>
-
-                <p>
-                    ₹1,000
-                </p>
-
-            </div>
-
-
+        <div class="logo">
+            🎓 College Event Manager
         </div>
 
+        <ul>
 
-        <!-- PAY BUTTON -->
+            <li>
+                <a href="index.html">
+                    Home
+                </a>
+            </li>
 
-        <button
-            type="button"
-            id="demoPayBtn"
-            class="submit-btn"
-        >
+            <li>
+                <a href="about.html">
+                    About
+                </a>
+            </li>
 
-            Pay ₹1,000
+            <li>
+                <a href="privacy.html">
+                    Privacy
+                </a>
+            </li>
 
-        </button>
+        </ul>
 
-
-    </div>
-
-</section>
-
-
-
-<!-- ==========================================
-     CUSTOM PAYMENT CHECKOUT
-========================================== -->
-
-<div
-    id="paymentModal"
-    class="payment-modal"
->
+    </nav>
 
 
-    <!-- DARK BACKGROUND -->
+    <!-- =========================================
+         PAYMENT SUMMARY
+    ========================================== -->
 
-    <div
-        class="payment-overlay"
-        id="paymentOverlay"
-    ></div>
+    <main class="payment-page">
+
+        <div class="payment-main-card">
+
+            <div class="payment-heading">
+
+                <div class="payment-lock">
+                    🔒
+                </div>
+
+                <div>
+
+                    <h1>
+                        Complete Your Payment
+                    </h1>
+
+                    <p>
+                        Review your registration details
+                        before continuing.
+                    </p>
+
+                </div>
+
+            </div>
 
 
+            <!-- STUDENT DETAILS -->
 
-    <!-- CHECKOUT BOX -->
+            <div class="order-section">
 
-    <div class="payment-checkout">
-
-
-        <!-- ==================================
-             HEADER
-        =================================== -->
-
-        <div class="checkout-header">
-
-
-            <div>
-
-                <div class="secure-label">
-                    🔒 Secure Checkout
+                <div class="section-label">
+                    Registration Summary
                 </div>
 
 
-                <h2>
-                    Complete Your Payment
-                </h2>
+                <div class="order-row">
+
+                    <span>
+                        Student
+                    </span>
+
+                    <strong id="studentName">
+                        Loading...
+                    </strong>
+
+                </div>
 
 
-                <p>
-                    Choose your preferred payment method
-                </p>
+                <div class="order-row">
 
-            </div>
+                    <span>
+                        Event
+                    </span>
 
+                    <strong id="eventName">
+                        Loading...
+                    </strong>
 
-            <button
-                type="button"
-                id="closePayment"
-                class="close-payment"
-            >
-
-                ×
-
-            </button>
+                </div>
 
 
-        </div>
+                <div class="order-row">
 
+                    <span>
+                        Registration Fee
+                    </span>
 
+                    <strong>
+                        ₹1,000
+                    </strong>
 
-        <!-- ==================================
-             ORDER SUMMARY
-        =================================== -->
-
-        <div class="checkout-summary">
-
-
-            <div>
-
-                <span>
-                    Event
-                </span>
-
-                <strong id="checkoutEvent">
-                    -
-                </strong>
+                </div>
 
             </div>
 
 
-            <div>
+            <!-- TOTAL -->
 
-                <span>
-                    Student
-                </span>
+            <div class="total-section">
 
-                <strong id="checkoutStudent">
-                    -
-                </strong>
+                <div>
 
-            </div>
+                    <span>
+                        Total Amount
+                    </span>
 
+                    <small>
+                        Inclusive of registration fee
+                    </small>
 
-            <div class="checkout-total">
-
-                <span>
-                    Amount to Pay
-                </span>
+                </div>
 
                 <strong>
                     ₹1,000
@@ -261,673 +161,628 @@
             </div>
 
 
+            <!-- PAY -->
+
+            <button
+                type="button"
+                id="demoPayBtn"
+                class="main-pay-button"
+            >
+
+                Pay ₹1,000
+
+                <span>
+                    →
+                </span>
+
+            </button>
+
+
+            <div class="payment-trust">
+
+                🔒 Secure checkout
+                <span>•</span>
+                No PIN or password required
+
+            </div>
+
         </div>
 
+    </main>
 
 
-        <!-- ==================================
-             PAYMENT METHODS
-        =================================== -->
+    <!-- =========================================
+         CHECKOUT MODAL
+    ========================================== -->
 
-        <div class="payment-method-area">
+    <div
+        id="paymentModal"
+        class="payment-modal"
+    >
 
-
-            <h3>
-                Choose Payment Method
-            </h3>
-
-
-
-            <!-- =================================
-                 UPI
-            ================================== -->
-
-            <div class="payment-category">
+        <div
+            class="payment-overlay"
+            id="paymentOverlay"
+        ></div>
 
 
-                <div class="category-title">
-
-                    <span>
-                        📱
-                    </span>
+        <div class="payment-checkout">
 
 
-                    <div>
+            <!-- HEADER -->
 
-                        <strong>
-                            UPI
-                        </strong>
+            <div class="checkout-header">
 
-                        <small>
-                            Pay instantly using UPI
-                        </small>
+                <div>
 
+                    <div class="secure-label">
+                        🔒 SECURE CHECKOUT
                     </div>
 
-                </div>
+                    <h2>
+                        Choose Payment Method
+                    </h2>
 
-
-
-                <div class="payment-options">
-
-
-                    <!-- GOOGLE PAY -->
-
-                    <button
-                        type="button"
-                        class="payment-option"
-                        data-method="Google Pay"
-                    >
-
-                        <span
-                            class="payment-icon gpay"
-                        >
-                            G
-                        </span>
-
-                        <span>
-                            Google Pay
-                        </span>
-
-                    </button>
-
-
-
-                    <!-- PHONEPE -->
-
-                    <button
-                        type="button"
-                        class="payment-option"
-                        data-method="PhonePe"
-                    >
-
-                        <span
-                            class="payment-icon phonepe"
-                        >
-                            P
-                        </span>
-
-                        <span>
-                            PhonePe
-                        </span>
-
-                    </button>
-
-
-
-                    <!-- PAYTM -->
-
-                    <button
-                        type="button"
-                        class="payment-option"
-                        data-method="Paytm"
-                    >
-
-                        <span
-                            class="payment-icon paytm"
-                        >
-                            P
-                        </span>
-
-                        <span>
-                            Paytm
-                        </span>
-
-                    </button>
-
-
-
-                    <!-- OTHER UPI -->
-
-                    <button
-                        type="button"
-                        class="payment-option"
-                        data-method="Other UPI"
-                    >
-
-                        <span
-                            class="payment-icon upi"
-                        >
-                            UPI
-                        </span>
-
-                        <span>
-                            Other UPI
-                        </span>
-
-                    </button>
-
-
-
-                    <!-- QR -->
-
-                    <button
-                        type="button"
-                        class="payment-option"
-                        data-method="Scan QR"
-                    >
-
-                        <span
-                            class="payment-icon qr"
-                        >
-                            ▦
-                        </span>
-
-                        <span>
-                            Scan QR
-                        </span>
-
-                    </button>
-
+                    <p>
+                        Select your preferred way to pay.
+                    </p>
 
                 </div>
-
-            </div>
-
-
-
-            <!-- =================================
-                 NET BANKING
-            ================================== -->
-
-            <div class="payment-category">
-
-
-                <div class="category-title">
-
-                    <span>
-                        🏦
-                    </span>
-
-
-                    <div>
-
-                        <strong>
-                            Net Banking
-                        </strong>
-
-                        <small>
-                            Select your bank
-                        </small>
-
-                    </div>
-
-                </div>
-
-
-
-                <div class="bank-grid">
-
-
-                    <button
-                        type="button"
-                        class="bank-option"
-                        data-method="SBI"
-                    >
-                        State Bank of India
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="bank-option"
-                        data-method="HDFC Bank"
-                    >
-                        HDFC Bank
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="bank-option"
-                        data-method="ICICI Bank"
-                    >
-                        ICICI Bank
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="bank-option"
-                        data-method="Axis Bank"
-                    >
-                        Axis Bank
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="bank-option"
-                        data-method="Kotak Mahindra Bank"
-                    >
-                        Kotak Mahindra Bank
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="bank-option"
-                        data-method="Canara Bank"
-                    >
-                        Canara Bank
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="bank-option"
-                        data-method="Bank of Baroda"
-                    >
-                        Bank of Baroda
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="bank-option"
-                        data-method="Other Bank"
-                    >
-                        Other Banks
-                    </button>
-
-
-                </div>
-
-            </div>
-
-
-
-            <!-- =================================
-                 CARDS
-            ================================== -->
-
-            <div class="payment-category">
-
-
-                <div class="category-title">
-
-                    <span>
-                        💳
-                    </span>
-
-
-                    <div>
-
-                        <strong>
-                            Cards
-                        </strong>
-
-                        <small>
-                            Credit or Debit Card
-                        </small>
-
-                    </div>
-
-                </div>
-
 
 
                 <button
                     type="button"
-                    class="card-option"
-                    data-method="Card"
+                    id="closePayment"
+                    class="close-payment"
+                    aria-label="Close"
                 >
-
-
-                    <div class="card-symbol">
-                        💳
-                    </div>
-
-
-                    <div>
-
-                        <strong>
-                            Credit / Debit Card
-                        </strong>
-
-                        <small>
-                            Secure card payment
-                        </small>
-
-                    </div>
-
-
-                    <span class="arrow">
-                        →
-                    </span>
-
-
+                    ×
                 </button>
-
 
             </div>
 
 
+            <!-- ORDER INFO -->
+
+            <div class="checkout-order">
+
+                <div>
+
+                    <span>
+                        Event
+                    </span>
+
+                    <strong id="checkoutEvent">
+                        -
+                    </strong>
+                  <!-- =========================================
+     PAYMENT DETAILS SCREEN
+========================================= -->
+
+<div
+    id="paymentDetailsScreen"
+    class="payment-details-screen"
+>
+
+    <div class="details-header">
+
+        <button
+            type="button"
+            id="backToMethods"
+            class="back-button"
+        >
+            ←
+        </button>
+
+        <div>
+
+            <span>
+                SECURE CHECKOUT
+            </span>
+
+            <h2 id="detailsMethodTitle">
+                Payment
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <div class="details-body">
+
+        <div
+            id="detailsMethodIcon"
+            class="details-method-icon"
+        >
+            💳
         </div>
 
 
+        <h2 id="detailsMethodName">
+            Payment Method
+        </h2>
 
-        <!-- ==================================
-             SELECTED METHOD
-        =================================== -->
 
-        <div
-            id="selectedPayment"
-            class="selected-payment"
-        >
+        <p id="detailsMethodDescription">
+            Complete your payment securely.
+        </p>
+
+
+        <div class="details-amount">
 
             <span>
-                Selected method
+                Amount to Pay
             </span>
 
-
-            <strong id="selectedMethod">
-                Select a payment method
+            <strong>
+                ₹1,000
             </strong>
 
         </div>
 
 
+        <!-- UPI -->
 
-        <!-- ==================================
-             CONTINUE BUTTON
-        =================================== -->
-
-        <button
-            type="button"
-            id="continuePayment"
-            class="continue-payment"
-            disabled
+        <div
+            id="upiDetails"
+            class="details-info"
         >
 
-            Continue to Pay ₹1,000
+            <div class="info-icon">
+                📱
+            </div>
 
-        </button>
+            <div>
 
+                <strong>
+                    UPI Payment
+                </strong>
 
+                <p>
+                    Continue with your selected
+                    UPI application.
+                </p>
 
-        <!-- ==================================
-             SECURITY MESSAGE
-        =================================== -->
-
-        <div class="checkout-security">
-
-            🔒 Your payment details are processed securely.
-            We never ask for your UPI PIN, ATM PIN or bank password.
+            </div>
 
         </div>
 
 
+        <!-- BANK -->
+
+        <div
+            id="bankDetails"
+            class="details-info"
+        >
+
+            <div class="info-icon">
+                🏦
+            </div>
+
+            <div>
+
+                <strong id="detailsBankName">
+                    Bank
+                </strong>
+
+                <p>
+                    Continue securely with
+                    your selected bank.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- CARD -->
+
+        <div
+            id="cardDetails"
+            class="details-info"
+        >
+
+            <div class="info-icon">
+                💳
+            </div>
+
+            <div>
+
+                <strong>
+                    Credit / Debit Card
+                </strong>
+
+                <p>
+                    Continue with secure card
+                    payment.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="payment-safety">
+
+            🛡️
+
+            <p>
+                Never enter your UPI PIN,
+                ATM PIN, bank password or
+                OTP on this website.
+            </p>
+
+        </div>
+
+
+        <button
+            type="button"
+            id="startPaymentButton"
+            class="start-payment-button"
+        >
+            Continue to Pay ₹1,000
+        </button>
+
     </div>
 
 </div>
+                </div>
 
 
+                <div>
 
-<!-- ==========================================
-     PAYMENT JAVASCRIPT
-========================================== -->
+                    <span>
+                        Student
+                    </span>
 
-<script>
+                    <strong id="checkoutStudent">
+                        -
+                    </strong>
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+                </div>
 
 
-        // ======================================
-        // GET STUDENT DATA
-        // ======================================
+                <div class="checkout-price">
 
-        const student =
-            JSON.parse(
-                localStorage.getItem("studentData")
-            );
+                    <span>
+                        Amount
+                    </span>
 
+                    <strong>
+                        ₹1,000
+                    </strong>
 
-        if (!student) {
+                </div>
 
-            alert(
-                "Student data not found. Please register again."
-            );
+            </div>
 
-            window.location.href =
-                "register.html";
 
-            return;
+            <!-- PAYMENT METHODS -->
 
-        }
+            <div class="methods-container">
 
+                <h3>
+                    Payment Methods
+                </h3>
 
 
-        // ======================================
-        // MAIN PAGE DATA
-        // ======================================
+                <!-- UPI -->
 
-        document
-            .getElementById("studentName")
-            .textContent =
-                student.fullname || "-";
+                <section class="method-section">
 
+                    <div class="method-heading">
 
-        document
-            .getElementById("eventName")
-            .textContent =
-                student.event || "-";
+                        <div class="method-heading-icon">
+                            📱
+                        </div>
 
+                        <div>
 
+                            <strong>
+                                UPI
+                            </strong>
 
-        // ======================================
-        // ELEMENTS
-        // ======================================
+                            <span>
+                                Fast & secure
+                            </span>
 
-        const payButton =
-            document.getElementById(
-                "demoPayBtn"
-            );
+                        </div>
 
+                    </div>
 
-        const paymentModal =
-            document.getElementById(
-                "paymentModal"
-            );
 
+                    <div class="upi-grid">
 
-        const closePayment =
-            document.getElementById(
-                "closePayment"
-            );
+                        <button
+                            type="button"
+                            class="method-option"
+                            data-method="Google Pay"
+                        >
 
+                            <span class="method-logo gpay-logo">
+                                G
+                            </span>
 
-        const paymentOverlay =
-            document.getElementById(
-                "paymentOverlay"
-            );
+                            <span>
+                                Google Pay
+                            </span>
 
+                        </button>
 
-        const checkoutStudent =
-            document.getElementById(
-                "checkoutStudent"
-            );
 
+                        <button
+                            type="button"
+                            class="method-option"
+                            data-method="PhonePe"
+                        >
 
-        const checkoutEvent =
-            document.getElementById(
-                "checkoutEvent"
-            );
+                            <span class="method-logo phonepe-logo">
+                                P
+                            </span>
 
+                            <span>
+                                PhonePe
+                            </span>
 
-        const selectedMethod =
-            document.getElementById(
-                "selectedMethod"
-            );
+                        </button>
 
 
-        const continuePayment =
-            document.getElementById(
-                "continuePayment"
-            );
+                        <button
+                            type="button"
+                            class="method-option"
+                            data-method="Paytm"
+                        >
 
+                            <span class="method-logo paytm-logo">
+                                P
+                            </span>
 
+                            <span>
+                                Paytm
+                            </span>
 
-        // ======================================
-        // OPEN CHECKOUT
-        // ======================================
+                        </button>
 
-        payButton.addEventListener(
-            "click",
-            function () {
 
+                        <button
+                            type="button"
+                            class="method-option"
+                            data-method="Other UPI"
+                        >
 
-                checkoutStudent.textContent =
-                    student.fullname || "-";
+                            <span class="method-logo upi-logo">
+                                UPI
+                            </span>
 
+                            <span>
+                                Other UPI
+                            </span>
 
-                checkoutEvent.textContent =
-                    student.event || "-";
+                        </button>
 
 
-                paymentModal.classList.add(
-                    "active"
-                );
+                        <button
+                            type="button"
+                            class="method-option"
+                            data-method="Scan QR"
+                        >
 
+                            <span class="method-logo qr-logo">
+                                ▦
+                            </span>
 
-                document.body.style.overflow =
-                    "hidden";
+                            <span>
+                                Scan QR
+                            </span>
 
-            }
-        );
+                        </button>
 
+                    </div>
 
+                </section>
 
-        // ======================================
-        // CLOSE CHECKOUT
-        // ======================================
 
-        function closeCheckout() {
+                <!-- NET BANKING -->
 
-            paymentModal.classList.remove(
-                "active"
-            );
+                <section class="method-section">
 
+                    <div class="method-heading">
 
-            document.body.style.overflow =
-                "";
+                        <div class="method-heading-icon">
+                            🏦
+                        </div>
 
-        }
+                        <div>
 
+                            <strong>
+                                Net Banking
+                            </strong>
 
-        closePayment.addEventListener(
-            "click",
-            closeCheckout
-        );
+                            <span>
+                                Select your bank
+                            </span>
 
+                        </div>
 
-        paymentOverlay.addEventListener(
-            "click",
-            closeCheckout
-        );
+                    </div>
 
 
+                    <div class="bank-grid">
 
-        // ======================================
-        // PAYMENT METHOD SELECTION
-        // ======================================
+                        <button
+                            type="button"
+                            class="method-option bank-option"
+                            data-method="State Bank of India"
+                        >
+                            State Bank of India
+                        </button>
 
-        const paymentOptions =
-            document.querySelectorAll(
-                ".payment-option, .bank-option, .card-option"
-            );
 
+                        <button
+                            type="button"
+                            class="method-option bank-option"
+                            data-method="HDFC Bank"
+                        >
+                            HDFC Bank
+                        </button>
 
-        let selectedPaymentMethod =
-            null;
 
+                        <button
+                            type="button"
+                            class="method-option bank-option"
+                            data-method="ICICI Bank"
+                        >
+                            ICICI Bank
+                        </button>
 
 
-        paymentOptions.forEach(
-            function (option) {
+                        <button
+                            type="button"
+                            class="method-option bank-option"
+                            data-method="Axis Bank"
+                        >
+                            Axis Bank
+                        </button>
 
 
-                option.addEventListener(
-                    "click",
-                    function () {
+                        <button
+                            type="button"
+                            class="method-option bank-option"
+                            data-method="Kotak Mahindra Bank"
+                        >
+                            Kotak Mahindra Bank
+                        </button>
 
 
-                        // Remove previous selection
+                        <button
+                            type="button"
+                            class="method-option bank-option"
+                            data-method="Canara Bank"
+                        >
+                            Canara Bank
+                        </button>
 
-                        paymentOptions.forEach(
-                            function (item) {
 
-                                item.classList.remove(
-                                    "selected"
-                                );
+                        <button
+                            type="button"
+                            class="method-option bank-option"
+                            data-method="Bank of Baroda"
+                        >
+                            Bank of Baroda
+                        </button>
 
-                            }
-                        );
 
+                        <button
+                            type="button"
+                            class="method-option bank-option"
+                            data-method="Other Banks"
+                        >
+                            Other Banks
+                        </button>
 
+                    </div>
 
-                        // Select current option
+                </section>
 
-                        this.classList.add(
-                            "selected"
-                        );
 
+                <!-- CARDS -->
 
+                <section class="method-section">
 
-                        selectedPaymentMethod =
-                            this.dataset.method;
+                    <div class="method-heading">
 
+                        <div class="method-heading-icon">
+                            💳
+                        </div>
 
+                        <div>
 
-                        selectedMethod.textContent =
-                            selectedPaymentMethod;
+                            <strong>
+                                Cards
+                            </strong>
 
+                            <span>
+                                Credit or Debit Card
+                            </span>
 
+                        </div>
 
-                        continuePayment.disabled =
-                            false;
+                    </div>
 
-                    }
-                );
 
-            }
-        );
+                    <button
+                        type="button"
+                        class="method-option card-method"
+                        data-method="Credit / Debit Card"
+                    >
 
+                        <span class="method-logo card-logo">
+                            💳
+                        </span>
 
+                        <span class="card-text">
 
-        // ======================================
-        // CONTINUE PAYMENT
-        // ======================================
+                            <strong>
+                                Credit / Debit Card
+                            </strong>
 
-        continuePayment.addEventListener(
-            "click",
-            function () {
+                            <small>
+                                Secure card payment
+                            </small>
 
+                        </span>
 
-                if (!selectedPaymentMethod) {
+                        <span class="option-arrow">
+                            →
+                        </span>
 
-                    return;
+                    </button>
 
-                }
+                </section>
 
+            </div>
 
-                alert(
-                    "Selected payment method: " +
-                    selectedPaymentMethod
-                );
 
-            }
-        );
+            <!-- SELECTED -->
 
+            <div class="selected-method-box">
 
-    }
-);
+                <span>
+                    Selected payment method
+                </span>
 
-</script>
+                <strong id="selectedMethod">
+                    Choose a method
+                </strong>
 
+            </div>
+
+
+            <!-- CONTINUE -->
+
+            <button
+                type="button"
+                id="continuePayment"
+                class="continue-payment"
+                disabled
+            >
+                Continue to Pay ₹1,000
+            </button>
+
+
+            <div class="checkout-footer">
+
+                🔒 We never ask for your UPI PIN,
+                ATM PIN, bank password or OTP.
+
+            </div>
+
+        </div>
+
+    </div>
+
+<script src="payment.js"></script>
 
 </body>
-
 </html>
