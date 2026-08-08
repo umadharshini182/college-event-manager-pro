@@ -3290,3 +3290,110 @@ body {
         font-size: 10px;
     }
 }
+/* =========================================================
+   SMALL LAPTOP / TABLET LANDSCAPE
+   ========================================================= */
+
+@media (min-width: 769px) and (max-width: 1100px) {
+
+    /* NAVBAR */
+
+    nav {
+        padding: 12px 20px;
+    }
+
+    nav ul {
+        gap: 14px;
+    }
+
+    nav ul li a {
+        font-size: 14px;
+        padding: 8px 9px;
+    }
+
+
+    /* EVENT DETAILS */
+
+    .details {
+        padding: 45px 20px 60px;
+    }
+
+    .details-container {
+        width: 100%;
+        max-width: 900px;
+
+        margin: 0 auto;
+
+        grid-template-columns: 1fr 1fr;
+
+        gap: 18px;
+    }
+
+    .detail-card {
+        width: 100%;
+
+        min-height: 180px;
+
+        padding: 25px 20px;
+
+        border-radius: 20px;
+    }
+
+    .detail-card h3 {
+        font-size: 22px;
+    }
+
+    .detail-card p {
+        font-size: 15px;
+
+        line-height: 1.6;
+    }
+
+
+    /* HERO */
+
+    .hero {
+        min-height: 500px;
+
+        padding:
+            90px
+            35px
+            60px;
+    }
+
+    .overlay h1 {
+        font-size: 46px;
+    }
+
+    .overlay p {
+        max-width: 750px;
+
+        font-size: 16px;
+    }
+
+
+    /* FOOTER */
+
+    .professional-footer .footer-container {
+        grid-template-columns:
+            1.4fr
+            1fr
+            1fr
+            1.2fr;
+
+        gap: 25px;
+
+        padding:
+            45px
+            35px;
+    }
+
+    .footer-logo span {
+        font-size: 18px;
+    }
+
+    .footer-description {
+        font-size: 13px;
+    }
+
+}
