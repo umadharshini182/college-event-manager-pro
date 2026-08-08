@@ -46,7 +46,7 @@ const db = mysql.createPool({
 
     queueLimit: 0
 
-});
+});s
 
 createTables();
 function createTables() {
@@ -247,13 +247,9 @@ app.post("/register", (req, res) => {
 app.get("/students", (req, res) => {
 
     const sql = `
-
-    SELECT *
-
-    FROM registrations
-
-    ORDER BY id DESC
-
+        SELECT *
+        FROM registrations
+        ORDER BY id DESC
     `;
 
     db.query(sql, (err, results) => {
@@ -271,6 +267,97 @@ app.get("/students", (req, res) => {
     });
 
 });
+// ======================================
+// VERIFY REGISTRATION
+// ======================================
+
+app.get("/api/verify-registration", (req, res) => {
+
+    const registrationId = req.query.id;
+
+    if (!registrationId) {
+
+        return res.status(400).json({
+            success: false,
+            message: "Registration ID is required."
+        });
+
+    }
+
+    const sql = `
+        SELECT
+            id,
+            fullname,
+            email,
+            college,
+            department,
+            year,
+            event,
+            payment_status
+        FROM registrations
+        WHERE id = ?
+        LIMIT 1
+    `;
+
+    db.query(
+        sql,
+        [registrationId],
+        (err, results) => {
+
+            if (err) {
+
+                console.log(err);
+
+                return res.status(500).json({
+                    success: false,
+                    message: "Database verification failed."
+                });
+
+            }
+
+            if (results.length === 0) {
+
+                return res.status(404).json({
+                    success: false,
+                    message: "Registration not found."
+                });
+
+            }
+
+            const student = results[0];
+
+            res.json({
+
+                success: true,
+
+                registration: {
+
+                    id: student.id,
+
+                    fullname: student.fullname,
+
+                    email: student.email,
+
+                    college: student.college,
+
+                    department: student.department,
+
+                    year: student.year,
+
+                    event: student.event,
+
+                    payment_status:
+                        student.payment_status
+
+                }
+
+            });
+
+        }
+    );
+
+});
+
 // ======================================
 // ADMIN LOGIN
 // ======================================

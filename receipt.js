@@ -171,13 +171,12 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("qrCode");
 
     if (qrCode) {
-
-        const verificationURL =
-            window.location.origin +
-            "/receipt.html?id=" +
-            encodeURIComponent(
-                student.registrationId || ""
-            );
+          const verificationURL =
+    window.location.origin +
+    "/verify.html?id=" +
+    encodeURIComponent(
+        student.registrationId || ""
+    );
 
 
         qrCode.src =
