@@ -546,27 +546,159 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
     }
+// =====================================================
+// PROCESSING + SUCCESS SCREEN
+// =====================================================
+
+const processingScreen =
+    document.getElementById("processingScreen");
+
+const processingIcon =
+    document.getElementById("processingIcon");
+
+const processingTitle =
+    document.getElementById("processingTitle");
+
+const processingMessage =
+    document.getElementById("processingMessage");
+
+const successScreen =
+    document.getElementById("successScreen");
+
+const successPaymentMethod =
+    document.getElementById("successPaymentMethod");
+
+const viewReceiptButton =
+    document.getElementById("viewReceiptButton");
 
 
-    // =====================================================
-    // FINAL PAYMENT BUTTON
-    // TEMPORARY TEST ACTION
-    // =====================================================
+// =====================================================
+// START PAYMENT
+// =====================================================
 
-    if (startPaymentButton) {
+if (startPaymentButton) {
 
-        startPaymentButton.addEventListener(
-            "click",
-            function () {
+    startPaymentButton.addEventListener(
+        "click",
+        function () {
+
+            if (!selectedPaymentMethod) {
 
                 alert(
-                    "Payment processing for " +
-                    selectedPaymentMethod
+                    "Please select a payment method."
+                );
+
+                return;
+
+            }
+
+            // Hide payment details
+
+            if (paymentDetailsScreen) {
+
+                paymentDetailsScreen.classList.remove(
+                    "active"
                 );
 
             }
-        );
 
-    }
+            // Show processing screen
+
+            if (processingScreen) {
+
+                processingScreen.classList.add(
+                    "active"
+                );
+
+            }
+
+            processingIcon.textContent = "🔄";
+
+            processingTitle.textContent =
+                "Processing Payment";
+
+            processingMessage.textContent =
+                "Please wait while we securely process your payment.";
+
+
+            // STEP 2
+
+            setTimeout(function () {
+
+                processingTitle.textContent =
+                    "Verifying Payment";
+
+                processingMessage.textContent =
+                    "Verifying your selected payment method...";
+
+            }, 1500);
+
+
+            // STEP 3
+
+            setTimeout(function () {
+
+                processingTitle.textContent =
+                    "Confirming Transaction";
+
+                processingMessage.textContent =
+                    "Almost done. Please wait...";
+
+            }, 3000);
+
+
+            // SUCCESS
+
+            setTimeout(function () {
+
+                if (processingScreen) {
+
+                    processingScreen.classList.remove(
+                        "active"
+                    );
+
+                }
+
+                if (successScreen) {
+
+                    successScreen.classList.add(
+                        "active"
+                    );
+
+                }
+
+                if (successPaymentMethod) {
+
+                    successPaymentMethod.textContent =
+                        selectedPaymentMethod;
+
+                }
+
+            }, 4500);
+
+        }
+    );
+
+}
+
+
+// =====================================================
+// VIEW RECEIPT
+// =====================================================
+
+if (viewReceiptButton) {
+
+    viewReceiptButton.addEventListener(
+        "click",
+        function () {
+
+            window.location.href =
+                "receipt.html";
+
+        }
+    );
+
+}
+
 
 });
