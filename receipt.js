@@ -122,16 +122,21 @@ document.addEventListener("DOMContentLoaded", function () {
             )
         ).padStart(6, "0");
 
+     const receiptIdBody =
+    document.getElementById("receiptIdBody");
 
-    const receiptId =
-        document.getElementById("receiptId");
+if (receiptIdBody) {
+    receiptIdBody.textContent =
+        receiptNumber;
+}
 
-    if (receiptId) {
+const receiptIdHeader =
+    document.getElementById("receiptIdHeader");
 
-        receiptId.textContent =
-            receiptNumber;
-
-    }
+if (receiptIdHeader) {
+    receiptIdHeader.textContent =
+        receiptNumber;
+}
 
 
     // ------------------------------------------
