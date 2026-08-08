@@ -12,8 +12,13 @@
 
     <title>Secure Payment | College Event Manager</title>
 
-    <link rel="stylesheet" href="style.css">
+    <!-- Main website CSS -->
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 
+    <!-- Payment page CSS -->
     <link
         rel="stylesheet"
         href="payment-success.css"
@@ -21,17 +26,20 @@
 
 </head>
 
+
 <body>
 
-    <!-- =========================================
+
+    <!-- =====================================================
          NAVBAR
-    ========================================== -->
+    ====================================================== -->
 
     <nav>
 
         <div class="logo">
             🎓 College Event Manager
         </div>
+
 
         <ul>
 
@@ -58,19 +66,25 @@
     </nav>
 
 
-    <!-- =========================================
-         PAYMENT SUMMARY
-    ========================================== -->
+
+    <!-- =====================================================
+         MAIN PAYMENT PAGE
+    ====================================================== -->
 
     <main class="payment-page">
 
+
         <div class="payment-main-card">
+
+
+            <!-- PAGE HEADING -->
 
             <div class="payment-heading">
 
                 <div class="payment-lock">
                     🔒
                 </div>
+
 
                 <div>
 
@@ -88,14 +102,20 @@
             </div>
 
 
-            <!-- STUDENT DETAILS -->
+
+            <!-- =================================================
+                 REGISTRATION SUMMARY
+            ================================================== -->
 
             <div class="order-section">
+
 
                 <div class="section-label">
                     Registration Summary
                 </div>
 
+
+                <!-- STUDENT -->
 
                 <div class="order-row">
 
@@ -110,6 +130,8 @@
                 </div>
 
 
+                <!-- EVENT -->
+
                 <div class="order-row">
 
                     <span>
@@ -123,6 +145,8 @@
                 </div>
 
 
+                <!-- REGISTRATION FEE -->
+
                 <div class="order-row">
 
                     <span>
@@ -135,12 +159,17 @@
 
                 </div>
 
+
             </div>
 
 
-            <!-- TOTAL -->
+
+            <!-- =================================================
+                 TOTAL
+            ================================================== -->
 
             <div class="total-section">
+
 
                 <div>
 
@@ -154,14 +183,19 @@
 
                 </div>
 
+
                 <strong>
                     ₹1,000
                 </strong>
 
+
             </div>
 
 
-            <!-- PAY -->
+
+            <!-- =================================================
+                 MAIN PAY BUTTON
+            ================================================== -->
 
             <button
                 type="button"
@@ -178,40 +212,61 @@
             </button>
 
 
+
+            <!-- TRUST MESSAGE -->
+
             <div class="payment-trust">
 
                 🔒 Secure checkout
-                <span>•</span>
+
+                <span>
+                    •
+                </span>
+
                 No PIN or password required
 
             </div>
 
+
         </div>
+
 
     </main>
 
 
-    <!-- =========================================
-         CHECKOUT MODAL
-    ========================================== -->
+
+    <!-- =====================================================
+         PAYMENT CHECKOUT MODAL
+    ====================================================== -->
 
     <div
         id="paymentModal"
         class="payment-modal"
     >
 
+
+        <!-- DARK OVERLAY -->
+
         <div
-            class="payment-overlay"
             id="paymentOverlay"
+            class="payment-overlay"
         ></div>
 
+
+
+        <!-- =================================================
+             CHECKOUT CONTAINER
+        ================================================== -->
 
         <div class="payment-checkout">
 
 
-            <!-- HEADER -->
+            <!-- =================================================
+                 CHECKOUT HEADER
+            ================================================== -->
 
             <div class="checkout-header">
+
 
                 <div>
 
@@ -219,9 +274,11 @@
                         🔒 SECURE CHECKOUT
                     </div>
 
+
                     <h2>
                         Choose Payment Method
                     </h2>
+
 
                     <p>
                         Select your preferred way to pay.
@@ -230,21 +287,33 @@
                 </div>
 
 
+
+                <!-- CLOSE -->
+
                 <button
                     type="button"
                     id="closePayment"
                     class="close-payment"
-                    aria-label="Close"
+                    aria-label="Close payment"
                 >
+
                     ×
+
                 </button>
+
 
             </div>
 
 
-            <!-- ORDER INFO -->
+
+            <!-- =================================================
+                 CHECKOUT ORDER SUMMARY
+            ================================================== -->
 
             <div class="checkout-order">
+
+
+                <!-- EVENT -->
 
                 <div>
 
@@ -255,180 +324,12 @@
                     <strong id="checkoutEvent">
                         -
                     </strong>
-                  <!-- =========================================
-     PAYMENT DETAILS SCREEN
-========================================= -->
 
-<div
-    id="paymentDetailsScreen"
-    class="payment-details-screen"
->
-
-    <div class="details-header">
-
-        <button
-            type="button"
-            id="backToMethods"
-            class="back-button"
-        >
-            ←
-        </button>
-
-        <div>
-
-            <span>
-                SECURE CHECKOUT
-            </span>
-
-            <h2 id="detailsMethodTitle">
-                Payment
-            </h2>
-
-        </div>
-
-    </div>
-
-
-    <div class="details-body">
-
-        <div
-            id="detailsMethodIcon"
-            class="details-method-icon"
-        >
-            💳
-        </div>
-
-
-        <h2 id="detailsMethodName">
-            Payment Method
-        </h2>
-
-
-        <p id="detailsMethodDescription">
-            Complete your payment securely.
-        </p>
-
-
-        <div class="details-amount">
-
-            <span>
-                Amount to Pay
-            </span>
-
-            <strong>
-                ₹1,000
-            </strong>
-
-        </div>
-
-
-        <!-- UPI -->
-
-        <div
-            id="upiDetails"
-            class="details-info"
-        >
-
-            <div class="info-icon">
-                📱
-            </div>
-
-            <div>
-
-                <strong>
-                    UPI Payment
-                </strong>
-
-                <p>
-                    Continue with your selected
-                    UPI application.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <!-- BANK -->
-
-        <div
-            id="bankDetails"
-            class="details-info"
-        >
-
-            <div class="info-icon">
-                🏦
-            </div>
-
-            <div>
-
-                <strong id="detailsBankName">
-                    Bank
-                </strong>
-
-                <p>
-                    Continue securely with
-                    your selected bank.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <!-- CARD -->
-
-        <div
-            id="cardDetails"
-            class="details-info"
-        >
-
-            <div class="info-icon">
-                💳
-            </div>
-
-            <div>
-
-                <strong>
-                    Credit / Debit Card
-                </strong>
-
-                <p>
-                    Continue with secure card
-                    payment.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="payment-safety">
-
-            🛡️
-
-            <p>
-                Never enter your UPI PIN,
-                ATM PIN, bank password or
-                OTP on this website.
-            </p>
-
-        </div>
-
-
-        <button
-            type="button"
-            id="startPaymentButton"
-            class="start-payment-button"
-        >
-            Continue to Pay ₹1,000
-        </button>
-
-    </div>
-
-</div>
                 </div>
 
+
+
+                <!-- STUDENT -->
 
                 <div>
 
@@ -443,6 +344,9 @@
                 </div>
 
 
+
+                <!-- AMOUNT -->
+
                 <div class="checkout-price">
 
                     <span>
@@ -455,27 +359,38 @@
 
                 </div>
 
+
             </div>
 
 
-            <!-- PAYMENT METHODS -->
+
+            <!-- =================================================
+                 PAYMENT METHODS
+            ================================================== -->
 
             <div class="methods-container">
+
 
                 <h3>
                     Payment Methods
                 </h3>
 
 
-                <!-- UPI -->
+
+                <!-- =================================================
+                     UPI
+                ================================================== -->
 
                 <section class="method-section">
 
+
                     <div class="method-heading">
+
 
                         <div class="method-heading-icon">
                             📱
                         </div>
+
 
                         <div>
 
@@ -489,10 +404,15 @@
 
                         </div>
 
+
                     </div>
 
 
+
                     <div class="upi-grid">
+
+
+                        <!-- GOOGLE PAY -->
 
                         <button
                             type="button"
@@ -500,7 +420,9 @@
                             data-method="Google Pay"
                         >
 
-                            <span class="method-logo gpay-logo">
+                            <span
+                                class="method-logo gpay-logo"
+                            >
                                 G
                             </span>
 
@@ -511,13 +433,18 @@
                         </button>
 
 
+
+                        <!-- PHONEPE -->
+
                         <button
                             type="button"
                             class="method-option"
                             data-method="PhonePe"
                         >
 
-                            <span class="method-logo phonepe-logo">
+                            <span
+                                class="method-logo phonepe-logo"
+                            >
                                 P
                             </span>
 
@@ -528,13 +455,18 @@
                         </button>
 
 
+
+                        <!-- PAYTM -->
+
                         <button
                             type="button"
                             class="method-option"
                             data-method="Paytm"
                         >
 
-                            <span class="method-logo paytm-logo">
+                            <span
+                                class="method-logo paytm-logo"
+                            >
                                 P
                             </span>
 
@@ -545,13 +477,18 @@
                         </button>
 
 
+
+                        <!-- OTHER UPI -->
+
                         <button
                             type="button"
                             class="method-option"
                             data-method="Other UPI"
                         >
 
-                            <span class="method-logo upi-logo">
+                            <span
+                                class="method-logo upi-logo"
+                            >
                                 UPI
                             </span>
 
@@ -562,13 +499,18 @@
                         </button>
 
 
+
+                        <!-- QR -->
+
                         <button
                             type="button"
                             class="method-option"
                             data-method="Scan QR"
                         >
 
-                            <span class="method-logo qr-logo">
+                            <span
+                                class="method-logo qr-logo"
+                            >
                                 ▦
                             </span>
 
@@ -578,20 +520,28 @@
 
                         </button>
 
+
                     </div>
+
 
                 </section>
 
 
-                <!-- NET BANKING -->
+
+                <!-- =================================================
+                     NET BANKING
+                ================================================== -->
 
                 <section class="method-section">
 
+
                     <div class="method-heading">
+
 
                         <div class="method-heading-icon">
                             🏦
                         </div>
+
 
                         <div>
 
@@ -605,10 +555,15 @@
 
                         </div>
 
+
                     </div>
 
 
+
                     <div class="bank-grid">
+
+
+                        <!-- SBI -->
 
                         <button
                             type="button"
@@ -619,6 +574,9 @@
                         </button>
 
 
+
+                        <!-- HDFC -->
+
                         <button
                             type="button"
                             class="method-option bank-option"
@@ -627,6 +585,9 @@
                             HDFC Bank
                         </button>
 
+
+
+                        <!-- ICICI -->
 
                         <button
                             type="button"
@@ -637,6 +598,9 @@
                         </button>
 
 
+
+                        <!-- AXIS -->
+
                         <button
                             type="button"
                             class="method-option bank-option"
@@ -645,6 +609,9 @@
                             Axis Bank
                         </button>
 
+
+
+                        <!-- KOTAK -->
 
                         <button
                             type="button"
@@ -655,6 +622,9 @@
                         </button>
 
 
+
+                        <!-- CANARA -->
+
                         <button
                             type="button"
                             class="method-option bank-option"
@@ -663,6 +633,9 @@
                             Canara Bank
                         </button>
 
+
+
+                        <!-- BANK OF BARODA -->
 
                         <button
                             type="button"
@@ -673,6 +646,9 @@
                         </button>
 
 
+
+                        <!-- OTHER BANKS -->
+
                         <button
                             type="button"
                             class="method-option bank-option"
@@ -681,20 +657,28 @@
                             Other Banks
                         </button>
 
+
                     </div>
+
 
                 </section>
 
 
-                <!-- CARDS -->
+
+                <!-- =================================================
+                     CARDS
+                ================================================== -->
 
                 <section class="method-section">
 
+
                     <div class="method-heading">
+
 
                         <div class="method-heading-icon">
                             💳
                         </div>
+
 
                         <div>
 
@@ -708,7 +692,9 @@
 
                         </div>
 
+
                     </div>
+
 
 
                     <button
@@ -717,9 +703,14 @@
                         data-method="Credit / Debit Card"
                     >
 
-                        <span class="method-logo card-logo">
+
+                        <span
+                            class="method-logo card-logo"
+                        >
                             💳
                         </span>
+
+
 
                         <span class="card-text">
 
@@ -733,33 +724,47 @@
 
                         </span>
 
+
+
                         <span class="option-arrow">
                             →
                         </span>
 
+
                     </button>
 
+
                 </section>
+
 
             </div>
 
 
-            <!-- SELECTED -->
+
+            <!-- =================================================
+                 SELECTED PAYMENT METHOD
+            ================================================== -->
 
             <div class="selected-method-box">
+
 
                 <span>
                     Selected payment method
                 </span>
 
+
                 <strong id="selectedMethod">
                     Choose a method
                 </strong>
 
+
             </div>
 
 
-            <!-- CONTINUE -->
+
+            <!-- =================================================
+                 CONTINUE BUTTON
+            ================================================== -->
 
             <button
                 type="button"
@@ -767,9 +772,16 @@
                 class="continue-payment"
                 disabled
             >
+
                 Continue to Pay ₹1,000
+
             </button>
 
+
+
+            <!-- =================================================
+                 SECURITY FOOTER
+            ================================================== -->
 
             <div class="checkout-footer">
 
@@ -778,11 +790,266 @@
 
             </div>
 
+
+
+            <!-- =================================================
+                 PAYMENT DETAILS SCREEN
+                 IMPORTANT:
+                 THIS IS OUTSIDE checkout-order
+            ================================================== -->
+
+            <div
+                id="paymentDetailsScreen"
+                class="payment-details-screen"
+            >
+
+
+                <!-- DETAILS HEADER -->
+
+                <div class="details-header">
+
+
+                    <button
+                        type="button"
+                        id="backToMethods"
+                        class="back-button"
+                    >
+
+                        ←
+
+                    </button>
+
+
+
+                    <div>
+
+                        <span>
+                            SECURE CHECKOUT
+                        </span>
+
+                        <h2 id="detailsMethodTitle">
+                            Payment
+                        </h2>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- DETAILS BODY -->
+
+                <div class="details-body">
+
+
+                    <!-- PAYMENT ICON -->
+
+                    <div
+                        id="detailsMethodIcon"
+                        class="details-method-icon"
+                    >
+                        💳
+                    </div>
+
+
+
+                    <!-- METHOD NAME -->
+
+                    <h2 id="detailsMethodName">
+                        Payment Method
+                    </h2>
+
+
+
+                    <!-- DESCRIPTION -->
+
+                    <p id="detailsMethodDescription">
+                        Complete your payment securely.
+                    </p>
+
+
+
+                    <!-- AMOUNT -->
+
+                    <div class="details-amount">
+
+
+                        <span>
+                            Amount to Pay
+                        </span>
+
+
+                        <strong>
+                            ₹1,000
+                        </strong>
+
+
+                    </div>
+
+
+
+                    <!-- =================================================
+                         UPI DETAILS
+                    ================================================== -->
+
+                    <div
+                        id="upiDetails"
+                        class="details-info"
+                    >
+
+
+                        <div class="info-icon">
+                            📱
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                UPI Payment
+                            </strong>
+
+
+                            <p>
+                                Continue with your selected
+                                UPI application.
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- =================================================
+                         BANK DETAILS
+                    ================================================== -->
+
+                    <div
+                        id="bankDetails"
+                        class="details-info"
+                    >
+
+
+                        <div class="info-icon">
+                            🏦
+                        </div>
+
+
+                        <div>
+
+                            <strong id="detailsBankName">
+                                Bank
+                            </strong>
+
+
+                            <p>
+                                Continue securely with
+                                your selected bank.
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- =================================================
+                         CARD DETAILS
+                    ================================================== -->
+
+                    <div
+                        id="cardDetails"
+                        class="details-info"
+                    >
+
+
+                        <div class="info-icon">
+                            💳
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                Credit / Debit Card
+                            </strong>
+
+
+                            <p>
+                                Continue with secure card
+                                payment.
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- =================================================
+                         SECURITY WARNING
+                    ================================================== -->
+
+                    <div class="payment-safety">
+
+
+                        <span>
+                            🛡️
+                        </span>
+
+
+                        <p>
+                            Never enter your UPI PIN,
+                            ATM PIN, bank password or
+                            OTP on this website.
+                        </p>
+
+
+                    </div>
+
+
+
+                    <!-- =================================================
+                         START PAYMENT
+                    ================================================== -->
+
+                    <button
+                        type="button"
+                        id="startPaymentButton"
+                        class="start-payment-button"
+                    >
+
+                        Continue to Pay ₹1,000
+
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
+
         </div>
+
 
     </div>
 
-<script src="payment.js"></script>
+
+
+    <!-- =====================================================
+         PAYMENT JAVASCRIPT
+         ONLY ONE JS FILE
+    ====================================================== -->
+
+    <script src="payment.js"></script>
+
 
 </body>
+
 </html>
