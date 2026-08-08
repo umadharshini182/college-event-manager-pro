@@ -683,6 +683,9 @@ if (startPaymentButton) {
 // =====================================================
 // VIEW RECEIPT + SAVE REGISTRATION
 // =====================================================
+// =====================================================
+// VIEW RECEIPT
+// =====================================================
 
 if (viewReceiptButton) {
 
@@ -690,20 +693,120 @@ if (viewReceiptButton) {
         "click",
         async function () {
 
-            const student =
-                JSON.parse(
-                    localStorage.getItem("studentData")
+            try {
+
+                const student =
+                    JSON.parse(
+                        localStorage.getItem(
+                            "studentData"
+                        )
+                    );
+
+                if (!student) {
+
+                    alert(
+                        "Registration details not found."
+                    );
+
+                    return;
+                }
+
+                // Make sure registration exists
+                if (!student.registrationId) {
+
+                    const response =
+                        await fetch(
+                            "/register",
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body:
+                                    JSON.stringify(
+                                        student
+                                    )
+                            }
+                        );
+
+
+                    const result =
+                        await response.json();
+
+
+                    if (!result.success) {
+
+                        alert(
+                            result.message ||
+                            "Registration failed."
+                        );
+
+                        return;
+                    }
+
+
+                    student.registrationId =
+                        result.id;
+
+                }
+
+
+                // Create transaction ID
+                if (!student.paymentId) {
+
+                    student.paymentId =
+                        "TXN-" +
+                        Date.now();
+
+                }
+
+
+                // Save payment date
+                student.paymentDate =
+                    new Date().toISOString();
+
+
+                // Save selected payment method
+                student.paymentMethod =
+                    selectedPaymentMethod ||
+                    "Online Payment";
+
+
+                // Save everything
+                localStorage.setItem(
+                    "studentData",
+                    JSON.stringify(
+                        student
+                    )
                 );
 
-            if (!student) {
 
-                alert(
-                    "Registration details not found."
-                );
+                // Go to receipt
+                window.location.href =
+                    "receipt.html";
 
-                return;
             }
 
+            catch (error) {
+
+                console.error(
+                    "Receipt preparation error:",
+                    error
+                );
+
+                alert(
+                    "Unable to generate receipt."
+                );
+
+            }
+
+        }
+    );
+
+}
 
             // Prevent double registration
 
