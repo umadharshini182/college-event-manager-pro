@@ -873,6 +873,103 @@ app.get("/verify/:id", (req, res) => {
     });
 
 });
+// ======================================================
+// PAYMENT VERIFICATION
+// ======================================================
+
+app.get("/payment-verification/:id", (req, res) => {
+
+    const registrationId = req.params.id;
+
+    if (!registrationId) {
+
+        return res.status(400).json({
+            success: false,
+            message: "Registration ID is required."
+        });
+
+    }
+
+    const sql = `
+        SELECT
+            id,
+            fullname,
+            email,
+            college,
+            department,
+            year,
+            event,
+            payment_status,
+            amount
+        FROM registrations
+        WHERE id = ?
+        LIMIT 1
+    `;
+
+    db.query(
+        sql,
+        [registrationId],
+        (err, results) => {
+
+            if (err) {
+
+                console.log(
+                    "Payment verification error:",
+                    err
+                );
+
+                return res.status(500).json({
+                    success: false,
+                    message: "Database verification failed."
+                });
+
+            }
+
+            if (results.length === 0) {
+
+                return res.status(404).json({
+                    success: false,
+                    message: "Payment record not found."
+                });
+
+            }
+
+            const student = results[0];
+
+            res.json({
+
+                success: true,
+
+                student: {
+
+                    id: student.id,
+
+                    fullname: student.fullname,
+
+                    email: student.email,
+
+                    college: student.college,
+
+                    department: student.department,
+
+                    year: student.year,
+
+                    event: student.event,
+
+                    payment_status:
+                        student.payment_status,
+
+                    amount:
+                        student.amount
+
+                }
+
+            });
+
+        }
+    );
+
+});
 // ======================================
 // SERVER START
 // ======================================

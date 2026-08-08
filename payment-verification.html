@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Payment Verification</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background: linear-gradient(
+                135deg,
+                #172554,
+                #1e3a8a,
+                #334155
+            );
+
+            padding: 20px;
+        }
+
+        .verification-box {
+            width: 100%;
+            max-width: 520px;
+
+            background: white;
+
+            border-radius: 18px;
+
+            padding: 35px;
+
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.25);
+
+            text-align: center;
+        }
+
+        .icon {
+            width: 70px;
+            height: 70px;
+
+            margin: 0 auto 20px;
+
+            border-radius: 50%;
+
+            background: #16a34a;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 36px;
+        }
+
+        h1 {
+            color: #172554;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+
+        .status {
+            display: inline-block;
+
+            padding: 8px 18px;
+
+            border-radius: 20px;
+
+            background: #dcfce7;
+            color: #15803d;
+
+            font-weight: bold;
+
+            margin-bottom: 25px;
+        }
+
+        .details {
+            text-align: left;
+
+            border-top: 1px solid #e2e8f0;
+
+            padding-top: 20px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+
+            padding: 13px 0;
+
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .label {
+            color: #64748b;
+        }
+
+        .value {
+            color: #172033;
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .error {
+            color: #dc2626;
+            background: #fee2e2;
+
+            padding: 15px;
+
+            border-radius: 10px;
+
+            display: none;
+        }
+
+        .loading {
+            color: #475569;
+        }
+
+        .footer {
+            margin-top: 25px;
+
+            font-size: 13px;
+
+            color: #94a3b8;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="verification-box">
+
+        <div
+            class="icon"
+            id="statusIcon"
+        >
+            ✓
+        </div>
+
+        <h1>
+            Payment Verification
+        </h1>
+
+        <p class="subtitle">
+            College Event Manager
+        </p>
+
+        <div
+            class="loading"
+            id="loading"
+        >
+            Verifying payment details...
+        </div>
+
+        <div
+            class="status"
+            id="paymentStatus"
+            style="display:none;"
+        >
+            ✓ PAYMENT VERIFIED
+        </div>
+
+        <div
+            class="error"
+            id="errorMessage"
+        >
+            Payment verification failed.
+        </div>
+
+        <div
+            class="details"
+            id="details"
+            style="display:none;"
+        >
+
+            <div class="row">
+                <span class="label">
+                    Student Name
+                </span>
+
+                <span
+                    class="value"
+                    id="studentName"
+                >
+                    —
+                </span>
+            </div>
+
+            <div class="row">
+                <span class="label">
+                    Registration ID
+                </span>
+
+                <span
+                    class="value"
+                    id="registrationId"
+                >
+                    —
+                </span>
+            </div>
+
+            <div class="row">
+                <span class="label">
+                    Event
+                </span>
+
+                <span
+                    class="value"
+                    id="event"
+                >
+                    —
+                </span>
+            </div>
+
+            <div class="row">
+                <span class="label">
+                    College
+                </span>
+
+                <span
+                    class="value"
+                    id="college"
+                >
+                    —
+                </span>
+            </div>
+
+            <div class="row">
+                <span class="label">
+                    Department
+                </span>
+
+                <span
+                    class="value"
+                    id="department"
+                >
+                    —
+                </span>
+            </div>
+
+            <div class="row">
+                <span class="label">
+                    Year
+                </span>
+
+                <span
+                    class="value"
+                    id="year"
+                >
+                    —
+                </span>
+            </div>
+
+            <div class="row">
+                <span class="label">
+                    Payment Status
+                </span>
+
+                <span
+                    class="value"
+                    id="payment"
+                >
+                    —
+                </span>
+            </div>
+
+            <div class="row">
+                <span class="label">
+                    Amount
+                </span>
+
+                <span
+                    class="value"
+                    id="amount"
+                >
+                    —
+                </span>
+            </div>
+
+        </div>
+
+        <div class="footer">
+            This payment record was verified from the
+            College Event Manager database.
+        </div>
+
+    </div>
+
+
+    <script>
+
+        const API_BASE =
+            window.location.origin;
+
+
+        // =========================================
+        // GET REGISTRATION ID FROM QR URL
+        // =========================================
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        const registrationId =
+            params.get("id");
+
+
+        // =========================================
+        // CHECK ID
+        // =========================================
+
+        if (!registrationId) {
+
+            document.getElementById(
+                "loading"
+            ).style.display = "none";
+
+            document.getElementById(
+                "errorMessage"
+            ).textContent =
+                "Invalid payment verification link.";
+
+            document.getElementById(
+                "errorMessage"
+            ).style.display = "block";
+
+        }
+
+        else {
+
+            verifyPayment(
+                registrationId
+            );
+
+        }
+
+
+        // =========================================
+        // VERIFY PAYMENT
+        // =========================================
+
+        async function verifyPayment(id) {
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_BASE +
+                        "/payment-verification/" +
+                        encodeURIComponent(id)
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                // =====================================
+                // PAYMENT FOUND
+                // =====================================
+
+                if (
+                    data.success &&
+                    data.student
+                ) {
+
+                    const student =
+                        data.student;
+
+
+                    document.getElementById(
+                        "loading"
+                    ).style.display = "none";
+
+
+                    document.getElementById(
+                        "paymentStatus"
+                    ).style.display =
+                        "inline-block";
+
+
+                    document.getElementById(
+                        "details"
+                    ).style.display =
+                        "block";
+
+
+                    document.getElementById(
+                        "studentName"
+                    ).textContent =
+                        student.fullname || "—";
+
+
+                    document.getElementById(
+                        "registrationId"
+                    ).textContent =
+                        student.id || "—";
+
+
+                    document.getElementById(
+                        "event"
+                    ).textContent =
+                        student.event || "—";
+
+
+                    document.getElementById(
+                        "college"
+                    ).textContent =
+                        student.college || "—";
+
+
+                    document.getElementById(
+                        "department"
+                    ).textContent =
+                        student.department || "—";
+
+
+                    document.getElementById(
+                        "year"
+                    ).textContent =
+                        student.year || "—";
+
+
+                    document.getElementById(
+                        "payment"
+                    ).textContent =
+                        student.payment_status || "—";
+
+
+                    document.getElementById(
+                        "amount"
+                    ).textContent =
+                        "₹" +
+                        (
+                            student.amount || 0
+                        );
+
+
+                }
+
+                else {
+
+                    showError(
+                        data.message ||
+                        "Payment record not found."
+                    );
+
+                }
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Payment verification error:",
+                    error
+                );
+
+                showError(
+                    "Unable to connect to the verification server."
+                );
+
+            }
+
+        }
+
+
+        // =========================================
+        // ERROR
+        // =========================================
+
+        function showError(message) {
+
+            document.getElementById(
+                "loading"
+            ).style.display = "none";
+
+
+            document.getElementById(
+                "statusIcon"
+            ).textContent = "×";
+
+
+            document.getElementById(
+                "statusIcon"
+            ).style.background =
+                "#dc2626";
+
+
+            document.getElementById(
+                "errorMessage"
+            ).textContent =
+                message;
+
+
+            document.getElementById(
+                "errorMessage"
+            ).style.display =
+                "block";
+
+        }
+
+    </script>
+
+</body>
+
+</html>

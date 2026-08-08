@@ -173,7 +173,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (qrCode) {
           const verificationURL =
     window.location.origin +
-    "/verify.html?id=" +
+    "/payment-verification.html?id=" +
     encodeURIComponent(
         student.registrationId || ""
     );
