@@ -3496,3 +3496,39 @@ body {
     }
 
 }
+/* =========================================================
+   FINAL SMALL-SCREEN DETAIL CARD SIZE
+   ========================================================= */
+
+@media (min-width: 600px) and (max-width: 768px) {
+
+    .details {
+        padding: 55px 22px !important;
+    }
+
+    .details h2 {
+        font-size: 38px !important;
+        margin-bottom: 35px !important;
+    }
+
+    .details-container {
+        grid-template-columns: 1fr !important;
+        gap: 18px !important;
+    }
+
+    .detail-card {
+        padding: 28px 25px !important;
+        min-height: 145px !important;
+    }
+
+    .detail-card h3 {
+        font-size: 27px !important;
+        margin-bottom: 12px !important;
+    }
+
+    .detail-card p {
+        font-size: 18px !important;
+        line-height: 1.7 !important;
+    }
+
+}
