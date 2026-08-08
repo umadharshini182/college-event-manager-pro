@@ -680,25 +680,150 @@ if (startPaymentButton) {
     );
 
 }
-
-
 // =====================================================
-// VIEW RECEIPT
+// VIEW RECEIPT + SAVE REGISTRATION
 // =====================================================
 
 if (viewReceiptButton) {
 
     viewReceiptButton.addEventListener(
         "click",
-        function () {
+        async function () {
 
-            window.location.href =
-                "receipt.html";
+            const student =
+                JSON.parse(
+                    localStorage.getItem("studentData")
+                );
+
+            if (!student) {
+
+                alert(
+                    "Registration details not found."
+                );
+
+                return;
+            }
+
+
+            // Prevent double registration
+
+            if (student.registrationId) {
+
+                window.location.href =
+                    "receipt.html";
+
+                return;
+            }
+
+
+            try {
+
+                viewReceiptButton.disabled = true;
+
+                viewReceiptButton.textContent =
+                    "Generating Receipt...";
+
+
+                // Send registration to backend
+
+                const response =
+                    await fetch("/register", {
+
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify(student)
+
+                    });
+
+
+                const result =
+                    await response.json();
+
+
+                console.log(
+                    "Registration response:",
+                    result
+                );
+
+
+                if (!result.success) {
+
+                    alert(
+                        result.message ||
+                        "Registration failed."
+                    );
+
+                    viewReceiptButton.disabled =
+                        false;
+
+                    viewReceiptButton.textContent =
+                        "View Receipt →";
+
+                    return;
+                }
+
+
+                // -----------------------------------------
+                // SAVE REAL REGISTRATION ID
+                // -----------------------------------------
+
+                student.registrationId =
+                    result.id;
+
+
+                // Create payment ID
+
+                student.paymentId =
+                    "PAY-" +
+                    Date.now();
+
+
+                // Save updated student data
+
+                localStorage.setItem(
+                    "studentData",
+                    JSON.stringify(student)
+                );
+
+
+                // -----------------------------------------
+                // OPEN RECEIPT
+                // -----------------------------------------
+
+                window.location.href =
+                    "receipt.html";
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Registration error:",
+                    error
+                );
+
+                alert(
+                    "Unable to generate receipt. Please try again."
+                );
+
+
+                viewReceiptButton.disabled =
+                    false;
+
+                viewReceiptButton.textContent =
+                    "View Receipt →";
+
+            }
 
         }
     );
 
 }
-
 
 });
