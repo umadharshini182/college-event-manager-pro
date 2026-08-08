@@ -3432,3 +3432,67 @@ body {
     }
 
 }
+/* =========================================================
+   SMALL LAPTOP WINDOW
+   600px - 768px
+   ========================================================= */
+
+@media (min-width: 600px) and (max-width: 768px) {
+
+    .details {
+        padding: 35px 20px 55px !important;
+    }
+
+    .details-container {
+        width: 100% !important;
+        max-width: 680px !important;
+
+        margin: 0 auto !important;
+
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+
+        gap: 14px !important;
+    }
+
+    .detail-card {
+        width: 100% !important;
+
+        min-height: 125px !important;
+
+        padding: 22px 25px !important;
+
+        border-radius: 18px !important;
+
+        display: flex !important;
+        flex-direction: column !important;
+
+        justify-content: center !important;
+        align-items: center !important;
+
+        text-align: center !important;
+    }
+
+    .detail-card h3 {
+        margin: 0 0 10px !important;
+
+        font-size: 22px !important;
+    }
+
+    .detail-card p {
+        max-width: 600px !important;
+
+        margin: 0 auto !important;
+
+        font-size: 14px !important;
+
+        line-height: 1.5 !important;
+    }
+
+    /* Keep cards elegant rather than huge */
+
+    .detail-card:hover {
+        transform: translateY(-4px) !important;
+    }
+
+}
