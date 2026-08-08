@@ -25,11 +25,9 @@
                         Payment Receipt
                     </div>
                 </div>
-
-                <div class="receipt-id" id="receiptId">
-                    Generating...
-                </div>
-
+              <div class="receipt-id" id="receiptIdHeader">
+    Payment Receipt
+</div>
             </div>
 
 
@@ -62,10 +60,9 @@
                     <span class="receipt-title">
                         Transaction ID
                     </span>
-
-                    <strong class="receipt-value" id="transactionId">
-                        -
-                    </strong>
+                 <strong class="receipt-value" id="receiptId">
+                   -
+                </strong>
                 </div>
 
                 <div class="receipt-row">
@@ -172,7 +169,55 @@
                 <div class="status">
                     ✓ PAYMENT SUCCESSFUL
                 </div>
+               <!-- QR VERIFICATION -->
 
+<div class="bottom-section">
+
+    <div class="qr-area">
+
+        <div class="qr-title">
+            Scan to Verify
+        </div>
+
+        <div class="qr-box">
+
+            <img
+                id="qrCode"
+                src=""
+                alt="Registration Verification QR Code"
+            >
+
+        </div>
+
+        <p class="qr-help">
+            Scan this QR code to verify
+            your registration.
+        </p>
+
+    </div>
+
+
+    <div class="seal-box">
+
+        <div class="verified-icon">
+            ✓
+        </div>
+
+        <strong>
+            Registration Verified
+        </strong>
+
+        <span>
+            Payment successfully recorded
+        </span>
+
+        <small>
+            College Event Manager
+        </small>
+
+    </div>
+
+</div>
 
                 <!-- BUTTONS -->
 
