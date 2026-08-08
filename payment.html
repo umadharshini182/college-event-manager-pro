@@ -3,233 +3,325 @@
 
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
 
-<title>Payment</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<link rel="stylesheet" href="style.css">
+    <title>Complete Payment</title>
 
+    <!-- Main website CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Payment page CSS -->
+    <link rel="stylesheet" href="payment-success.css">
 
 </head>
 
+
 <body>
+
+
+<!-- ==========================================
+     NAVIGATION
+========================================== -->
 
 <nav>
 
-<div class="logo">
-🎓 College Event Manager
-</div>
+    <div class="logo">
+        🎓 College Event Manager
+    </div>
 
-<ul>
+    <ul>
 
-<li><a href="index.html">Home</a></li>
-<li><a href="about.html">About</a></li>
-<li><a href="privacy.html">Privacy</a></li>
+        <li>
+            <a href="index.html">
+                Home
+            </a>
+        </li>
 
-</ul>
+        <li>
+            <a href="about.html">
+                About
+            </a>
+        </li>
+
+        <li>
+            <a href="privacy.html">
+                Privacy
+            </a>
+        </li>
+
+    </ul>
 
 </nav>
 
+
+
+<!-- ==========================================
+     MAIN PAYMENT SUMMARY
+========================================== -->
+
 <section class="details">
 
-<div class="payment-box">
+    <div class="payment-box">
 
-<h1>💳 Complete Payment</h1>
+        <h1>
+            💳 Complete Payment
+        </h1>
 
-<p>
-Review your registration details before making payment.
-</p>
+        <p>
+            Review your registration details
+            before making payment.
+        </p>
 
-<div class="summary-grid">
 
-<div class="summary-card">
+        <!-- SUMMARY -->
 
-<h3>Name</h3>
+        <div class="summary-grid">
 
-<p id="studentName"></p>
 
-</div>
+            <!-- NAME -->
 
-<div class="summary-card">
+            <div class="summary-card">
 
-<h3>Event</h3>
+                <h3>
+                    Name
+                </h3>
 
-<p id="eventName"></p>
+                <p id="studentName">
+                    -
+                </p>
 
-</div>
+            </div>
 
-<div class="summary-card">
 
-<h3>Amount</h3>
+            <!-- EVENT -->
 
-<p>$12.00</p>
+            <div class="summary-card">
 
-</div>
+                <h3>
+                    Event
+                </h3>
 
-</div>
+                <p id="eventName">
+                    -
+                </p>
 
-<button id="demoPayBtn" class="submit-btn">
+            </div>
 
-Pay ₹1000
 
-</button>
+            <!-- AMOUNT -->
 
-</div>
+            <div class="summary-card">
+
+                <h3>
+                    Amount
+                </h3>
+
+                <p>
+                    ₹1,000
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- PAY BUTTON -->
+
+        <button
+            type="button"
+            id="demoPayBtn"
+            class="submit-btn"
+        >
+
+            Pay ₹1,000
+
+        </button>
+
+
+    </div>
 
 </section>
-<script>
 
-alert("Payment JS Loaded");
 
-const student = JSON.parse(localStorage.getItem("studentData"));
 
-if (!student) {
-    alert("Student data not found. Please register again.");
-    window.location.href = "register.html";
-}
-
-document.getElementById("studentName").innerHTML = student.fullname;
-document.getElementById("eventName").innerHTML = student.event;
-
-document.getElementById("demoPayBtn").addEventListener("click", async function () {
-
-    alert("Button clicked");
-
-    try {
-
-        const register = await fetch("/register", {
-
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify(student)
-
-        });
-
-        console.log(register.status);
-
-const result = await register.json();
-
-console.log(result);
-
-        if (result.success) {
-
-            student.registrationId = result.id;
-
-            localStorage.setItem(
-                "studentData",
-                JSON.stringify(student)
-            );
-
-            window.location.href = "receipt.html";
-
-        } else {
-
-            alert(result.message || "Registration failed.");
-
-        }
-
-    } catch (err) {
-
-        console.error(err);
-        alert("Server connection failed.");
-
-    }
-
-});
-
-</script>
-<!-- =========================================
+<!-- ==========================================
      CUSTOM PAYMENT CHECKOUT
-========================================= -->
+========================================== -->
 
-<div id="paymentModal" class="payment-modal">
+<div
+    id="paymentModal"
+    class="payment-modal"
+>
 
-    <div class="payment-overlay"></div>
+
+    <!-- DARK BACKGROUND -->
+
+    <div
+        class="payment-overlay"
+        id="paymentOverlay"
+    ></div>
+
+
+
+    <!-- CHECKOUT BOX -->
 
     <div class="payment-checkout">
 
-        <!-- HEADER -->
+
+        <!-- ==================================
+             HEADER
+        =================================== -->
+
         <div class="checkout-header">
 
+
             <div>
+
                 <div class="secure-label">
                     🔒 Secure Checkout
                 </div>
 
-                <h2>Complete Your Payment</h2>
+
+                <h2>
+                    Complete Your Payment
+                </h2>
+
 
                 <p>
                     Choose your preferred payment method
                 </p>
+
             </div>
+
 
             <button
                 type="button"
                 id="closePayment"
-                class="close-payment">
+                class="close-payment"
+            >
+
                 ×
+
             </button>
+
 
         </div>
 
 
-        <!-- ORDER SUMMARY -->
+
+        <!-- ==================================
+             ORDER SUMMARY
+        =================================== -->
+
         <div class="checkout-summary">
 
-            <div>
-                <span>Event</span>
-                <strong id="checkoutEvent">
-                    Symposium
-                </strong>
-            </div>
 
             <div>
-                <span>Student</span>
+
+                <span>
+                    Event
+                </span>
+
+                <strong id="checkoutEvent">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Student
+                </span>
+
                 <strong id="checkoutStudent">
                     -
                 </strong>
+
             </div>
 
+
             <div class="checkout-total">
-                <span>Amount to Pay</span>
-                <strong>₹1,000</strong>
+
+                <span>
+                    Amount to Pay
+                </span>
+
+                <strong>
+                    ₹1,000
+                </strong>
+
             </div>
+
 
         </div>
 
 
-        <!-- PAYMENT METHODS -->
+
+        <!-- ==================================
+             PAYMENT METHODS
+        =================================== -->
+
         <div class="payment-method-area">
 
-            <h3>Choose Payment Method</h3>
+
+            <h3>
+                Choose Payment Method
+            </h3>
 
 
-            <!-- UPI -->
+
+            <!-- =================================
+                 UPI
+            ================================== -->
+
             <div class="payment-category">
 
+
                 <div class="category-title">
-                    <span>📱</span>
+
+                    <span>
+                        📱
+                    </span>
+
 
                     <div>
-                        <strong>UPI</strong>
-                        <small>Pay instantly using UPI</small>
+
+                        <strong>
+                            UPI
+                        </strong>
+
+                        <small>
+                            Pay instantly using UPI
+                        </small>
+
                     </div>
+
                 </div>
+
 
 
                 <div class="payment-options">
 
+
+                    <!-- GOOGLE PAY -->
+
                     <button
                         type="button"
                         class="payment-option"
-                        data-method="Google Pay">
+                        data-method="Google Pay"
+                    >
 
-                        <span class="payment-icon gpay">
+                        <span
+                            class="payment-icon gpay"
+                        >
                             G
                         </span>
 
@@ -240,12 +332,18 @@ console.log(result);
                     </button>
 
 
+
+                    <!-- PHONEPE -->
+
                     <button
                         type="button"
                         class="payment-option"
-                        data-method="PhonePe">
+                        data-method="PhonePe"
+                    >
 
-                        <span class="payment-icon phonepe">
+                        <span
+                            class="payment-icon phonepe"
+                        >
                             P
                         </span>
 
@@ -256,12 +354,18 @@ console.log(result);
                     </button>
 
 
+
+                    <!-- PAYTM -->
+
                     <button
                         type="button"
                         class="payment-option"
-                        data-method="Paytm">
+                        data-method="Paytm"
+                    >
 
-                        <span class="payment-icon paytm">
+                        <span
+                            class="payment-icon paytm"
+                        >
                             P
                         </span>
 
@@ -272,12 +376,18 @@ console.log(result);
                     </button>
 
 
+
+                    <!-- OTHER UPI -->
+
                     <button
                         type="button"
                         class="payment-option"
-                        data-method="Other UPI">
+                        data-method="Other UPI"
+                    >
 
-                        <span class="payment-icon upi">
+                        <span
+                            class="payment-icon upi"
+                        >
                             UPI
                         </span>
 
@@ -288,12 +398,18 @@ console.log(result);
                     </button>
 
 
+
+                    <!-- QR -->
+
                     <button
                         type="button"
                         class="payment-option"
-                        data-method="Scan QR">
+                        data-method="Scan QR"
+                    >
 
-                        <span class="payment-icon qr">
+                        <span
+                            class="payment-icon qr"
+                        >
                             ▦
                         </span>
 
@@ -303,117 +419,168 @@ console.log(result);
 
                     </button>
 
+
                 </div>
 
             </div>
 
 
-            <!-- NET BANKING -->
+
+            <!-- =================================
+                 NET BANKING
+            ================================== -->
+
             <div class="payment-category">
+
 
                 <div class="category-title">
 
-                    <span>🏦</span>
+                    <span>
+                        🏦
+                    </span>
+
 
                     <div>
-                        <strong>Net Banking</strong>
-                        <small>Select your bank</small>
+
+                        <strong>
+                            Net Banking
+                        </strong>
+
+                        <small>
+                            Select your bank
+                        </small>
+
                     </div>
 
                 </div>
+
 
 
                 <div class="bank-grid">
 
+
                     <button
                         type="button"
                         class="bank-option"
-                        data-method="SBI">
+                        data-method="SBI"
+                    >
                         State Bank of India
                     </button>
 
+
                     <button
                         type="button"
                         class="bank-option"
-                        data-method="HDFC Bank">
+                        data-method="HDFC Bank"
+                    >
                         HDFC Bank
                     </button>
 
+
                     <button
                         type="button"
                         class="bank-option"
-                        data-method="ICICI Bank">
+                        data-method="ICICI Bank"
+                    >
                         ICICI Bank
                     </button>
 
+
                     <button
                         type="button"
                         class="bank-option"
-                        data-method="Axis Bank">
+                        data-method="Axis Bank"
+                    >
                         Axis Bank
                     </button>
 
+
                     <button
                         type="button"
                         class="bank-option"
-                        data-method="Kotak Mahindra Bank">
+                        data-method="Kotak Mahindra Bank"
+                    >
                         Kotak Mahindra Bank
                     </button>
 
+
                     <button
                         type="button"
                         class="bank-option"
-                        data-method="Canara Bank">
+                        data-method="Canara Bank"
+                    >
                         Canara Bank
                     </button>
 
-                    <button
-                        type="button"
-                        class="bank-option"
-                        data-method="Bank of Baroda">
-                        Bank of Baroda
-                    </button>
 
                     <button
                         type="button"
                         class="bank-option"
-                        data-method="Other Bank">
+                        data-method="Bank of Baroda"
+                    >
+                        Bank of Baroda
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="bank-option"
+                        data-method="Other Bank"
+                    >
                         Other Banks
                     </button>
+
 
                 </div>
 
             </div>
 
 
-            <!-- CARD -->
+
+            <!-- =================================
+                 CARDS
+            ================================== -->
+
             <div class="payment-category">
+
 
                 <div class="category-title">
 
-                    <span>💳</span>
+                    <span>
+                        💳
+                    </span>
+
 
                     <div>
-                        <strong>Cards</strong>
+
+                        <strong>
+                            Cards
+                        </strong>
 
                         <small>
                             Credit or Debit Card
                         </small>
+
                     </div>
 
                 </div>
+
 
 
                 <button
                     type="button"
                     class="card-option"
-                    data-method="Card">
+                    data-method="Card"
+                >
+
 
                     <div class="card-symbol">
                         💳
                     </div>
 
+
                     <div>
+
                         <strong>
                             Credit / Debit Card
                         </strong>
@@ -421,25 +588,38 @@ console.log(result);
                         <small>
                             Secure card payment
                         </small>
+
                     </div>
+
 
                     <span class="arrow">
                         →
                     </span>
 
+
                 </button>
 
+
             </div>
+
 
         </div>
 
 
-        <!-- SELECTED METHOD -->
+
+        <!-- ==================================
+             SELECTED METHOD
+        =================================== -->
+
         <div
             id="selectedPayment"
-            class="selected-payment">
+            class="selected-payment"
+        >
 
-            <span>Selected method</span>
+            <span>
+                Selected method
+            </span>
+
 
             <strong id="selectedMethod">
                 Select a payment method
@@ -448,29 +628,306 @@ console.log(result);
         </div>
 
 
-        <!-- CONTINUE -->
+
+        <!-- ==================================
+             CONTINUE BUTTON
+        =================================== -->
+
         <button
             type="button"
             id="continuePayment"
             class="continue-payment"
-            disabled>
+            disabled
+        >
 
             Continue to Pay ₹1,000
 
         </button>
 
 
-        <!-- SECURITY -->
+
+        <!-- ==================================
+             SECURITY MESSAGE
+        =================================== -->
+
         <div class="checkout-security">
 
             🔒 Your payment details are processed securely.
-            
+            We never ask for your UPI PIN, ATM PIN or bank password.
 
         </div>
+
 
     </div>
 
 </div>
+
+
+
+<!-- ==========================================
+     PAYMENT JAVASCRIPT
+========================================== -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        // ======================================
+        // GET STUDENT DATA
+        // ======================================
+
+        const student =
+            JSON.parse(
+                localStorage.getItem("studentData")
+            );
+
+
+        if (!student) {
+
+            alert(
+                "Student data not found. Please register again."
+            );
+
+            window.location.href =
+                "register.html";
+
+            return;
+
+        }
+
+
+
+        // ======================================
+        // MAIN PAGE DATA
+        // ======================================
+
+        document
+            .getElementById("studentName")
+            .textContent =
+                student.fullname || "-";
+
+
+        document
+            .getElementById("eventName")
+            .textContent =
+                student.event || "-";
+
+
+
+        // ======================================
+        // ELEMENTS
+        // ======================================
+
+        const payButton =
+            document.getElementById(
+                "demoPayBtn"
+            );
+
+
+        const paymentModal =
+            document.getElementById(
+                "paymentModal"
+            );
+
+
+        const closePayment =
+            document.getElementById(
+                "closePayment"
+            );
+
+
+        const paymentOverlay =
+            document.getElementById(
+                "paymentOverlay"
+            );
+
+
+        const checkoutStudent =
+            document.getElementById(
+                "checkoutStudent"
+            );
+
+
+        const checkoutEvent =
+            document.getElementById(
+                "checkoutEvent"
+            );
+
+
+        const selectedMethod =
+            document.getElementById(
+                "selectedMethod"
+            );
+
+
+        const continuePayment =
+            document.getElementById(
+                "continuePayment"
+            );
+
+
+
+        // ======================================
+        // OPEN CHECKOUT
+        // ======================================
+
+        payButton.addEventListener(
+            "click",
+            function () {
+
+
+                checkoutStudent.textContent =
+                    student.fullname || "-";
+
+
+                checkoutEvent.textContent =
+                    student.event || "-";
+
+
+                paymentModal.classList.add(
+                    "active"
+                );
+
+
+                document.body.style.overflow =
+                    "hidden";
+
+            }
+        );
+
+
+
+        // ======================================
+        // CLOSE CHECKOUT
+        // ======================================
+
+        function closeCheckout() {
+
+            paymentModal.classList.remove(
+                "active"
+            );
+
+
+            document.body.style.overflow =
+                "";
+
+        }
+
+
+        closePayment.addEventListener(
+            "click",
+            closeCheckout
+        );
+
+
+        paymentOverlay.addEventListener(
+            "click",
+            closeCheckout
+        );
+
+
+
+        // ======================================
+        // PAYMENT METHOD SELECTION
+        // ======================================
+
+        const paymentOptions =
+            document.querySelectorAll(
+                ".payment-option, .bank-option, .card-option"
+            );
+
+
+        let selectedPaymentMethod =
+            null;
+
+
+
+        paymentOptions.forEach(
+            function (option) {
+
+
+                option.addEventListener(
+                    "click",
+                    function () {
+
+
+                        // Remove previous selection
+
+                        paymentOptions.forEach(
+                            function (item) {
+
+                                item.classList.remove(
+                                    "selected"
+                                );
+
+                            }
+                        );
+
+
+
+                        // Select current option
+
+                        this.classList.add(
+                            "selected"
+                        );
+
+
+
+                        selectedPaymentMethod =
+                            this.dataset.method;
+
+
+
+                        selectedMethod.textContent =
+                            selectedPaymentMethod;
+
+
+
+                        continuePayment.disabled =
+                            false;
+
+                    }
+                );
+
+            }
+        );
+
+
+
+        // ======================================
+        // CONTINUE PAYMENT
+        // ======================================
+
+        continuePayment.addEventListener(
+            "click",
+            function () {
+
+
+                if (!selectedPaymentMethod) {
+
+                    return;
+
+                }
+
+
+                alert(
+                    "Selected payment method: " +
+                    selectedPaymentMethod
+                );
+
+            }
+        );
+
+
+    }
+);
+
+</script>
+
+
 </body>
 
 </html>
