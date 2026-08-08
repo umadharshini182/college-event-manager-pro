@@ -1,73 +1,219 @@
-<div class="receipt-card">
+<!DOCTYPE html>
+<html lang="en">
 
-    <div class="receipt-row">
-        <span>Receipt Number</span>
-        <strong id="receiptId"></strong>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Payment Receipt | College Event Manager</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="payment-box">
+
+        <div class="receipt-box">
+
+            <!-- HEADER -->
+            <div class="receipt-header">
+
+                <div>
+                    <h2>🎓 College Event Manager</h2>
+                    <div class="receipt-id">
+                        Payment Receipt
+                    </div>
+                </div>
+
+                <div class="receipt-id" id="receiptId">
+                    Generating...
+                </div>
+
+            </div>
+
+
+            <!-- RECEIPT BODY -->
+            <div class="receipt-body">
+
+                <h2>Payment Details</h2>
+
+                <div class="receipt-row">
+                    <span class="receipt-title">
+                        Receipt Number
+                    </span>
+
+                    <strong class="receipt-value" id="receiptIdBody">
+                        -
+                    </strong>
+                </div>
+
+                <div class="receipt-row">
+                    <span class="receipt-title">
+                        Registration ID
+                    </span>
+
+                    <strong class="receipt-value" id="registrationId">
+                        -
+                    </strong>
+                </div>
+
+                <div class="receipt-row">
+                    <span class="receipt-title">
+                        Transaction ID
+                    </span>
+
+                    <strong class="receipt-value" id="transactionId">
+                        -
+                    </strong>
+                </div>
+
+                <div class="receipt-row">
+                    <span class="receipt-title">
+                        Payment Date
+                    </span>
+
+                    <strong class="receipt-value" id="paymentDate">
+                        -
+                    </strong>
+                </div>
+
+                <div class="receipt-row">
+                    <span class="receipt-title">
+                        Payment Method
+                    </span>
+
+                    <strong class="receipt-value">
+                        Online Payment
+                    </strong>
+                </div>
+
+
+                <!-- STUDENT DETAILS -->
+
+                <h2 style="margin-top:40px;">
+                    Student Details
+                </h2>
+
+                <div class="receipt-row">
+                    <span class="receipt-title">
+                        Student Name
+                    </span>
+
+                    <strong class="receipt-value" id="studentName">
+                        -
+                    </strong>
+                </div>
+
+                <div class="receipt-row">
+                    <span class="receipt-title">
+                        Email
+                    </span>
+
+                    <strong class="receipt-value" id="studentEmail">
+                        -
+                    </strong>
+                </div>
+
+                <div class="receipt-row">
+                    <span class="receipt-title">
+                        College
+                    </span>
+
+                    <strong class="receipt-value" id="college">
+                        -
+                    </strong>
+                </div>
+
+                <div class="receipt-row">
+                    <span class="receipt-title">
+                        Department
+                    </span>
+
+                    <strong class="receipt-value" id="department">
+                        -
+                    </strong>
+                </div>
+
+                <div class="receipt-row">
+                    <span class="receipt-title">
+                        Year
+                    </span>
+
+                    <strong class="receipt-value" id="year">
+                        -
+                    </strong>
+                </div>
+
+                <div class="receipt-row">
+                    <span class="receipt-title">
+                        Event
+                    </span>
+
+                    <strong class="receipt-value" id="event">
+                        -
+                    </strong>
+                </div>
+
+
+                <!-- AMOUNT -->
+
+                <div class="amount-box">
+
+                    <p>Amount Paid</p>
+
+                    <h1>₹1000</h1>
+
+                </div>
+
+
+                <!-- STATUS -->
+
+                <div class="status">
+                    ✓ PAYMENT SUCCESSFUL
+                </div>
+
+
+                <!-- BUTTONS -->
+
+                <div class="receipt-buttons">
+
+                    <button
+                        class="print-btn"
+                        onclick="window.print()">
+
+                        🖨 Print Receipt
+
+                    </button>
+
+                    <button
+                        class="download-btn"
+                        onclick="window.print()">
+
+                        📄 Download Receipt
+
+                    </button>
+
+                    <a
+                        href="index.html"
+                        class="home-btn">
+
+                        🏠 Home
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
-    <div class="receipt-row">
-        <span>Registration ID</span>
-        <strong id="registrationId"></strong>
-    </div>
 
-    <div class="receipt-row">
-        <span>Transaction ID</span>
-        <strong id="transactionId"></strong>
-    </div>
+    <!-- RECEIPT JAVASCRIPT -->
+    <script src="receipt.js"></script>
 
-    <div class="receipt-row">
-        <span>Payment Date</span>
-        <strong id="paymentDate"></strong>
-    </div>
+</body>
 
-    <div class="receipt-row">
-        <span>Payment Method</span>
-        <strong>Online Payment</strong>
-    </div>
-
-    <div class="receipt-row">
-        <span>Amount Paid</span>
-        <strong class="amount">₹1000</strong>
-    </div>
-
-    <div class="receipt-row">
-        <span>Status</span>
-        <strong class="paid">PAID</strong>
-    </div>
-
-</div>
-<h2 class="section-title">Student Information</h2>
-
-<div class="receipt-card">
-
-    <div class="receipt-row">
-        <span>Student Name</span>
-        <strong id="studentName"></strong>
-    </div>
-
-    <div class="receipt-row">
-        <span>Email</span>
-        <strong id="studentEmail"></strong>
-    </div>
-
-    <div class="receipt-row">
-        <span>College</span>
-        <strong id="college"></strong>
-    </div>
-
-    <div class="receipt-row">
-        <span>Department</span>
-        <strong id="department"></strong>
-    </div>
-
-    <div class="receipt-row">
-        <span>Year</span>
-        <strong id="year"></strong>
-    </div>
-
-    <div class="receipt-row">
-        <span>Event</span>
-        <strong id="event"></strong>
-    </div>
-
-</div>
+</html>

@@ -1,0 +1,10 @@
+[33mcommit fd2be640a1d943a6bc742881777ca6f929811171[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: Uma Dharshini <yourgithubemail@example.com>
+Date:   Sat Aug 8 05:05:24 2026 +0530
+
+    Redesign payment success receipt
+
+ payment-success.css  | 194 [32m+++++++++++++++++++++++++++++++++[m
+ payment-success.html | 303 [32m++++++++++++++++++++++++++++++++++++++++++++++[m[31m-----[m
+ payment-success.js   | 148 [32m+++++++++++++++++++++++++[m
+ 3 files changed, 620 insertions(+), 25 deletions(-)

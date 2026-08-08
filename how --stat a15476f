@@ -1,0 +1,8 @@
+[33mcommit ae8332606f0b49a73c52dfd9b91f6ae3de69d1bb[m
+Author: Uma Dharshini <yourgithubemail@example.com>
+Date:   Sat Aug 8 04:11:47 2026 +0530
+
+    Improve payment receipt layout
+
+ receipt.html | 274 [32m++++++++++++[m[31m-----------------------------------------------[m
+ 1 file changed, 53 insertions(+), 221 deletions(-)
