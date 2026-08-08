@@ -2081,3 +2081,164 @@
     }
 
 }
+/* =========================================================
+   FINAL PAYMENT MOBILE RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .payment-modal {
+        padding: 0 !important;
+    }
+
+    .payment-checkout {
+        width: 100% !important;
+
+        max-width: 100% !important;
+
+        height: 100dvh !important;
+
+        max-height: 100dvh !important;
+
+        border-radius: 0 !important;
+
+        overflow-y: auto;
+
+        overflow-x: hidden;
+    }
+
+    .checkout-header {
+        padding: 20px 18px !important;
+
+        gap: 12px;
+    }
+
+    .checkout-header h2 {
+        font-size: 21px !important;
+
+        line-height: 1.25;
+    }
+
+    .checkout-header p {
+        font-size: 13px;
+
+        line-height: 1.5;
+    }
+
+    .checkout-summary {
+        grid-template-columns: 1fr !important;
+    }
+
+    .checkout-summary > div {
+        padding: 13px 18px !important;
+    }
+
+    .payment-method-area {
+        padding: 18px !important;
+    }
+
+    .payment-options {
+        grid-template-columns: 1fr 1fr !important;
+
+        gap: 10px;
+    }
+
+    .bank-grid {
+        grid-template-columns: 1fr 1fr !important;
+
+        gap: 10px;
+    }
+
+    .method-option,
+    .bank-option {
+        min-width: 0;
+
+        padding: 13px 8px !important;
+
+        font-size: 13px !important;
+
+        overflow-wrap: anywhere;
+    }
+
+    .selected-payment {
+        margin:
+            0
+            18px !important;
+
+        padding: 14px !important;
+    }
+
+    .continue-payment {
+        width: calc(100% - 36px) !important;
+
+        margin:
+            16px
+            18px !important;
+
+        height: 54px;
+
+        font-size: 15px !important;
+    }
+
+    .checkout-security {
+        padding:
+            0
+            18px
+            20px !important;
+
+        font-size: 10px;
+    }
+
+    /* Payment detail screen */
+
+    .payment-details-screen {
+        padding: 18px !important;
+    }
+
+    .payment-details-card {
+        width: 100% !important;
+
+        padding: 20px 15px !important;
+
+        border-radius: 16px !important;
+    }
+
+    .payment-details-card h2 {
+        font-size: 21px !important;
+    }
+
+    .payment-details-card input {
+        width: 100% !important;
+
+        max-width: 100% !important;
+    }
+
+}
+
+
+/* EXTRA SMALL PHONES */
+
+@media (max-width: 420px) {
+
+    .payment-options,
+    .bank-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .checkout-header {
+        padding: 17px 15px !important;
+    }
+
+    .payment-method-area {
+        padding: 15px !important;
+    }
+
+    .continue-payment {
+        width: calc(100% - 30px) !important;
+
+        margin:
+            14px
+            15px !important;
+    }
+
+}
