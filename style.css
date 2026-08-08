@@ -3532,3 +3532,331 @@ body {
     }
 
 }
+/* =========================================================
+   PROFESSIONAL FOOTER - ALL PAGES
+   ========================================================= */
+
+footer {
+    width: 100% !important;
+    margin-top: 60px !important;
+
+    background:
+        linear-gradient(
+            180deg,
+            #071a34 0%,
+            #06172d 100%
+        ) !important;
+
+    border-top:
+        1px solid
+        rgba(255, 213, 79, 0.30) !important;
+
+    color: #ffffff !important;
+}
+
+
+/* FOOTER CONTAINER */
+
+footer .footer-container {
+    width: 100% !important;
+    max-width: 1250px !important;
+
+    margin: 0 auto !important;
+
+    padding:
+        55px 6% 40px !important;
+
+    display: grid !important;
+
+    grid-template-columns:
+        1.4fr 1fr 1fr 1.2fr;
+
+    gap: 40px !important;
+
+    box-sizing: border-box;
+}
+
+
+/* FOOTER BOX */
+
+footer .footer-box {
+    display: flex !important;
+
+    flex-direction: column !important;
+
+    align-items: flex-start !important;
+
+    text-align: left !important;
+
+    padding: 0 !important;
+
+    background: transparent !important;
+
+    border: none !important;
+
+    box-shadow: none !important;
+}
+
+
+/* HEADINGS */
+
+footer .footer-box h3 {
+    margin:
+        0 0 18px !important;
+
+    color: #FFD54F !important;
+
+    font-size: 18px !important;
+
+    font-weight: 800 !important;
+}
+
+
+/* PARAGRAPHS */
+
+footer .footer-box p {
+    margin:
+        0 0 10px !important;
+
+    color: #c5d0df !important;
+
+    font-size: 14px !important;
+
+    line-height: 1.7 !important;
+}
+
+
+/* LINKS */
+
+footer .footer-box a {
+    display: block !important;
+
+    width: fit-content;
+
+    margin-bottom: 11px !important;
+
+    color: #d9e1ec !important;
+
+    font-size: 14px !important;
+
+    text-decoration: none !important;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+footer .footer-box a:hover {
+    color: #FFD54F !important;
+
+    transform:
+        translateX(4px);
+}
+
+
+/* DIVIDER */
+
+footer hr {
+    width: 88% !important;
+
+    height: 1px !important;
+
+    margin:
+        0 auto 20px !important;
+
+    border: none !important;
+
+    background:
+        rgba(255,255,255,0.10) !important;
+}
+
+
+/* COPYRIGHT */
+
+footer .copyright {
+    margin: 0 !important;
+
+    padding:
+        0 20px 22px !important;
+
+    color: #8191aa !important;
+
+    text-align: center !important;
+
+    font-size: 12px !important;
+
+    line-height: 1.6 !important;
+}
+
+
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    footer {
+        margin-top: 45px !important;
+    }
+
+    footer .footer-container {
+        grid-template-columns: 1fr !important;
+
+        gap: 30px !important;
+
+        padding:
+            45px 25px 30px !important;
+    }
+
+    footer .footer-box {
+        align-items: center !important;
+
+        text-align: center !important;
+    }
+
+    footer .footer-box h3 {
+        font-size: 19px !important;
+    }
+
+    footer .footer-box p {
+        max-width: 430px;
+
+        font-size: 14px !important;
+    }
+
+    footer .footer-box a {
+        font-size: 14px !important;
+
+        margin-bottom: 10px !important;
+    }
+
+    footer .footer-box a:hover {
+        transform: none;
+    }
+
+    footer hr {
+        width: 88% !important;
+    }
+
+    footer .copyright {
+        font-size: 11px !important;
+
+        padding:
+            0 15px 22px !important;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 500px) {
+
+    footer .footer-container {
+        padding:
+            38px 18px 28px !important;
+
+        gap: 27px !important;
+    }
+
+    footer .footer-box h3 {
+        font-size: 18px !important;
+    }
+
+    footer .footer-box p,
+    footer .footer-box a {
+        font-size: 13px !important;
+    }
+
+    footer .copyright {
+        font-size: 10px !important;
+    }
+
+}
+/* =========================================================
+   SMALL LAPTOP HOMEPAGE
+   ========================================================= */
+
+@media (min-width: 769px) and (max-width: 1100px) {
+
+    .hero {
+        min-height: 480px !important;
+
+        padding:
+            90px 30px 50px !important;
+    }
+
+    .overlay h1 {
+        font-size: 44px !important;
+
+        line-height: 1.15;
+    }
+
+    .overlay p {
+        max-width: 720px;
+
+        font-size: 16px !important;
+
+        line-height: 1.6;
+    }
+
+
+    /* EVENTS */
+
+    .events {
+        padding:
+            45px 25px 55px !important;
+    }
+
+    .event-container {
+        gap: 18px !important;
+    }
+
+    .event-card {
+        padding: 22px !important;
+    }
+
+
+    /* COUNTDOWN */
+
+    .countdown-section {
+        padding:
+            45px 25px !important;
+    }
+
+    .countdown-section h2 {
+        font-size: 34px !important;
+
+        margin-bottom: 28px !important;
+    }
+
+    .countdown {
+        grid-template-columns:
+            1fr 1fr !important;
+
+        gap: 15px !important;
+
+        max-width: 850px;
+
+        margin: 0 auto;
+    }
+
+    .time-box {
+        padding:
+            22px 15px !important;
+    }
+
+    .time-box span {
+        font-size: 40px !important;
+    }
+
+    .time-box p {
+        font-size: 14px !important;
+    }
+
+}
