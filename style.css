@@ -3861,82 +3861,150 @@ footer .copyright {
 
 }
 /* ==========================================
-   HOME PAGE - BETTER MOBILE TEXT
+   CEG HOME PAGE - TEXT SIZE FIX
    ========================================== */
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
 
-    .hero {
-        padding: 130px 20px 50px;
-    }
-
-    .overlay h1 {
+    /* Countdown */
+    .time-box span {
         font-size: 42px !important;
-        line-height: 1.15;
     }
 
-    .hero-tag {
-        font-size: 23px !important;
-        line-height: 1.4;
+    .time-box p {
+        font-size: 17px !important;
     }
 
-    .overlay p {
+    /* Contact */
+    .contact-card h3 {
+        font-size: 28px !important;
+    }
+
+    .contact-card p {
         font-size: 18px !important;
-        line-height: 1.7;
+        line-height: 1.8 !important;
     }
 
-    .hero-btn {
-        font-size: 19px !important;
-        padding: 17px 25px;
-    }
-
-    .events h2 {
-        font-size: 38px !important;
-    }
-
+    /* Event cards */
     .event-card h3 {
-        font-size: 27px !important;
+        font-size: 28px !important;
     }
 
     .event-card p {
         font-size: 17px !important;
-        line-height: 1.7;
+        line-height: 1.8 !important;
     }
 
     .event-info p {
         font-size: 16px !important;
     }
+
+    /* Footer */
+    .professional-footer .footer-column h3 {
+        font-size: 20px !important;
+    }
+
+    .professional-footer .footer-column a {
+        font-size: 16px !important;
+    }
+
+    .footer-description {
+        font-size: 15px !important;
+    }
+
+    .footer-contact-item p {
+        font-size: 15px !important;
+    }
+
+    .footer-social span {
+        font-size: 15px !important;
+    }
 }
 
-/* EXTRA SMALL PHONES */
 
-@media (max-width: 420px) {
+/* PHONE */
+@media (max-width: 768px) {
 
-    .overlay h1 {
-        font-size: 35px !important;
+    .time-box span {
+        font-size: 38px !important;
     }
 
-    .hero-tag {
-        font-size: 21px !important;
+    .time-box p {
+        font-size: 16px !important;
     }
 
-    .overlay p {
+    .contact-card h3 {
+        font-size: 26px !important;
+    }
+
+    .contact-card p {
         font-size: 17px !important;
     }
 
-    .hero-btn {
-        font-size: 18px !important;
-    }
-
-    .events h2 {
-        font-size: 32px !important;
-    }
-
     .event-card h3 {
-        font-size: 25px !important;
+        font-size: 26px !important;
     }
 
     .event-card p {
+        font-size: 17px !important;
+    }
+
+    .event-info p {
         font-size: 16px !important;
+    }
+
+    .professional-footer .footer-column h3 {
+        font-size: 20px !important;
+    }
+
+    .professional-footer .footer-column a {
+        font-size: 16px !important;
+    }
+
+    .footer-description {
+        font-size: 15px !important;
+    }
+
+    .footer-contact-item p {
+        font-size: 15px !important;
+    }
+
+    .footer-social span {
+        font-size: 15px !important;
+    }
+
+    .footer-copyright {
+        font-size: 13px !important;
+    }
+}
+/* ==========================================
+   CEG NAVBAR - SMALL SCREEN FIX
+   ========================================== */
+
+@media (max-width: 900px) {
+
+    nav {
+        padding: 12px 15px !important;
+    }
+
+    nav ul {
+        gap: 8px !important;
+    }
+
+    nav ul li a {
+        font-size: 15px !important;
+        padding: 8px 10px !important;
+    }
+}
+
+@media (max-width: 600px) {
+
+    nav ul {
+        gap: 4px !important;
+    }
+
+    nav ul li a {
+        font-size: 13px !important;
+        padding: 7px 7px !important;
     }
 }
