@@ -445,43 +445,76 @@ document.getElementById("eventName").textContent =
 
                 }
 
+// =========================================
+// SCAN QR
+// =========================================
+else if (
+    selectedPaymentMethod === "Scan QR"
+) {
 
-                // =========================================
-                // SCAN QR
-                // =========================================
+    detailsMethodIcon.textContent = "▦";
 
-                else if (
-                    selectedPaymentMethod ===
-                    "Scan QR"
-                ) {
+    detailsMethodTitle.textContent =
+        "QR Payment";
 
-                    detailsMethodIcon.textContent =
-                        "▦";
+    detailsMethodName.textContent =
+        "Scan QR";
 
-                    detailsMethodTitle.textContent =
-                        "QR Payment";
+    detailsMethodDescription.textContent =
+        "Scan the QR code using any UPI application.";
 
-                    detailsMethodName.textContent =
-                        "Scan QR";
+    upiDetails.classList.add("active");
 
-                    detailsMethodDescription.textContent =
-                        "Scan the QR code using your UPI application.";
+    const qrPaymentBox =
+        document.getElementById("qrPaymentBox");
 
-                    upiDetails.classList.add(
-                        "active"
-                    );
+    if (qrPaymentBox) {
+        qrPaymentBox.classList.add("active");
+    }
 
-                }
+    const qrContainer =
+        document.getElementById("paymentQRCode");
 
+    if (qrContainer && typeof QRCode !== "undefined") {
 
-                // =========================================
-                // CARD
-                // =========================================
+        qrContainer.innerHTML = "";
 
-                else if (
-                    selectedPaymentMethod ===
-                    "Credit / Debit Card"
-                ) {
+        const studentName =
+            student.fullname || "Student";
+
+        const eventName =
+            student.event || "College Event";
+
+        const detailsURL =
+            window.location.origin +
+            "/payment-details.html?name=" +
+            encodeURIComponent(studentName) +
+            "&event=" +
+            encodeURIComponent(eventName);
+
+        new QRCode(qrContainer, {
+            text: detailsURL,
+            width: 210,
+            height: 210
+        });
+    }
+}
+
+// =========================================
+// CARD
+// =========================================
+else if (
+    selectedPaymentMethod ===
+    "Credit / Debit Card"
+) {
+ 
+// =========================================
+// CARD
+// =========================================
+else if (
+    selectedPaymentMethod ===
+    "Credit / Debit Card"
+){
 
                     detailsMethodIcon.textContent =
                         "💳";

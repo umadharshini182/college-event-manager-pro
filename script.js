@@ -56,17 +56,21 @@ window.addEventListener("load", function () {
             const department = document.getElementById("department").value;
             const year = document.getElementById("year").value;
             const event = document.getElementById("event").value;
+           const studentData = {
+    fullname: document.querySelector('input[name="fullname"]').value,
+    email: document.querySelector('input[name="email"]').value,
+    college: document.querySelector('input[name="college"]').value,
+    department: document.getElementById("department").value,
+    year: document.getElementById("year").value,
+    event: document.getElementById("event").value
+};
 
-            localStorage.setItem("fullname", fullname);
-            localStorage.setItem("email", email);
-            localStorage.setItem("college", college);
-            localStorage.setItem("department", department);
-            localStorage.setItem("year", year);
-            localStorage.setItem("event", event);
+localStorage.setItem(
+    "studentData",
+    JSON.stringify(studentData)
+);
 
-            window.location.href = "payment.html";
-
-        });
+window.location.href = "payment.html";
 
     }
 

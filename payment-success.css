@@ -2242,3 +2242,147 @@
     }
 
 }
+/* =====================================================
+   PAYMENT PAGE RESPONSIVE FIX
+   ===================================================== */
+
+.payment-page {
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+    padding: 145px 20px 60px;
+}
+
+/* TABLET */
+@media (min-width: 600px) and (max-width: 768px) {
+
+    .payment-page {
+        padding: 155px 22px 50px;
+    }
+
+    .payment-main-card {
+        width: 100%;
+        max-width: 720px;
+        margin: 0 auto;
+    }
+
+    .payment-heading h1 {
+        font-size: 34px;
+    }
+
+}
+
+/* MOBILE */
+@media (max-width: 599px) {
+
+    .payment-page {
+        padding: 145px 14px 45px;
+    }
+
+    .payment-main-card {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 22px 16px !important;
+        box-sizing: border-box;
+    }
+
+    .payment-heading {
+        gap: 12px;
+        align-items: flex-start;
+    }
+
+    .payment-heading h1 {
+        font-size: 28px !important;
+        line-height: 1.2;
+    }
+
+    .payment-heading p {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .payment-lock {
+        font-size: 25px;
+    }
+
+    .order-row {
+        padding: 14px 0;
+        gap: 12px;
+    }
+
+    .order-row span {
+        font-size: 14px;
+    }
+
+    .order-row strong {
+        font-size: 15px;
+        text-align: right;
+        word-break: break-word;
+    }
+
+    .total-section {
+        padding: 18px 0;
+    }
+
+    .total-section strong {
+        font-size: 22px;
+    }
+
+    .main-pay-button {
+        width: 100%;
+        min-height: 54px;
+        font-size: 17px;
+    }
+
+    .payment-trust {
+        font-size: 12px;
+        text-align: center;
+        line-height: 1.6;
+    }
+}
+
+/* VERY SMALL PHONES */
+@media (max-width: 420px) {
+
+    .payment-page {
+        padding-top: 135px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .payment-main-card {
+        padding: 20px 13px !important;
+        border-radius: 18px;
+    }
+
+    .payment-heading h1 {
+        font-size: 25px !important;
+    }
+
+    .payment-heading p {
+        font-size: 13px;
+    }
+
+    .payment-lock {
+        font-size: 22px;
+    }
+
+    .order-row {
+        padding: 12px 0;
+    }
+
+    .order-row span {
+        font-size: 13px;
+    }
+
+    .order-row strong {
+        font-size: 14px;
+    }
+
+    .main-pay-button {
+        font-size: 16px;
+        min-height: 52px;
+    }
+
+}

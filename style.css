@@ -4024,19 +4024,144 @@ footer .copyright {
         font-size: 13px !important;
     }
 }
-/* REGISTRATION PAGE - SAME BACKGROUND AS HOME */
+@media (max-width: 768px) {
 
-body:has(.register-box) {
-    background:
-        linear-gradient(rgba(5,20,45,.78), rgba(5,20,45,.78)),
-        url("IMAGE FOR UMA EVENT.jpeg") !important;
+    .payment-box {
+        margin-top: 170px !important;
+        margin-left: 10px;
+        margin-right: 10px;
+        width: calc(100% - 20px);
+        padding: 25px 16px;
+    }
 
-    background-size: cover !important;
-    background-position: center !important;
-    background-attachment: fixed !important;
-    background-repeat: no-repeat !important;
 }
 
-body:has(.register-box) .details {
-    background: transparent !important;
+@media (max-width: 420px) {
+
+    .payment-box {
+        margin-top: 155px !important;
+        padding: 22px 14px;
+    }
+
+    .payment-box h1 {
+        font-size: 26px !important;
+        line-height: 1.2;
+    }
+
+}
+/* ================================
+   QR PAYMENT
+================================ */
+
+.qr-payment-box {
+    display: none;
+    text-align: center;
+    margin-top: 20px;
+    padding: 22px;
+    border: 1px solid #dbe5f5;
+    border-radius: 18px;
+    background: #f8fbff;
+}
+
+.qr-payment-box.active {
+    display: block;
+}
+
+.qr-payment-box h3 {
+    margin-bottom: 8px;
+    color: #17233c;
+}
+
+.qr-payment-box p {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.qr-image-wrapper {
+    width: 220px;
+    height: 220px;
+    margin: 18px auto;
+    padding: 10px;
+    background: #ffffff;
+    border-radius: 14px;
+    border: 1px solid #dbe5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.qr-payment-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.qr-amount {
+    display: block;
+    font-size: 24px;
+    color: #2458d8;
+    margin: 10px 0;
+}
+
+.qr-note {
+    margin-top: 12px;
+    font-size: 12px !important;
+}
+/* ================================
+   QR PAYMENT
+================================ */
+
+.qr-payment-box {
+    display: none;
+    text-align: center;
+    margin-top: 20px;
+    padding: 22px;
+    border: 1px solid #dbe5f5;
+    border-radius: 18px;
+    background: #f8fbff;
+}
+
+.qr-payment-box.active {
+    display: block;
+}
+
+.qr-payment-box h3 {
+    margin-bottom: 8px;
+    color: #17233c;
+}
+
+.qr-payment-box p {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.qr-image-wrapper {
+    width: 220px;
+    height: 220px;
+    margin: 18px auto;
+    padding: 10px;
+    background: #ffffff;
+    border-radius: 14px;
+    border: 1px solid #dbe5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.qr-payment-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.qr-amount {
+    display: block;
+    font-size: 24px;
+    color: #2458d8;
+    margin: 10px 0;
+}
+
+.qr-note {
+    margin-top: 12px;
+    font-size: 12px !important;
 }
