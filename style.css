@@ -4008,3 +4008,48 @@ footer .copyright {
         padding: 7px 7px !important;
     }
 }
+/* ==========================================
+   FOOTER TEXT SIZE FIX
+   ========================================== */
+
+@media (max-width: 1200px) {
+
+    .footer-box h3 {
+        font-size: 22px !important;
+    }
+
+    .footer-box p,
+    .footer-box a {
+        font-size: 17px !important;
+        line-height: 1.8 !important;
+    }
+
+    .footer-box i {
+        font-size: 22px !important;
+    }
+
+    .copyright {
+        font-size: 14px !important;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .footer-box h3 {
+        font-size: 22px !important;
+    }
+
+    .footer-box p,
+    .footer-box a {
+        font-size: 17px !important;
+        line-height: 1.8 !important;
+    }
+
+    .footer-box i {
+        font-size: 23px !important;
+    }
+
+    .copyright {
+        font-size: 14px !important;
+    }
+}
