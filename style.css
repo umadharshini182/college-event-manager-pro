@@ -2311,44 +2311,39 @@ body {
         line-height: 1.5;
     }
 
+  /* ---------- FOOTER ---------- */
 
-    /* ---------- FOOTER ---------- */
-
-    footer {
-        padding:
-            35px
-            18px
-            18px;
-
-        margin-top: 40px;
-    }
-
-    .footer-container {
-        grid-template-columns: 1fr;
-
-        gap: 25px;
-
-        text-align: center;
-    }
-
-    .footer-box h3 {
-        font-size: 19px;
-    }
-
-    .footer-box p,
-    .footer-box a {
-        font-size: 14px;
-
-        justify-content: center;
-    }
-
-    .copyright {
-        font-size: 12px;
-
-        line-height: 1.5;
-    }
+footer {
+    padding: 40px 20px 20px;
+    margin-top: 40px;
 }
 
+.footer-container {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    text-align: center;
+}
+
+.footer-box h3 {
+    font-size: 24px !important;
+    margin-bottom: 18px;
+}
+
+.footer-box p,
+.footer-box a {
+    font-size: 18px !important;
+    line-height: 1.8 !important;
+}
+
+.footer-box i {
+    font-size: 22px !important;
+}
+
+.copyright {
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+}
+    
 
 /* =========================================================
    EXTRA SMALL PHONES
