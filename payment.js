@@ -2,24 +2,41 @@
 // COLLEGE EVENT MANAGER
 // PAYMENT.JS
 // =========================================================
-
+alert("NEW PAYMENT JS LOADED");
 document.addEventListener("DOMContentLoaded", function () {
 
     // =====================================================
     // STUDENT DATA
     // =====================================================
+let student = null;
 
-    const student = JSON.parse(
-        localStorage.getItem("studentData")
-    );
+const savedData = localStorage.getItem("studentData");
 
-    if (!student) {
-        alert("Student data not found. Please register again.");
-        window.location.href = "register.html";
-        return;
+if (savedData) {
+    try {
+        student = JSON.parse(savedData);
+    } catch (error) {
+        console.error("Student data error:", error);
     }
+}
 
+if (!student || !student.fullname || !student.event) {
 
+    student = {
+        fullname: localStorage.getItem("fullname"),
+        email: localStorage.getItem("email"),
+        college: localStorage.getItem("college"),
+        department: localStorage.getItem("department"),
+        year: localStorage.getItem("year"),
+        event: localStorage.getItem("event")
+    };
+}
+
+if (!student.fullname || !student.event) {
+    alert("Student data not found. Please register again.");
+    window.location.href = "register.html";
+    return;
+}
     // =====================================================
     // MAIN PAGE
     // =====================================================
@@ -807,126 +824,3 @@ if (viewReceiptButton) {
     );
 
 }
-
-            // Prevent double registration
-
-            if (student.registrationId) {
-
-                window.location.href =
-                    "receipt.html";
-
-                return;
-            }
-
-
-            try {
-
-                viewReceiptButton.disabled = true;
-
-                viewReceiptButton.textContent =
-                    "Generating Receipt...";
-
-
-                // Send registration to backend
-
-                const response =
-                    await fetch("/register", {
-
-                        method: "POST",
-
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
-
-                        body:
-                            JSON.stringify(student)
-
-                    });
-
-
-                const result =
-                    await response.json();
-
-
-                console.log(
-                    "Registration response:",
-                    result
-                );
-
-
-                if (!result.success) {
-
-                    alert(
-                        result.message ||
-                        "Registration failed."
-                    );
-
-                    viewReceiptButton.disabled =
-                        false;
-
-                    viewReceiptButton.textContent =
-                        "View Receipt →";
-
-                    return;
-                }
-
-
-                // -----------------------------------------
-                // SAVE REAL REGISTRATION ID
-                // -----------------------------------------
-
-                student.registrationId =
-                    result.id;
-
-
-                // Create payment ID
-
-                student.paymentId =
-                    "PAY-" +
-                    Date.now();
-
-
-                // Save updated student data
-
-                localStorage.setItem(
-                    "studentData",
-                    JSON.stringify(student)
-                );
-
-
-                // -----------------------------------------
-                // OPEN RECEIPT
-                // -----------------------------------------
-
-                window.location.href =
-                    "receipt.html";
-
-            }
-
-            catch (error) {
-
-                console.error(
-                    "Registration error:",
-                    error
-                );
-
-                alert(
-                    "Unable to generate receipt. Please try again."
-                );
-
-
-                viewReceiptButton.disabled =
-                    false;
-
-                viewReceiptButton.textContent =
-                    "View Receipt →";
-
-            }
-
-        }
-    );
-
-}
-
-});
