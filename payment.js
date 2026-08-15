@@ -819,3 +819,4 @@ if (viewReceiptButton) {
     );
 
 }
+});
