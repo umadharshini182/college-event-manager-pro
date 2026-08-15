@@ -4028,20 +4028,15 @@ footer .copyright {
         font-size: 13px !important;
     }
 }
-/* FINAL DARK GLASS FORM */
+/* FIX CHROME AUTOFILL WHITE BACKGROUND */
 
-.register-box input,
-.register-box select {
-    background: rgba(255,255,255,0.12) !important;
+.register-box input:-webkit-autofill,
+.register-box input:-webkit-autofill:hover,
+.register-box input:-webkit-autofill:focus,
+.register-box select:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px rgba(255,255,255,0.12) inset !important;
+    box-shadow: 0 0 0 1000px rgba(255,255,255,0.12) inset !important;
+    -webkit-text-fill-color: #FFFFFF !important;
     color: #FFFFFF !important;
-    border: 1px solid rgba(255,255,255,0.20) !important;
-}
-
-.register-box input::placeholder {
-    color: #CBD5E1 !important;
-}
-
-.register-box select option {
-    background: #0B3D91 !important;
-    color: #FFFFFF !important;
+    transition: background-color 5000s ease-in-out 0s;
 }
