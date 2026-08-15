@@ -607,14 +607,6 @@ nav ul li a{
 ========================================== */
 .details {
     padding: 90px 8%;
-
-    background: linear-gradient(
-        135deg,
-        #1d4ed8,
-        #7c3aed,
-        #db2777,
-        #f97316
-    );
 }
 
 .details h2{
@@ -4031,4 +4023,20 @@ footer .copyright {
     footer .copyright {
         font-size: 13px !important;
     }
+}
+/* REGISTRATION PAGE - SAME BACKGROUND AS HOME */
+
+body:has(.register-box) {
+    background:
+        linear-gradient(rgba(5,20,45,.78), rgba(5,20,45,.78)),
+        url("IMAGE FOR UMA EVENT.jpeg") !important;
+
+    background-size: cover !important;
+    background-position: center !important;
+    background-attachment: fixed !important;
+    background-repeat: no-repeat !important;
+}
+
+body:has(.register-box) .details {
+    background: transparent !important;
 }
