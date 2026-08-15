@@ -493,10 +493,11 @@ else if (
             encodeURIComponent(eventName);
 
         new QRCode(qrContainer, {
-            text: detailsURL,
-            width: 210,
-            height: 210
-        });
+    text: detailsURL,
+    width: 280,
+    height: 280,
+    correctLevel: QRCode.CorrectLevel.H
+});
     }
 }
  
