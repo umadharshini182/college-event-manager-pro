@@ -990,13 +990,9 @@ footer{
     height: 60px;
     padding: 0 18px;
     border-radius: 14px;
-
-    border: 1px solid #CBD5E1;
-
-    background: #FFFFFF;
-
-    color: #0F172A;
-
+    border: 1px solid rgba(255,255,255,.15);
+    background: rgba(255,255,255,.12);
+    color: #FFFFFF;
     font-size: 17px;
     font-family: 'Poppins', sans-serif;
 }
