@@ -991,7 +991,7 @@ footer{
     padding: 0 18px;
     border-radius: 14px;
     border: 1px solid rgba(255,255,255,.15);
-    background: rgba(255,255,255,.12);
+    background: rgba(6, 19, 42, 0.45);
     color: #FFFFFF;
     font-size: 17px;
     font-family: 'Poppins', sans-serif;
@@ -1001,14 +1001,13 @@ footer{
     color: #64748B;
     opacity: 1;
 }
-
 .register-box select {
-    color: #0F172A;
+    color: #FFFFFF;
 }
 
 .register-box select option {
-    background: #FFFFFF;
-    color: #0F172A;
+    background: #06132A;
+    color: #FFFFFF;
 }
 
 .register-box input:focus,
