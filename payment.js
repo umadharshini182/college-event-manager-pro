@@ -46,16 +46,11 @@ if (!student.fullname || !student.event) {
 
     const eventName =
         document.getElementById("eventName");
+     document.getElementById("studentName").textContent =
+    student.fullname;
 
-    if (studentName) {
-        studentName.textContent =
-            student.fullname || "-";
-    }
-
-    if (eventName) {
-        eventName.textContent =
-            student.event || "-";
-    }
+document.getElementById("eventName").textContent =
+    student.event;
 
 
     // =====================================================
