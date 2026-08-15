@@ -4009,47 +4009,42 @@ footer .copyright {
     }
 }
 /* ==========================================
-   FOOTER TEXT SIZE FIX
+   FINAL FOOTER TEXT FIX
    ========================================== */
 
-@media (max-width: 1200px) {
+@media (max-width: 768px) {
 
-    .footer-box h3 {
-        font-size: 22px !important;
+    footer .footer-box h3 {
+        font-size: 24px !important;
     }
 
-    .footer-box p,
-    .footer-box a {
-        font-size: 17px !important;
+    footer .footer-box p,
+    footer .footer-box a {
+        font-size: 18px !important;
         line-height: 1.8 !important;
     }
 
-    .footer-box i {
-        font-size: 22px !important;
+    footer .footer-box i {
+        font-size: 24px !important;
     }
 
-    .copyright {
+    footer .copyright {
         font-size: 14px !important;
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 500px) {
 
-    .footer-box h3 {
+    footer .footer-box h3 {
         font-size: 22px !important;
     }
 
-    .footer-box p,
-    .footer-box a {
+    footer .footer-box p,
+    footer .footer-box a {
         font-size: 17px !important;
-        line-height: 1.8 !important;
     }
 
-    .footer-box i {
-        font-size: 23px !important;
-    }
-
-    .copyright {
-        font-size: 14px !important;
+    footer .copyright {
+        font-size: 13px !important;
     }
 }
