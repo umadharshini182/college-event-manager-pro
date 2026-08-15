@@ -4028,3 +4028,20 @@ footer .copyright {
         font-size: 13px !important;
     }
 }
+/* FINAL DARK GLASS FORM */
+
+.register-box input,
+.register-box select {
+    background: rgba(255,255,255,0.12) !important;
+    color: #FFFFFF !important;
+    border: 1px solid rgba(255,255,255,0.20) !important;
+}
+
+.register-box input::placeholder {
+    color: #CBD5E1 !important;
+}
+
+.register-box select option {
+    background: #0B3D91 !important;
+    color: #FFFFFF !important;
+}
