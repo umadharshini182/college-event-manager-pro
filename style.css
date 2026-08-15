@@ -984,42 +984,35 @@ footer{
 }
 
 /* INPUT */
-
 .register-box input,
-.register-box select{
+.register-box select {
+    width: 100%;
+    height: 60px;
+    padding: 0 18px;
+    border-radius: 14px;
 
-    width:100%;
+    border: 1px solid #CBD5E1;
 
-    height:60px;
+    background: #FFFFFF;
 
-    padding:0 18px;
+    color: #0F172A;
 
-    border-radius:14px;
-
-    border:1px solid rgba(255,255,255,.15);
-
-    background:rgba(255,255,255,.12);
-
-    color:#fff;
-
-    font-size:17px;
-
-    transition:.3s;
-
-}
-.register-box select{
-    color:#ffffff;
+    font-size: 17px;
+    font-family: 'Poppins', sans-serif;
 }
 
-.register-box select option{
-    background:#0B3D91;
-    color:#ffffff;
+.register-box input::placeholder {
+    color: #64748B;
+    opacity: 1;
 }
 
-.register-box input::placeholder{
+.register-box select {
+    color: #0F172A;
+}
 
-    color:#CBD5E1;
-
+.register-box select option {
+    background: #FFFFFF;
+    color: #0F172A;
 }
 
 .register-box input:focus,
@@ -2110,20 +2103,16 @@ body {
 
         margin-bottom: 7px;
     }
+.register-box input,
+.register-box select {
+    width: 100%;
+    height: 52px;
+    padding:
+        0
+        14px;
 
-    .register-box input,
-    .register-box select {
-        width: 100%;
-
-        height: 52px;
-
-        padding:
-            0
-            14px;
-
-        font-size: 15px;
-    }
-
+    font-size: 17px;
+}
     .submit-btn {
         height: 54px;
 
