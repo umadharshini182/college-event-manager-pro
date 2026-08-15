@@ -2,7 +2,6 @@
 // COLLEGE EVENT MANAGER
 // PAYMENT.JS
 // =========================================================
-alert("NEW PAYMENT JS LOADED");
 document.addEventListener("DOMContentLoaded", function () {
 
     // =====================================================
