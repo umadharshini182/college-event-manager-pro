@@ -10,11 +10,11 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Registration Verification | College Event Manager</title>
+    <title>QR Payment | College Event Manager</title>
 
     <link
         rel="stylesheet"
-        href="payment-details.css"
+        href="payment-details.css?v=2"
     >
 
 </head>
@@ -41,8 +41,8 @@
         </a>
 
 
-        <span class="verified-status">
-            ✓ Verified
+        <span class="secure-status">
+            🔒 Secure Payment
         </span>
 
     </header>
@@ -51,190 +51,460 @@
 
     <!-- MAIN -->
 
-    <main class="details-page">
+    <main class="qr-payment-page">
 
 
-        <section class="details-card">
+        <section class="qr-payment-card">
 
 
-            <!-- SUCCESS ICON -->
+            <!-- =================================
+                 STEP INDICATOR
+                 ================================= -->
 
-            <div class="verification-circle">
-                ✓
+            <div class="payment-steps">
+
+                <div
+                    class="payment-step active"
+                    id="step1"
+                >
+
+                    <span>1</span>
+
+                    <small>
+                        Payment
+                    </small>
+
+                </div>
+
+
+                <div class="step-line"></div>
+
+
+                <div
+                    class="payment-step"
+                    id="step2"
+                >
+
+                    <span>2</span>
+
+                    <small>
+                        Processing
+                    </small>
+
+                </div>
+
+
+                <div class="step-line"></div>
+
+
+                <div
+                    class="payment-step"
+                    id="step3"
+                >
+
+                    <span>3</span>
+
+                    <small>
+                        Confirmed
+                    </small>
+
+                </div>
+
             </div>
 
 
-            <span class="verification-label">
-                REGISTRATION VERIFIED
-            </span>
+
+            <!-- =================================
+                 PAYMENT SCREEN
+                 ================================= -->
+
+            <section
+                id="paymentScreen"
+                class="flow-screen active"
+            >
+
+                <div class="screen-icon payment-icon">
+                    ₹
+                </div>
 
 
-            <h1>
-                Registration Details
-            </h1>
-
-
-            <p class="details-intro">
-
-                The QR code has been successfully
-                verified. The registration information
-                is shown below.
-
-            </p>
-
-
-
-            <!-- EVENT CARD -->
-
-            <div class="event-highlight">
-
-                <span>
-                    REGISTERED EVENT
+                <span class="screen-label">
+                    QR PAYMENT
                 </span>
 
-                <strong id="eventName">
-                    Loading...
-                </strong>
 
-            </div>
-
+                <h1>
+                    Confirm Your Payment
+                </h1>
 
 
-            <!-- DETAILS -->
+                <p class="screen-description">
 
-            <div class="details-list">
+                    Your registration details have been
+                    verified. Continue to complete the
+                    demonstration payment.
+
+                </p>
 
 
-                <div class="details-row">
 
-                    <div class="detail-label">
-                        Student Name
+                <!-- AMOUNT -->
+
+                <div class="amount-box">
+
+                    <span>
+                        Registration Fee
+                    </span>
+
+                    <strong>
+                        ₹1,000
+                    </strong>
+
+                </div>
+
+
+
+                <!-- STUDENT -->
+
+                <div class="student-box">
+
+                    <div>
+
+                        <span>
+                            Student
+                        </span>
+
+                        <strong id="studentName">
+                            Loading...
+                        </strong>
+
                     </div>
 
-                    <div
-                        class="detail-value"
-                        id="studentName"
-                    >
-                        Loading...
+
+                    <div>
+
+                        <span>
+                            Event
+                        </span>
+
+                        <strong id="eventName">
+                            Loading...
+                        </strong>
+
                     </div>
 
                 </div>
 
 
-                <div class="details-row">
 
-                    <div class="detail-label">
-                        Email
-                    </div>
+                <!-- DEMO NOTICE -->
 
-                    <div
-                        class="detail-value"
-                        id="studentEmail"
-                    >
-                        Loading...
-                    </div>
+                <div class="demo-notice">
 
-                </div>
+                    <span>
+                        ✓
+                    </span>
 
+                    <div>
 
-                <div class="details-row">
+                        <strong>
+                            College Project Demo
+                        </strong>
 
-                    <div class="detail-label">
-                        College
-                    </div>
+                        <p>
+                            No real money will be charged.
+                        </p>
 
-                    <div
-                        class="detail-value"
-                        id="collegeName"
-                    >
-                        Loading...
                     </div>
 
                 </div>
 
 
-                <div class="details-row">
 
-                    <div class="detail-label">
-                        Department
-                    </div>
+                <button
+                    type="button"
+                    id="payNowButton"
+                    class="primary-action"
+                >
 
-                    <div
-                        class="detail-value"
-                        id="departmentName"
-                    >
-                        Loading...
-                    </div>
+                    Confirm & Pay ₹1,000
+
+                    <span>
+                        →
+                    </span>
+
+                </button>
+
+
+                <p class="security-text">
+                    🔒 Secure demo checkout
+                </p>
+
+            </section>
+
+
+
+            <!-- =================================
+                 PROCESSING SCREEN
+                 ================================= -->
+
+            <section
+                id="processingScreen"
+                class="flow-screen"
+            >
+
+                <div class="processing-loader">
+
+                    <div class="loader-ring"></div>
 
                 </div>
 
 
-                <div class="details-row">
+                <span class="screen-label">
+                    SECURE PROCESSING
+                </span>
 
-                    <div class="detail-label">
-                        Academic Year
-                    </div>
+
+                <h1 id="processingTitle">
+                    Processing Payment
+                </h1>
+
+
+                <p
+                    id="processingMessage"
+                    class="screen-description"
+                >
+                    Connecting securely to the payment service...
+                </p>
+
+
+
+                <div class="progress-track">
 
                     <div
-                        class="detail-value"
-                        id="studentYear"
-                    >
-                        Loading...
-                    </div>
+                        id="progressBar"
+                        class="progress-bar"
+                    ></div>
 
                 </div>
 
 
-            </div>
+                <span
+                    id="processingStep"
+                    class="processing-step"
+                >
+                    Step 1 of 3
+                </span>
+
+            </section>
 
 
 
-            <!-- VERIFICATION MESSAGE -->
+            <!-- =================================
+                 CONFIRMED SCREEN
+                 ================================= -->
 
-            <div class="verification-message">
+            <section
+                id="confirmedScreen"
+                class="flow-screen"
+            >
 
-
-                <div class="message-icon">
+                <div class="success-circle">
                     ✓
                 </div>
 
 
-                <div>
+                <span class="screen-label success-label">
+                    PAYMENT CONFIRMED
+                </span>
 
-                    <strong>
-                        QR Verification Successful
-                    </strong>
 
-                    <p>
+                <h1>
+                    Payment Confirmed
+                </h1>
 
-                        These details were encoded
-                        in the registration QR code.
 
-                    </p>
+                <p class="screen-description">
+
+                    Your payment has been successfully
+                    confirmed and your event registration
+                    is being finalized.
+
+                </p>
+
+
+
+                <div class="confirmed-box">
+
+                    <div>
+
+                        <span>
+                            Amount Paid
+                        </span>
+
+                        <strong>
+                            ₹1,000
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Student
+                        </span>
+
+                        <strong id="confirmedStudent">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Event
+                        </span>
+
+                        <strong id="confirmedEvent">
+                            -
+                        </strong>
+
+                    </div>
 
                 </div>
 
 
-            </div>
+                <button
+                    type="button"
+                    id="continueButton"
+                    class="primary-action"
+                >
+
+                    Continue
+
+                    <span>
+                        →
+                    </span>
+
+                </button>
+
+            </section>
 
 
 
-            <div class="verification-time">
+            <!-- =================================
+                 FINAL SUCCESS SCREEN
+                 ================================= -->
 
-                Verified digitally •
-                College Event Manager
-
-            </div>
-
-
-            <a
-                href="index.html"
-                class="home-button"
+            <section
+                id="successScreen"
+                class="flow-screen"
             >
 
-                ← Back to Event Manager
+                <div class="success-circle final-success">
+                    ✓
+                </div>
 
-            </a>
+
+                <span class="screen-label success-label">
+                    TRANSACTION SUCCESSFUL
+                </span>
+
+
+                <h1>
+                    Registration Confirmed
+                </h1>
+
+
+                <p class="screen-description">
+
+                    Your payment and event registration
+                    have been successfully completed.
+
+                </p>
+
+
+
+                <div class="receipt-summary">
+
+                    <div>
+
+                        <span>
+                            Amount Paid
+                        </span>
+
+                        <strong>
+                            ₹1,000
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Payment Method
+                        </span>
+
+                        <strong>
+                            QR Payment
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Event
+                        </span>
+
+                        <strong id="successEvent">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Transaction ID
+                        </span>
+
+                        <strong id="transactionId">
+                            -
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <button
+                    type="button"
+                    id="receiptButton"
+                    class="primary-action"
+                >
+
+                    View Receipt
+
+                    <span>
+                        →
+                    </span>
+
+                </button>
+
+
+                <p class="security-text">
+                    Registration confirmed • College Event Manager
+                </p>
+
+            </section>
 
 
         </section>
@@ -244,7 +514,7 @@
 
 
 
-    <script src="payment-details.js"></script>
+    <script src="payment-details.js?v=2"></script>
 
 </body>
 
