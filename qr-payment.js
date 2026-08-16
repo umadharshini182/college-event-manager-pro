@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
 
+    // Get registration data
     let student = null;
 
     const savedData =
@@ -9,10 +10,11 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
             student = JSON.parse(savedData);
         } catch (error) {
-            console.error("Unable to read student data:", error);
+            console.error("Could not read student data:", error);
         }
     }
 
+    // Fallback
     if (!student) {
         student = {
             fullname: localStorage.getItem("fullname") || "Student",
@@ -24,6 +26,8 @@ document.addEventListener("DOMContentLoaded", function () {
         };
     }
 
+
+    // Show student name
     const studentName =
         document.getElementById("qrStudentName");
 
@@ -32,6 +36,8 @@ document.addEventListener("DOMContentLoaded", function () {
             student.fullname || "Student";
     }
 
+
+    // QR container
     const qrContainer =
         document.getElementById("registrationQRCode");
 
@@ -39,26 +45,14 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-    if (typeof QRCode === "undefined") {
-        qrContainer.innerHTML = `
-            <p style="
-                color:#dc2626;
-                font-size:12px;
-                text-align:center;
-            ">
-                QR service could not be loaded.
-                Please refresh the page.
-            </p>
-        `;
 
-        return;
-    }
-
+    // Build the page that should open after scanning
     const detailsURL =
         new URL(
             "payment-details.html",
             window.location.href
         );
+
 
     detailsURL.searchParams.set(
         "name",
@@ -90,17 +84,46 @@ document.addEventListener("DOMContentLoaded", function () {
         student.event || "College Event"
     );
 
-    new QRCode(
-        qrContainer,
-        {
-            text: detailsURL.toString(),
-            width: 276,
-            height: 276,
-            colorDark: "#000000",
-            colorLight: "#ffffff",
-            correctLevel: QRCode.CorrectLevel.H
-        }
-    );
+
+    // Create QR image
+    const qrImage =
+        document.createElement("img");
+
+    qrImage.alt =
+        "Registration Verification QR Code";
+
+    qrImage.className =
+        "real-qr-image";
+
+
+    qrImage.src =
+        "https://api.qrserver.com/v1/create-qr-code/" +
+        "?size=500x500" +
+        "&margin=15" +
+        "&data=" +
+        encodeURIComponent(
+            detailsURL.toString()
+        );
+
+
+    // Add image
+    qrContainer.innerHTML = "";
+
+    qrContainer.appendChild(qrImage);
+
+
+    // Error handling
+    qrImage.onerror = function () {
+
+        qrContainer.innerHTML = `
+            <div class="qr-error">
+                <strong>QR could not be loaded</strong>
+                <span>Please refresh the page.</span>
+            </div>
+        `;
+
+    };
+
 
     console.log(
         "QR destination:",
