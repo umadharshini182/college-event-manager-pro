@@ -1359,3 +1359,529 @@ body {
     }
 
 }
+/* =========================================
+   UPI APP CHECKOUT SCREEN
+   ========================================= */
+
+.payment-app-overlay {
+    position: fixed;
+    inset: 0;
+
+    z-index: 20000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(15, 23, 42, 0.76);
+
+    overflow-y: auto;
+}
+
+
+.payment-app-card {
+    width: 100%;
+    max-width: 460px;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
+    border-radius: 24px;
+
+    box-shadow:
+        0 30px 90px rgba(0, 0, 0, 0.28);
+
+    animation:
+        paymentAppAppear 0.3s ease;
+}
+
+
+@keyframes paymentAppAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+}
+
+
+/* =========================================
+   TOP BAR
+   ========================================= */
+
+.payment-app-top {
+    height: 64px;
+
+    padding: 0 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border-bottom: 1px solid #edf1f5;
+
+    background: #ffffff;
+
+    color: #172033;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+
+.payment-app-back {
+    width: 38px;
+    height: 38px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #f1f5f9;
+
+    color: #172033;
+
+    font-family: inherit;
+
+    font-size: 21px;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+
+.payment-app-back:hover {
+    background: #e2e8f0;
+}
+
+
+.top-spacer {
+    width: 38px;
+}
+
+
+/* =========================================
+   CONTENT
+   ========================================= */
+
+.payment-app-content {
+    padding: 32px 28px 28px;
+
+    text-align: center;
+}
+
+
+/* =========================================
+   APP LOGOS
+   ========================================= */
+
+.payment-app-logo {
+    width: 70px;
+    height: 70px;
+
+    margin: 0 auto 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 20px;
+
+    font-size: 35px;
+    font-weight: 800;
+}
+
+
+/* GOOGLE PAY */
+
+.demo-gpay {
+    background: #f1f5f9;
+
+    color: #4285f4;
+}
+
+
+/* PHONEPE */
+
+.demo-phonepe {
+    background: #eee7ff;
+
+    color: #673ab7;
+}
+
+
+/* PAYTM */
+
+.demo-paytm {
+    background: #e7f7ff;
+
+    color: #007bff;
+}
+
+
+/* OTHER UPI */
+
+.demo-upi {
+    background: #e9f9f0;
+
+    color: #15803d;
+
+    font-size: 15px;
+}
+
+
+/* BANK */
+
+.demo-bank {
+    background: #eef2ff;
+
+    color: #4338ca;
+
+    font-size: 27px;
+}
+
+
+/* =========================================
+   APP TITLE
+   ========================================= */
+
+.payment-app-content h2 {
+    margin: 0;
+
+    color: #172033;
+
+    font-size: 25px;
+
+    letter-spacing: -0.3px;
+}
+
+
+.payment-app-subtitle {
+    margin: 7px 0 22px;
+
+    color: #64748b;
+
+    font-size: 12px;
+}
+
+
+/* =========================================
+   AMOUNT
+   ========================================= */
+
+.payment-app-amount {
+    padding: 18px;
+
+    margin-bottom: 14px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    border: 1px solid #dbe7fa;
+
+    border-radius: 16px;
+
+    background: #f7faff;
+
+    text-align: left;
+}
+
+
+.payment-app-amount span {
+    color: #64748b;
+
+    font-size: 11px;
+}
+
+
+.payment-app-amount strong {
+    color: #2563eb;
+
+    font-size: 25px;
+}
+
+
+/* =========================================
+   PAYMENT DETAILS
+   ========================================= */
+
+.payment-app-details {
+    overflow: hidden;
+
+    border: 1px solid #e1e7ef;
+
+    border-radius: 15px;
+
+    text-align: left;
+}
+
+
+.payment-app-details div {
+    min-height: 54px;
+
+    padding: 11px 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    border-bottom: 1px solid #edf1f5;
+}
+
+
+.payment-app-details div:last-child {
+    border-bottom: none;
+}
+
+
+.payment-app-details span {
+    color: #64748b;
+
+    font-size: 11px;
+}
+
+
+.payment-app-details strong {
+    max-width: 60%;
+
+    color: #172033;
+
+    font-size: 11px;
+
+    text-align: right;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================
+   DEMO NOTICE
+   ========================================= */
+
+.payment-app-demo {
+    margin-top: 17px;
+
+    padding: 13px;
+
+    display: flex;
+    align-items: flex-start;
+
+    gap: 11px;
+
+    border: 1px solid #dce8fb;
+
+    border-radius: 14px;
+
+    background: #f7faff;
+
+    text-align: left;
+}
+
+
+.demo-check {
+    width: 30px;
+    height: 30px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #2563eb;
+
+    color: #ffffff;
+
+    font-size: 12px;
+
+    font-weight: 800;
+}
+
+
+.payment-app-demo strong {
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: #172033;
+
+    font-size: 11px;
+}
+
+
+.payment-app-demo p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 9px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   CONTINUE
+   ========================================= */
+
+.confirm-app-payment {
+    width: 100%;
+
+    min-height: 52px;
+
+    margin-top: 18px;
+
+    padding: 14px 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    background: #2563eb;
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    font-weight: 750;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+
+.confirm-app-payment:hover {
+    background: #1d4ed8;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 8px 20px rgba(37, 99, 235, 0.2);
+}
+
+
+.payment-app-security {
+    margin: 11px 0 0;
+
+    color: #94a3b8;
+
+    font-size: 9px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 600px) {
+
+    .payment-app-overlay {
+        padding: 0;
+
+        align-items: stretch;
+    }
+
+
+    .payment-app-card {
+        max-width: none;
+
+        min-height: 100vh;
+
+        border-radius: 0;
+
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    .payment-app-content {
+        width: 100%;
+
+        max-width: 500px;
+
+        margin: auto;
+
+        padding: 30px 20px 35px;
+    }
+
+
+    .payment-app-logo {
+        width: 64px;
+        height: 64px;
+
+        margin-bottom: 16px;
+
+        border-radius: 18px;
+
+        font-size: 32px;
+    }
+
+
+    .payment-app-content h2 {
+        font-size: 23px;
+    }
+
+
+    .payment-app-amount strong {
+        font-size: 23px;
+    }
+
+}
+
+
+/* =========================================
+   VERY SMALL PHONES
+   ========================================= */
+
+@media (max-width: 360px) {
+
+    .payment-app-content {
+        padding: 24px 15px 28px;
+    }
+
+
+    .payment-app-top {
+        height: 58px;
+    }
+
+
+    .payment-app-details div {
+        min-height: 50px;
+
+        padding: 9px 12px;
+    }
+
+
+    .payment-app-details span,
+    .payment-app-details strong {
+        font-size: 10px;
+    }
+
+}

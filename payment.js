@@ -253,30 +253,24 @@ document.addEventListener("DOMContentLoaded", function () {
     // ==========================================
     // CONTINUE PAYMENT
     // ==========================================
+if (continueButton) {
 
-    if (continueButton) {
+    continueButton.addEventListener(
+        "click",
+        function () {
 
-        continueButton.addEventListener(
-            "click",
-            function () {
-
-                if (!selectedPaymentMethod) {
-
-                    return;
-
-                }
-
-
-                startPaymentProcess(
-                    selectedPaymentMethod
-                );
-
+            if (!selectedPaymentMethod) {
+                return;
             }
-        );
 
-    }
+            openPaymentAppScreen(
+                selectedPaymentMethod
+            );
 
+        }
+    );
 
+}
     // ==========================================
     // PAYMENT PROCESSING ELEMENTS
     // ==========================================
@@ -335,7 +329,253 @@ document.addEventListener("DOMContentLoaded", function () {
     // ==========================================
     // START PAYMENT PROCESS
     // ==========================================
+    function openPaymentAppScreen(method) {
 
+    let appName = method;
+    let appLetter = "UPI";
+    let appClass = "demo-upi";
+
+    if (method === "Google Pay") {
+
+        appName = "Google Pay";
+        appLetter = "G";
+        appClass = "demo-gpay";
+
+    }
+
+    else if (method === "PhonePe") {
+
+        appName = "PhonePe";
+        appLetter = "P";
+        appClass = "demo-phonepe";
+
+    }
+
+    else if (method === "Paytm") {
+
+        appName = "Paytm";
+        appLetter = "P";
+        appClass = "demo-paytm";
+
+    }
+
+    else if (method === "Other UPI") {
+
+        appName = "UPI Payment";
+        appLetter = "UPI";
+        appClass = "demo-upi";
+
+    }
+
+    else {
+
+        appName = method;
+        appLetter = "🏦";
+        appClass = "demo-bank";
+
+    }
+
+
+    const overlay =
+        document.createElement("div");
+
+    overlay.className =
+        "payment-app-overlay";
+
+
+    overlay.innerHTML = `
+
+        <div class="payment-app-card">
+
+            <div class="payment-app-top">
+
+                <button
+                    type="button"
+                    class="payment-app-back"
+                    id="paymentAppBack"
+                >
+                    ←
+                </button>
+
+                <span>
+                    Secure Checkout
+                </span>
+
+                <span class="top-spacer"></span>
+
+            </div>
+
+
+            <div class="payment-app-content">
+
+                <div class="payment-app-logo ${appClass}">
+                    ${appLetter}
+                </div>
+
+
+                <h2>
+                    ${appName}
+                </h2>
+
+
+                <p class="payment-app-subtitle">
+                    College Event Manager
+                </p>
+
+
+                <div class="payment-app-amount">
+
+                    <span>
+                        Amount to Pay
+                    </span>
+
+                    <strong>
+                        ₹1,000
+                    </strong>
+
+                </div>
+
+
+                <div class="payment-app-details">
+
+                    <div>
+
+                        <span>
+                            Student
+                        </span>
+
+                        <strong>
+                            ${student.fullname || "Student"}
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Event
+                        </span>
+
+                        <strong>
+                            ${student.event || "College Event"}
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Registration Fee
+                        </span>
+
+                        <strong>
+                            ₹1,000
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="payment-app-demo">
+
+                    <span class="demo-check">
+                        ✓
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            College Project Demo
+                        </strong>
+
+                        <p>
+                            This is a demonstration payment.
+                            No real money will be charged.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="confirmAppPayment"
+                    class="confirm-app-payment"
+                >
+
+                    Continue with ${appName}
+
+                    <span>
+                        →
+                    </span>
+
+                </button>
+
+
+                <p class="payment-app-security">
+
+                    🔒 No PIN, OTP or bank password
+                    is requested.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    document.body.appendChild(
+        overlay
+    );
+
+    document.body.style.overflow =
+        "hidden";
+
+
+    // BACK
+
+    document
+        .getElementById("paymentAppBack")
+        .addEventListener(
+            "click",
+            function () {
+
+                overlay.remove();
+
+                document.body.style.overflow =
+                    "";
+
+            }
+        );
+
+
+    // CONTINUE
+
+    document
+        .getElementById("confirmAppPayment")
+        .addEventListener(
+            "click",
+            function () {
+
+                overlay.remove();
+
+                document.body.style.overflow =
+                    "";
+
+                startPaymentProcess(
+                    method
+                );
+
+            }
+        );
+
+}
     function startPaymentProcess(method) {
 
         // Save selected method
