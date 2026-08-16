@@ -1,0 +1,849 @@
+/* =========================================
+   PAYMENT PAGE - PROFESSIONAL RESPONSIVE UI
+   ========================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #172033;
+}
+
+
+/* =========================================
+   NAVBAR
+   ========================================= */
+
+.navbar {
+    width: 100%;
+    min-height: 70px;
+    padding: 0 7%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: #ffffff;
+    border-bottom: 1px solid #e5eaf2;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.nav-links {
+    display: flex;
+    gap: 28px;
+}
+
+.nav-links a {
+    color: #475569;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.nav-links a:hover {
+    color: #2563eb;
+}
+
+
+/* =========================================
+   PAGE
+   ========================================= */
+
+.payment-page {
+    min-height: calc(100vh - 70px);
+    padding: 50px 20px;
+}
+
+.payment-container {
+    width: 100%;
+    max-width: 1100px;
+    margin: auto;
+
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 28px;
+    align-items: start;
+}
+
+
+/* =========================================
+   LEFT SUMMARY
+   ========================================= */
+
+.payment-summary {
+    background: #ffffff;
+    border: 1px solid #e3e8f0;
+    border-radius: 20px;
+    padding: 32px;
+}
+
+.secure-badge {
+    display: inline-block;
+
+    padding: 7px 12px;
+    margin-bottom: 18px;
+
+    border-radius: 20px;
+
+    background: #eef6ff;
+    color: #2563eb;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.payment-summary h1 {
+    margin: 0 0 12px;
+
+    font-size: 32px;
+    line-height: 1.2;
+}
+
+.subtitle {
+    margin: 0 0 28px;
+
+    color: #64748b;
+    line-height: 1.6;
+}
+
+
+/* =========================================
+   REGISTRATION CARD
+   ========================================= */
+
+.registration-card {
+    padding: 20px;
+
+    border: 1px solid #e3e8f0;
+    border-radius: 16px;
+
+    background: #ffffff;
+}
+
+.summary-row,
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 15px;
+    padding: 14px 0;
+}
+
+.summary-row span,
+.total-row span {
+    color: #64748b;
+}
+
+.summary-row strong {
+    text-align: right;
+    word-break: break-word;
+}
+
+.summary-divider {
+    width: 100%;
+    height: 1px;
+
+    background: #e5e7eb;
+}
+
+.total-row {
+    padding-bottom: 0;
+    font-size: 18px;
+}
+
+.total-row strong {
+    color: #2563eb;
+}
+
+
+/* =========================================
+   DEMO NOTICE
+   ========================================= */
+
+.demo-notice {
+    display: flex;
+    gap: 12px;
+
+    margin-top: 20px;
+    padding: 16px;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+
+    background: #f8fafc;
+}
+
+.demo-notice > span {
+    font-size: 20px;
+}
+
+.demo-notice strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.demo-notice p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   PAYMENT CARD
+   ========================================= */
+
+.payment-card {
+    padding: 30px;
+
+    background: #ffffff;
+    border: 1px solid #e3e8f0;
+    border-radius: 20px;
+}
+
+.payment-card-header {
+    margin-bottom: 25px;
+}
+
+.payment-card-header h2 {
+    margin: 0 0 7px;
+    font-size: 23px;
+}
+
+.payment-card-header p {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+}
+
+
+/* =========================================
+   PAYMENT SECTION
+   ========================================= */
+
+.payment-section {
+    margin-bottom: 25px;
+}
+
+.payment-section h3 {
+    margin: 0 0 12px;
+
+    color: #334155;
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   UPI OPTIONS
+   ========================================= */
+
+.payment-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+
+/* =========================================
+   COMMON BUTTONS
+   ========================================= */
+
+.payment-option,
+.bank-option,
+.card-option {
+    min-height: 60px;
+
+    padding: 10px 12px;
+
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    border: 1px solid #dce3ec;
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    color: #172033;
+
+    cursor: pointer;
+
+    font-family: inherit;
+    font-size: 14px;
+
+    transition: 0.2s ease;
+}
+
+.payment-option:hover,
+.bank-option:hover,
+.card-option:hover {
+    border-color: #2563eb;
+    background: #f8fbff;
+    transform: translateY(-1px);
+}
+
+.payment-option.selected,
+.bank-option.selected,
+.card-option.selected {
+    border-color: #2563eb;
+    background: #eff6ff;
+
+    box-shadow:
+        0 0 0 2px rgba(37, 99, 235, 0.08);
+}
+
+
+/* =========================================
+   PAYMENT LOGOS
+   ========================================= */
+
+.payment-logo,
+.bank-logo {
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    font-weight: 800;
+}
+
+
+/* Google Pay */
+
+.gpay {
+    background: #f1f5f9;
+    color: #4285f4;
+
+    font-size: 20px;
+}
+
+
+/* PhonePe */
+
+.phonepe {
+    background: #f1e8ff;
+    color: #673ab7;
+
+    font-size: 20px;
+}
+
+
+/* Paytm */
+
+.paytm {
+    background: #e8f7ff;
+    color: #007bff;
+
+    font-size: 20px;
+}
+
+
+/* Other UPI */
+
+.upi {
+    background: #f0fdf4;
+    color: #15803d;
+
+    font-size: 10px;
+}
+
+
+/* QR */
+
+.qr {
+    background: #111827;
+    color: #ffffff;
+
+    font-size: 22px;
+}
+
+
+/* Card */
+
+.card {
+    background: #eef2ff;
+    color: #4338ca;
+
+    font-size: 18px;
+}
+
+
+/* =========================================
+   QR OPTION
+   ========================================= */
+
+.qr-option {
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.option-arrow {
+    margin-left: auto;
+
+    color: #64748b;
+    font-size: 18px;
+}
+
+
+/* =========================================
+   BANKS
+   ========================================= */
+
+.bank-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.bank-option {
+    text-align: left;
+}
+
+.bank-logo {
+    font-size: 9px;
+}
+
+
+/* SBI */
+
+.sbi {
+    background: #e8f1ff;
+    color: #0754a6;
+}
+
+
+/* HDFC */
+
+.hdfc {
+    background: #eaf1ff;
+    color: #004c97;
+
+    font-size: 18px;
+}
+
+
+/* ICICI */
+
+.icici {
+    background: #fff1e8;
+    color: #e87511;
+
+    font-size: 8px;
+}
+
+
+/* Axis */
+
+.axis {
+    background: #fff0f0;
+    color: #b91c1c;
+
+    font-size: 9px;
+}
+
+
+/* =========================================
+   CARD OPTION
+   ========================================= */
+
+.card-option {
+    width: 100%;
+    justify-content: flex-start;
+}
+
+
+/* =========================================
+   SELECTED METHOD
+   ========================================= */
+
+.selected-payment {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 15px;
+
+    margin: 8px 0 15px;
+    padding: 13px 15px;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 11px;
+
+    background: #f8fafc;
+
+    font-size: 13px;
+}
+
+.selected-payment span {
+    color: #64748b;
+}
+
+.selected-payment strong {
+    color: #2563eb;
+}
+
+
+/* =========================================
+   CONTINUE BUTTON
+   ========================================= */
+
+.continue-button {
+    width: 100%;
+
+    padding: 15px;
+
+    border: none;
+    border-radius: 12px;
+
+    background: #2563eb;
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    transition: 0.2s ease;
+}
+
+.continue-button:hover:not(:disabled) {
+    background: #1d4ed8;
+}
+
+.continue-button:disabled {
+    background: #cbd5e1;
+    cursor: not-allowed;
+}
+
+.security-text {
+    margin: 13px 0 0;
+
+    text-align: center;
+
+    color: #64748b;
+
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   MODAL
+   ========================================= */
+
+.modal {
+    position: fixed;
+    inset: 0;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(15, 23, 42, 0.68);
+
+    z-index: 9999;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    position: relative;
+
+    width: 100%;
+    max-width: 440px;
+
+    padding: 30px;
+
+    border-radius: 22px;
+
+    background: #ffffff;
+
+    text-align: center;
+
+    box-shadow:
+        0 25px 60px rgba(0, 0, 0, 0.2);
+}
+
+.close-button {
+    position: absolute;
+
+    top: 12px;
+    right: 18px;
+
+    border: none;
+    background: transparent;
+
+    color: #64748b;
+
+    font-size: 28px;
+
+    cursor: pointer;
+}
+
+
+/* =========================================
+   QR MODAL
+   ========================================= */
+
+.modal-icon {
+    width: 55px;
+    height: 55px;
+
+    margin: 0 auto 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 15px;
+
+    background: #eff6ff;
+    color: #2563eb;
+
+    font-size: 28px;
+}
+
+.modal-content h2 {
+    margin: 0 0 8px;
+}
+
+.modal-content > p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   QR CODE
+   ========================================= */
+
+.qr-wrapper {
+    width: 292px;
+    height: 292px;
+
+    margin: 25px auto 18px;
+
+    padding: 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #ffffff;
+
+    border: 1px solid #dbe3ed;
+    border-radius: 16px;
+}
+
+#paymentQRCode {
+    width: 260px;
+    height: 260px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#paymentQRCode img,
+#paymentQRCode canvas {
+    display: block;
+
+    width: 260px !important;
+    height: 260px !important;
+}
+
+.qr-amount {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #2563eb;
+
+    font-size: 17px;
+}
+
+.qr-note {
+    font-size: 12px !important;
+}
+
+
+/* =========================================
+   SUCCESS MODAL
+   ========================================= */
+
+.success-icon {
+    width: 70px;
+    height: 70px;
+
+    margin: 0 auto 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #dcfce7;
+    color: #16a34a;
+
+    font-size: 38px;
+    font-weight: 700;
+}
+
+.success-details {
+    margin: 25px 0;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+
+    overflow: hidden;
+}
+
+.success-details div {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 13px 15px;
+
+    border-bottom: 1px solid #e2e8f0;
+
+    font-size: 14px;
+}
+
+.success-details div:last-child {
+    border-bottom: none;
+}
+
+.success-details span {
+    color: #64748b;
+}
+
+.success-details strong {
+    color: #172033;
+}
+
+
+/* =========================================
+   TABLET
+   ========================================= */
+
+@media (max-width: 850px) {
+
+    .payment-container {
+        grid-template-columns: 1fr;
+
+        max-width: 650px;
+    }
+
+    .payment-summary h1 {
+        font-size: 28px;
+    }
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 600px) {
+
+    .navbar {
+        padding: 15px 20px;
+
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .nav-links {
+        gap: 18px;
+    }
+
+    .payment-page {
+        padding: 25px 12px;
+    }
+
+    .payment-summary,
+    .payment-card {
+        padding: 20px;
+
+        border-radius: 16px;
+    }
+
+    .payment-summary h1 {
+        font-size: 25px;
+    }
+
+    .payment-grid,
+    .bank-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .summary-row,
+    .total-row {
+        align-items: flex-start;
+    }
+
+    .selected-payment {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .modal {
+        padding: 12px;
+    }
+
+    .modal-content {
+        padding: 25px 15px;
+
+        border-radius: 18px;
+    }
+
+    .qr-wrapper {
+        width: 280px;
+        height: 280px;
+    }
+
+    #paymentQRCode {
+        width: 250px;
+        height: 250px;
+    }
+
+    #paymentQRCode img,
+    #paymentQRCode canvas {
+        width: 250px !important;
+        height: 250px !important;
+    }
+}
