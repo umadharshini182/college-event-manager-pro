@@ -4,10 +4,8 @@
 <head>
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Secure Payment | College Event Manager</title>
 
@@ -17,471 +15,457 @@
 
 <body>
 
-<!-- ================= NAVBAR ================= -->
+    <!-- NAVBAR -->
+    <nav class="payment-navbar">
 
-<nav class="navbar">
+        <div class="payment-logo">
+            🎓 College Event Manager
+        </div>
 
-    <div class="logo">
-        🎓 College Event Manager
-    </div>
+        <div class="payment-nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="privacy.html">Privacy</a>
+        </div>
 
-    <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="privacy.html">Privacy</a>
-    </div>
-
-</nav>
-
-
-<!-- ================= PAYMENT PAGE ================= -->
-
-<main class="payment-page">
-
-    <div class="payment-container">
-
-        <!-- LEFT SIDE -->
-
-        <section class="payment-summary">
-
-            <div class="secure-badge">
-                🔒 Secure Checkout
-            </div>
-
-            <h1>
-                Complete Your Registration
-            </h1>
-
-            <p class="subtitle">
-                Review your event details before continuing.
-            </p>
+    </nav>
 
 
-            <div class="registration-card">
+    <!-- MAIN -->
+    <main class="payment-page">
 
-              <div class="summary-row">
-    <span>Student</span>
-    <strong id="studentName">Loading...</strong>
-</div>
+        <div class="payment-layout">
 
-<div class="summary-row">
-    <span>Email</span>
-    <strong id="studentEmail">Loading...</strong>
-</div>
 
-<div class="summary-row">
-    <span>College</span>
-    <strong id="studentCollege">Loading...</strong>
-</div>
+            <!-- =========================
+                 REGISTRATION SUMMARY
+                 ========================= -->
 
-<div class="summary-row">
-    <span>Department</span>
-    <strong id="studentDepartment">Loading...</strong>
-</div>
+            <section class="summary-card">
 
-<div class="summary-row">
-    <span>Year</span>
-    <strong id="studentYear">Loading...</strong>
-</div>
-
-<div class="summary-row">
-    <span>Event</span>
-    <strong id="eventName">Loading...</strong>
-</div>
-
-                <div class="summary-row">
-                    <span>Registration Fee</span>
-                    <strong>₹1,000</strong>
+                <div class="secure-label">
+                    🔒 Secure Checkout
                 </div>
 
-                <div class="summary-divider"></div>
+                <h1>
+                    Complete Your Registration
+                </h1>
 
-                <div class="total-row">
-                    <span>Total</span>
-                    <strong>₹1,000</strong>
-                </div>
-
-            </div>
-
-
-            <div class="demo-notice">
-                <span>ℹ️</span>
-
-                <div>
-                    <strong>Demo Payment</strong>
-
-                    <p>
-                        This is a college project demonstration.
-                        No real money will be charged.
-                    </p>
-                </div>
-            </div>
-
-        </section>
-
-
-        <!-- RIGHT SIDE -->
-
-        <section class="payment-card">
-
-            <div class="payment-card-header">
-
-                <h2>
-                    Choose Payment Method
-                </h2>
-
-                <p>
-                    Select one option to continue.
+                <p class="summary-description">
+                    Review your registration details
+                    before continuing.
                 </p>
 
-            </div>
+
+                <div class="student-details">
+
+                    <div class="detail-row">
+                        <span>Student</span>
+                        <strong id="studentName">
+                            Loading...
+                        </strong>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>College</span>
+                        <strong id="collegeName">
+                            Loading...
+                        </strong>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>Event</span>
+                        <strong id="eventName">
+                            Loading...
+                        </strong>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>Year</span>
+                        <strong id="studentYear">
+                            Loading...
+                        </strong>
+                    </div>
+
+                </div>
 
 
-            <!-- UPI -->
+                <div class="amount-box">
 
-            <div class="payment-section">
+                    <span>
+                        Registration Fee
+                    </span>
 
-                <h3>UPI</h3>
+                    <strong>
+                        ₹1,000
+                    </strong>
 
-                <div class="payment-grid">
+                </div>
+
+
+                <div class="demo-notice">
+
+                    <span>ℹ️</span>
+
+                    <div>
+                        <strong>
+                            Demo Payment
+                        </strong>
+
+                        <p>
+                            This is a college project
+                            demonstration. No real money
+                            will be charged.
+                        </p>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 PAYMENT METHODS
+                 ========================= -->
+
+            <section class="payment-card">
+
+                <div class="payment-heading">
+
+                    <h2>
+                        Choose Payment Method
+                    </h2>
+
+                    <p>
+                        Select your preferred option
+                        to continue.
+                    </p>
+
+                </div>
+
+
+                <!-- UPI -->
+
+                <div class="method-section">
+
+                    <div class="section-title">
+                        <span>UPI</span>
+                        <small>Fast & secure</small>
+                    </div>
+
+
+                    <div class="upi-grid">
+
+
+                        <!-- GOOGLE PAY -->
+
+                        <button
+                            type="button"
+                            class="method-button"
+                            data-method="Google Pay"
+                        >
+
+                            <span class="method-logo gpay-logo">
+                                G
+                            </span>
+
+                            <span class="method-name">
+                                Google Pay
+                            </span>
+
+                        </button>
+
+
+                        <!-- PHONEPE -->
+
+                        <button
+                            type="button"
+                            class="method-button"
+                            data-method="PhonePe"
+                        >
+
+                            <span class="method-logo phonepe-logo">
+                                P
+                            </span>
+
+                            <span class="method-name">
+                                PhonePe
+                            </span>
+
+                        </button>
+
+
+                        <!-- PAYTM -->
+
+                        <button
+                            type="button"
+                            class="method-button"
+                            data-method="Paytm"
+                        >
+
+                            <span class="method-logo paytm-logo">
+                                P
+                            </span>
+
+                            <span class="method-name">
+                                Paytm
+                            </span>
+
+                        </button>
+
+
+                        <!-- OTHER UPI -->
+
+                        <button
+                            type="button"
+                            class="method-button"
+                            data-method="Other UPI"
+                        >
+
+                            <span class="method-logo upi-logo">
+                                UPI
+                            </span>
+
+                            <span class="method-name">
+                                Other UPI
+                            </span>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- QR -->
+
+                <div class="method-section">
+
+                    <div class="section-title">
+                        <span>QR Payment</span>
+                        <small>Scan & verify</small>
+                    </div>
+
 
                     <button
                         type="button"
-                        class="payment-option"
-                        data-method="Google Pay"
+                        class="qr-button"
+                        data-method="QR Verification"
                     >
 
-                        <span class="payment-logo gpay">
-                            G
+                        <span class="method-logo qr-logo">
+                            ▦
                         </span>
 
-                        <span>Google Pay</span>
+                        <span class="qr-text">
 
-                    </button>
+                            <strong>
+                                Scan QR Code
+                            </strong>
 
+                            <small>
+                                Scan to view registration details
+                            </small>
 
-                    <button
-                        type="button"
-                        class="payment-option"
-                        data-method="PhonePe"
-                    >
-
-                        <span class="payment-logo phonepe">
-                            P
                         </span>
 
-                        <span>PhonePe</span>
-
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="payment-option"
-                        data-method="Paytm"
-                    >
-
-                        <span class="payment-logo paytm">
-                            P
+                        <span class="arrow">
+                            →
                         </span>
-
-                        <span>Paytm</span>
-
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="payment-option"
-                        data-method="Other UPI"
-                    >
-
-                        <span class="payment-logo upi">
-                            UPI
-                        </span>
-
-                        <span>Other UPI</span>
 
                     </button>
 
                 </div>
 
-            </div>
+
+                <!-- NET BANKING -->
+
+                <div class="method-section">
+
+                    <div class="section-title">
+                        <span>Net Banking</span>
+                        <small>Select your bank</small>
+                    </div>
 
 
-            <!-- QR -->
-
-            <div class="payment-section">
-
-                <h3>QR Verification</h3>
-
-                <button
-                    type="button"
-                    class="qr-option payment-option"
-                    data-method="QR Verification"
-                >
-
-                    <span class="payment-logo qr">
-                        ▦
-                    </span>
-
-                    <span>
-                        Scan QR Code
-                    </span>
-
-                    <span class="option-arrow">
-                        →
-                    </span>
-
-                </button>
-
-            </div>
+                    <div class="bank-grid">
 
 
-            <!-- BANKING -->
+                        <button
+                            type="button"
+                            class="bank-button"
+                            data-method="State Bank of India"
+                        >
 
-            <div class="payment-section">
+                            <span class="bank-logo sbi-logo">
+                                SBI
+                            </span>
 
-                <h3>Net Banking</h3>
+                            <span>
+                                State Bank of India
+                            </span>
 
-                <div class="bank-grid">
-
-                    <button
-                        type="button"
-                        class="bank-option"
-                        data-method="State Bank of India"
-                    >
-                        <span class="bank-logo sbi">
-                            SBI
-                        </span>
-                        <span>State Bank of India</span>
-                    </button>
+                        </button>
 
 
-                    <button
-                        type="button"
-                        class="bank-option"
-                        data-method="HDFC Bank"
-                    >
-                        <span class="bank-logo hdfc">
-                            H
-                        </span>
-                        <span>HDFC Bank</span>
-                    </button>
+                        <button
+                            type="button"
+                            class="bank-button"
+                            data-method="HDFC Bank"
+                        >
+
+                            <span class="bank-logo hdfc-logo">
+                                H
+                            </span>
+
+                            <span>
+                                HDFC Bank
+                            </span>
+
+                        </button>
 
 
-                    <button
-                        type="button"
-                        class="bank-option"
-                        data-method="ICICI Bank"
-                    >
-                        <span class="bank-logo icici">
-                            ICICI
-                        </span>
-                        <span>ICICI Bank</span>
-                    </button>
+                        <button
+                            type="button"
+                            class="bank-button"
+                            data-method="ICICI Bank"
+                        >
+
+                            <span class="bank-logo icici-logo">
+                                ICICI
+                            </span>
+
+                            <span>
+                                ICICI Bank
+                            </span>
+
+                        </button>
 
 
-                    <button
-                        type="button"
-                        class="bank-option"
-                        data-method="Axis Bank"
-                    >
-                        <span class="bank-logo axis">
-                            AXIS
-                        </span>
-                        <span>Axis Bank</span>
-                    </button>
+                        <button
+                            type="button"
+                            class="bank-button"
+                            data-method="Axis Bank"
+                        >
+
+                            <span class="bank-logo axis-logo">
+                                AXIS
+                            </span>
+
+                            <span>
+                                Axis Bank
+                            </span>
+
+                        </button>
+
+                    </div>
 
                 </div>
 
-            </div>
+
+                <!-- SELECTED METHOD -->
+
+                <div class="selected-method-box">
+
+                    <span>
+                        Selected payment method
+                    </span>
+
+                    <strong id="selectedMethod">
+                        Choose a method
+                    </strong>
+
+                </div>
 
 
-            <!-- CARD -->
-
-            <div class="payment-section">
-
-                <h3>Cards</h3>
+                <!-- CONTINUE -->
 
                 <button
                     type="button"
-                    class="card-option"
-                    data-method="Credit / Debit Card"
+                    id="continueButton"
+                    class="continue-payment"
+                    disabled
                 >
-
-                    <span class="payment-logo card">
-                        💳
-                    </span>
-
-                    <span>
-                        Credit / Debit Card
-                    </span>
-
-                    <span class="option-arrow">
-                        →
-                    </span>
-
+                    Continue to Pay ₹1,000
+                    <span>→</span>
                 </button>
 
-            </div>
+
+                <p class="payment-security">
+                    🔒 Demo checkout · We never ask for
+                    your UPI PIN, OTP or bank password.
+                </p>
+
+            </section>
+
+        </div>
+
+    </main>
 
 
-            <!-- SELECTED METHOD -->
+    <!-- =========================
+         QR MODAL
+         ========================= -->
 
-            <div class="selected-payment">
+    <div
+        id="qrModal"
+        class="payment-modal"
+    >
 
-                <span>
-                    Selected method
-                </span>
-
-                <strong id="selectedMethod">
-                    None selected
-                </strong>
-
-            </div>
-
-
-            <!-- CONTINUE -->
+        <div class="qr-modal-content">
 
             <button
                 type="button"
-                id="continueButton"
-                class="continue-button"
-                disabled
+                id="closeQr"
+                class="modal-close"
             >
-                Continue
-                <span>→</span>
+                ×
             </button>
 
+            <div class="modal-qr-icon">
+                ▦
+            </div>
 
-            <p class="security-text">
-                🔒 Demo checkout • No PIN, OTP or bank password is requested.
+            <h2>
+                Scan QR Code
+            </h2>
+
+            <p>
+                Scan this QR code to view
+                the registration details.
             </p>
 
-        </section>
+
+            <div class="qr-container">
+
+                <div id="paymentQRCode"></div>
+
+            </div>
+
+
+            <strong class="qr-price">
+                Registration • ₹1,000
+            </strong>
+
+            <p class="qr-security">
+                🔒 Secure project verification
+            </p>
+
+        </div>
 
     </div>
 
-</main>
+
+    <!-- QR LIBRARY FIRST -->
+
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
+    </script>
 
 
-<!-- ================= QR MODAL ================= -->
+    <!-- PAYMENT JS -->
 
-<div
-    id="qrModal"
-    class="modal"
->
-
-    <div class="modal-content">
-
-        <button
-            type="button"
-            id="closeQr"
-            class="close-button"
-        >
-            ×
-        </button>
-
-        <div class="modal-icon">
-            ▦
-        </div>
-
-        <h2>
-            Scan QR Code
-        </h2>
-
-        <p>
-            Scan this QR code to view the
-            registration details.
-        </p>
-
-
-        <div class="qr-wrapper">
-
-            <div id="paymentQRCode"></div>
-
-        </div>
-
-
-        <strong class="qr-amount">
-            Registration • ₹1,000
-        </strong>
-
-
-        <p class="qr-note">
-            🔒 Secure project verification
-        </p>
-
-    </div>
-
-</div>
-
-
-<!-- ================= SUCCESS MODAL ================= -->
-
-<div
-    id="successModal"
-    class="modal"
->
-
-    <div class="modal-content success-content">
-
-        <div class="success-icon">
-            ✓
-        </div>
-
-        <h2>
-            Registration Successful
-        </h2>
-
-        <p>
-            Your demo registration has been completed successfully.
-        </p>
-
-        <div class="success-details">
-
-            <div>
-                <span>Student</span>
-                <strong id="successStudent">
-                    -
-                </strong>
-            </div>
-
-            <div>
-                <span>Event</span>
-                <strong id="successEvent">
-                    -
-                </strong>
-            </div>
-
-            <div>
-                <span>Amount</span>
-                <strong>
-                    ₹1,000
-                </strong>
-            </div>
-
-        </div>
-
-        <button
-            type="button"
-            id="closeSuccess"
-            class="continue-button"
-        >
-            Done
-        </button>
-
-    </div>
-
-</div>
-
-
-<script
-    src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
-></script>
-
-<script src="payment.js"></script>
+    <script src="payment.js"></script>
 
 </body>
 

@@ -2,88 +2,180 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Payment Details | College Event Manager</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="style.css">
+    <title>Registration Details | College Event Manager</title>
+
+    <link
+        rel="stylesheet"
+        href="payment-details.css"
+    >
+
 </head>
+
 
 <body>
 
-<nav>
+    <!-- HEADER -->
 
-    <div class="logo">
-        🎓 College Event Manager
-    </div>
+    <header class="details-header">
 
-    <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="privacy.html">Privacy</a></li>
-    </ul>
-
-</nav>
-
-<section class="details">
-
-    <div class="register-box">
-
-        <h1>💳 Payment Details</h1>
-
-        <p>
-            College Event Manager – Registration Payment
-        </p>
-
-        <div class="form-group">
-            <label>Student Name</label>
-            <input type="text" id="studentName" readonly>
+        <div class="details-logo">
+            🎓 College Event Manager
         </div>
 
-        <div class="form-group">
-            <label>Event</label>
-            <input type="text" id="eventName" readonly>
-        </div>
+        <span class="verified-badge">
+            ✓ Verified
+        </span>
 
-        <div class="form-group">
-            <label>Registration Amount</label>
-            <input type="text" value="₹1,000" readonly>
-        </div>
+    </header>
 
-        <div class="form-group">
-            <label>Payment Status</label>
-            <input type="text" value="Demo Payment Verification" readonly>
-        </div>
 
-        <p style="margin-top:20px;">
-            🔒 This QR page is part of the College Event Manager
-            project demonstration.
-        </p>
+    <!-- MAIN -->
 
-    </div>
+    <main class="details-page">
 
-</section>
+        <section class="details-card">
 
-<script>
+            <div class="success-icon">
+                ✓
+            </div>
 
-const params = new URLSearchParams(
-    window.location.search
-);
+            <h1>
+                Registration Details
+            </h1>
 
-const studentName =
-    params.get("name") || "Student";
+            <p class="details-subtitle">
+                This QR code contains the registration
+                information for this event.
+            </p>
 
-const eventName =
-    params.get("event") || "College Event";
 
-document.getElementById("studentName").value =
-    studentName;
+            <!-- DETAILS -->
 
-document.getElementById("eventName").value =
-    eventName;
+            <div class="registration-details">
 
-</script>
+                <div class="info-row">
+
+                    <span>
+                        Student Name
+                    </span>
+
+                    <strong id="studentName">
+                        Loading...
+                    </strong>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span>
+                        Email
+                    </span>
+
+                    <strong id="studentEmail">
+                        Loading...
+                    </strong>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span>
+                        College
+                    </span>
+
+                    <strong id="collegeName">
+                        Loading...
+                    </strong>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span>
+                        Department
+                    </span>
+
+                    <strong id="departmentName">
+                        Loading...
+                    </strong>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span>
+                        Year
+                    </span>
+
+                    <strong id="studentYear">
+                        Loading...
+                    </strong>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span>
+                        Event
+                    </span>
+
+                    <strong id="eventName">
+                        Loading...
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div class="verification-box">
+
+                <div class="verification-icon">
+                    ✓
+                </div>
+
+                <div>
+
+                    <strong>
+                        Registration Information
+                    </strong>
+
+                    <p>
+                        Details successfully loaded
+                        from the QR code.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <p class="privacy-note">
+                🔒 This is a demonstration feature
+                for the College Event Manager project.
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <script src="payment-details.js"></script>
 
 </body>
 
