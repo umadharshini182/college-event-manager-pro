@@ -1,5 +1,5 @@
 /* =========================================
-   REGISTRATION VERIFICATION PAGE
+   QR PAYMENT / VERIFICATION PAGE
    ========================================= */
 
 * {
@@ -12,7 +12,6 @@ html {
 
 body {
     margin: 0;
-
     min-height: 100vh;
 
     font-family:
@@ -33,13 +32,12 @@ body {
    HEADER
    ========================================= */
 
-.details-header {
+.qr-header {
     min-height: 72px;
 
     padding: 0 6%;
 
     display: flex;
-
     align-items: center;
     justify-content: space-between;
 
@@ -48,9 +46,8 @@ body {
     border-bottom: 1px solid #e3e8ef;
 }
 
-.details-brand {
+.qr-brand {
     display: flex;
-
     align-items: center;
 
     gap: 9px;
@@ -59,27 +56,19 @@ body {
 
     text-decoration: none;
 
-    font-size: 18px;
-
+    font-size: 19px;
     font-weight: 750;
 }
 
-.details-brand-icon {
+.qr-brand span {
     font-size: 21px;
 }
 
-.verified-status {
-    padding: 7px 11px;
-
-    border-radius: 20px;
-
-    background: #ecfdf3;
-
+.qr-secure {
     color: #15803d;
 
-    font-size: 10px;
-
-    font-weight: 750;
+    font-size: 11px;
+    font-weight: 650;
 }
 
 
@@ -87,17 +76,15 @@ body {
    PAGE
    ========================================= */
 
-.details-page {
-    min-height:
-        calc(100vh - 72px);
+.qr-page {
+    min-height: calc(100vh - 72px);
 
     padding: 40px 16px 60px;
 
     display: flex;
 
-    justify-content: center;
-
     align-items: flex-start;
+    justify-content: center;
 }
 
 
@@ -105,12 +92,12 @@ body {
    CARD
    ========================================= */
 
-.details-card {
+.qr-card {
     width: 100%;
 
-    max-width: 600px;
+    max-width: 520px;
 
-    padding: 35px;
+    padding: 32px;
 
     background: #ffffff;
 
@@ -119,64 +106,33 @@ body {
     border-radius: 24px;
 
     box-shadow:
-        0 15px 50px
-        rgba(15, 23, 42, 0.07);
+        0 15px 50px rgba(15, 23, 42, 0.07);
 
     text-align: center;
 }
 
 
 /* =========================================
-   VERIFICATION ICON
+   PAGE ICON
    ========================================= */
 
-.verification-circle {
-    width: 70px;
-    height: 70px;
+.qr-page-icon {
+    width: 58px;
+    height: 58px;
 
-    margin: 0 auto 15px;
+    margin: 0 auto 14px;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
-    border-radius: 50%;
+    border-radius: 16px;
 
-    background: #dcfce7;
+    background: #172033;
 
-    color: #16a34a;
+    color: #ffffff;
 
-    font-size: 36px;
-
-    font-weight: 800;
-
-    animation:
-        verificationPop
-        0.45s ease;
-}
-
-@keyframes verificationPop {
-
-    0% {
-        opacity: 0;
-
-        transform:
-            scale(0.6);
-    }
-
-    70% {
-        transform:
-            scale(1.08);
-    }
-
-    100% {
-        opacity: 1;
-
-        transform:
-            scale(1);
-    }
-
+    font-size: 29px;
 }
 
 
@@ -184,19 +140,18 @@ body {
    LABEL
    ========================================= */
 
-.verification-label {
+.qr-label {
     display: inline-block;
 
-    padding: 6px 11px;
+    padding: 6px 10px;
 
     border-radius: 20px;
 
-    background: #ecfdf3;
+    background: #edf4ff;
 
-    color: #15803d;
+    color: #2563eb;
 
     font-size: 9px;
-
     font-weight: 800;
 
     letter-spacing: 0.7px;
@@ -207,20 +162,22 @@ body {
    HEADING
    ========================================= */
 
-.details-card h1 {
-    margin: 17px 0 9px;
+.qr-card h1 {
+    margin: 16px 0 9px;
 
     color: #172033;
 
-    font-size: 28px;
+    font-size: 27px;
 
-    letter-spacing: -0.5px;
+    line-height: 1.25;
+
+    letter-spacing: -0.4px;
 }
 
-.details-intro {
-    max-width: 440px;
+.qr-description {
+    max-width: 410px;
 
-    margin: 0 auto 24px;
+    margin: 0 auto 22px;
 
     color: #64748b;
 
@@ -231,98 +188,41 @@ body {
 
 
 /* =========================================
-   EVENT HIGHLIGHT
+   STUDENT
    ========================================= */
 
-.event-highlight {
-    padding: 18px;
+.qr-student {
+    padding: 13px 16px;
 
-    margin-bottom: 18px;
+    margin-bottom: 22px;
 
-    border: 1px solid #dbe7fa;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-    border-radius: 16px;
-
-    background: #f7faff;
-
-    text-align: left;
-}
-
-.event-highlight span {
-    display: block;
-
-    margin-bottom: 6px;
-
-    color: #64748b;
-
-    font-size: 9px;
-
-    font-weight: 700;
-
-    letter-spacing: 0.6px;
-}
-
-.event-highlight strong {
-    display: block;
-
-    color: #2563eb;
-
-    font-size: 16px;
-
-    line-height: 1.4;
-
-    overflow-wrap: anywhere;
-}
-
-
-/* =========================================
-   DETAILS LIST
-   ========================================= */
-
-.details-list {
-    overflow: hidden;
+    gap: 15px;
 
     border: 1px solid #e1e7ef;
 
-    border-radius: 16px;
+    border-radius: 13px;
+
+    background: #f8fafc;
 
     text-align: left;
 }
 
-.details-row {
-    min-height: 60px;
-
-    padding: 12px 16px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 20px;
-
-    border-bottom: 1px solid #edf1f5;
-}
-
-.details-row:last-child {
-    border-bottom: none;
-}
-
-.detail-label {
+.qr-student span {
     color: #64748b;
 
     font-size: 11px;
 }
 
-.detail-value {
-    max-width: 62%;
+.qr-student strong {
+    max-width: 60%;
 
     color: #172033;
 
     font-size: 12px;
-
-    font-weight: 650;
 
     text-align: right;
 
@@ -331,11 +231,94 @@ body {
 
 
 /* =========================================
-   VERIFICATION MESSAGE
+   QR FRAME
    ========================================= */
 
-.verification-message {
-    margin-top: 20px;
+.qr-frame {
+    width: 310px;
+    height: 310px;
+
+    margin: 0 auto;
+
+    padding: 17px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #ffffff;
+
+    border: 1px solid #dce3ec;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 8px 25px rgba(15, 23, 42, 0.06);
+}
+
+
+/* =========================================
+   ACTUAL QR
+   ========================================= */
+
+.registration-qr {
+    width: 276px;
+    height: 276px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #ffffff;
+}
+
+.registration-qr img,
+.registration-qr canvas {
+    width: 276px !important;
+    height: 276px !important;
+
+    display: block;
+}
+
+
+/* =========================================
+   STATUS
+   ========================================= */
+
+.qr-scan-status {
+    margin-top: 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    color: #15803d;
+
+    font-size: 10px;
+    font-weight: 650;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #22c55e;
+
+    box-shadow:
+        0 0 0 4px #dcfce7;
+}
+
+
+/* =========================================
+   INFO
+   ========================================= */
+
+.qr-info {
+    margin-top: 22px;
 
     padding: 14px;
 
@@ -354,14 +337,13 @@ body {
     text-align: left;
 }
 
-.message-icon {
-    width: 30px;
-    height: 30px;
+.qr-info-icon {
+    width: 28px;
+    height: 28px;
 
     flex-shrink: 0;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
@@ -372,21 +354,18 @@ body {
     color: #ffffff;
 
     font-size: 12px;
-
     font-weight: 800;
 }
 
-.verification-message strong {
+.qr-info strong {
     display: block;
 
     margin-bottom: 4px;
 
-    color: #172033;
-
     font-size: 11px;
 }
 
-.verification-message p {
+.qr-info p {
     margin: 0;
 
     color: #64748b;
@@ -398,53 +377,25 @@ body {
 
 
 /* =========================================
-   VERIFICATION TIME
+   BACK BUTTON
    ========================================= */
 
-.verification-time {
-    margin-top: 18px;
+.back-payment {
+    display: inline-block;
 
-    color: #94a3b8;
+    margin-top: 23px;
 
-    font-size: 9px;
-}
-
-
-/* =========================================
-   HOME BUTTON
-   ========================================= */
-
-.home-button {
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    margin-top: 22px;
-
-    padding: 12px 18px;
-
-    border-radius: 11px;
-
-    background: #2563eb;
-
-    color: #ffffff;
+    color: #2563eb;
 
     text-decoration: none;
 
     font-size: 11px;
 
     font-weight: 700;
-
-    transition: 0.2s ease;
 }
 
-.home-button:hover {
-    background: #1d4ed8;
-
-    transform:
-        translateY(-1px);
+.back-payment:hover {
+    text-decoration: underline;
 }
 
 
@@ -454,56 +405,56 @@ body {
 
 @media (max-width: 600px) {
 
-    .details-header {
+    .qr-header {
         min-height: 65px;
 
-        padding: 13px 15px;
+        padding: 13px 16px;
     }
 
-    .details-brand {
+    .qr-brand {
         font-size: 15px;
     }
 
-    .verified-status {
+    .qr-secure {
         font-size: 9px;
     }
 
-    .details-page {
-        min-height:
-            calc(100vh - 65px);
+    .qr-page {
+        min-height: calc(100vh - 65px);
 
         padding: 20px 10px 40px;
     }
 
-    .details-card {
-        padding: 23px 15px;
+    .qr-card {
+        padding: 23px 16px;
 
         border-radius: 19px;
     }
 
-    .details-card h1 {
+    .qr-card h1 {
         font-size: 23px;
     }
 
-    .details-intro {
+    .qr-description {
         font-size: 11px;
     }
 
-    .details-row {
-        min-height: 56px;
+    .qr-frame {
+        width: min(290px, 90vw);
+        height: min(290px, 90vw);
 
-        padding: 11px 13px;
-
-        gap: 12px;
+        padding: 13px;
     }
 
-    .detail-label,
-    .detail-value {
-        font-size: 10px;
+    .registration-qr {
+        width: min(264px, calc(90vw - 26px));
+        height: min(264px, calc(90vw - 26px));
     }
 
-    .detail-value {
-        max-width: 60%;
+    .registration-qr img,
+    .registration-qr canvas {
+        width: min(264px, calc(90vw - 26px)) !important;
+        height: min(264px, calc(90vw - 26px)) !important;
     }
 
 }
@@ -515,20 +466,15 @@ body {
 
 @media (max-width: 360px) {
 
-    .details-header {
-        padding-left: 11px;
-        padding-right: 11px;
-    }
-
-    .verified-status {
+    .qr-secure {
         display: none;
     }
 
-    .details-card {
-        padding: 20px 12px;
+    .qr-card {
+        padding: 20px 13px;
     }
 
-    .details-card h1 {
+    .qr-card h1 {
         font-size: 21px;
     }
 

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>QR Verification | College Event Manager</title>
+
+    <link
+        rel="stylesheet"
+        href="qr-payment.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <header class="qr-header">
+
+        <a
+            href="payment.html"
+            class="qr-brand"
+        >
+            <span>🎓</span>
+            College Event Manager
+        </a>
+
+
+        <div class="qr-secure">
+            🔒 Secure Verification
+        </div>
+
+    </header>
+
+
+
+    <!-- MAIN -->
+
+    <main class="qr-page">
+
+
+        <section class="qr-card">
+
+
+            <!-- ICON -->
+
+            <div class="qr-page-icon">
+                ▦
+            </div>
+
+
+            <span class="qr-label">
+                QR VERIFICATION
+            </span>
+
+
+            <h1>
+                Scan to Verify Registration
+            </h1>
+
+
+            <p class="qr-description">
+
+                Scan this QR code using any
+                compatible QR scanner to view
+                the registration details.
+
+            </p>
+
+
+
+            <!-- STUDENT -->
+
+            <div class="qr-student">
+
+                <span>
+                    Registered Student
+                </span>
+
+                <strong id="qrStudentName">
+                    Loading...
+                </strong>
+
+            </div>
+
+
+
+            <!-- QR -->
+
+            <div class="qr-frame">
+
+                <div
+                    id="registrationQRCode"
+                    class="registration-qr"
+                ></div>
+
+            </div>
+
+
+
+            <div class="qr-scan-status">
+
+                <span class="status-dot"></span>
+
+                QR ready to scan
+
+            </div>
+
+
+
+            <!-- INFORMATION -->
+
+            <div class="qr-info">
+
+                <div class="qr-info-icon">
+                    ✓
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        Registration Verification
+                    </strong>
+
+                    <p>
+
+                        After scanning, the
+                        registration details will
+                        open in a separate page.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- BACK -->
+
+            <a
+                href="payment.html"
+                class="back-payment"
+            >
+                ← Back to Payment
+            </a>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- QR CODE LIBRARY -->
+
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+    ></script>
+
+
+    <!-- QR SCRIPT -->
+
+    <script src="qr-payment.js"></script>
+
+
+</body>
+
+</html>

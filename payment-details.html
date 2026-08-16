@@ -10,7 +10,7 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Registration Details | College Event Manager</title>
+    <title>Registration Verification | College Event Manager</title>
 
     <link
         rel="stylesheet"
@@ -22,157 +22,226 @@
 
 <body>
 
+
     <!-- HEADER -->
 
     <header class="details-header">
 
-        <div class="details-logo">
-            🎓 College Event Manager
-        </div>
+        <a
+            href="index.html"
+            class="details-brand"
+        >
 
-        <span class="verified-badge">
+            <span class="details-brand-icon">
+                🎓
+            </span>
+
+            College Event Manager
+
+        </a>
+
+
+        <span class="verified-status">
             ✓ Verified
         </span>
 
     </header>
 
 
+
     <!-- MAIN -->
 
     <main class="details-page">
 
+
         <section class="details-card">
 
-            <div class="success-icon">
+
+            <!-- SUCCESS ICON -->
+
+            <div class="verification-circle">
                 ✓
             </div>
+
+
+            <span class="verification-label">
+                REGISTRATION VERIFIED
+            </span>
+
 
             <h1>
                 Registration Details
             </h1>
 
-            <p class="details-subtitle">
-                This QR code contains the registration
-                information for this event.
+
+            <p class="details-intro">
+
+                The QR code has been successfully
+                verified. The registration information
+                is shown below.
+
             </p>
+
+
+
+            <!-- EVENT CARD -->
+
+            <div class="event-highlight">
+
+                <span>
+                    REGISTERED EVENT
+                </span>
+
+                <strong id="eventName">
+                    Loading...
+                </strong>
+
+            </div>
+
 
 
             <!-- DETAILS -->
 
-            <div class="registration-details">
+            <div class="details-list">
 
-                <div class="info-row">
 
-                    <span>
+                <div class="details-row">
+
+                    <div class="detail-label">
                         Student Name
-                    </span>
+                    </div>
 
-                    <strong id="studentName">
+                    <div
+                        class="detail-value"
+                        id="studentName"
+                    >
                         Loading...
-                    </strong>
+                    </div>
 
                 </div>
 
 
-                <div class="info-row">
+                <div class="details-row">
 
-                    <span>
+                    <div class="detail-label">
                         Email
-                    </span>
+                    </div>
 
-                    <strong id="studentEmail">
+                    <div
+                        class="detail-value"
+                        id="studentEmail"
+                    >
                         Loading...
-                    </strong>
+                    </div>
 
                 </div>
 
 
-                <div class="info-row">
+                <div class="details-row">
 
-                    <span>
+                    <div class="detail-label">
                         College
-                    </span>
+                    </div>
 
-                    <strong id="collegeName">
+                    <div
+                        class="detail-value"
+                        id="collegeName"
+                    >
                         Loading...
-                    </strong>
+                    </div>
 
                 </div>
 
 
-                <div class="info-row">
+                <div class="details-row">
 
-                    <span>
+                    <div class="detail-label">
                         Department
-                    </span>
+                    </div>
 
-                    <strong id="departmentName">
+                    <div
+                        class="detail-value"
+                        id="departmentName"
+                    >
                         Loading...
-                    </strong>
+                    </div>
 
                 </div>
 
 
-                <div class="info-row">
+                <div class="details-row">
 
-                    <span>
-                        Year
-                    </span>
+                    <div class="detail-label">
+                        Academic Year
+                    </div>
 
-                    <strong id="studentYear">
+                    <div
+                        class="detail-value"
+                        id="studentYear"
+                    >
                         Loading...
-                    </strong>
+                    </div>
 
                 </div>
 
-
-                <div class="info-row">
-
-                    <span>
-                        Event
-                    </span>
-
-                    <strong id="eventName">
-                        Loading...
-                    </strong>
-
-                </div>
 
             </div>
 
 
-            <!-- STATUS -->
 
-            <div class="verification-box">
+            <!-- VERIFICATION MESSAGE -->
 
-                <div class="verification-icon">
+            <div class="verification-message">
+
+
+                <div class="message-icon">
                     ✓
                 </div>
+
 
                 <div>
 
                     <strong>
-                        Registration Information
+                        QR Verification Successful
                     </strong>
 
                     <p>
-                        Details successfully loaded
-                        from the QR code.
+
+                        These details were encoded
+                        in the registration QR code.
+
                     </p>
 
                 </div>
 
+
             </div>
 
 
-            <p class="privacy-note">
-                🔒 This is a demonstration feature
-                for the College Event Manager project.
-            </p>
+
+            <div class="verification-time">
+
+                Verified digitally •
+                College Event Manager
+
+            </div>
+
+
+            <a
+                href="index.html"
+                class="home-button"
+            >
+
+                ← Back to Event Manager
+
+            </a>
+
 
         </section>
 
+
     </main>
+
 
 
     <script src="payment-details.js"></script>

@@ -1,6 +1,14 @@
+// ==========================================
+// REGISTRATION QR VERIFICATION
+// ==========================================
+
 document.addEventListener(
     "DOMContentLoaded",
     function () {
+
+        // ======================================
+        // READ QR DATA FROM URL
+        // ======================================
 
         const params =
             new URLSearchParams(
@@ -8,46 +16,107 @@ document.addEventListener(
             );
 
 
-        document.getElementById(
-            "studentName"
-        ).textContent =
-            params.get("name") ||
-            "Not available";
+        // ======================================
+        // GET VALUES
+        // ======================================
+
+        const name =
+            params.get("name");
+
+        const email =
+            params.get("email");
+
+        const college =
+            params.get("college");
+
+        const department =
+            params.get("department");
+
+        const year =
+            params.get("year");
+
+        const event =
+            params.get("event");
 
 
-        document.getElementById(
-            "studentEmail"
-        ).textContent =
-            params.get("email") ||
-            "Not available";
+        // ======================================
+        // DISPLAY VALUES
+        // ======================================
+
+        setValue(
+            "studentName",
+            name
+        );
 
 
-        document.getElementById(
-            "collegeName"
-        ).textContent =
-            params.get("college") ||
-            "Not available";
+        setValue(
+            "studentEmail",
+            email
+        );
 
 
-        document.getElementById(
-            "departmentName"
-        ).textContent =
-            params.get("department") ||
-            "Not available";
+        setValue(
+            "collegeName",
+            college
+        );
 
 
-        document.getElementById(
-            "studentYear"
-        ).textContent =
-            params.get("year") ||
-            "Not available";
+        setValue(
+            "departmentName",
+            department
+        );
 
 
-        document.getElementById(
-            "eventName"
-        ).textContent =
-            params.get("event") ||
-            "Not available";
+        setValue(
+            "studentYear",
+            year
+        );
+
+
+        setValue(
+            "eventName",
+            event
+        );
+
+
+        // ======================================
+        // HELPER
+        // ======================================
+
+        function setValue(
+            id,
+            value
+        ) {
+
+            const element =
+                document.getElementById(
+                    id
+                );
+
+
+            if (!element) {
+
+                return;
+
+            }
+
+
+            if (
+                value &&
+                value.trim() !== ""
+            ) {
+
+                element.textContent =
+                    value;
+
+            } else {
+
+                element.textContent =
+                    "Not available";
+
+            }
+
+        }
 
     }
 );

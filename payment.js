@@ -1,12 +1,12 @@
 // ==========================================
 // COLLEGE EVENT MANAGER
-// PROFESSIONAL PAYMENT PAGE
+// PROFESSIONAL PAYMENT FLOW
 // ==========================================
 
 document.addEventListener("DOMContentLoaded", function () {
 
     // ==========================================
-    // GET STUDENT DATA
+    // GET REGISTRATION DATA
     // ==========================================
 
     let student = null;
@@ -15,98 +15,123 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.getItem("studentData");
 
     if (savedData) {
+
         try {
             student = JSON.parse(savedData);
+
         } catch (error) {
+
             console.error(
-                "Student data error:",
+                "Unable to read student data:",
                 error
             );
+
         }
+
     }
 
 
-    // Fallback for older saved data
+    // Fallback for older registration data
+
     if (!student) {
+
         student = {
+
             fullname:
-                localStorage.getItem("fullname"),
+                localStorage.getItem("fullname") || "",
 
             email:
-                localStorage.getItem("email"),
+                localStorage.getItem("email") || "",
 
             college:
-                localStorage.getItem("college"),
+                localStorage.getItem("college") || "",
 
             department:
-                localStorage.getItem("department"),
+                localStorage.getItem("department") || "",
 
             year:
-                localStorage.getItem("year"),
+                localStorage.getItem("year") || "",
 
             event:
-                localStorage.getItem("event")
+                localStorage.getItem("event") || ""
+
         };
+
     }
 
 
     // ==========================================
-    // CHECK STUDENT DATA
-    // ==========================================
-
-    if (!student.fullname || !student.event) {
-
-        console.warn(
-            "Student registration data not found."
-        );
-
-        // Don't immediately redirect during testing.
-        student = {
-            fullname: student.fullname || "Student",
-            email: student.email || "",
-            college: student.college || "College",
-            department: student.department || "",
-            year: student.year || "",
-            event: student.event || "College Event"
-        };
-    }
-
-
-    // ==========================================
-    // DISPLAY STUDENT DETAILS
+    // ELEMENTS
     // ==========================================
 
     const studentName =
         document.getElementById("studentName");
 
+    const studentEmail =
+        document.getElementById("studentEmail");
+
     const collegeName =
         document.getElementById("collegeName");
 
-    const eventName =
-        document.getElementById("eventName");
+    const departmentName =
+        document.getElementById("departmentName");
 
     const studentYear =
         document.getElementById("studentYear");
 
+    const eventName =
+        document.getElementById("eventName");
+
+
+    // ==========================================
+    // DISPLAY REGISTRATION DETAILS
+    // ==========================================
 
     if (studentName) {
+
         studentName.textContent =
             student.fullname || "Student";
+
     }
+
+
+    if (studentEmail) {
+
+        studentEmail.textContent =
+            student.email || "Not available";
+
+    }
+
 
     if (collegeName) {
+
         collegeName.textContent =
-            student.college || "College";
+            student.college || "Not available";
+
     }
 
-    if (eventName) {
-        eventName.textContent =
-            student.event || "College Event";
+
+    if (departmentName) {
+
+        departmentName.textContent =
+            student.department || "Not available";
+
     }
+
 
     if (studentYear) {
+
         studentYear.textContent =
-            student.year || "Not specified";
+            student.year || "Not available";
+
+    }
+
+
+    if (eventName) {
+
+        eventName.textContent =
+            student.event || "College Event";
+
     }
 
 
@@ -114,9 +139,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // PAYMENT OPTIONS
     // ==========================================
 
-    const methodButtons =
+    const paymentOptions =
         document.querySelectorAll(
-            ".method-button, .qr-button, .bank-button"
+            ".payment-option, .bank-option"
         );
 
     const selectedMethod =
@@ -126,7 +151,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const continueButton =
         document.getElementById(
-            "continueButton"
+            "continuePayment"
         );
 
 
@@ -137,44 +162,55 @@ document.addEventListener("DOMContentLoaded", function () {
     // SELECT PAYMENT METHOD
     // ==========================================
 
-    methodButtons.forEach(function (button) {
+    paymentOptions.forEach(function (option) {
 
-        button.addEventListener(
+        option.addEventListener(
             "click",
             function () {
 
-                // Remove previous selection
-                methodButtons.forEach(
+                // Remove old selection
+
+                paymentOptions.forEach(
                     function (item) {
+
                         item.classList.remove(
                             "selected"
                         );
+
                     }
                 );
 
 
-                // Select clicked method
+                // Select clicked option
+
                 this.classList.add(
                     "selected"
                 );
 
 
                 // Store method
+
                 selectedPaymentMethod =
                     this.dataset.method;
 
 
-                // Show selected method
+                // Display selected method
+
                 if (selectedMethod) {
+
                     selectedMethod.textContent =
                         selectedPaymentMethod;
+
                 }
 
 
                 // Enable continue button
+
                 if (continueButton) {
+
                     continueButton.disabled =
                         false;
+
                 }
 
             }
@@ -184,7 +220,38 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // CONTINUE BUTTON
+    // QR BUTTON
+    // ==========================================
+
+    const scanQrButton =
+        document.getElementById(
+            "scanQrButton"
+        );
+
+
+    if (scanQrButton) {
+
+        scanQrButton.addEventListener(
+            "click",
+            function () {
+
+                /*
+                 * QR is intentionally a separate page.
+                 * Registration details are already stored
+                 * in localStorage.
+                 */
+
+                window.location.href =
+                    "qr-payment.html";
+
+            }
+        );
+
+    }
+
+
+    // ==========================================
+    // CONTINUE PAYMENT
     // ==========================================
 
     if (continueButton) {
@@ -194,40 +261,13 @@ document.addEventListener("DOMContentLoaded", function () {
             function () {
 
                 if (!selectedPaymentMethod) {
+
                     return;
+
                 }
 
 
-                // Save selected payment method
-                student.paymentMethod =
-                    selectedPaymentMethod;
-
-                localStorage.setItem(
-                    "studentData",
-                    JSON.stringify(student)
-                );
-
-
-                // ==================================
-                // QR
-                // ==================================
-
-                if (
-                    selectedPaymentMethod ===
-                    "QR Verification"
-                ) {
-
-                    openQR();
-
-                    return;
-                }
-
-
-                // ==================================
-                // OTHER METHODS
-                // ==================================
-
-                showDemoMessage(
+                startPaymentProcess(
                     selectedPaymentMethod
                 );
 
@@ -238,371 +278,425 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // QR MODAL
+    // PAYMENT PROCESSING ELEMENTS
     // ==========================================
 
-    const qrModal =
+    const processingOverlay =
         document.getElementById(
-            "qrModal"
+            "paymentProcessing"
         );
 
-    const closeQr =
+    const processingTitle =
         document.getElementById(
-            "closeQr"
+            "processingTitle"
         );
 
-    const qrContainer =
+    const processingMessage =
         document.getElementById(
-            "paymentQRCode"
+            "processingMessage"
         );
 
-
-    function openQR() {
-
-        if (!qrModal || !qrContainer) {
-            return;
-        }
-
-
-        // Open modal
-        qrModal.classList.add(
-            "active"
+    const processingProgressBar =
+        document.getElementById(
+            "processingProgressBar"
         );
 
-
-        // Prevent background scrolling
-        document.body.style.overflow =
-            "hidden";
-
-
-        // Clear old QR
-        qrContainer.innerHTML = "";
-
-
-        // ==================================
-        // CREATE DETAILS URL
-        // ==================================
-
-        const detailsURL =
-            window.location.origin +
-            window.location.pathname
-                .replace(
-                    "payment.html",
-                    "payment-details.html"
-                ) +
-            "?name=" +
-            encodeURIComponent(
-                student.fullname || "Student"
-            ) +
-            "&email=" +
-            encodeURIComponent(
-                student.email || ""
-            ) +
-            "&college=" +
-            encodeURIComponent(
-                student.college || ""
-            ) +
-            "&department=" +
-            encodeURIComponent(
-                student.department || ""
-            ) +
-            "&year=" +
-            encodeURIComponent(
-                student.year || ""
-            ) +
-            "&event=" +
-            encodeURIComponent(
-                student.event || "College Event"
-            );
-
-
-        // ==================================
-        // GENERATE QR
-        // ==================================
-
-        if (
-            typeof QRCode ===
-            "undefined"
-        ) {
-
-            qrContainer.innerHTML =
-                "<p style='color:#dc2626;text-align:center;'>QR library could not be loaded.</p>";
-
-            return;
-        }
-
-
-        new QRCode(
-            qrContainer,
-            {
-                text: detailsURL,
-
-                width: 260,
-
-                height: 260,
-
-                correctLevel:
-                    QRCode.CorrectLevel.M
-            }
+    const processingStep =
+        document.getElementById(
+            "processingStep"
         );
-
-    }
 
 
     // ==========================================
-    // CLOSE QR
+    // SUCCESS ELEMENTS
     // ==========================================
 
-    if (closeQr) {
-
-        closeQr.addEventListener(
-            "click",
-            closeQR
+    const paymentSuccess =
+        document.getElementById(
+            "paymentSuccess"
         );
 
-    }
+    const successMethod =
+        document.getElementById(
+            "successMethod"
+        );
+
+    const successEvent =
+        document.getElementById(
+            "successEvent"
+        );
+
+    const viewReceiptButton =
+        document.getElementById(
+            "viewReceiptButton"
+        );
 
 
-    function closeQR() {
+    // ==========================================
+    // START PAYMENT PROCESS
+    // ==========================================
 
-        if (qrModal) {
+    function startPaymentProcess(method) {
 
-            qrModal.classList.remove(
+        // Save selected method
+
+        student.paymentMethod =
+            method;
+
+
+        // Save current registration
+
+        localStorage.setItem(
+            "studentData",
+            JSON.stringify(student)
+        );
+
+
+        // Open processing screen
+
+        if (processingOverlay) {
+
+            processingOverlay.classList.add(
                 "active"
             );
 
         }
 
+
+        // Prevent page scrolling
+
         document.body.style.overflow =
-            "";
-
-    }
+            "hidden";
 
 
-    // Close QR by clicking outside
-    if (qrModal) {
+        // --------------------------------------
+        // STAGE 1
+        // --------------------------------------
 
-        qrModal.addEventListener(
-            "click",
-            function (event) {
+        updateProcessing(
 
-                if (
-                    event.target === qrModal
-                ) {
+            "Processing Payment",
 
-                    closeQR();
+            "Connecting securely to the payment service...",
 
-                }
+            25,
 
-            }
+            "Step 1 of 3"
+
+        );
+
+
+        setTimeout(
+            function () {
+
+                // --------------------------------
+                // STAGE 2
+                // --------------------------------
+
+                updateProcessing(
+
+                    "Verifying Payment",
+
+                    "Confirming your payment details...",
+
+                    60,
+
+                    "Step 2 of 3"
+
+                );
+
+            },
+
+            1800
+        );
+
+
+        setTimeout(
+            function () {
+
+                // --------------------------------
+                // STAGE 3
+                // --------------------------------
+
+                updateProcessing(
+
+                    "Finalizing Transaction",
+
+                    "Please wait while we complete your registration...",
+
+                    88,
+
+                    "Step 3 of 3"
+
+                );
+
+            },
+
+            3600
+        );
+
+
+        setTimeout(
+            function () {
+
+                completePayment(
+                    method
+                );
+
+            },
+
+            5200
         );
 
     }
 
 
     // ==========================================
-    // ESCAPE KEY
+    // UPDATE PROCESSING SCREEN
     // ==========================================
 
-    document.addEventListener(
-        "keydown",
-        function (event) {
+    function updateProcessing(
+        title,
+        message,
+        progress,
+        step
+    ) {
 
-            if (
-                event.key === "Escape"
-            ) {
+        if (processingTitle) {
 
-                closeQR();
-
-            }
+            processingTitle.textContent =
+                title;
 
         }
-    );
 
 
-    // ==========================================
-    // DEMO PAYMENT MESSAGE
-    // ==========================================
+        if (processingMessage) {
 
-    function showDemoMessage(method) {
+            processingMessage.textContent =
+                message;
 
-        // Remove existing message
-        const oldMessage =
-            document.getElementById(
-                "demoPaymentMessage"
-            );
-
-        if (oldMessage) {
-            oldMessage.remove();
         }
 
 
-        // Create overlay
-        const overlay =
-            document.createElement(
-                "div"
-            );
+        if (processingProgressBar) {
 
-        overlay.id =
-            "demoPaymentMessage";
+            processingProgressBar.style.width =
+                progress + "%";
 
-        overlay.style.position =
-            "fixed";
-
-        overlay.style.inset =
-            "0";
-
-        overlay.style.background =
-            "rgba(15,23,42,0.72)";
-
-        overlay.style.display =
-            "flex";
-
-        overlay.style.alignItems =
-            "center";
-
-        overlay.style.justifyContent =
-            "center";
-
-        overlay.style.padding =
-            "20px";
-
-        overlay.style.zIndex =
-            "10000";
+        }
 
 
-        // Create box
-        const box =
-            document.createElement(
-                "div"
-            );
+        if (processingStep) {
 
-        box.style.width =
-            "100%";
+            processingStep.textContent =
+                step;
 
-        box.style.maxWidth =
-            "430px";
+        }
 
-        box.style.padding =
-            "30px";
-
-        box.style.background =
-            "#ffffff";
-
-        box.style.borderRadius =
-            "22px";
-
-        box.style.textAlign =
-            "center";
-
-        box.style.boxShadow =
-            "0 25px 70px rgba(0,0,0,.25)";
+    }
 
 
-        box.innerHTML = `
+    // ==========================================
+    // PAYMENT COMPLETE
+    // ==========================================
 
-            <div style="
-                width:58px;
-                height:58px;
-                margin:0 auto 16px;
-                border-radius:50%;
-                background:#eff6ff;
-                color:#2563eb;
-                display:flex;
-                align-items:center;
-                justify-content:center;
-                font-size:26px;
-            ">
-                ✓
-            </div>
+    function completePayment(method) {
 
-            <h2 style="
-                margin:0 0 10px;
-                color:#172033;
-                font-size:22px;
-            ">
-                ${method}
-            </h2>
+        // Finish progress
 
-            <p style="
-                margin:0 0 8px;
-                color:#475569;
-                font-size:14px;
-                line-height:1.6;
-            ">
-                This payment option is being
-                demonstrated as part of the
-                college project.
-            </p>
+        updateProcessing(
 
-            <p style="
-                margin:0 0 22px;
-                color:#64748b;
-                font-size:12px;
-                line-height:1.5;
-            ">
-                No real payment, UPI PIN,
-                OTP or bank password is requested.
-            </p>
+            "Transaction Successful",
 
-            <button
-                id="closeDemoMessage"
-                style="
-                    width:100%;
-                    padding:14px;
-                    border:0;
-                    border-radius:12px;
-                    background:#2563eb;
-                    color:white;
-                    font-size:14px;
-                    font-weight:700;
-                    cursor:pointer;
-                "
-            >
-                Back to Payment
-            </button>
+            "Your registration payment has been confirmed.",
 
-        `;
+            100,
 
+            "Completed"
 
-        overlay.appendChild(box);
-
-        document.body.appendChild(
-            overlay
         );
 
 
-        // Close button
-        document
-            .getElementById(
-                "closeDemoMessage"
-            )
-            .addEventListener(
-                "click",
-                function () {
+        // Wait briefly before showing success
 
-                    overlay.remove();
+        setTimeout(
+            function () {
+
+                if (processingOverlay) {
+
+                    processingOverlay.classList.remove(
+                        "active"
+                    );
 
                 }
+
+
+                showSuccessScreen(
+                    method
+                );
+
+            },
+
+            900
+        );
+
+    }
+
+
+    // ==========================================
+    // SUCCESS SCREEN
+    // ==========================================
+
+    function showSuccessScreen(method) {
+
+        // Save payment status
+
+        student.paymentStatus =
+            "Successful";
+
+        student.paymentAmount =
+            1000;
+
+        student.paymentMethod =
+            method;
+
+        student.paymentDate =
+            new Date().toLocaleString();
+
+
+        // Save updated data
+
+        localStorage.setItem(
+            "studentData",
+            JSON.stringify(student)
+        );
+
+
+        // Also save a separate receipt object
+
+        const receiptData = {
+
+            fullname:
+                student.fullname || "Student",
+
+            email:
+                student.email || "",
+
+            college:
+                student.college || "",
+
+            department:
+                student.department || "",
+
+            year:
+                student.year || "",
+
+            event:
+                student.event || "College Event",
+
+            amount:
+                1000,
+
+            paymentMethod:
+                method,
+
+            paymentStatus:
+                "Successful",
+
+            paymentDate:
+                new Date().toLocaleString(),
+
+            transactionId:
+                generateTransactionId()
+
+        };
+
+
+        localStorage.setItem(
+            "paymentReceipt",
+            JSON.stringify(receiptData)
+        );
+
+
+        // Display success information
+
+        if (successMethod) {
+
+            successMethod.textContent =
+                method;
+
+        }
+
+
+        if (successEvent) {
+
+            successEvent.textContent =
+                student.event ||
+                "College Event";
+
+        }
+
+
+        // Show success screen
+
+        if (paymentSuccess) {
+
+            paymentSuccess.classList.add(
+                "active"
             );
 
+        }
 
-        // Click outside
-        overlay.addEventListener(
+    }
+
+
+    // ==========================================
+    // TRANSACTION ID
+    // ==========================================
+
+    function generateTransactionId() {
+
+        const randomPart =
+            Math.random()
+                .toString(36)
+                .substring(2, 8)
+                .toUpperCase();
+
+
+        return (
+            "CEM" +
+            Date.now().toString().slice(-8) +
+            randomPart
+        );
+
+    }
+
+
+    // ==========================================
+    // VIEW RECEIPT
+    // ==========================================
+
+    if (viewReceiptButton) {
+
+        viewReceiptButton.addEventListener(
             "click",
-            function (event) {
+            function () {
 
-                if (
-                    event.target === overlay
-                ) {
+                /*
+                 * Payment is complete.
+                 * Open the existing receipt page.
+                 */
 
-                    overlay.remove();
+                document.body.style.overflow =
+                    "";
 
-                }
+                window.location.href =
+                    "receipt.html";
 
             }
         );
 
     }
+
 
 });
