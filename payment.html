@@ -1024,23 +1024,7 @@
                         id="upiDetails"
                         class="details-info"
                     >
-                    <div id="qrPaymentBox" class="qr-payment-box">
-    <h3>QR Verification</h3>
-
-<p>
-    Scan this QR code to view the registration details.
-</p>
-    <div class="qr-image-wrapper">
-    <div id="paymentQRCode"></div>
-    </div>
-
-  <strong class="qr-amount">Registration • ₹1,000</strong>  
-   <p class="qr-note">
-    🔒 Secure project verification
-</p>
-
-</div>
-
+            
 
                         <div class="info-icon">
                             📱
@@ -1061,11 +1045,28 @@
 
                         </div>
 
+                     </div>
+                     <div id="qrPaymentBox" class="qr-payment-box">
 
-                    </div>
+    <h3>QR Verification</h3>
 
+    <p>
+        Scan this QR code to view the registration details.
+    </p>
 
+    <div class="qr-image-wrapper">
+        <div id="paymentQRCode"></div>
+    </div>
 
+    <strong class="qr-amount">
+        Registration • ₹1,000
+    </strong>
+
+    <p class="qr-note">
+        🔒 Secure project verification
+    </p>
+
+</div>
                     <!-- =================================================
                          BANK DETAILS
                     ================================================== -->
@@ -1189,10 +1190,9 @@
          PAYMENT JAVASCRIPT
          ONLY ONE JS FILE
     ====================================================== -->
-
-    <script src="payment.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script src="payment.js"></script>
 </body>
 
 </html>
