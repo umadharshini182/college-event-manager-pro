@@ -847,3 +847,6 @@ body {
         height: 250px !important;
     }
 }
+body {
+    background: red !important;
+}
