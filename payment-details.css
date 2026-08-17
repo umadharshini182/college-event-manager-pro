@@ -101,6 +101,18 @@ body {
     display: flex;
     justify-content: center;
     align-items: flex-start;
+
+    background:
+    linear-gradient(
+        rgba(5, 20, 45, 0.78),
+        rgba(5, 20, 45, 0.78)
+    ),
+    url("IMAGE FOR UMA EVENT.jpeg");
+
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+background-attachment: fixed;
 }
 
 
