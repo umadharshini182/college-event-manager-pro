@@ -5,6 +5,7 @@
 
 document.addEventListener("DOMContentLoaded", function () {
 
+
     // ==========================================
     // GET REGISTRATION DATA
     // ==========================================
@@ -14,9 +15,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const savedData =
         localStorage.getItem("studentData");
 
+
     if (savedData) {
 
         try {
+
             student = JSON.parse(savedData);
 
         } catch (error) {
@@ -60,6 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+
     // ==========================================
     // ELEMENTS
     // ==========================================
@@ -81,6 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const eventName =
         document.getElementById("eventName");
+
 
 
     // ==========================================
@@ -135,6 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+
     // ==========================================
     // PAYMENT OPTIONS
     // ==========================================
@@ -144,10 +150,12 @@ document.addEventListener("DOMContentLoaded", function () {
             ".payment-option, .bank-option"
         );
 
+
     const selectedMethod =
         document.getElementById(
             "selectedMethod"
         );
+
 
     const continueButton =
         document.getElementById(
@@ -156,6 +164,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     let selectedPaymentMethod = "";
+
 
 
     // ==========================================
@@ -167,6 +176,7 @@ document.addEventListener("DOMContentLoaded", function () {
         option.addEventListener(
             "click",
             function () {
+
 
                 // Remove old selection
 
@@ -188,7 +198,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
 
-                // Store method
+                // Store selected method
 
                 selectedPaymentMethod =
                     this.dataset.method;
@@ -204,7 +214,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
 
-                // Enable continue button
+                // Enable Continue button
 
                 if (continueButton) {
 
@@ -217,6 +227,7 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
     });
+
 
 
     // ==========================================
@@ -250,27 +261,40 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+
     // ==========================================
     // CONTINUE PAYMENT
     // ==========================================
-if (continueButton) {
 
-    continueButton.addEventListener(
-        "click",
-        function () {
+    if (continueButton) {
 
-            if (!selectedPaymentMethod) {
-                return;
+        continueButton.addEventListener(
+            "click",
+            function () {
+
+
+                if (!selectedPaymentMethod) {
+
+                    alert(
+                        "Please select a payment method."
+                    );
+
+                    return;
+
+                }
+
+
+                openPaymentAppScreen(
+                    selectedPaymentMethod
+                );
+
             }
+        );
 
-            openPaymentAppScreen(
-                selectedPaymentMethod
-            );
+    }
 
-        }
-    );
 
-}
+
     // ==========================================
     // PAYMENT PROCESSING ELEMENTS
     // ==========================================
@@ -280,25 +304,30 @@ if (continueButton) {
             "paymentProcessing"
         );
 
+
     const processingTitle =
         document.getElementById(
             "processingTitle"
         );
+
 
     const processingMessage =
         document.getElementById(
             "processingMessage"
         );
 
+
     const processingProgressBar =
         document.getElementById(
             "processingProgressBar"
         );
 
+
     const processingStep =
         document.getElementById(
             "processingStep"
         );
+
 
 
     // ==========================================
@@ -310,15 +339,18 @@ if (continueButton) {
             "paymentSuccess"
         );
 
+
     const successMethod =
         document.getElementById(
             "successMethod"
         );
 
+
     const successEvent =
         document.getElementById(
             "successEvent"
         );
+
 
     const viewReceiptButton =
         document.getElementById(
@@ -326,257 +358,339 @@ if (continueButton) {
         );
 
 
+
     // ==========================================
-    // START PAYMENT PROCESS
+    // OPEN PAYMENT APP SCREEN
     // ==========================================
+
     function openPaymentAppScreen(method) {
 
-    let appName = method;
-    let appLetter = "UPI";
-    let appClass = "demo-upi";
 
-    if (method === "Google Pay") {
+        let appName = method;
 
-        appName = "Google Pay";
-        appLetter = "G";
-        appClass = "demo-gpay";
+        let appLetter = "UPI";
 
-    }
-
-    else if (method === "PhonePe") {
-
-        appName = "PhonePe";
-        appLetter = "P";
-        appClass = "demo-phonepe";
-
-    }
-
-    else if (method === "Paytm") {
-
-        appName = "Paytm";
-        appLetter = "P";
-        appClass = "demo-paytm";
-
-    }
-
-    else if (method === "Other UPI") {
-
-        appName = "UPI Payment";
-        appLetter = "UPI";
-        appClass = "demo-upi";
-
-    }
-
-    else {
-
-        appName = method;
-        appLetter = "🏦";
-        appClass = "demo-bank";
-
-    }
+        let appClass = "demo-upi";
 
 
-    const overlay =
-        document.createElement("div");
 
-    overlay.className =
-        "payment-app-overlay";
+        if (method === "Google Pay") {
 
+            appName = "Google Pay";
 
-    overlay.innerHTML = `
+            appLetter = "G";
 
-        <div class="payment-app-card">
+            appClass = "demo-gpay";
 
-            <div class="payment-app-top">
-
-                <button
-                    type="button"
-                    class="payment-app-back"
-                    id="paymentAppBack"
-                >
-                    ←
-                </button>
-
-                <span>
-                    Secure Checkout
-                </span>
-
-                <span class="top-spacer"></span>
-
-            </div>
+        }
 
 
-            <div class="payment-app-content">
+        else if (method === "PhonePe") {
 
-                <div class="payment-app-logo ${appClass}">
-                    ${appLetter}
-                </div>
+            appName = "PhonePe";
 
+            appLetter = "P";
 
-                <h2>
-                    ${appName}
-                </h2>
+            appClass = "demo-phonepe";
 
-
-                <p class="payment-app-subtitle">
-                    College Event Manager
-                </p>
+        }
 
 
-                <div class="payment-app-amount">
+        else if (method === "Paytm") {
+
+            appName = "Paytm";
+
+            appLetter = "P";
+
+            appClass = "demo-paytm";
+
+        }
+
+
+        else if (method === "Other UPI") {
+
+            appName = "UPI Payment";
+
+            appLetter = "UPI";
+
+            appClass = "demo-upi";
+
+        }
+
+
+        else {
+
+            appName = method;
+
+            appLetter = "🏦";
+
+            appClass = "demo-bank";
+
+        }
+
+
+
+        // ==========================================
+        // CREATE PAYMENT APP SCREEN
+        // ==========================================
+
+        const overlay =
+            document.createElement("div");
+
+
+        overlay.className =
+            "payment-app-overlay";
+
+
+        overlay.innerHTML = `
+
+            <div class="payment-app-card">
+
+
+                <div class="payment-app-top">
+
+
+                    <button
+                        type="button"
+                        class="payment-app-back"
+                        id="paymentAppBack"
+                    >
+                        ←
+                    </button>
+
 
                     <span>
-                        Amount to Pay
+                        Secure Checkout
                     </span>
 
-                    <strong>
-                        ₹1,000
-                    </strong>
+
+                    <span class="top-spacer"></span>
+
 
                 </div>
 
 
-                <div class="payment-app-details">
 
-                    <div>
+                <div class="payment-app-content">
 
-                        <span>
-                            Student
-                        </span>
 
-                        <strong>
-                            ${student.fullname || "Student"}
-                        </strong>
-
+                    <div
+                        class="payment-app-logo ${appClass}"
+                    >
+                        ${appLetter}
                     </div>
 
 
-                    <div>
+
+                    <h2>
+                        ${appName}
+                    </h2>
+
+
+
+                    <p class="payment-app-subtitle">
+
+                        College Event Manager
+
+                    </p>
+
+
+
+                    <div class="payment-app-amount">
+
 
                         <span>
-                            Event
+                            Amount to Pay
                         </span>
 
-                        <strong>
-                            ${student.event || "College Event"}
-                        </strong>
-
-                    </div>
-
-
-                    <div>
-
-                        <span>
-                            Registration Fee
-                        </span>
 
                         <strong>
                             ₹1,000
                         </strong>
 
-                    </div>
-
-                </div>
-
-
-                <div class="payment-app-demo">
-
-                    <span class="demo-check">
-                        ✓
-                    </span>
-
-                    <div>
-
-                        <strong>
-                            College Project Demo
-                        </strong>
-
-                        <p>
-                            This is a demonstration payment.
-                            No real money will be charged.
-                        </p>
 
                     </div>
 
+
+
+                    <div class="payment-app-details">
+
+
+                        <div>
+
+                            <span>
+                                Student
+                            </span>
+
+
+                            <strong>
+                                ${student.fullname || "Student"}
+                            </strong>
+
+                        </div>
+
+
+
+                        <div>
+
+                            <span>
+                                Event
+                            </span>
+
+
+                            <strong>
+                                ${student.event || "College Event"}
+                            </strong>
+
+                        </div>
+
+
+
+                        <div>
+
+                            <span>
+                                Registration Fee
+                            </span>
+
+
+                            <strong>
+                                ₹1,000
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div class="payment-app-demo">
+
+
+                        <span class="demo-check">
+                            ✓
+                        </span>
+
+
+                        <div>
+
+
+                            <strong>
+                                College Project Demo
+                            </strong>
+
+
+                            <p>
+
+                                This is a demonstration payment.
+                                No real money will be charged.
+
+                            </p>
+
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <button
+                        type="button"
+                        id="confirmAppPayment"
+                        class="confirm-app-payment"
+                    >
+
+                        Continue with ${appName}
+
+                        <span>
+                            →
+                        </span>
+
+                    </button>
+
+
+
+                    <p class="payment-app-security">
+
+                        🔒 No PIN, OTP or bank password
+                        is requested.
+
+                    </p>
+
+
                 </div>
 
-
-                <button
-                    type="button"
-                    id="confirmAppPayment"
-                    class="confirm-app-payment"
-                >
-
-                    Continue with ${appName}
-
-                    <span>
-                        →
-                    </span>
-
-                </button>
-
-
-                <p class="payment-app-security">
-
-                    🔒 No PIN, OTP or bank password
-                    is requested.
-
-                </p>
 
             </div>
 
-        </div>
-
-    `;
+        `;
 
 
-    document.body.appendChild(
-        overlay
-    );
 
-    document.body.style.overflow =
-        "hidden";
-
-
-    // BACK
-
-    document
-        .getElementById("paymentAppBack")
-        .addEventListener(
-            "click",
-            function () {
-
-                overlay.remove();
-
-                document.body.style.overflow =
-                    "";
-
-            }
+        document.body.appendChild(
+            overlay
         );
 
 
-    // CONTINUE
+        document.body.style.overflow =
+            "hidden";
 
-    document
-        .getElementById("confirmAppPayment")
-        .addEventListener(
-            "click",
-            function () {
 
-                overlay.remove();
 
-                document.body.style.overflow =
-                    "";
+        // ==========================================
+        // BACK BUTTON
+        // ==========================================
 
-                startPaymentProcess(
-                    method
-                );
+        document
+            .getElementById("paymentAppBack")
+            .addEventListener(
+                "click",
+                function () {
 
-            }
-        );
+                    overlay.remove();
 
-}
+                    document.body.style.overflow =
+                        "";
+
+                }
+            );
+
+
+
+        // ==========================================
+        // CONFIRM PAYMENT
+        // ==========================================
+
+        document
+            .getElementById("confirmAppPayment")
+            .addEventListener(
+                "click",
+                function () {
+
+                    overlay.remove();
+
+                    document.body.style.overflow =
+                        "";
+
+
+                    startPaymentProcess(
+                        method
+                    );
+
+                }
+            );
+
+    }
+
+
+
+    // ==========================================
+    // START PAYMENT PROCESS
+    // ==========================================
+
     function startPaymentProcess(method) {
+
 
         // Save selected method
 
@@ -603,15 +717,14 @@ if (continueButton) {
         }
 
 
-        // Prevent page scrolling
-
         document.body.style.overflow =
             "hidden";
 
 
-        // --------------------------------------
+
+        // ======================================
         // STAGE 1
-        // --------------------------------------
+        // ======================================
 
         updateProcessing(
 
@@ -626,12 +739,14 @@ if (continueButton) {
         );
 
 
-        setTimeout(
-            function () {
 
-                // --------------------------------
-                // STAGE 2
-                // --------------------------------
+        // ======================================
+        // STAGE 2
+        // ======================================
+
+        setTimeout(
+
+            function () {
 
                 updateProcessing(
 
@@ -648,15 +763,18 @@ if (continueButton) {
             },
 
             1800
+
         );
 
 
-        setTimeout(
-            function () {
 
-                // --------------------------------
-                // STAGE 3
-                // --------------------------------
+        // ======================================
+        // STAGE 3
+        // ======================================
+
+        setTimeout(
+
+            function () {
 
                 updateProcessing(
 
@@ -673,10 +791,17 @@ if (continueButton) {
             },
 
             3600
+
         );
 
 
+
+        // ======================================
+        // COMPLETE
+        // ======================================
+
         setTimeout(
+
             function () {
 
                 completePayment(
@@ -686,9 +811,11 @@ if (continueButton) {
             },
 
             5200
+
         );
 
     }
+
 
 
     // ==========================================
@@ -701,6 +828,7 @@ if (continueButton) {
         progress,
         step
     ) {
+
 
         if (processingTitle) {
 
@@ -736,13 +864,13 @@ if (continueButton) {
     }
 
 
+
     // ==========================================
     // PAYMENT COMPLETE
     // ==========================================
 
     function completePayment(method) {
 
-        // Finish progress
 
         updateProcessing(
 
@@ -757,10 +885,13 @@ if (continueButton) {
         );
 
 
-        // Wait briefly before showing success
+
+        // Brief pause before success page
 
         setTimeout(
+
             function () {
+
 
                 if (processingOverlay) {
 
@@ -775,12 +906,15 @@ if (continueButton) {
                     method
                 );
 
+
             },
 
             900
+
         );
 
     }
+
 
 
     // ==========================================
@@ -789,62 +923,90 @@ if (continueButton) {
 
     function showSuccessScreen(method) {
 
+
         // Save payment status
 
         student.paymentStatus =
             "Successful";
 
+
         student.paymentAmount =
             1000;
 
+
         student.paymentMethod =
             method;
+
 
         student.paymentDate =
             new Date().toLocaleString();
 
 
+
         // Save updated data
 
         localStorage.setItem(
+
             "studentData",
+
             JSON.stringify(student)
+
         );
 
 
-        // Also save a separate receipt object
+
+        // ======================================
+        // RECEIPT DATA
+        // ======================================
 
         const receiptData = {
 
+
             fullname:
-                student.fullname || "Student",
+                student.fullname ||
+                "Student",
+
 
             email:
-                student.email || "",
+                student.email ||
+                "",
+
 
             college:
-                student.college || "",
+                student.college ||
+                "",
+
 
             department:
-                student.department || "",
+                student.department ||
+                "",
+
 
             year:
-                student.year || "",
+                student.year ||
+                "",
+
 
             event:
-                student.event || "College Event",
+                student.event ||
+                "College Event",
+
 
             amount:
                 1000,
 
+
             paymentMethod:
                 method,
+
 
             paymentStatus:
                 "Successful",
 
+
             paymentDate:
                 new Date().toLocaleString(),
+
 
             transactionId:
                 generateTransactionId()
@@ -852,13 +1014,20 @@ if (continueButton) {
         };
 
 
+
         localStorage.setItem(
+
             "paymentReceipt",
+
             JSON.stringify(receiptData)
+
         );
 
 
-        // Display success information
+
+        // ======================================
+        // DISPLAY SUCCESS INFORMATION
+        // ======================================
 
         if (successMethod) {
 
@@ -877,7 +1046,10 @@ if (continueButton) {
         }
 
 
-        // Show success screen
+
+        // ======================================
+        // SHOW SUCCESS SCREEN
+        // ======================================
 
         if (paymentSuccess) {
 
@@ -890,26 +1062,37 @@ if (continueButton) {
     }
 
 
+
     // ==========================================
     // TRANSACTION ID
     // ==========================================
 
     function generateTransactionId() {
 
+
         const randomPart =
+
             Math.random()
                 .toString(36)
                 .substring(2, 8)
                 .toUpperCase();
 
 
+
         return (
+
             "CEM" +
-            Date.now().toString().slice(-8) +
+
+            Date.now()
+                .toString()
+                .slice(-8) +
+
             randomPart
+
         );
 
     }
+
 
 
     // ==========================================
@@ -919,21 +1102,21 @@ if (continueButton) {
     if (viewReceiptButton) {
 
         viewReceiptButton.addEventListener(
+
             "click",
+
             function () {
 
-                /*
-                 * Payment is complete.
-                 * Open the existing receipt page.
-                 */
 
                 document.body.style.overflow =
                     "";
+
 
                 window.location.href =
                     "receipt.html";
 
             }
+
         );
 
     }

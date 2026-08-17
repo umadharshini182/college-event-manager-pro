@@ -11,30 +11,65 @@
     >
 
     <title>Secure Checkout | College Event Manager</title>
-<link rel="stylesheet" href="payment.css?v=2">
+
+    <link
+        rel="stylesheet"
+        href="payment.css?v=3"
+    >
+
 </head>
 
 
 <body>
 
 
-    <!-- =====================================
+    <!-- =====================================================
          HEADER
-         ===================================== -->
+         ===================================================== -->
 
     <header class="checkout-header">
+
+
+        <!-- BRAND -->
 
         <a
             href="index.html"
             class="checkout-brand"
         >
-            <span class="brand-icon">🎓</span>
+
+            <span class="brand-icon">
+                🎓
+            </span>
 
             <span>
                 College Event Manager
             </span>
+
         </a>
 
+
+
+        <!-- NAVIGATION -->
+
+        <nav class="checkout-nav">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="about.html">
+                About
+            </a>
+
+            <a href="privacy.html">
+                Privacy
+            </a>
+
+        </nav>
+
+
+
+        <!-- SECURE -->
 
         <div class="secure-checkout">
 
@@ -46,13 +81,15 @@
 
         </div>
 
+
     </header>
 
 
 
-    <!-- =====================================
+
+    <!-- =====================================================
          MAIN CHECKOUT
-         ===================================== -->
+         ===================================================== -->
 
     <main class="checkout-page">
 
@@ -60,9 +97,9 @@
         <div class="checkout-container">
 
 
-            <!-- =================================
-                 LEFT - REGISTRATION SUMMARY
-                 ================================= -->
+            <!-- =================================================
+                 REGISTRATION SUMMARY
+                 ================================================= -->
 
             <section class="registration-card">
 
@@ -78,9 +115,11 @@
                 </div>
 
 
+
                 <h1>
                     Complete Your Registration
                 </h1>
+
 
 
                 <p class="section-description">
@@ -110,6 +149,7 @@
                     </div>
 
 
+
                     <div class="summary-row">
 
                         <span>
@@ -121,6 +161,7 @@
                         </strong>
 
                     </div>
+
 
 
                     <div class="summary-row">
@@ -136,6 +177,7 @@
                     </div>
 
 
+
                     <div class="summary-row">
 
                         <span>
@@ -149,6 +191,7 @@
                     </div>
 
 
+
                     <div class="summary-row">
 
                         <span>
@@ -160,6 +203,7 @@
                         </strong>
 
                     </div>
+
 
 
                     <div class="summary-row">
@@ -179,9 +223,10 @@
 
 
 
-                <!-- AMOUNT -->
+                <!-- FEE -->
 
                 <div class="total-card">
+
 
                     <div>
 
@@ -200,13 +245,15 @@
                         ₹1,000
                     </strong>
 
+
                 </div>
 
 
 
-                <!-- DEMO NOTICE -->
+                <!-- NOTICE -->
 
                 <div class="project-notice">
+
 
                     <span class="notice-icon">
                         ℹ
@@ -219,6 +266,7 @@
                             College Project Demo
                         </strong>
 
+
                         <p>
 
                             This payment system is a
@@ -229,6 +277,7 @@
 
                     </div>
 
+
                 </div>
 
 
@@ -237,9 +286,9 @@
 
 
 
-            <!-- =================================
-                 RIGHT - PAYMENT METHODS
-                 ================================= -->
+            <!-- =================================================
+                 PAYMENT CARD
+                 ================================================= -->
 
             <section class="payment-card">
 
@@ -255,9 +304,11 @@
                 </div>
 
 
+
                 <h2>
                     Choose how you want to pay
                 </h2>
+
 
 
                 <p class="section-description">
@@ -269,9 +320,10 @@
 
 
 
-                <!-- =================================
+
+                <!-- =================================================
                      UPI
-                     ================================= -->
+                     ================================================= -->
 
                 <div class="payment-section">
 
@@ -293,7 +345,10 @@
                     <div class="upi-options">
 
 
-                        <!-- GOOGLE PAY -->
+
+                        <!-- =========================
+                             GOOGLE PAY
+                             ========================= -->
 
                         <button
                             type="button"
@@ -301,11 +356,17 @@
                             data-method="Google Pay"
                         >
 
+
                             <span
                                 class="payment-option-icon gpay-icon"
                             >
-                                G
+
+                                <span class="gpay-logo">
+                                    G
+                                </span>
+
                             </span>
+
 
 
                             <span class="payment-option-text">
@@ -315,21 +376,26 @@
                                 </strong>
 
                                 <small>
-                                    Pay with GPay
+                                    Pay securely with Google Pay
                                 </small>
 
                             </span>
+
 
 
                             <span class="option-arrow">
                                 →
                             </span>
 
+
                         </button>
 
 
 
-                        <!-- PHONEPE -->
+
+                        <!-- =========================
+                             PHONEPE
+                             ========================= -->
 
                         <button
                             type="button"
@@ -337,11 +403,17 @@
                             data-method="PhonePe"
                         >
 
+
                             <span
                                 class="payment-option-icon phonepe-icon"
                             >
-                                P
+
+                                <span class="phonepe-logo">
+                                    पे
+                                </span>
+
                             </span>
+
 
 
                             <span class="payment-option-text">
@@ -357,15 +429,20 @@
                             </span>
 
 
+
                             <span class="option-arrow">
                                 →
                             </span>
+
 
                         </button>
 
 
 
-                        <!-- PAYTM -->
+
+                        <!-- =========================
+                             PAYTM
+                             ========================= -->
 
                         <button
                             type="button"
@@ -373,11 +450,17 @@
                             data-method="Paytm"
                         >
 
+
                             <span
                                 class="payment-option-icon paytm-icon"
                             >
-                                P
+
+                                <span class="paytm-logo">
+                                    paytm
+                                </span>
+
                             </span>
+
 
 
                             <span class="payment-option-text">
@@ -387,21 +470,26 @@
                                 </strong>
 
                                 <small>
-                                    Pay with Paytm
+                                    Pay securely with Paytm
                                 </small>
 
                             </span>
+
 
 
                             <span class="option-arrow">
                                 →
                             </span>
 
+
                         </button>
 
 
 
-                        <!-- OTHER UPI -->
+
+                        <!-- =========================
+                             OTHER UPI
+                             ========================= -->
 
                         <button
                             type="button"
@@ -409,11 +497,17 @@
                             data-method="Other UPI"
                         >
 
+
                             <span
                                 class="payment-option-icon upi-icon"
                             >
-                                UPI
+
+                                <span class="upi-logo">
+                                    UPI
+                                </span>
+
                             </span>
+
 
 
                             <span class="payment-option-text">
@@ -423,29 +517,32 @@
                                 </strong>
 
                                 <small>
-                                    Any UPI application
+                                    Any supported UPI application
                                 </small>
 
                             </span>
+
 
 
                             <span class="option-arrow">
                                 →
                             </span>
 
+
                         </button>
 
 
                     </div>
+
 
                 </div>
 
 
 
 
-                <!-- =================================
+                <!-- =================================================
                      QR PAYMENT
-                     ================================= -->
+                     ================================================= -->
 
                 <div class="payment-section">
 
@@ -463,6 +560,7 @@
                     </div>
 
 
+
                     <button
                         type="button"
                         id="scanQrButton"
@@ -471,8 +569,11 @@
 
 
                         <span class="qr-option-icon">
+
                             ▦
+
                         </span>
+
 
 
                         <span class="payment-option-text">
@@ -482,10 +583,11 @@
                             </strong>
 
                             <small>
-                                Open QR verification page
+                                Open secure QR verification page
                             </small>
 
                         </span>
+
 
 
                         <span class="option-arrow">
@@ -501,9 +603,9 @@
 
 
 
-                <!-- =================================
+                <!-- =================================================
                      NET BANKING
-                     ================================= -->
+                     ================================================= -->
 
                 <div class="payment-section">
 
@@ -521,8 +623,14 @@
                     </div>
 
 
+
                     <div class="bank-options">
 
+
+
+                        <!-- =========================
+                             SBI
+                             ========================= -->
 
                         <button
                             type="button"
@@ -530,17 +638,30 @@
                             data-method="State Bank of India"
                         >
 
-                            <span class="bank-icon">
-                                SBI
+
+                            <span class="bank-icon sbi-icon">
+
+                                <span>
+                                    SBI
+                                </span>
+
                             </span>
 
-                            <span>
+
+
+                            <span class="bank-name">
                                 State Bank of India
                             </span>
+
 
                         </button>
 
 
+
+
+                        <!-- =========================
+                             HDFC
+                             ========================= -->
 
                         <button
                             type="button"
@@ -548,17 +669,30 @@
                             data-method="HDFC Bank"
                         >
 
-                            <span class="bank-icon">
-                                H
+
+                            <span class="bank-icon hdfc-icon">
+
+                                <span>
+                                    H
+                                </span>
+
                             </span>
 
-                            <span>
+
+
+                            <span class="bank-name">
                                 HDFC Bank
                             </span>
+
 
                         </button>
 
 
+
+
+                        <!-- =========================
+                             ICICI
+                             ========================= -->
 
                         <button
                             type="button"
@@ -566,17 +700,30 @@
                             data-method="ICICI Bank"
                         >
 
-                            <span class="bank-icon">
-                                ICICI
+
+                            <span class="bank-icon icici-icon">
+
+                                <span>
+                                    ICICI
+                                </span>
+
                             </span>
 
-                            <span>
+
+
+                            <span class="bank-name">
                                 ICICI Bank
                             </span>
+
 
                         </button>
 
 
+
+
+                        <!-- =========================
+                             AXIS
+                             ========================= -->
 
                         <button
                             type="button"
@@ -584,27 +731,36 @@
                             data-method="Axis Bank"
                         >
 
-                            <span class="bank-icon">
-                                AXIS
+
+                            <span class="bank-icon axis-icon">
+
+                                <span>
+                                    AXIS
+                                </span>
+
                             </span>
 
-                            <span>
+
+
+                            <span class="bank-name">
                                 Axis Bank
                             </span>
+
 
                         </button>
 
 
                     </div>
 
+
                 </div>
 
 
 
 
-                <!-- =================================
-                     SELECTED METHOD
-                     ================================= -->
+                <!-- =================================================
+                     SELECTED PAYMENT
+                     ================================================= -->
 
                 <div class="selected-payment">
 
@@ -624,9 +780,9 @@
 
 
 
-                <!-- =================================
+                <!-- =================================================
                      CONTINUE
-                     ================================= -->
+                     ================================================= -->
 
                 <button
                     type="button"
@@ -642,6 +798,7 @@
                     </span>
 
                 </button>
+
 
 
                 <p class="security-note">
@@ -662,14 +819,16 @@
 
 
 
-    <!-- =====================================
-         PAYMENT PROCESSING OVERLAY
-         ===================================== -->
+
+    <!-- =====================================================
+         PAYMENT PROCESSING
+         ===================================================== -->
 
     <div
         id="paymentProcessing"
         class="processing-overlay"
     >
+
 
         <div class="processing-card">
 
@@ -681,9 +840,11 @@
             </div>
 
 
+
             <h2 id="processingTitle">
                 Processing Payment
             </h2>
+
 
 
             <p id="processingMessage">
@@ -692,6 +853,7 @@
                 service...
 
             </p>
+
 
 
             <div class="processing-progress">
@@ -704,42 +866,57 @@
             </div>
 
 
+
             <span id="processingStep">
+
                 Step 1 of 3
+
             </span>
 
 
         </div>
 
+
     </div>
 
 
 
-    <!-- =====================================
-         SUCCESS OVERLAY
-         ===================================== -->
+
+    <!-- =====================================================
+         PAYMENT SUCCESS
+         ===================================================== -->
 
     <div
         id="paymentSuccess"
         class="success-overlay"
     >
 
+
         <div class="success-card">
 
 
             <div class="success-check">
+
                 ✓
+
             </div>
 
 
+
             <span class="success-label">
+
                 TRANSACTION SUCCESSFUL
+
             </span>
 
 
+
             <h2>
+
                 Payment Completed
+
             </h2>
+
 
 
             <p>
@@ -749,6 +926,9 @@
 
             </p>
 
+
+
+            <!-- SUCCESS DETAILS -->
 
             <div class="success-summary">
 
@@ -766,6 +946,7 @@
                 </div>
 
 
+
                 <div>
 
                     <span>
@@ -777,6 +958,7 @@
                     </strong>
 
                 </div>
+
 
 
                 <div>
@@ -795,6 +977,10 @@
             </div>
 
 
+
+
+            <!-- RECEIPT -->
+
             <button
                 type="button"
                 id="viewReceiptButton"
@@ -810,6 +996,7 @@
             </button>
 
 
+
             <p class="success-note">
 
                 Registration confirmed •
@@ -820,15 +1007,18 @@
 
         </div>
 
+
     </div>
 
 
 
-    <!-- =====================================
-         JAVASCRIPT
-         ===================================== -->
 
-    <script src="payment.js?v=2"></script>
+    <!-- =====================================================
+         PAYMENT JAVASCRIPT
+         ===================================================== -->
+
+    <script src="payment.js?v=3"></script>
+
 
 </body>
 
