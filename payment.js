@@ -1,6 +1,6 @@
 // ==========================================
 // COLLEGE EVENT MANAGER
-// PROFESSIONAL PAYMENT FLOW
+// PAYMENT PAGE JAVASCRIPT
 // ==========================================
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    // Fallback for older registration data
+    // Fallback
 
     if (!student) {
 
@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // ELEMENTS
+    // STUDENT DETAILS
     // ==========================================
 
     const studentName =
@@ -86,11 +86,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const eventName =
         document.getElementById("eventName");
 
-
-
-    // ==========================================
-    // DISPLAY REGISTRATION DETAILS
-    // ==========================================
 
     if (studentName) {
 
@@ -178,7 +173,7 @@ document.addEventListener("DOMContentLoaded", function () {
             function () {
 
 
-                // Remove old selection
+                // Remove previous selection
 
                 paymentOptions.forEach(
                     function (item) {
@@ -191,17 +186,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
 
-                // Select clicked option
+                // Select current option
 
                 this.classList.add(
                     "selected"
                 );
 
 
-                // Store selected method
+                // Save method
 
                 selectedPaymentMethod =
-                    this.dataset.method;
+                    this.dataset.method || "";
 
 
                 // Display selected method
@@ -209,17 +204,22 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (selectedMethod) {
 
                     selectedMethod.textContent =
-                        selectedPaymentMethod;
+                        selectedPaymentMethod ||
+                        "No method selected";
 
                 }
 
 
-                // Enable Continue button
+                // Enable button
 
                 if (continueButton) {
 
                     continueButton.disabled =
                         false;
+
+                    continueButton.removeAttribute(
+                        "disabled"
+                    );
 
                 }
 
@@ -246,12 +246,6 @@ document.addEventListener("DOMContentLoaded", function () {
             "click",
             function () {
 
-                /*
-                 * QR is intentionally a separate page.
-                 * Registration details are already stored
-                 * in localStorage.
-                 */
-
                 window.location.href =
                     "qr-payment.html";
 
@@ -276,7 +270,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (!selectedPaymentMethod) {
 
                     alert(
-                        "Please select a payment method."
+                        "Please select a payment method first."
                     );
 
                     return;
@@ -296,7 +290,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // PAYMENT PROCESSING ELEMENTS
+    // PROCESSING ELEMENTS
     // ==========================================
 
     const processingOverlay =
@@ -360,7 +354,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // OPEN PAYMENT APP SCREEN
+    // PAYMENT APP SCREEN
     // ==========================================
 
     function openPaymentAppScreen(method) {
@@ -371,7 +365,6 @@ document.addEventListener("DOMContentLoaded", function () {
         let appLetter = "UPI";
 
         let appClass = "demo-upi";
-
 
 
         if (method === "Google Pay") {
@@ -431,7 +424,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         // ==========================================
-        // CREATE PAYMENT APP SCREEN
+        // CREATE SCREEN
         // ==========================================
 
         const overlay =
@@ -489,25 +482,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                     <p class="payment-app-subtitle">
-
                         College Event Manager
-
                     </p>
 
 
 
                     <div class="payment-app-amount">
 
-
                         <span>
                             Amount to Pay
                         </span>
 
-
                         <strong>
                             ₹1,000
                         </strong>
-
 
                     </div>
 
@@ -521,7 +509,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             <span>
                                 Student
                             </span>
-
 
                             <strong>
                                 ${student.fullname || "Student"}
@@ -537,7 +524,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                 Event
                             </span>
 
-
                             <strong>
                                 ${student.event || "College Event"}
                             </strong>
@@ -551,7 +537,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             <span>
                                 Registration Fee
                             </span>
-
 
                             <strong>
                                 ₹1,000
@@ -574,19 +559,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         <div>
 
-
                             <strong>
                                 College Project Demo
                             </strong>
 
-
                             <p>
-
                                 This is a demonstration payment.
                                 No real money will be charged.
-
                             </p>
-
 
                         </div>
 
@@ -627,7 +607,6 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
 
 
-
         document.body.appendChild(
             overlay
         );
@@ -639,12 +618,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         // ==========================================
-        // BACK BUTTON
+        // BACK
         // ==========================================
 
-        document
-            .getElementById("paymentAppBack")
-            .addEventListener(
+        const paymentAppBack =
+            document.getElementById(
+                "paymentAppBack"
+            );
+
+
+        if (paymentAppBack) {
+
+            paymentAppBack.addEventListener(
                 "click",
                 function () {
 
@@ -656,19 +641,29 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             );
 
+        }
+
 
 
         // ==========================================
-        // CONFIRM PAYMENT
+        // CONFIRM
         // ==========================================
 
-        document
-            .getElementById("confirmAppPayment")
-            .addEventListener(
+        const confirmAppPayment =
+            document.getElementById(
+                "confirmAppPayment"
+            );
+
+
+        if (confirmAppPayment) {
+
+            confirmAppPayment.addEventListener(
                 "click",
                 function () {
 
+
                     overlay.remove();
+
 
                     document.body.style.overflow =
                         "";
@@ -681,6 +676,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             );
 
+        }
+
     }
 
 
@@ -692,21 +689,15 @@ document.addEventListener("DOMContentLoaded", function () {
     function startPaymentProcess(method) {
 
 
-        // Save selected method
-
         student.paymentMethod =
             method;
 
-
-        // Save current registration
 
         localStorage.setItem(
             "studentData",
             JSON.stringify(student)
         );
 
-
-        // Open processing screen
 
         if (processingOverlay) {
 
@@ -722,9 +713,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-        // ======================================
-        // STAGE 1
-        // ======================================
+        // STEP 1
 
         updateProcessing(
 
@@ -740,12 +729,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-        // ======================================
-        // STAGE 2
-        // ======================================
+        // STEP 2
 
         setTimeout(
-
             function () {
 
                 updateProcessing(
@@ -761,19 +747,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
             },
-
             1800
-
         );
 
 
 
-        // ======================================
-        // STAGE 3
-        // ======================================
+        // STEP 3
 
         setTimeout(
-
             function () {
 
                 updateProcessing(
@@ -789,19 +770,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
             },
-
             3600
-
         );
 
 
 
-        // ======================================
         // COMPLETE
-        // ======================================
 
         setTimeout(
-
             function () {
 
                 completePayment(
@@ -809,9 +785,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
             },
-
             5200
-
         );
 
     }
@@ -819,7 +793,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // UPDATE PROCESSING SCREEN
+    // UPDATE PROCESSING
     // ==========================================
 
     function updateProcessing(
@@ -866,7 +840,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // PAYMENT COMPLETE
+    // COMPLETE PAYMENT
     // ==========================================
 
     function completePayment(method) {
@@ -885,11 +859,7 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
 
-
-        // Brief pause before success page
-
         setTimeout(
-
             function () {
 
 
@@ -908,9 +878,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
             },
-
             900
-
         );
 
     }
@@ -923,8 +891,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function showSuccessScreen(method) {
 
-
-        // Save payment status
 
         student.paymentStatus =
             "Successful";
@@ -942,71 +908,46 @@ document.addEventListener("DOMContentLoaded", function () {
             new Date().toLocaleString();
 
 
-
-        // Save updated data
-
         localStorage.setItem(
-
             "studentData",
-
             JSON.stringify(student)
-
         );
 
 
 
-        // ======================================
-        // RECEIPT DATA
-        // ======================================
+        // Receipt
 
         const receiptData = {
 
-
             fullname:
-                student.fullname ||
-                "Student",
-
+                student.fullname || "Student",
 
             email:
-                student.email ||
-                "",
-
+                student.email || "",
 
             college:
-                student.college ||
-                "",
-
+                student.college || "",
 
             department:
-                student.department ||
-                "",
-
+                student.department || "",
 
             year:
-                student.year ||
-                "",
-
+                student.year || "",
 
             event:
-                student.event ||
-                "College Event",
-
+                student.event || "College Event",
 
             amount:
                 1000,
 
-
             paymentMethod:
                 method,
-
 
             paymentStatus:
                 "Successful",
 
-
             paymentDate:
                 new Date().toLocaleString(),
-
 
             transactionId:
                 generateTransactionId()
@@ -1014,20 +955,14 @@ document.addEventListener("DOMContentLoaded", function () {
         };
 
 
-
         localStorage.setItem(
-
             "paymentReceipt",
-
             JSON.stringify(receiptData)
-
         );
 
 
 
-        // ======================================
-        // DISPLAY SUCCESS INFORMATION
-        // ======================================
+        // Display success details
 
         if (successMethod) {
 
@@ -1045,11 +980,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         }
 
-
-
-        // ======================================
-        // SHOW SUCCESS SCREEN
-        // ======================================
 
         if (paymentSuccess) {
 
@@ -1069,14 +999,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function generateTransactionId() {
 
-
         const randomPart =
 
             Math.random()
                 .toString(36)
                 .substring(2, 8)
                 .toUpperCase();
-
 
 
         return (
@@ -1102,9 +1030,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (viewReceiptButton) {
 
         viewReceiptButton.addEventListener(
-
             "click",
-
             function () {
 
 
@@ -1116,7 +1042,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     "receipt.html";
 
             }
-
         );
 
     }

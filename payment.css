@@ -1552,3 +1552,418 @@ body {
 .bank-icon {
     transition: transform 0.2s ease;
 }
+/* =========================================
+   FIX PAYMENT PAGE SCROLL
+   ========================================= */
+
+html,
+body {
+    height: auto;
+    min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.checkout-page {
+    min-height: 100vh;
+    overflow: visible;
+}
+
+.checkout-container {
+    overflow: visible;
+}
+/* =========================================
+   PAYMENT APP CONFIRMATION SCREEN
+   ========================================= */
+
+.payment-app-overlay {
+    position: fixed !important;
+
+    inset: 0 !important;
+
+    width: 100vw !important;
+    height: 100vh !important;
+
+    z-index: 99999 !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    padding: 20px !important;
+
+    background: rgba(5, 12, 25, 0.88) !important;
+
+    overflow-y: auto !important;
+}
+
+
+.payment-app-card {
+    width: 100% !important;
+
+    max-width: 430px !important;
+
+    margin: auto !important;
+
+    background: #ffffff !important;
+
+    color: #172033 !important;
+
+    border-radius: 24px !important;
+
+    overflow: hidden !important;
+
+    box-shadow:
+        0 25px 80px rgba(0, 0, 0, 0.35) !important;
+}
+
+
+/* HEADER */
+
+.payment-app-top {
+    min-height: 60px !important;
+
+    padding: 0 20px !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    background: #172033 !important;
+
+    color: #ffffff !important;
+
+    font-size: 14px !important;
+
+    font-weight: 700 !important;
+}
+
+
+.payment-app-back {
+    width: 38px !important;
+    height: 38px !important;
+
+    border: 0 !important;
+
+    border-radius: 50% !important;
+
+    background: rgba(255,255,255,0.12) !important;
+
+    color: #ffffff !important;
+
+    font-size: 20px !important;
+
+    cursor: pointer !important;
+}
+
+
+.top-spacer {
+    width: 38px !important;
+}
+
+
+/* CONTENT */
+
+.payment-app-content {
+    padding: 30px 24px 26px !important;
+
+    text-align: center !important;
+}
+
+
+.payment-app-logo {
+    width: 64px !important;
+    height: 64px !important;
+
+    margin: 0 auto 14px !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    border-radius: 18px !important;
+
+    font-size: 25px !important;
+
+    font-weight: 800 !important;
+}
+
+
+.demo-gpay {
+    background: #f5f8ff !important;
+    color: #4285f4 !important;
+}
+
+
+.demo-phonepe {
+    background: #673ab7 !important;
+    color: #ffffff !important;
+}
+
+
+.demo-paytm {
+    background: #eaf9ff !important;
+    color: #00a9e0 !important;
+}
+
+
+.demo-upi {
+    background: #edfdf3 !important;
+    color: #15803d !important;
+}
+
+
+.demo-bank {
+    background: #f1f5f9 !important;
+    color: #172033 !important;
+}
+
+
+.payment-app-content h2 {
+    margin: 5px 0 5px !important;
+
+    font-size: 25px !important;
+
+    color: #172033 !important;
+}
+
+
+.payment-app-subtitle {
+    margin: 0 0 22px !important;
+
+    color: #64748b !important;
+
+    font-size: 12px !important;
+}
+
+
+/* AMOUNT */
+
+.payment-app-amount {
+    padding: 18px !important;
+
+    margin-bottom: 16px !important;
+
+    border-radius: 15px !important;
+
+    background: #f8fafc !important;
+
+    border: 1px solid #e2e8f0 !important;
+}
+
+
+.payment-app-amount span {
+    display: block !important;
+
+    margin-bottom: 5px !important;
+
+    color: #64748b !important;
+
+    font-size: 11px !important;
+}
+
+
+.payment-app-amount strong {
+    color: #172033 !important;
+
+    font-size: 28px !important;
+}
+
+
+/* DETAILS */
+
+.payment-app-details {
+    padding: 15px !important;
+
+    margin-bottom: 16px !important;
+
+    border: 1px solid #e2e8f0 !important;
+
+    border-radius: 15px !important;
+
+    text-align: left !important;
+}
+
+
+.payment-app-details > div {
+    padding: 9px 0 !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    justify-content: space-between !important;
+
+    gap: 15px !important;
+
+    border-bottom: 1px solid #eef2f7 !important;
+}
+
+
+.payment-app-details > div:last-child {
+    border-bottom: 0 !important;
+}
+
+
+.payment-app-details span {
+    color: #64748b !important;
+
+    font-size: 10px !important;
+}
+
+
+.payment-app-details strong {
+    max-width: 60% !important;
+
+    color: #172033 !important;
+
+    font-size: 11px !important;
+
+    text-align: right !important;
+}
+
+
+/* DEMO MESSAGE */
+
+.payment-app-demo {
+    margin-bottom: 18px !important;
+
+    padding: 13px !important;
+
+    display: flex !important;
+
+    align-items: flex-start !important;
+
+    gap: 10px !important;
+
+    border-radius: 13px !important;
+
+    background: #eff6ff !important;
+
+    border: 1px solid #dbeafe !important;
+
+    text-align: left !important;
+}
+
+
+.demo-check {
+    width: 25px !important;
+    height: 25px !important;
+
+    flex-shrink: 0 !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    border-radius: 50% !important;
+
+    background: #2563eb !important;
+
+    color: #ffffff !important;
+
+    font-size: 12px !important;
+
+    font-weight: 800 !important;
+}
+
+
+.payment-app-demo strong {
+    display: block !important;
+
+    margin-bottom: 3px !important;
+
+    color: #172033 !important;
+
+    font-size: 11px !important;
+}
+
+
+.payment-app-demo p {
+    margin: 0 !important;
+
+    color: #64748b !important;
+
+    font-size: 9px !important;
+
+    line-height: 1.5 !important;
+}
+
+
+/* CONTINUE */
+
+.confirm-app-payment {
+    width: 100% !important;
+
+    min-height: 50px !important;
+
+    border: 0 !important;
+
+    border-radius: 12px !important;
+
+    background: #2563eb !important;
+
+    color: #ffffff !important;
+
+    font-size: 13px !important;
+
+    font-weight: 750 !important;
+
+    cursor: pointer !important;
+
+    transition: 0.2s ease !important;
+}
+
+
+.confirm-app-payment:hover {
+    background: #1d4ed8 !important;
+
+    transform: translateY(-1px) !important;
+}
+
+
+.confirm-app-payment span {
+    margin-left: 8px !important;
+}
+
+
+/* SECURITY */
+
+.payment-app-security {
+    margin: 15px 0 0 !important;
+
+    color: #64748b !important;
+
+    font-size: 9px !important;
+
+    line-height: 1.5 !important;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    .payment-app-overlay {
+        padding: 10px !important;
+
+        align-items: flex-start !important;
+    }
+
+
+    .payment-app-card {
+        margin-top: 20px !important;
+
+        border-radius: 20px !important;
+    }
+
+
+    .payment-app-content {
+        padding: 25px 17px 22px !important;
+    }
+
+}
