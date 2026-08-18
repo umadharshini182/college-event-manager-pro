@@ -862,10 +862,8 @@ document.addEventListener("DOMContentLoaded", function () {
             "CEM" + Date.now().toString().slice(-8);
 
 
-        const response = await fetch(
-            "http://localhost:5000/register",
-            {
-                method: "POST",
+        const response = await fetch("https://college-event-manager-pro.onrender.com/register", {
+               method: "POST",
 
                 headers: {
                     "Content-Type": "application/json"
