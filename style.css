@@ -4998,3 +4998,6 @@ footer .copyright {
     }
 
 }
+.receipt-card {
+    border: 10px solid red !important;
+}
