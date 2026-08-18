@@ -842,47 +842,139 @@ document.addEventListener("DOMContentLoaded", function () {
     // ==========================================
     // COMPLETE PAYMENT
     // ==========================================
+     async function completePayment(method) {
 
-    function completePayment(method) {
+    updateProcessing(
+        "Saving Registration",
+        "Saving your registration securely...",
+        95,
+        "Final Step"
+    );
+
+    try {
+
+        student.paymentStatus = "Successful";
+        student.paymentAmount = 1000;
+        student.paymentMethod = method;
+        student.paymentDate = new Date().toISOString();
+
+        student.paymentId =
+            "CEM" + Date.now().toString().slice(-8);
 
 
-        updateProcessing(
+        const response = await fetch(
+            "http://localhost:5000/register",
+            {
+                method: "POST",
 
-            "Transaction Successful",
+                headers: {
+                    "Content-Type": "application/json"
+                },
 
-            "Your registration payment has been confirmed.",
-
-            100,
-
-            "Completed"
-
+                body: JSON.stringify({
+                    fullname: student.fullname,
+                    email: student.email,
+                    college: student.college,
+                    department: student.department,
+                    year: student.year,
+                    event: student.event
+                })
+            }
         );
 
 
-        setTimeout(
-            function () {
+        if (!response.ok) {
+            throw new Error(
+                "Backend error: " + response.status
+            );
+        }
 
 
-                if (processingOverlay) {
+        const result = await response.json();
 
-                    processingOverlay.classList.remove(
-                        "active"
-                    );
-
-                }
-
-
-                showSuccessScreen(
-                    method
-                );
+        console.log(
+            "BACKEND RESPONSE:",
+            result
+        );
 
 
-            },
-            900
+        if (!result.success) {
+            throw new Error(
+                result.message ||
+                "Registration failed"
+            );
+        }
+
+
+        student.registrationId = result.id;
+
+
+        localStorage.setItem(
+            "studentData",
+            JSON.stringify(student)
+        );
+
+
+        localStorage.setItem(
+            "paymentReceipt",
+            JSON.stringify({
+                fullname: student.fullname,
+                email: student.email,
+                college: student.college,
+                department: student.department,
+                year: student.year,
+                event: student.event,
+                amount: 1000,
+                paymentMethod: method,
+                paymentStatus: "Successful",
+                paymentDate: student.paymentDate,
+                transactionId: student.paymentId,
+                registrationId: student.registrationId
+            })
+        );
+
+
+        updateProcessing(
+            "Transaction Successful",
+            "Your registration has been saved successfully.",
+            100,
+            "Completed"
+        );
+
+
+        setTimeout(function () {
+
+            if (processingOverlay) {
+                processingOverlay.classList.remove("active");
+            }
+
+            document.body.style.overflow = "";
+
+            showSuccessScreen(method);
+
+        }, 700);
+
+
+    } catch (error) {
+
+        console.error(
+            "REGISTRATION SAVE ERROR:",
+            error
+        );
+
+        if (processingOverlay) {
+            processingOverlay.classList.remove("active");
+        }
+
+        document.body.style.overflow = "";
+
+        alert(
+            "Registration could not be saved. Make sure the backend server is running on port 5000."
         );
 
     }
 
+}
 
 
     // ==========================================
@@ -913,15 +1005,13 @@ document.addEventListener("DOMContentLoaded", function () {
             JSON.stringify(student)
         );
 
-
-
         // Receipt
 
         const receiptData = {
 
             fullname:
                 student.fullname || "Student",
-
+           
             email:
                 student.email || "",
 
