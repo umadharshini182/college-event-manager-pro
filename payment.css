@@ -1967,3 +1967,76 @@ body {
     }
 
 }
+/* =========================================
+   PROFESSIONAL PAYMENT NAVIGATION
+========================================= */
+
+.checkout-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.checkout-nav a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 38px;
+    padding: 0 14px;
+
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+
+    background: rgba(255,255,255,0.05);
+
+    color: #cbd5e1 !important;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    text-decoration: none !important;
+
+    transition: all 0.2s ease;
+}
+
+.checkout-nav a:hover {
+    color: #ffffff !important;
+
+    background: rgba(37,99,235,0.20);
+
+    border-color: rgba(96,165,250,0.45);
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 7px 20px rgba(0,0,0,0.20);
+}
+
+/* HOME ACTIVE */
+
+.checkout-nav a:first-child {
+    background: rgba(37,99,235,0.16);
+
+    border-color: rgba(59,130,246,0.35);
+
+    color: #60a5fa !important;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+    .checkout-nav {
+        gap: 5px;
+    }
+
+    .checkout-nav a {
+        min-height: 34px;
+        padding: 0 9px;
+
+        font-size: 10px;
+    }
+
+}

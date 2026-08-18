@@ -2,36 +2,70 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Payment Confirmation | College Event Manager</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="./style.css">
+    <title>
+        Payment Confirmation | College Event Manager
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="receipt.css?v=3"
+    >
 
     <!-- QR CODE LIBRARY -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
+    </script>
+
 </head>
+
 
 <body>
 
+
+    <!-- =====================================================
+         RECEIPT PAGE
+    ====================================================== -->
+
     <main class="receipt-page">
 
-        <section class="receipt-card" id="receiptCard">
 
-            <!-- =========================================
-                 TOP HEADER
-            ========================================== -->
+        <!-- =================================================
+             MAIN RECEIPT CARD
+        ================================================== -->
+
+        <section
+            class="receipt-card"
+            id="receiptCard"
+        >
+
+
+            <!-- =================================================
+                 HEADER
+            ================================================== -->
 
             <header class="receipt-header">
 
+
+                <!-- BRAND -->
+
                 <div class="brand-area">
+
 
                     <div class="brand-icon">
                         🎓
                     </div>
 
+
                     <div>
+
                         <h1>
                             College Event Manager
                         </h1>
@@ -39,62 +73,95 @@
                         <p>
                             Official Event Registration
                         </p>
+
                     </div>
 
+
                 </div>
 
+
+                <!-- PAID -->
 
                 <div class="paid-badge">
+
                     ✓ PAID
+
                 </div>
+
 
             </header>
 
 
-            <!-- =========================================
-                 SUCCESS MESSAGE
-            ========================================== -->
+
+            <!-- =================================================
+                 SUCCESS SECTION
+            ================================================== -->
 
             <section class="success-section">
 
+
                 <div class="success-circle">
+
                     ✓
+
                 </div>
+
 
                 <h2>
                     Payment Successful
                 </h2>
 
+
                 <p>
-                    Your event registration has been successfully confirmed.
+                    Your event registration has been
+                    successfully confirmed.
                 </p>
+
 
             </section>
 
 
-            <!-- =========================================
+
+            <!-- =================================================
                  STUDENT / EVENT SUMMARY
-            ========================================== -->
+            ================================================== -->
 
             <section class="summary-card">
 
+
                 <div class="summary-label">
+
                     REGISTERED PARTICIPANT
+
                 </div>
 
+
                 <h2 id="studentName">
+
                     —
+
                 </h2>
 
+
                 <p id="event">
+
                     —
+
                 </p>
+
+
 
                 <div class="summary-divider"></div>
 
+
+
                 <div class="summary-grid">
 
+
+                    <!-- COLLEGE -->
+
                     <div>
+
                         <span>
                             College
                         </span>
@@ -102,10 +169,14 @@
                         <strong id="college">
                             —
                         </strong>
+
                     </div>
 
 
+                    <!-- DEPARTMENT -->
+
                     <div>
+
                         <span>
                             Department
                         </span>
@@ -113,10 +184,14 @@
                         <strong id="department">
                             —
                         </strong>
+
                     </div>
 
 
+                    <!-- YEAR -->
+
                     <div>
+
                         <span>
                             Year
                         </span>
@@ -124,10 +199,14 @@
                         <strong id="year">
                             —
                         </strong>
+
                     </div>
 
 
+                    <!-- EMAIL -->
+
                     <div>
+
                         <span>
                             Email
                         </span>
@@ -135,35 +214,49 @@
                         <strong id="studentEmail">
                             —
                         </strong>
+
                     </div>
 
+
                 </div>
+
 
             </section>
 
 
-            <!-- =========================================
+
+            <!-- =================================================
                  PAYMENT DETAILS
-            ========================================== -->
+            ================================================== -->
 
             <section class="details-section">
 
+
                 <div class="section-heading">
 
+
                     <div>
+
                         <span class="section-number">
                             01
                         </span>
 
+
                         <h2>
                             Payment Details
                         </h2>
+
                     </div>
+
 
                 </div>
 
 
+
                 <div class="details-card">
+
+
+                    <!-- RECEIPT NUMBER -->
 
                     <div class="detail-row">
 
@@ -178,6 +271,9 @@
                     </div>
 
 
+
+                    <!-- REGISTRATION ID -->
+
                     <div class="detail-row">
 
                         <span>
@@ -190,6 +286,9 @@
 
                     </div>
 
+
+
+                    <!-- TRANSACTION ID -->
 
                     <div class="detail-row">
 
@@ -204,6 +303,9 @@
                     </div>
 
 
+
+                    <!-- PAYMENT DATE -->
+
                     <div class="detail-row">
 
                         <span>
@@ -217,6 +319,9 @@
                     </div>
 
 
+
+                    <!-- PAYMENT METHOD -->
+
                     <div class="detail-row">
 
                         <span>
@@ -229,16 +334,20 @@
 
                     </div>
 
+
                 </div>
+
 
             </section>
 
 
-            <!-- =========================================
+
+            <!-- =================================================
                  AMOUNT
-            ========================================== -->
+            ================================================== -->
 
             <section class="amount-section">
+
 
                 <div>
 
@@ -246,138 +355,212 @@
                         TOTAL AMOUNT PAID
                     </span>
 
+
                     <p>
                         Event Registration Fee
                     </p>
 
                 </div>
 
+
                 <strong id="amountPaid">
+
                     ₹1,000
+
                 </strong>
+
 
             </section>
 
 
-            <!-- =========================================
+
+            <!-- =================================================
                  VERIFICATION
-            ========================================== -->
+            ================================================== -->
 
             <section class="verification-section">
 
+
+                <!-- QR -->
+
                 <div class="qr-area">
 
+
                     <span class="verification-title">
+
                         VERIFICATION
+
                     </span>
 
+
                     <h3>
+
                         Scan to Verify
+
                     </h3>
+
 
                     <div
                         id="qrCode"
                         class="qr-box">
                     </div>
 
+
                     <p>
+
                         Scan this QR code to verify
                         registration details.
+
                     </p>
+
 
                 </div>
 
+
+
+                <!-- VERIFIED -->
 
                 <div class="verification-info">
 
+
                     <div class="verified-icon">
+
                         ✓
+
                     </div>
 
+
                     <h3>
+
                         Registration Verified
+
                     </h3>
 
+
                     <p>
+
                         Payment successfully recorded
                         in College Event Manager.
+
                     </p>
+
 
                     <div class="verification-line"></div>
 
+
                     <span>
+
                         This receipt is electronically generated.
+
                     </span>
 
+
                 </div>
+
 
             </section>
 
 
-            <!-- =========================================
+
+            <!-- =================================================
                  FOOTER
-            ========================================== -->
+            ================================================== -->
 
             <footer class="receipt-footer">
 
+
                 <p>
+
                     Thank you for registering with
-                    <strong>College Event Manager</strong>.
+
+                    <strong>
+                        College Event Manager
+                    </strong>.
+
                 </p>
 
+
                 <span>
+
                     Keep this receipt for future reference.
+
                 </span>
+
 
             </footer>
 
 
-            <!-- =========================================
-                 BUTTONS
-            ========================================== -->
+
+            <!-- =================================================
+                 ACTION BUTTONS
+            ================================================== -->
 
             <div class="receipt-actions">
+
+
+                <!-- PRINT -->
 
                 <button
                     type="button"
                     class="action-btn print-btn"
-                    onclick="printReceipt()">
+                    onclick="printReceipt()"
+                >
 
-                    🖨 Print Receipt
+                    🖨
+                    Print Receipt
 
                 </button>
 
+
+
+                <!-- DOWNLOAD -->
 
                 <button
                     type="button"
                     class="action-btn download-btn"
-                    onclick="downloadReceipt()">
+                    onclick="downloadReceipt()"
+                >
 
-                    📄 Download PDF
+                    📄
+                    Download PDF
 
                 </button>
 
 
+
+                <!-- HOME -->
+
                 <a
                     href="index.html"
-                    class="action-btn home-btn">
+                    class="action-btn home-btn"
+                >
 
-                    🏠 Back to Home
+                    🏠
+                    Back to Home
 
                 </a>
 
+
             </div>
 
+
         </section>
+
 
     </main>
 
 
-    <!-- =========================================
+
+    <!-- =====================================================
          RECEIPT JAVASCRIPT
-    ========================================== -->
+    ====================================================== -->
 
     <script>
+
+
+        /* =================================================
+           PAGE LOAD
+        ================================================== */
 
         document.addEventListener(
             "DOMContentLoaded",
@@ -389,11 +572,22 @@
         );
 
 
+
+        /* =================================================
+           LOAD RECEIPT DATA
+        ================================================== */
+
         function loadReceipt() {
+
 
             let student = {};
 
             let receipt = {};
+
+
+            /* ---------------------------------------------
+               STUDENT DATA
+            --------------------------------------------- */
 
             try {
 
@@ -408,10 +602,20 @@
 
             catch (error) {
 
+                console.error(
+                    "Student data error:",
+                    error
+                );
+
                 student = {};
 
             }
 
+
+
+            /* ---------------------------------------------
+               PAYMENT RECEIPT DATA
+            --------------------------------------------- */
 
             try {
 
@@ -426,14 +630,20 @@
 
             catch (error) {
 
+                console.error(
+                    "Payment receipt error:",
+                    error
+                );
+
                 receipt = {};
 
             }
 
 
-            /* =========================================
+
+            /* =================================================
                BASIC DETAILS
-            ========================================== */
+            ================================================== */
 
             const name =
                 receipt.fullname ||
@@ -471,9 +681,10 @@
                 "College Event";
 
 
-            /* =========================================
+
+            /* =================================================
                PAYMENT DETAILS
-            ========================================== */
+            ================================================== */
 
             const method =
                 receipt.paymentMethod ||
@@ -489,6 +700,7 @@
 
             const registrationId =
                 student.registrationId ||
+                receipt.registrationId ||
                 "—";
 
 
@@ -498,9 +710,10 @@
                 1000;
 
 
-            /* =========================================
-               SAFE PAYMENT DATE
-            ========================================== */
+
+            /* =================================================
+               PAYMENT DATE
+            ================================================== */
 
             let paymentDate =
                 receipt.paymentDate ||
@@ -515,6 +728,7 @@
 
                 const parsedDate =
                     new Date(paymentDate);
+
 
                 if (
                     !isNaN(
@@ -543,9 +757,10 @@
                 );
 
 
-            /* =========================================
+
+            /* =================================================
                RECEIPT NUMBER
-            ========================================== */
+            ================================================== */
 
             const receiptNumber =
                 "REC-" +
@@ -555,64 +770,76 @@
                     .slice(-8);
 
 
-            /* =========================================
-               DISPLAY
-            ========================================== */
+
+            /* =================================================
+               DISPLAY DATA
+            ================================================== */
 
             setText(
                 "studentName",
                 name
             );
 
+
             setText(
                 "studentEmail",
                 email
             );
+
 
             setText(
                 "college",
                 college
             );
 
+
             setText(
                 "department",
                 department
             );
+
 
             setText(
                 "year",
                 year
             );
 
+
             setText(
                 "event",
                 event
             );
+
 
             setText(
                 "receiptIdBody",
                 receiptNumber
             );
 
+
             setText(
                 "registrationId",
                 registrationId
             );
+
 
             setText(
                 "transactionId",
                 transactionId
             );
 
+
             setText(
                 "paymentDate",
                 formattedDate
             );
 
+
             setText(
                 "paymentMethod",
                 method
             );
+
 
             setText(
                 "amountPaid",
@@ -623,9 +850,10 @@
             );
 
 
-            /* =========================================
-               QR CODE
-            ========================================== */
+
+            /* =================================================
+               CREATE QR
+            ================================================== */
 
             createQRCode(
                 name,
@@ -634,16 +862,24 @@
                 transactionId
             );
 
+
         }
 
+
+
+        /* =================================================
+           SET TEXT
+        ================================================== */
 
         function setText(
             id,
             value
         ) {
 
+
             const element =
                 document.getElementById(id);
+
 
             if (element) {
 
@@ -655,13 +891,20 @@
         }
 
 
+
+        /* =================================================
+           GENERATE TRANSACTION ID
+        ================================================== */
+
         function generateTransactionId() {
 
             return (
                 "CEM" +
+
                 Date.now()
                     .toString()
                     .slice(-8) +
+
                 Math.random()
                     .toString(36)
                     .substring(2, 7)
@@ -671,6 +914,11 @@
         }
 
 
+
+        /* =================================================
+           QR CODE
+        ================================================== */
+
         function createQRCode(
             name,
             event,
@@ -678,18 +926,27 @@
             transactionId
         ) {
 
+
             const qr =
                 document.getElementById(
                     "qrCode"
                 );
 
+
             if (!qr) {
+
                 return;
+
             }
 
 
             qr.innerHTML = "";
 
+
+
+            /* ---------------------------------------------
+               CHECK QR LIBRARY
+            --------------------------------------------- */
 
             if (
                 typeof QRCode ===
@@ -704,26 +961,45 @@
             }
 
 
+
+            /* ---------------------------------------------
+               VERIFICATION URL
+            --------------------------------------------- */
+
             const verificationURL =
                 window.location.origin +
+
                 window.location.pathname
                     .replace(
                         "receipt.html",
                         "payment-details.html"
                     ) +
+
                 "?name=" +
-                encodeURIComponent(name) +
+                encodeURIComponent(
+                    name
+                ) +
+
                 "&event=" +
-                encodeURIComponent(event) +
+                encodeURIComponent(
+                    event
+                ) +
+
                 "&registration=" +
                 encodeURIComponent(
                     registrationId
                 ) +
+
                 "&transaction=" +
                 encodeURIComponent(
                     transactionId
                 );
 
+
+
+            /* ---------------------------------------------
+               GENERATE QR
+            --------------------------------------------- */
 
             new QRCode(
                 qr,
@@ -731,9 +1007,11 @@
                     text:
                         verificationURL,
 
-                    width: 145,
+                    width:
+                        145,
 
-                    height: 145,
+                    height:
+                        145,
 
                     correctLevel:
                         QRCode.CorrectLevel.M
@@ -743,9 +1021,10 @@
         }
 
 
-        /* =========================================
-           PRINT
-        ========================================== */
+
+        /* =================================================
+           PRINT RECEIPT
+        ================================================== */
 
         function printReceipt() {
 
@@ -754,11 +1033,11 @@
         }
 
 
-        /* =========================================
-           DOWNLOAD
-           Browser will open print dialog.
-           Choose "Save as PDF".
-        ========================================== */
+
+        /* =================================================
+           DOWNLOAD PDF
+           Browser Print → Save as PDF
+        ================================================== */
 
         function downloadReceipt() {
 
@@ -766,7 +1045,9 @@
 
         }
 
+
     </script>
+
 
 </body>
 
