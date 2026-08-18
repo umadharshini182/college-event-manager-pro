@@ -95,16 +95,15 @@ document.addEventListener("DOMContentLoaded", function () {
     // ------------------------------------------
     // TRANSACTION ID
     // ------------------------------------------
+    const receiptData =
+    JSON.parse(
+        localStorage.getItem("paymentReceipt") || "null"
+    );
 
-    const transactionId =
-        document.getElementById("transactionId");
-
-    if (transactionId) {
-
-        transactionId.textContent =
-            student.paymentId || "—";
-
-    }
+transactionId.textContent =
+    student.paymentId ||
+    receiptData?.transactionId ||
+    "—";
 
 
     // ------------------------------------------
@@ -147,14 +146,29 @@ if (receiptIdHeader) {
         document.getElementById("paymentDate");
 
     if (paymentDate) {
+          const savedDate = student.paymentDate;
 
-        const savedDate =
-            student.paymentDate;
+let date = new Date();
 
-        const date =
-            savedDate
-                ? new Date(savedDate)
-                : new Date();
+if (savedDate) {
+
+    const parsedDate =
+        new Date(savedDate);
+
+    if (!isNaN(parsedDate.getTime())) {
+        date = parsedDate;
+    }
+
+}
+
+paymentDate.textContent =
+    date.toLocaleString("en-IN", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+    }); 
 
         paymentDate.textContent =
             date.toLocaleString("en-IN", {
