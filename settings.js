@@ -149,23 +149,246 @@ if(saveBtn){
 saveBtn.onclick=saveSettings;
 
 }
+// ======================================
+// SAVE SETTINGS
+// ======================================
 
-function saveSettings(){
+async function saveSettings() {
 
-// Theme
+    // --------------------------------------
+    // PASSWORD FIELDS
+    // --------------------------------------
 
-if(theme){
+    const currentPassword =
+        document.getElementById("currentPassword")?.value.trim();
 
-localStorage.setItem(
+    const newPassword =
+        document.getElementById("newPassword")?.value.trim();
 
-"theme",
+    const confirmPassword =
+        document.getElementById("confirmPassword")?.value.trim();
 
-theme.value
 
-);
+    // --------------------------------------
+    // IF USER ENTERED PASSWORD
+    // --------------------------------------
+
+    if (
+        currentPassword ||
+        newPassword ||
+        confirmPassword
+    ) {
+
+        // Check all fields
+
+        if (
+            !currentPassword ||
+            !newPassword ||
+            !confirmPassword
+        ) {
+
+            alert(
+                "Please fill all password fields."
+            );
+
+            return;
+        }
+
+
+        // Check matching passwords
+
+        if (
+            newPassword !==
+            confirmPassword
+        ) {
+
+            alert(
+                "New passwords do not match."
+            );
+
+            return;
+        }
+
+
+        // Minimum password length
+
+        if (
+            newPassword.length < 6
+        ) {
+
+            alert(
+                "New password must contain at least 6 characters."
+            );
+
+            return;
+        }
+
+
+        try {
+
+            // --------------------------------
+            // CHANGE PASSWORD IN BACKEND
+            // --------------------------------
+
+            const response =
+                await fetch(
+                    "/api/change-password",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        credentials: "include",
+
+                        body: JSON.stringify({
+
+                            currentPassword:
+                                currentPassword,
+
+                            newPassword:
+                                newPassword,
+
+                            confirmPassword:
+                                confirmPassword
+
+                        })
+
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            // --------------------------------
+            // ERROR
+            // --------------------------------
+
+            if (!response.ok || !data.success) {
+
+                alert(
+                    data.message ||
+                    "Password change failed."
+                );
+
+                return;
+            }
+
+
+            // --------------------------------
+            // SUCCESS
+            // --------------------------------
+
+            alert(
+                "✅ Password changed successfully!"
+            );
+
+
+            // Clear password fields
+
+            document.getElementById(
+                "currentPassword"
+            ).value = "";
+
+            document.getElementById(
+                "newPassword"
+            ).value = "";
+
+            document.getElementById(
+                "confirmPassword"
+            ).value = "";
+
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Password change error:",
+                error
+            );
+
+
+            alert(
+                "Unable to connect to the backend."
+            );
+
+
+            return;
+
+        }
+
+    }
+
+
+    // --------------------------------------
+    // SAVE OTHER SETTINGS
+    // --------------------------------------
+
+    if (theme) {
+
+        localStorage.setItem(
+            "theme",
+            theme.value
+        );
+
+    }
+
+
+    if (notification) {
+
+        localStorage.setItem(
+            "notification",
+            notification.value
+        );
+
+    }
+
+
+    if (certificate) {
+
+        localStorage.setItem(
+            "certificate",
+            certificate.value
+        );
+
+    }
+
+
+    if (autoRefresh) {
+
+        localStorage.setItem(
+            "autoRefresh",
+            autoRefresh.value
+        );
+
+    }
+
+
+    applyTheme();
+
+
+    // Only show this when
+    // password wasn't already showing
+    // its own success message.
+
+    if (
+        !currentPassword &&
+        !newPassword &&
+        !confirmPassword
+    ) {
+
+        alert(
+            "✅ Settings Saved Successfully"
+        );
+
+    }
 
 }
-
 // Notifications
 
 if(notification){
@@ -214,15 +437,6 @@ return;
 
 }
 
-localStorage.setItem(
-
-"adminPassword",
-
-newPassword
-
-);
-
-}
 
 applyTheme();
 

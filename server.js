@@ -6,6 +6,7 @@ const cors = require("cors");
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const path = require("path");
+const bcrypt = require("bcryptjs");
 
 const app = express();
 
@@ -307,6 +308,131 @@ createTables(
 
     }
 );
+// ======================================
+// ADMIN CREDENTIALS
+// ======================================
+
+function ensureAdminCredentials() {
+
+    const createAdminTable = `
+
+        CREATE TABLE IF NOT EXISTS admin_credentials (
+
+            id INT AUTO_INCREMENT PRIMARY KEY,
+
+            email VARCHAR(150) NOT NULL UNIQUE,
+
+            password_hash VARCHAR(255) NOT NULL,
+
+            updated_at TIMESTAMP
+                DEFAULT CURRENT_TIMESTAMP
+                ON UPDATE CURRENT_TIMESTAMP
+
+        )
+
+    `;
+
+
+    db.query(
+        createAdminTable,
+        async (err) => {
+
+            if (err) {
+
+                console.error(
+                    "❌ Admin table error:",
+                    err
+                );
+
+                return;
+
+            }
+
+
+            console.log(
+                "✅ Admin credentials table ready"
+            );
+
+
+            db.query(
+                "SELECT * FROM admin_credentials LIMIT 1",
+                async (selectErr, results) => {
+
+                    if (selectErr) {
+
+                        console.error(
+                            "❌ Admin credentials check failed:",
+                            selectErr
+                        );
+
+                        return;
+
+                    }
+
+
+                    // Create the first admin account
+                    // only if one doesn't exist.
+
+                    if (results.length === 0) {
+
+                        const passwordHash =
+                            await bcrypt.hash(
+                                "admin123",
+                                10
+                            );
+
+
+                        db.query(
+                            `
+                            INSERT INTO admin_credentials
+                            (email, password_hash)
+                            VALUES (?, ?)
+                            `,
+                            [
+                                "admin@gmail.com",
+                                passwordHash
+                            ],
+                            (insertErr) => {
+
+                                if (insertErr) {
+
+                                    console.error(
+                                        "❌ Admin account creation failed:",
+                                        insertErr
+                                    );
+
+                                    return;
+
+                                }
+
+
+                                console.log(
+                                    "✅ Default admin account created"
+                                );
+
+                            }
+                        );
+
+                    }
+
+                    else {
+
+                        console.log(
+                            "✅ Admin account already exists"
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+ensureAdminCredentials();
 // ======================================
 // STUDENT REGISTRATION + PAYMENT
 // ======================================
@@ -660,7 +786,6 @@ app.get("/api/verify-registration", (req, res) => {
     );
 
 });
-
 // ======================================
 // ADMIN LOGIN
 // ======================================
@@ -669,29 +794,375 @@ app.post("/auth/login", (req, res) => {
 
     const { email, password } = req.body;
 
-    if (
-        email === "admin@gmail.com" &&
-        password === "admin123"
-    ) {
 
-        req.session.user = {
-            email,
-            role: "admin"
-        };
+    if (!email || !password) {
 
-        return res.json({
-            success: true,
-            message: "Login Successful"
+        return res.status(400).json({
+            success: false,
+            message: "Email and password are required."
         });
 
     }
 
-    res.json({
-        success: false,
-        message: "Invalid Email or Password"
-    });
+
+    const sql = `
+        SELECT *
+        FROM admin_credentials
+        WHERE email = ?
+        LIMIT 1
+    `;
+
+
+    db.query(
+        sql,
+        [email],
+        async (err, results) => {
+
+            if (err) {
+
+                console.error(
+                    "❌ Admin login database error:",
+                    err
+                );
+
+                return res.status(500).json({
+                    success: false,
+                    message: "Login server error."
+                });
+
+            }
+
+
+            if (results.length === 0) {
+
+                return res.status(401).json({
+                    success: false,
+                    message: "Invalid Email or Password"
+                });
+
+            }
+
+
+            const admin =
+                results[0];
+
+
+            const passwordMatch =
+                await bcrypt.compare(
+                    password,
+                    admin.password_hash
+                );
+
+
+            if (!passwordMatch) {
+
+                return res.status(401).json({
+                    success: false,
+                    message: "Invalid Email or Password"
+                });
+
+            }
+
+
+            req.session.user = {
+
+                email: admin.email,
+
+                role: "admin"
+
+            };
+
+
+            return res.json({
+
+                success: true,
+
+                message:
+                    "Login Successful"
+
+            });
+
+        }
+    );
 
 });
+// ======================================
+// CHANGE ADMIN PASSWORD
+// ======================================
+
+app.post(
+    "/api/change-password",
+    async (req, res) => {
+
+        try {
+
+            // --------------------------------
+            // CHECK LOGIN
+            // --------------------------------
+
+            if (!req.session.user) {
+
+                return res.status(401).json({
+
+                    success: false,
+
+                    message:
+                        "Please login first."
+
+                });
+
+            }
+
+
+            const {
+                currentPassword,
+                newPassword,
+                confirmPassword
+            } = req.body;
+
+
+            // --------------------------------
+            // VALIDATION
+            // --------------------------------
+
+            if (
+                !currentPassword ||
+                !newPassword ||
+                !confirmPassword
+            ) {
+
+                return res.status(400).json({
+
+                    success: false,
+
+                    message:
+                        "Please fill all password fields."
+
+                });
+
+            }
+
+
+            if (
+                newPassword !==
+                confirmPassword
+            ) {
+
+                return res.status(400).json({
+
+                    success: false,
+
+                    message:
+                        "New passwords do not match."
+
+                });
+
+            }
+
+
+            if (
+                newPassword.length < 6
+            ) {
+
+                return res.status(400).json({
+
+                    success: false,
+
+                    message:
+                        "New password must contain at least 6 characters."
+
+                });
+
+            }
+
+
+            // --------------------------------
+            // GET CURRENT ADMIN
+            // --------------------------------
+
+            const sql = `
+                SELECT *
+                FROM admin_credentials
+                WHERE email = ?
+                LIMIT 1
+            `;
+
+
+            db.query(
+                sql,
+                [req.session.user.email],
+                async (
+                    err,
+                    results
+                ) => {
+
+                    if (err) {
+
+                        console.error(
+                            "❌ Password lookup error:",
+                            err
+                        );
+
+                        return res.status(500).json({
+
+                            success: false,
+
+                            message:
+                                "Database error."
+
+                        });
+
+                    }
+
+
+                    if (
+                        results.length === 0
+                    ) {
+
+                        return res.status(404).json({
+
+                            success: false,
+
+                            message:
+                                "Admin account not found."
+
+                        });
+
+                    }
+
+
+                    const admin =
+                        results[0];
+
+
+                    // --------------------------------
+                    // VERIFY OLD PASSWORD
+                    // --------------------------------
+
+                    const currentPasswordCorrect =
+                        await bcrypt.compare(
+                            currentPassword,
+                            admin.password_hash
+                        );
+
+
+                    if (
+                        !currentPasswordCorrect
+                    ) {
+
+                        return res.status(401).json({
+
+                            success: false,
+
+                            message:
+                                "Current password is incorrect."
+
+                        });
+
+                    }
+
+
+                    // --------------------------------
+                    // HASH NEW PASSWORD
+                    // --------------------------------
+
+                    const newPasswordHash =
+                        await bcrypt.hash(
+                            newPassword,
+                            10
+                        );
+
+
+                    // --------------------------------
+                    // UPDATE PASSWORD
+                    // --------------------------------
+
+                    const updateSql = `
+
+                        UPDATE admin_credentials
+
+                        SET password_hash = ?
+
+                        WHERE email = ?
+
+                    `;
+
+
+                    db.query(
+                        updateSql,
+                        [
+                            newPasswordHash,
+                            admin.email
+                        ],
+                        (
+                            updateErr
+                        ) => {
+
+                            if (
+                                updateErr
+                            ) {
+
+                                console.error(
+                                    "❌ Password update error:",
+                                    updateErr
+                                );
+
+                                return res.status(500).json({
+
+                                    success: false,
+
+                                    message:
+                                        "Password update failed."
+
+                                });
+
+                            }
+
+
+                            console.log(
+                                "✅ Admin password changed:",
+                                admin.email
+                            );
+
+
+                            return res.json({
+
+                                success: true,
+
+                                message:
+                                    "Password changed successfully."
+
+                            });
+
+                        }
+                    );
+
+                }
+            );
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "❌ Change password error:",
+                error
+            );
+
+
+            return res.status(500).json({
+
+                success: false,
+
+                message:
+                    "Something went wrong."
+
+            });
+
+        }
+
+    }
+);
 // ======================================
 // CURRENT USER
 // ======================================
