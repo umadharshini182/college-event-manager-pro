@@ -38,17 +38,150 @@ const db = mysql.createPool({
 
     database: process.env.MYSQLDATABASE,
 
-    port: process.env.MYSQLPORT,
+    port: Number(process.env.MYSQLPORT),
+
+    ssl: {
+        rejectUnauthorized: false
+    },
 
     waitForConnections: true,
 
     connectionLimit: 10,
 
-    queueLimit: 0
+    queueLimit: 0,
 
+    connectTimeout: 20000
 });
 
 createTables();
+// ======================================
+// CREATE DATABASE TABLES
+// ======================================
+
+function createTables(callback) {
+
+    const registrationsTable = `
+
+        CREATE TABLE IF NOT EXISTS registrations (
+
+            id INT AUTO_INCREMENT PRIMARY KEY,
+
+            fullname VARCHAR(100) NOT NULL,
+
+            email VARCHAR(150) NOT NULL,
+
+            college VARCHAR(150) NOT NULL,
+
+            department VARCHAR(100) NOT NULL,
+
+            year VARCHAR(50) NOT NULL,
+
+            event VARCHAR(150) NOT NULL,
+
+            payment_status VARCHAR(30) DEFAULT 'Paid',
+
+            amount INT DEFAULT 1000,
+
+            payment_method VARCHAR(50),
+
+            transaction_id VARCHAR(100),
+
+            payment_date DATETIME,
+
+            attendance VARCHAR(20) DEFAULT 'Absent',
+
+            certificate_generated BOOLEAN DEFAULT FALSE,
+
+            certificate_id VARCHAR(100),
+
+            certificate_date DATE,
+
+            createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
+        )
+
+    `;
+
+
+    const eventsTable = `
+
+        CREATE TABLE IF NOT EXISTS events (
+
+            id INT AUTO_INCREMENT PRIMARY KEY,
+
+            event_name VARCHAR(150) NOT NULL,
+
+            event_date DATE NOT NULL,
+
+            venue VARCHAR(150),
+
+            fee INT DEFAULT 0,
+
+            status VARCHAR(50) DEFAULT 'Upcoming',
+
+            createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
+        )
+
+    `;
+
+
+    db.query(
+        registrationsTable,
+        (err) => {
+
+            if (err) {
+
+                console.error(
+                    "❌ Registrations table error:",
+                    err
+                );
+
+                return;
+
+            }
+
+
+            console.log(
+                "✅ Registrations table ready"
+            );
+
+
+            db.query(
+                eventsTable,
+                (eventErr) => {
+
+                    if (eventErr) {
+
+                        console.error(
+                            "❌ Events table error:",
+                            eventErr
+                        );
+
+                        return;
+
+                    }
+
+
+                    console.log(
+                        "✅ Events table ready"
+                    );
+
+
+                    if (callback) {
+
+                        callback();
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+}
+
 
 // ======================================
 // ENSURE PAYMENT COLUMNS EXIST
@@ -60,6 +193,7 @@ function ensurePaymentColumns() {
 
         {
             name: "payment_method",
+
             sql: `
                 ALTER TABLE registrations
                 ADD COLUMN payment_method VARCHAR(50)
@@ -68,6 +202,7 @@ function ensurePaymentColumns() {
 
         {
             name: "transaction_id",
+
             sql: `
                 ALTER TABLE registrations
                 ADD COLUMN transaction_id VARCHAR(100)
@@ -76,6 +211,7 @@ function ensurePaymentColumns() {
 
         {
             name: "payment_date",
+
             sql: `
                 ALTER TABLE registrations
                 ADD COLUMN payment_date DATETIME
@@ -87,7 +223,10 @@ function ensurePaymentColumns() {
 
     function addColumn(index) {
 
-        if (index >= columns.length) {
+        if (
+            index >=
+            columns.length
+        ) {
 
             console.log(
                 "✅ Payment columns checked"
@@ -108,46 +247,32 @@ function ensurePaymentColumns() {
 
                 if (err) {
 
+                    const message =
+                        String(
+                            err.message
+                        ).toLowerCase();
+
+
                     if (
-                        err.message
-                            .toLowerCase()
-                            .includes(
-                                "duplicate column"
-                            )
+                        message.includes(
+                            "duplicate column"
+                        )
                     ) {
 
                         console.log(
                             `✓ ${column.name} already exists`
                         );
 
-                    }
-
-                    else if (
-                        err.message
-                            .toLowerCase()
-                            .includes(
-                                "doesn't exist"
-                            )
-                    ) {
+                    } else {
 
                         console.log(
-                            `⏳ ${column.name}: registrations table not ready yet`
-                        );
-
-                    }
-
-                    else {
-
-                        console.error(
-                            `❌ ${column.name}:`,
+                            `ℹ️ ${column.name}:`,
                             err.message
                         );
 
                     }
 
-                }
-
-                else {
+                } else {
 
                     console.log(
                         `✅ Added ${column.name}`
@@ -156,7 +281,9 @@ function ensurePaymentColumns() {
                 }
 
 
-                addColumn(index + 1);
+                addColumn(
+                    index + 1
+                );
 
             }
         );
@@ -169,12 +296,16 @@ function ensurePaymentColumns() {
 }
 
 
-// Wait a little so createTables()
-// has time to finish first.
+// ======================================
+// INITIALIZE DATABASE
+// ======================================
 
-setTimeout(
-    ensurePaymentColumns,
-    1500
+createTables(
+    () => {
+
+        ensurePaymentColumns();
+
+    }
 );
 // ======================================
 // STUDENT REGISTRATION + PAYMENT
