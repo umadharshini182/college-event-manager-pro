@@ -1,973 +1,94 @@
-// ==========================================
+// ======================================================
 // COLLEGE EVENT MANAGER
-// PAYMENT PAGE JAVASCRIPT
-// ==========================================
+// PAYMENTS.JS
+// ======================================================
 
-document.addEventListener("DOMContentLoaded", function () {
+const BACKEND_URL =
+    "https://college-event-manager-pro.onrender.com";
 
-
-    // ==========================================
-    // GET REGISTRATION DATA
-    // ==========================================
-
-    let student = null;
-
-    const savedData =
-        localStorage.getItem("studentData");
+let allPayments = [];
 
 
-    if (savedData) {
+// ======================================================
+// PAGE LOAD
+// ======================================================
 
-        try {
+document.addEventListener("DOMContentLoaded", () => {
 
-            student = JSON.parse(savedData);
+    initializeSidebar();
 
-        } catch (error) {
+    loadPayments();
 
-            console.error(
-                "Unable to read student data:",
-                error
-            );
+    initializeSearch();
 
-        }
+});
+
+
+// ======================================================
+// SIDEBAR
+// ======================================================
+
+function initializeSidebar() {
+
+    const sidebar =
+        document.getElementById("sidebar");
+
+    const menuBtn =
+        document.getElementById("menuBtn");
+
+    const closeBtn =
+        document.getElementById("closeSidebar");
+
+    const overlay =
+        document.getElementById("overlay");
+
+
+    if (!sidebar || !menuBtn) {
+
+        console.log(
+            "Sidebar elements missing"
+        );
+
+        return;
 
     }
 
 
-    // Fallback
-
-    if (!student) {
-
-        student = {
-
-            fullname:
-                localStorage.getItem("fullname") || "",
-
-            email:
-                localStorage.getItem("email") || "",
-
-            college:
-                localStorage.getItem("college") || "",
-
-            department:
-                localStorage.getItem("department") || "",
-
-            year:
-                localStorage.getItem("year") || "",
-
-            event:
-                localStorage.getItem("event") || ""
-
-        };
-
-    }
-
-
-
-    // ==========================================
-    // STUDENT DETAILS
-    // ==========================================
-
-    const studentName =
-        document.getElementById("studentName");
-
-    const studentEmail =
-        document.getElementById("studentEmail");
-
-    const collegeName =
-        document.getElementById("collegeName");
-
-    const departmentName =
-        document.getElementById("departmentName");
-
-    const studentYear =
-        document.getElementById("studentYear");
-
-    const eventName =
-        document.getElementById("eventName");
-
-
-    if (studentName) {
-
-        studentName.textContent =
-            student.fullname || "Student";
-
-    }
-
-
-    if (studentEmail) {
-
-        studentEmail.textContent =
-            student.email || "Not available";
-
-    }
-
-
-    if (collegeName) {
-
-        collegeName.textContent =
-            student.college || "Not available";
-
-    }
-
-
-    if (departmentName) {
-
-        departmentName.textContent =
-            student.department || "Not available";
-
-    }
-
-
-    if (studentYear) {
-
-        studentYear.textContent =
-            student.year || "Not available";
-
-    }
-
-
-    if (eventName) {
-
-        eventName.textContent =
-            student.event || "College Event";
-
-    }
-
-
-
-    // ==========================================
-    // PAYMENT OPTIONS
-    // ==========================================
-
-    const paymentOptions =
-        document.querySelectorAll(
-            ".payment-option, .bank-option"
-        );
-
-
-    const selectedMethod =
-        document.getElementById(
-            "selectedMethod"
-        );
-
-
-    const continueButton =
-        document.getElementById(
-            "continuePayment"
-        );
-
-
-    let selectedPaymentMethod = "";
-
-
-
-    // ==========================================
-    // SELECT PAYMENT METHOD
-    // ==========================================
-
-    paymentOptions.forEach(function (option) {
-
-        option.addEventListener(
-            "click",
-            function () {
-
-
-                // Remove previous selection
-
-                paymentOptions.forEach(
-                    function (item) {
-
-                        item.classList.remove(
-                            "selected"
-                        );
-
-                    }
-                );
-
-
-                // Select current option
-
-                this.classList.add(
-                    "selected"
-                );
-
-
-                // Save method
-
-                selectedPaymentMethod =
-                    this.dataset.method || "";
-
-
-                // Display selected method
-
-                if (selectedMethod) {
-
-                    selectedMethod.textContent =
-                        selectedPaymentMethod ||
-                        "No method selected";
-
-                }
-
-
-                // Enable button
-
-                if (continueButton) {
-
-                    continueButton.disabled =
-                        false;
-
-                    continueButton.removeAttribute(
-                        "disabled"
-                    );
-
-                }
-
-            }
-        );
-
-    });
-
-
-
-    // ==========================================
-    // QR BUTTON
-    // ==========================================
-
-    const scanQrButton =
-        document.getElementById(
-            "scanQrButton"
-        );
-
-
-    if (scanQrButton) {
-
-        scanQrButton.addEventListener(
-            "click",
-            function () {
-
-                window.location.href =
-                    "qr-payment.html";
-
-            }
-        );
-
-    }
-
-
-
-    // ==========================================
-    // CONTINUE PAYMENT
-    // ==========================================
-
-    if (continueButton) {
-
-        continueButton.addEventListener(
-            "click",
-            function () {
-
-
-                if (!selectedPaymentMethod) {
-
-                    alert(
-                        "Please select a payment method first."
-                    );
-
-                    return;
-
-                }
-
-
-                openPaymentAppScreen(
-                    selectedPaymentMethod
-                );
-
-            }
-        );
-
-    }
-
-
-
-    // ==========================================
-    // PROCESSING ELEMENTS
-    // ==========================================
-
-    const processingOverlay =
-        document.getElementById(
-            "paymentProcessing"
-        );
-
-
-    const processingTitle =
-        document.getElementById(
-            "processingTitle"
-        );
-
-
-    const processingMessage =
-        document.getElementById(
-            "processingMessage"
-        );
-
-
-    const processingProgressBar =
-        document.getElementById(
-            "processingProgressBar"
-        );
-
-
-    const processingStep =
-        document.getElementById(
-            "processingStep"
-        );
-
-
-
-    // ==========================================
-    // SUCCESS ELEMENTS
-    // ==========================================
-
-    const paymentSuccess =
-        document.getElementById(
-            "paymentSuccess"
-        );
-
-
-    const successMethod =
-        document.getElementById(
-            "successMethod"
-        );
-
-
-    const successEvent =
-        document.getElementById(
-            "successEvent"
-        );
-
-
-    const viewReceiptButton =
-        document.getElementById(
-            "viewReceiptButton"
-        );
-
-
-
-    // ==========================================
-    // PAYMENT APP SCREEN
-    // ==========================================
-
-    function openPaymentAppScreen(method) {
-
-
-        let appName = method;
-
-        let appLetter = "UPI";
-
-        let appClass = "demo-upi";
-
-
-        if (method === "Google Pay") {
-
-            appName = "Google Pay";
-
-            appLetter = "G";
-
-            appClass = "demo-gpay";
-
-        }
-
-
-        else if (method === "PhonePe") {
-
-            appName = "PhonePe";
-
-            appLetter = "P";
-
-            appClass = "demo-phonepe";
-
-        }
-
-
-        else if (method === "Paytm") {
-
-            appName = "Paytm";
-
-            appLetter = "P";
-
-            appClass = "demo-paytm";
-
-        }
-
-
-        else if (method === "Other UPI") {
-
-            appName = "UPI Payment";
-
-            appLetter = "UPI";
-
-            appClass = "demo-upi";
-
-        }
-
-
-        else {
-
-            appName = method;
-
-            appLetter = "🏦";
-
-            appClass = "demo-bank";
-
-        }
-
-
-
-        // ==========================================
-        // CREATE SCREEN
-        // ==========================================
-
-        const overlay =
-            document.createElement("div");
-
-
-        overlay.className =
-            "payment-app-overlay";
-
-
-        overlay.innerHTML = `
-
-            <div class="payment-app-card">
-
-
-                <div class="payment-app-top">
-
-
-                    <button
-                        type="button"
-                        class="payment-app-back"
-                        id="paymentAppBack"
-                    >
-                        ←
-                    </button>
-
-
-                    <span>
-                        Secure Checkout
-                    </span>
-
-
-                    <span class="top-spacer"></span>
-
-
-                </div>
-
-
-
-                <div class="payment-app-content">
-
-
-                    <div
-                        class="payment-app-logo ${appClass}"
-                    >
-                        ${appLetter}
-                    </div>
-
-
-
-                    <h2>
-                        ${appName}
-                    </h2>
-
-
-
-                    <p class="payment-app-subtitle">
-                        College Event Manager
-                    </p>
-
-
-
-                    <div class="payment-app-amount">
-
-                        <span>
-                            Amount to Pay
-                        </span>
-
-                        <strong>
-                            ₹1,000
-                        </strong>
-
-                    </div>
-
-
-
-                    <div class="payment-app-details">
-
-
-                        <div>
-
-                            <span>
-                                Student
-                            </span>
-
-                            <strong>
-                                ${student.fullname || "Student"}
-                            </strong>
-
-                        </div>
-
-
-
-                        <div>
-
-                            <span>
-                                Event
-                            </span>
-
-                            <strong>
-                                ${student.event || "College Event"}
-                            </strong>
-
-                        </div>
-
-
-
-                        <div>
-
-                            <span>
-                                Registration Fee
-                            </span>
-
-                            <strong>
-                                ₹1,000
-                            </strong>
-
-                        </div>
-
-
-                    </div>
-
-
-
-                    <div class="payment-app-demo">
-
-
-                        <span class="demo-check">
-                            ✓
-                        </span>
-
-
-                        <div>
-
-                            <strong>
-                                College Project Demo
-                            </strong>
-
-                            <p>
-                                This is a demonstration payment.
-                                No real money will be charged.
-                            </p>
-
-                        </div>
-
-
-                    </div>
-
-
-
-                    <button
-                        type="button"
-                        id="confirmAppPayment"
-                        class="confirm-app-payment"
-                    >
-
-                        Continue with ${appName}
-
-                        <span>
-                            →
-                        </span>
-
-                    </button>
-
-
-
-                    <p class="payment-app-security">
-
-                        🔒 No PIN, OTP or bank password
-                        is requested.
-
-                    </p>
-
-
-                </div>
-
-
-            </div>
-
-        `;
-
-
-        document.body.appendChild(
-            overlay
-        );
-
-
-        document.body.style.overflow =
-            "hidden";
-
-
-
-        // ==========================================
-        // BACK
-        // ==========================================
-
-        const paymentAppBack =
-            document.getElementById(
-                "paymentAppBack"
-            );
-
-
-        if (paymentAppBack) {
-
-            paymentAppBack.addEventListener(
-                "click",
-                function () {
-
-                    overlay.remove();
-
-                    document.body.style.overflow =
-                        "";
-
-                }
-            );
-
-        }
-
-
-
-        // ==========================================
-        // CONFIRM
-        // ==========================================
-
-        const confirmAppPayment =
-            document.getElementById(
-                "confirmAppPayment"
-            );
-
-
-        if (confirmAppPayment) {
-
-            confirmAppPayment.addEventListener(
-                "click",
-                function () {
-
-
-                    overlay.remove();
-
-
-                    document.body.style.overflow =
-                        "";
-
-
-                    startPaymentProcess(
-                        method
-                    );
-
-                }
-            );
-
-        }
-
-    }
-
-
-
-    // ==========================================
-    // START PAYMENT PROCESS
-    // ==========================================
-
-    function startPaymentProcess(method) {
-
-
-        student.paymentMethod =
-            method;
-
-
-        localStorage.setItem(
-            "studentData",
-            JSON.stringify(student)
-        );
-
-
-        if (processingOverlay) {
-
-            processingOverlay.classList.add(
+    menuBtn.addEventListener(
+        "click",
+        () => {
+
+            sidebar.classList.add(
                 "active"
             );
 
-        }
+            if (overlay) {
 
-
-        document.body.style.overflow =
-            "hidden";
-
-
-
-        // STEP 1
-
-        updateProcessing(
-
-            "Processing Payment",
-
-            "Connecting securely to the payment service...",
-
-            25,
-
-            "Step 1 of 3"
-
-        );
-
-
-
-        // STEP 2
-
-        setTimeout(
-            function () {
-
-                updateProcessing(
-
-                    "Verifying Payment",
-
-                    "Confirming your payment details...",
-
-                    60,
-
-                    "Step 2 of 3"
-
+                overlay.classList.add(
+                    "show"
                 );
 
-            },
-            1800
-        );
-
-
-
-        // STEP 3
-
-        setTimeout(
-            function () {
-
-                updateProcessing(
-
-                    "Finalizing Transaction",
-
-                    "Please wait while we complete your registration...",
-
-                    88,
-
-                    "Step 3 of 3"
-
-                );
-
-            },
-            3600
-        );
-
-
-
-        // COMPLETE
-
-        setTimeout(
-            function () {
-
-                completePayment(
-                    method
-                );
-
-            },
-            5200
-        );
-
-    }
-
-
-
-    // ==========================================
-    // UPDATE PROCESSING
-    // ==========================================
-
-    function updateProcessing(
-        title,
-        message,
-        progress,
-        step
-    ) {
-
-
-        if (processingTitle) {
-
-            processingTitle.textContent =
-                title;
+            }
 
         }
-
-
-        if (processingMessage) {
-
-            processingMessage.textContent =
-                message;
-
-        }
-
-
-        if (processingProgressBar) {
-
-            processingProgressBar.style.width =
-                progress + "%";
-
-        }
-
-
-        if (processingStep) {
-
-            processingStep.textContent =
-                step;
-
-        }
-
-    }
-
-
-
-    // ==========================================
-    // COMPLETE PAYMENT
-    // ==========================================
-     async function completePayment(method) {
-
-    updateProcessing(
-        "Saving Registration",
-        "Saving your registration securely...",
-        95,
-        "Final Step"
     );
 
-    try {
 
-        student.paymentStatus = "Successful";
-        student.paymentAmount = 1000;
-        student.paymentMethod = method;
-        student.paymentDate = new Date().toISOString();
+    if (closeBtn) {
 
-        student.paymentId =
-            "CEM" + Date.now().toString().slice(-8);
-
-
-        const response = await fetch("https://college-event-manager-pro.onrender.com/register", {
-               method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify({
-                    fullname: student.fullname,
-                    email: student.email,
-                    college: student.college,
-                    department: student.department,
-                    year: student.year,
-                    event: student.event
-                })
-            }
+        closeBtn.addEventListener(
+            "click",
+            closeSidebar
         );
 
-
-        if (!response.ok) {
-            throw new Error(
-                "Backend error: " + response.status
-            );
-        }
+    }
 
 
-        const result = await response.json();
+    if (overlay) {
 
-        console.log(
-            "BACKEND RESPONSE:",
-            result
-        );
-
-
-        if (!result.success) {
-            throw new Error(
-                result.message ||
-                "Registration failed"
-            );
-        }
-
-
-        student.registrationId = result.id;
-
-
-        localStorage.setItem(
-            "studentData",
-            JSON.stringify(student)
-        );
-
-
-        localStorage.setItem(
-            "paymentReceipt",
-            JSON.stringify({
-                fullname: student.fullname,
-                email: student.email,
-                college: student.college,
-                department: student.department,
-                year: student.year,
-                event: student.event,
-                amount: 1000,
-                paymentMethod: method,
-                paymentStatus: "Successful",
-                paymentDate: student.paymentDate,
-                transactionId: student.paymentId,
-                registrationId: student.registrationId
-            })
-        );
-
-
-        updateProcessing(
-            "Transaction Successful",
-            "Your registration has been saved successfully.",
-            100,
-            "Completed"
-        );
-
-
-        setTimeout(function () {
-
-            if (processingOverlay) {
-                processingOverlay.classList.remove("active");
-            }
-
-            document.body.style.overflow = "";
-
-            showSuccessScreen(method);
-
-        }, 700);
-
-
-    } catch (error) {
-
-        console.error(
-            "REGISTRATION SAVE ERROR:",
-            error
-        );
-
-        if (processingOverlay) {
-            processingOverlay.classList.remove("active");
-        }
-
-        document.body.style.overflow = "";
-
-        alert(
-            "Registration could not be saved. Make sure the backend server is running on port 5000."
+        overlay.addEventListener(
+            "click",
+            closeSidebar
         );
 
     }
@@ -975,164 +96,1174 @@ document.addEventListener("DOMContentLoaded", function () {
 }
 
 
-    // ==========================================
-    // SUCCESS SCREEN
-    // ==========================================
+function closeSidebar() {
 
-    function showSuccessScreen(method) {
+    const sidebar =
+        document.getElementById("sidebar");
 
-
-        student.paymentStatus =
-            "Successful";
+    const overlay =
+        document.getElementById("overlay");
 
 
-        student.paymentAmount =
-            1000;
+    if (sidebar) {
 
-
-        student.paymentMethod =
-            method;
-
-
-        student.paymentDate =
-            new Date().toLocaleString();
-
-
-        localStorage.setItem(
-            "studentData",
-            JSON.stringify(student)
+        sidebar.classList.remove(
+            "active"
         );
 
-        // Receipt
-
-        const receiptData = {
-
-            fullname:
-                student.fullname || "Student",
-           
-            email:
-                student.email || "",
-
-            college:
-                student.college || "",
-
-            department:
-                student.department || "",
-
-            year:
-                student.year || "",
-
-            event:
-                student.event || "College Event",
-
-            amount:
-                1000,
-
-            paymentMethod:
-                method,
-
-            paymentStatus:
-                "Successful",
-
-            paymentDate:
-                new Date().toLocaleString(),
-
-            transactionId:
-                generateTransactionId()
-
-        };
+    }
 
 
-        localStorage.setItem(
-            "paymentReceipt",
-            JSON.stringify(receiptData)
+    if (overlay) {
+
+        overlay.classList.remove(
+            "show"
+        );
+
+    }
+
+}
+
+
+// ======================================================
+// LOAD PAYMENTS
+// ======================================================
+
+async function loadPayments() {
+
+    try {
+
+        console.log(
+            "Loading payment records..."
         );
 
 
-
-        // Display success details
-
-        if (successMethod) {
-
-            successMethod.textContent =
-                method;
-
-        }
+        const response =
+            await fetch(
+                BACKEND_URL +
+                "/students"
+            );
 
 
-        if (successEvent) {
+        if (!response.ok) {
 
-            successEvent.textContent =
-                student.event ||
-                "College Event";
-
-        }
-
-
-        if (paymentSuccess) {
-
-            paymentSuccess.classList.add(
-                "active"
+            throw new Error(
+                "Server returned " +
+                response.status
             );
 
         }
 
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "Payment data:",
+            data
+        );
+
+
+        allPayments =
+            Array.isArray(data)
+                ? data
+                : [];
+
+
+        renderPayments(
+            allPayments
+        );
+
+
+        updateStatistics(
+            allPayments
+        );
+
+
+        updateRecentPayments(
+            allPayments
+        );
+
+
+        updateRevenueReport(
+            allPayments
+        );
+
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Payment loading error:",
+            error
+        );
+
+
+        const table =
+            document.getElementById(
+                "paymentTable"
+            );
+
+
+        if (table) {
+
+            table.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="8"
+                        style="
+                            text-align:center;
+                            padding:30px;
+                            color:#ef4444;
+                        "
+                    >
+
+                        Unable to load payment data.
+
+                        <br>
+
+                        <small>
+
+                            ${escapeHtml(
+                                error.message
+                            )}
+
+                        </small>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+
+    }
+
+}
+
+
+// ======================================================
+// RENDER PAYMENT TABLE
+// ======================================================
+
+function renderPayments(
+    payments
+) {
+
+    const table =
+        document.getElementById(
+            "paymentTable"
+        );
+
+
+    if (!table) {
+
+        return;
+
     }
 
 
-
-    // ==========================================
-    // TRANSACTION ID
-    // ==========================================
-
-    function generateTransactionId() {
-
-        const randomPart =
-
-            Math.random()
-                .toString(36)
-                .substring(2, 8)
-                .toUpperCase();
+    table.innerHTML = "";
 
 
-        return (
+    if (
+        !payments ||
+        payments.length === 0
+    ) {
 
-            "CEM" +
+        table.innerHTML = `
 
-            Date.now()
-                .toString()
-                .slice(-8) +
+            <tr>
 
-            randomPart
+                <td
+                    colspan="8"
+                    style="
+                        text-align:center;
+                        padding:35px;
+                        color:#64748b;
+                    "
+                >
 
+                    No payment records found.
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    payments.forEach(
+        (student) => {
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            const status =
+                normalizeStatus(
+                    student.payment_status
+                );
+
+
+            const amount =
+                Number(
+                    student.amount || 0
+                );
+
+
+            const date =
+                formatDate(
+                    student.payment_date ||
+                    student.createdAt
+                );
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${escapeHtml(
+                        student.id ?? "—"
+                    )}
+                </td>
+
+
+                <td>
+
+                    <strong>
+                        ${escapeHtml(
+                            student.fullname ||
+                            "—"
+                        )}
+                    </strong>
+
+                </td>
+
+
+                <td>
+
+                    ${escapeHtml(
+                        student.email ||
+                        "—"
+                    )}
+
+                </td>
+
+
+                <td>
+
+                    ${escapeHtml(
+                        student.event ||
+                        "—"
+                    )}
+
+                </td>
+
+
+                <td>
+
+                    <strong>
+                        ₹${amount.toLocaleString(
+                            "en-IN"
+                        )}
+                    </strong>
+
+                </td>
+
+
+                <td>
+
+                    <span
+                        class="status-badge ${status.toLowerCase()}"
+                    >
+
+                        ${escapeHtml(
+                            status
+                        )}
+
+                    </span>
+
+                </td>
+
+
+                <td>
+
+                    ${escapeHtml(
+                        date
+                    )}
+
+                </td>
+
+
+                <td>
+
+                    <button
+                        class="receipt-view-btn"
+                        onclick="viewReceipt(
+                            ${Number(student.id)}
+                        )"
+                    >
+
+                        <i
+                            class="fa-solid fa-receipt"
+                        ></i>
+
+                        View
+
+                    </button>
+
+                </td>
+
+            `;
+
+
+            table.appendChild(
+                row
+            );
+
+        }
+    );
+
+}
+
+
+// ======================================================
+// NORMALIZE PAYMENT STATUS
+// ======================================================
+
+function normalizeStatus(
+    status
+) {
+
+    if (!status) {
+
+        return "Pending";
+
+    }
+
+
+    const value =
+        String(status)
+            .trim()
+            .toLowerCase();
+
+
+    if (
+        value === "paid" ||
+        value === "successful" ||
+        value === "success"
+    ) {
+
+        return "Paid";
+
+    }
+
+
+    return "Pending";
+
+}
+
+
+// ======================================================
+// STATISTICS
+// ======================================================
+
+function updateStatistics(
+    payments
+) {
+
+    const paid =
+        payments.filter(
+            payment =>
+                normalizeStatus(
+                    payment.payment_status
+                ) === "Paid"
+        );
+
+
+    const pending =
+        payments.filter(
+            payment =>
+                normalizeStatus(
+                    payment.payment_status
+                ) === "Pending"
+        );
+
+
+    const totalRevenue =
+        paid.reduce(
+            (
+                total,
+                payment
+            ) => {
+
+                return total +
+                    Number(
+                        payment.amount || 0
+                    );
+
+            },
+            0
+        );
+
+
+    const amounts =
+        payments.map(
+            payment =>
+                Number(
+                    payment.amount || 0
+                )
+        );
+
+
+    const highest =
+        amounts.length
+            ? Math.max(...amounts)
+            : 0;
+
+
+    const average =
+        payments.length
+            ? totalRevenue /
+              paid.length
+            : 0;
+
+
+    const todayPayments =
+        payments.filter(
+            payment =>
+                isToday(
+                    payment.payment_date ||
+                    payment.createdAt
+                )
+        );
+
+
+    const todayPaid =
+        todayPayments.filter(
+            payment =>
+                normalizeStatus(
+                    payment.payment_status
+                ) === "Paid"
+        );
+
+
+    const todayRevenue =
+        todayPaid.reduce(
+            (
+                total,
+                payment
+            ) => {
+
+                return total +
+                    Number(
+                        payment.amount || 0
+                    );
+
+            },
+            0
+        );
+
+
+    setText(
+        "totalRevenue",
+        formatRupee(
+            totalRevenue
+        )
+    );
+
+
+    setText(
+        "paidPayments",
+        paid.length
+    );
+
+
+    setText(
+        "pendingPayments",
+        pending.length
+    );
+
+
+    setText(
+        "todayRevenueCard",
+        formatRupee(
+            todayRevenue
+        )
+    );
+
+
+    setText(
+        "transactionCount",
+        payments.length
+    );
+
+
+    setText(
+        "highestPayment",
+        formatRupee(
+            highest
+        )
+    );
+
+
+    setText(
+        "averagePayment",
+        formatRupee(
+            Math.round(
+                average || 0
+            )
+        )
+    );
+
+
+    setText(
+        "todayTransactions",
+        todayPaid.length
+    );
+
+}
+
+
+// ======================================================
+// REVENUE REPORT
+// ======================================================
+
+function updateRevenueReport(
+    payments
+) {
+
+    const paid =
+        payments.filter(
+            payment =>
+                normalizeStatus(
+                    payment.payment_status
+                ) === "Paid"
+        );
+
+
+    const todayRevenue =
+        calculateRevenue(
+            paid,
+            1
+        );
+
+
+    const weekRevenue =
+        calculateRevenue(
+            paid,
+            7
+        );
+
+
+    const monthRevenue =
+        calculateRevenue(
+            paid,
+            30
+        );
+
+
+    const overallRevenue =
+        paid.reduce(
+            (
+                total,
+                payment
+            ) => {
+
+                return total +
+                    Number(
+                        payment.amount || 0
+                    );
+
+            },
+            0
+        );
+
+
+    setText(
+        "todayRevenueReport",
+        formatRupee(
+            todayRevenue
+        )
+    );
+
+
+    setText(
+        "weekRevenue",
+        formatRupee(
+            weekRevenue
+        )
+    );
+
+
+    setText(
+        "monthRevenue",
+        formatRupee(
+            monthRevenue
+        )
+    );
+
+
+    setText(
+        "overallRevenue",
+        formatRupee(
+            overallRevenue
+        )
+    );
+
+}
+
+
+// ======================================================
+// CALCULATE REVENUE
+// ======================================================
+
+function calculateRevenue(
+    payments,
+    days
+) {
+
+    const now =
+        new Date();
+
+
+    const start =
+        new Date();
+
+
+    start.setDate(
+        now.getDate() -
+        (days - 1)
+    );
+
+
+    start.setHours(
+        0,
+        0,
+        0,
+        0
+    );
+
+
+    return payments.reduce(
+        (
+            total,
+            payment
+        ) => {
+
+            const date =
+                parseDate(
+                    payment.payment_date ||
+                    payment.createdAt
+                );
+
+
+            if (
+                date &&
+                date >= start &&
+                date <= now
+            ) {
+
+                return total +
+                    Number(
+                        payment.amount || 0
+                    );
+
+            }
+
+
+            return total;
+
+        },
+        0
+    );
+
+}
+
+
+// ======================================================
+// RECENT PAYMENTS
+// ======================================================
+
+function updateRecentPayments(
+    payments
+) {
+
+    const list =
+        document.getElementById(
+            "recentPayments"
+        );
+
+
+    if (!list) {
+
+        return;
+
+    }
+
+
+    list.innerHTML = "";
+
+
+    const recent =
+        [...payments]
+            .sort(
+                (
+                    a,
+                    b
+                ) => {
+
+                    const dateA =
+                        parseDate(
+                            a.payment_date ||
+                            a.createdAt
+                        ) || 0;
+
+
+                    const dateB =
+                        parseDate(
+                            b.payment_date ||
+                            b.createdAt
+                        ) || 0;
+
+
+                    return dateB - dateA;
+
+                }
+            )
+            .slice(
+                0,
+                5
+            );
+
+
+    if (
+        recent.length === 0
+    ) {
+
+        list.innerHTML = `
+
+            <li>
+                No payments yet.
+            </li>
+
+        `;
+
+        return;
+
+    }
+
+
+    recent.forEach(
+        payment => {
+
+            const li =
+                document.createElement(
+                    "li"
+                );
+
+
+            li.innerHTML = `
+
+                <div>
+
+                    <strong>
+                        ${escapeHtml(
+                            payment.fullname ||
+                            "Student"
+                        )}
+                    </strong>
+
+                    <small>
+                        ${escapeHtml(
+                            payment.event ||
+                            "Event"
+                        )}
+                    </small>
+
+                </div>
+
+                <strong>
+                    ${formatRupee(
+                        Number(
+                            payment.amount || 0
+                        )
+                    )}
+                </strong>
+
+            `;
+
+
+            list.appendChild(
+                li
+            );
+
+        }
+    );
+
+}
+
+
+// ======================================================
+// SEARCH + FILTER
+// ======================================================
+
+function initializeSearch() {
+
+    const search =
+        document.getElementById(
+            "paymentSearchTable"
+        );
+
+
+    const filter =
+        document.getElementById(
+            "paymentFilter"
+        );
+
+
+    if (search) {
+
+        search.addEventListener(
+            "input",
+            applyFilters
         );
 
     }
 
 
+    if (filter) {
 
-    // ==========================================
-    // VIEW RECEIPT
-    // ==========================================
+        filter.addEventListener(
+            "change",
+            applyFilters
+        );
 
-    if (viewReceiptButton) {
+    }
 
-        viewReceiptButton.addEventListener(
-            "click",
-            function () {
-
-
-                document.body.style.overflow =
-                    "";
+}
 
 
-                window.location.href =
-                    "receipt.html";
+function applyFilters() {
 
+    const search =
+        (
+            document.getElementById(
+                "paymentSearchTable"
+            )?.value || ""
+        )
+            .toLowerCase()
+            .trim();
+
+
+    const filter =
+        document.getElementById(
+            "paymentFilter"
+        )?.value || "";
+
+
+    const filtered =
+        allPayments.filter(
+            payment => {
+
+                const status =
+                    normalizeStatus(
+                        payment.payment_status
+                    );
+
+
+                const searchable =
+                    [
+
+                        payment.id,
+
+                        payment.fullname,
+
+                        payment.email,
+
+                        payment.event,
+
+                        payment.transaction_id,
+
+                        payment.payment_method
+
+                    ]
+                        .join(" ")
+                        .toLowerCase();
+
+
+                const matchesSearch =
+                    !search ||
+                    searchable.includes(
+                        search
+                    );
+
+
+                const matchesFilter =
+                    !filter ||
+                    status === filter;
+
+
+                return (
+                    matchesSearch &&
+                    matchesFilter
+                );
+
+            }
+        );
+
+
+    renderPayments(
+        filtered
+    );
+
+}
+
+
+// ======================================================
+// VIEW RECEIPT
+// ======================================================
+
+function viewReceipt(
+    id
+) {
+
+    localStorage.setItem(
+        "viewRegistrationId",
+        id
+    );
+
+
+    window.location.href =
+        "receipt.html?id=" +
+        encodeURIComponent(
+            id
+        );
+
+}
+
+
+// ======================================================
+// LOGOUT
+// ======================================================
+
+async function logout() {
+
+    try {
+
+        await fetch(
+            BACKEND_URL +
+            "/logout",
+            {
+                credentials:
+                    "include"
             }
         );
 
     }
 
+    catch (error) {
 
-});
+        console.log(
+            error
+        );
+
+    }
+
+
+    window.location.href =
+        "admin-login.html";
+
+}
+
+
+// ======================================================
+// HELPERS
+// ======================================================
+
+function setText(
+    id,
+    value
+) {
+
+    const element =
+        document.getElementById(
+            id
+        );
+
+
+    if (element) {
+
+        element.textContent =
+            value;
+
+    }
+
+}
+
+
+function formatRupee(
+    amount
+) {
+
+    return (
+        "₹" +
+        Number(
+            amount || 0
+        ).toLocaleString(
+            "en-IN"
+        )
+    );
+
+}
+
+
+function parseDate(
+    value
+) {
+
+    if (!value) {
+
+        return null;
+
+    }
+
+
+    const date =
+        new Date(
+            value
+        );
+
+
+    if (
+        isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return null;
+
+    }
+
+
+    return date;
+
+}
+
+
+function formatDate(
+    value
+) {
+
+    const date =
+        parseDate(
+            value
+        );
+
+
+    if (!date) {
+
+        return "—";
+
+    }
+
+
+    return date.toLocaleString(
+        "en-IN",
+        {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit"
+        }
+    );
+
+}
+
+
+function isToday(
+    value
+) {
+
+    const date =
+        parseDate(
+            value
+        );
+
+
+    if (!date) {
+
+        return false;
+
+    }
+
+
+    const today =
+        new Date();
+
+
+    return (
+        date.getDate() ===
+            today.getDate() &&
+
+        date.getMonth() ===
+            today.getMonth() &&
+
+        date.getFullYear() ===
+            today.getFullYear()
+    );
+
+}
+
+
+function escapeHtml(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+// ======================================================
+// AUTO REFRESH
+// ======================================================
+
+setInterval(
+    loadPayments,
+    10000
+);

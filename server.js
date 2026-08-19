@@ -49,144 +49,276 @@ const db = mysql.createPool({
 });
 
 createTables();
-function createTables() {
 
-    const registrationTable = `
+// ======================================
+// ENSURE PAYMENT COLUMNS EXIST
+// ======================================
 
-    CREATE TABLE IF NOT EXISTS registrations(
+function ensurePaymentColumns() {
 
-        id INT AUTO_INCREMENT PRIMARY KEY,
+    const columns = [
 
-        fullname VARCHAR(100),
+        {
+            name: "payment_method",
+            sql: `
+                ALTER TABLE registrations
+                ADD COLUMN payment_method VARCHAR(50)
+            `
+        },
 
-        email VARCHAR(100),
+        {
+            name: "transaction_id",
+            sql: `
+                ALTER TABLE registrations
+                ADD COLUMN transaction_id VARCHAR(100)
+            `
+        },
 
-        college VARCHAR(150),
+        {
+            name: "payment_date",
+            sql: `
+                ALTER TABLE registrations
+                ADD COLUMN payment_date DATETIME
+            `
+        }
 
-        department VARCHAR(100),
+    ];
 
-        year VARCHAR(20),
 
-        event VARCHAR(100),
+    function addColumn(index) {
 
-        payment_status VARCHAR(30) DEFAULT 'Paid',
+        if (index >= columns.length) {
 
-        amount INT DEFAULT 1000,
+            console.log(
+                "✅ Payment columns checked"
+            );
 
-        attendance VARCHAR(20) DEFAULT 'Absent',
-
-        certificate_generated BOOLEAN DEFAULT FALSE,
-
-        certificate_id VARCHAR(100),
-
-        certificate_date DATE,
-
-        createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-
-    )
-
-    `;
-
-    db.query(registrationTable, (err) => {
-
-        if (err) {
-
-            console.log(err);
-
-        } else {
-
-            console.log("✅ registrations table ready");
+            return;
 
         }
 
-    });
 
-    const eventsTable = `
+        const column =
+            columns[index];
 
-    CREATE TABLE IF NOT EXISTS events(
 
-        id INT AUTO_INCREMENT PRIMARY KEY,
+        db.query(
+            column.sql,
+            (err) => {
 
-        event_name VARCHAR(100),
+                if (err) {
 
-        event_date DATE,
+                    if (
+                        err.message
+                            .toLowerCase()
+                            .includes(
+                                "duplicate column"
+                            )
+                    ) {
 
-        venue VARCHAR(100),
+                        console.log(
+                            `✓ ${column.name} already exists`
+                        );
 
-        fee INT,
+                    }
 
-        status VARCHAR(30),
+                    else if (
+                        err.message
+                            .toLowerCase()
+                            .includes(
+                                "doesn't exist"
+                            )
+                    ) {
 
-        createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                        console.log(
+                            `⏳ ${column.name}: registrations table not ready yet`
+                        );
 
-    )
+                    }
 
-    `;
+                    else {
 
-    db.query(eventsTable, (err) => {
+                        console.error(
+                            `❌ ${column.name}:`,
+                            err.message
+                        );
 
-        if (err) {
+                    }
 
-            console.log(err);
+                }
 
-        } else {
+                else {
 
-            console.log("✅ events table ready");
+                    console.log(
+                        `✅ Added ${column.name}`
+                    );
 
-        }
+                }
 
-    });
+
+                addColumn(index + 1);
+
+            }
+        );
+
+    }
+
+
+    addColumn(0);
 
 }
-app.get("/", (req, res) => {
 
-    res.sendFile(path.join(__dirname, "index.html"));
 
-});
+// Wait a little so createTables()
+// has time to finish first.
+
+setTimeout(
+    ensurePaymentColumns,
+    1500
+);
 // ======================================
-// STUDENT REGISTRATION
+// STUDENT REGISTRATION + PAYMENT
 // ======================================
 
 app.post("/register", (req, res) => {
 
     const {
-
-        fullname,
-        email,
-        college,
-        department,
-        year,
-        event
-
-    } = req.body;
-    const certificateId =
-    "CEM-" +
-    new Date().getFullYear() +
-    "-" +
-    String(Math.floor(Math.random() * 999999))
-        .padStart(6, "0");
-    const sql = `
-
-    INSERT INTO registrations(
-
         fullname,
         email,
         college,
         department,
         year,
         event,
-        payment_status,
-        amount,
-        attendance,
-        certificate_generated,
-        certificate_id,
-        certificate_date
 
-    )
+        paymentMethod,
+        paymentStatus,
+        paymentAmount,
+        paymentDate,
+        paymentId
 
-    VALUES(?,?,?,?,?,?,?,?,?,?,?,?)
+    } = req.body;
+
+
+    // --------------------------------------
+    // BASIC VALIDATION
+    // --------------------------------------
+
+    if (
+        !fullname ||
+        !email ||
+        !college ||
+        !department ||
+        !year ||
+        !event
+    ) {
+
+        return res.status(400).json({
+
+            success: false,
+
+            message:
+                "Please provide all student details."
+
+        });
+
+    }
+
+
+    // --------------------------------------
+    // CERTIFICATE ID
+    // --------------------------------------
+
+    const certificateId =
+        "CEM-" +
+        new Date().getFullYear() +
+        "-" +
+        String(
+            Math.floor(
+                Math.random() * 999999
+            )
+        ).padStart(6, "0");
+
+
+    // --------------------------------------
+    // PAYMENT VALUES
+    // --------------------------------------
+
+    const finalPaymentMethod =
+        paymentMethod ||
+        "Online Payment";
+
+
+    const finalPaymentStatus =
+        paymentStatus ||
+        "Paid";
+
+
+    const finalAmount =
+        Number(paymentAmount) || 1000;
+
+
+    const finalPaymentId =
+        paymentId ||
+        (
+            "CEMTXN" +
+            Date.now()
+        );
+
+
+    const finalPaymentDate =
+        paymentDate
+            ? new Date(paymentDate)
+            : new Date();
+
+
+    // --------------------------------------
+    // INSERT
+    // --------------------------------------
+
+    const sql = `
+
+        INSERT INTO registrations(
+
+            fullname,
+            email,
+            college,
+            department,
+            year,
+            event,
+
+            payment_status,
+            amount,
+            payment_method,
+            transaction_id,
+            payment_date,
+
+            attendance,
+            certificate_generated,
+            certificate_id,
+            certificate_date
+
+        )
+
+        VALUES(
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?
+        )
 
     `;
+
 
     db.query(
 
@@ -200,8 +332,13 @@ app.post("/register", (req, res) => {
             department,
             year,
             event,
-            "Paid",
-            1000,
+
+            finalPaymentStatus,
+            finalAmount,
+            finalPaymentMethod,
+            finalPaymentId,
+            finalPaymentDate,
+
             "Absent",
             false,
             certificateId,
@@ -213,25 +350,60 @@ app.post("/register", (req, res) => {
 
             if (err) {
 
-                console.log(err);
+                console.error(
+                    "❌ Registration database error:",
+                    err
+                );
 
                 return res.status(500).json({
 
                     success: false,
 
-                    message: "Registration Failed"
+                    message:
+                        "Registration Failed",
+
+                    error:
+                        err.message
 
                 });
 
             }
 
+
+            // --------------------------------------
+            // SUCCESS
+            // --------------------------------------
+
+            console.log(
+                "✅ Registration + payment saved:",
+                result.insertId
+            );
+
+
             res.json({
 
                 success: true,
 
-                message: "Registration Successful",
+                message:
+                    "Registration Successful",
 
-                id: result.insertId
+                id:
+                    result.insertId,
+
+                registrationId:
+                    result.insertId,
+
+                paymentId:
+                    finalPaymentId,
+
+                paymentStatus:
+                    finalPaymentStatus,
+
+                paymentMethod:
+                    finalPaymentMethod,
+
+                amount:
+                    finalAmount
 
             });
 
