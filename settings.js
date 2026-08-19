@@ -1,185 +1,280 @@
 // ======================================================
 // COLLEGE EVENT MANAGER
 // SETTINGS.JS
-// Professional Version
+// CLEAN PROFESSIONAL VERSION
 // ======================================================
 
-// ======================================
+
+// ======================================================
 // ELEMENTS
-// ======================================
+// ======================================================
 
 const sidebar =
-document.getElementById("sidebar");
+    document.getElementById("sidebar");
 
 const menuBtn =
-document.getElementById("menuBtn");
+    document.getElementById("menuBtn");
 
 const closeBtn =
-document.getElementById("closeSidebar");
+    document.getElementById("closeSidebar");
 
 const overlay =
-document.getElementById("overlay");
+    document.getElementById("overlay");
 
 const theme =
-document.getElementById("theme");
+    document.getElementById("theme");
 
 const notification =
-document.getElementById("notification");
+    document.getElementById("notification");
 
 const certificate =
-document.getElementById("certificate");
+    document.getElementById("certificate");
+
+const autoRefresh =
+    document.getElementById("autoRefresh");
 
 const profileImage =
-document.getElementById("profileImage");
+    document.getElementById("profileImage");
 
 const profilePreview =
-document.getElementById("profilePreview");
+    document.getElementById("profilePreview");
+
+const topProfilePreview =
+    document.getElementById("topProfilePreview");
 
 const saveBtn =
-document.getElementById("saveSettingsBtn");
+    document.getElementById("saveSettingsBtn");
 
 const resetBtn =
-document.getElementById("resetSettingsBtn");
+    document.getElementById("resetSettingsBtn");
 
-// ======================================
+
+// ======================================================
 // PAGE LOAD
-// ======================================
+// ======================================================
 
-window.addEventListener("load",()=>{
+window.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
-loadSettings();
+        console.log(
+            "Settings Loaded"
+        );
 
-initializeSidebar();
+        initializeSidebar();
 
-loadProfileImage();
+        loadSettings();
 
-applyTheme();
+        loadProfileImage();
 
-console.log("Settings Loaded");
+        applyTheme();
 
-});
+        checkLogin();
 
-// ======================================
+    }
+);
+
+
+// ======================================================
 // SIDEBAR
-// ======================================
+// ======================================================
 
-function initializeSidebar(){
+function initializeSidebar() {
 
-    if(!sidebar || !menuBtn || !closeBtn || !overlay){
-        console.log("Sidebar elements not found");
+    if (
+        !sidebar ||
+        !menuBtn
+    ) {
+
+        console.log(
+            "Sidebar elements not found"
+        );
+
         return;
     }
 
-    menuBtn.onclick = () => {
 
-        sidebar.classList.add("active");
+    // OPEN SIDEBAR
 
-        overlay.classList.add("show");
+    menuBtn.addEventListener(
+        "click",
+        () => {
 
-    };
+            sidebar.classList.add(
+                "active"
+            );
 
-    closeBtn.onclick = () => {
 
-        sidebar.classList.remove("active");
+            if (overlay) {
 
-        overlay.classList.remove("show");
+                overlay.classList.add(
+                    "show"
+                );
 
-    };
+            }
 
-    overlay.onclick = () => {
+        }
+    );
 
-        sidebar.classList.remove("active");
 
-        overlay.classList.remove("show");
+    // CLOSE BUTTON
 
-    };
+    if (closeBtn) {
+
+        closeBtn.addEventListener(
+            "click",
+            closeSidebar
+        );
+
+    }
+
+
+    // OVERLAY
+
+    if (overlay) {
+
+        overlay.addEventListener(
+            "click",
+            closeSidebar
+        );
+
+    }
 
 }
 
 
-// ======================================
+function closeSidebar() {
+
+    if (sidebar) {
+
+        sidebar.classList.remove(
+            "active"
+        );
+
+    }
+
+
+    if (overlay) {
+
+        overlay.classList.remove(
+            "show"
+        );
+
+    }
+
+}
+
+
+// ======================================================
 // LOAD SETTINGS
-// ======================================
+// ======================================================
 
-function loadSettings(){
+function loadSettings() {
 
-if(theme){
+    if (theme) {
 
-theme.value=
+        theme.value =
+            localStorage.getItem(
+                "theme"
+            ) || "Light Mode";
 
-localStorage.getItem("theme")
+    }
 
-||
 
-"Light Mode";
+    if (notification) {
+
+        notification.value =
+            localStorage.getItem(
+                "notification"
+            ) || "Enabled";
+
+    }
+
+
+    if (certificate) {
+
+        certificate.value =
+            localStorage.getItem(
+                "certificate"
+            ) || "Enabled";
+
+    }
+
+
+    if (autoRefresh) {
+
+        autoRefresh.value =
+            localStorage.getItem(
+                "autoRefresh"
+            ) || "5";
+
+    }
 
 }
 
-if(notification){
 
-notification.value=
+// ======================================================
+// SAVE BUTTON
+// ======================================================
 
-localStorage.getItem("notification")
+if (saveBtn) {
 
-||
-
-"Enabled";
-
-}
-
-if(certificate){
-
-certificate.value=
-
-localStorage.getItem("certificate")
-
-||
-
-"Enabled";
+    saveBtn.addEventListener(
+        "click",
+        saveSettings
+    );
 
 }
 
-}
-// ======================================
+
+// ======================================================
 // SAVE SETTINGS
-// ======================================
-
-if(saveBtn){
-
-saveBtn.onclick=saveSettings;
-
-}
-// ======================================
-// SAVE SETTINGS
-// ======================================
+// ======================================================
 
 async function saveSettings() {
 
-    // --------------------------------------
-    // PASSWORD FIELDS
-    // --------------------------------------
-
     const currentPassword =
-        document.getElementById("currentPassword")?.value.trim();
+        document
+            .getElementById(
+                "currentPassword"
+            )
+            ?.value
+            .trim() || "";
+
 
     const newPassword =
-        document.getElementById("newPassword")?.value.trim();
+        document
+            .getElementById(
+                "newPassword"
+            )
+            ?.value
+            .trim() || "";
+
 
     const confirmPassword =
-        document.getElementById("confirmPassword")?.value.trim();
+        document
+            .getElementById(
+                "confirmPassword"
+            )
+            ?.value
+            .trim() || "";
 
 
-    // --------------------------------------
-    // IF USER ENTERED PASSWORD
-    // --------------------------------------
+    // ==================================================
+    // PASSWORD CHANGE REQUESTED
+    // ==================================================
 
-    if (
+    const passwordEntered =
         currentPassword ||
         newPassword ||
-        confirmPassword
-    ) {
+        confirmPassword;
 
-        // Check all fields
+
+    if (passwordEntered) {
+
+        // ----------------------------------------------
+        // CHECK ALL PASSWORD FIELDS
+        // ----------------------------------------------
 
         if (
             !currentPassword ||
@@ -192,10 +287,13 @@ async function saveSettings() {
             );
 
             return;
+
         }
 
 
-        // Check matching passwords
+        // ----------------------------------------------
+        // CHECK NEW PASSWORDS MATCH
+        // ----------------------------------------------
 
         if (
             newPassword !==
@@ -207,10 +305,13 @@ async function saveSettings() {
             );
 
             return;
+
         }
 
 
-        // Minimum password length
+        // ----------------------------------------------
+        // PASSWORD LENGTH
+        // ----------------------------------------------
 
         if (
             newPassword.length < 6
@@ -221,54 +322,126 @@ async function saveSettings() {
             );
 
             return;
+
         }
 
 
+        // ----------------------------------------------
+        // DON'T ALLOW SAME PASSWORD
+        // ----------------------------------------------
+
+        if (
+            currentPassword ===
+            newPassword
+        ) {
+
+            alert(
+                "New password must be different from the current password."
+            );
+
+            return;
+
+        }
+
+
+        // ----------------------------------------------
+        // SEND TO BACKEND
+        // ----------------------------------------------
+
         try {
 
-            // --------------------------------
-            // CHANGE PASSWORD IN BACKEND
-            // --------------------------------
+            saveBtn.disabled = true;
+
+            saveBtn.innerHTML =
+                '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+
 
             const response =
                 await fetch(
                     "/api/change-password",
                     {
+
                         method: "POST",
 
                         headers: {
+
                             "Content-Type":
                                 "application/json"
+
                         },
 
-                        credentials: "include",
+                        credentials:
+                            "include",
 
-                        body: JSON.stringify({
+                        body:
+                            JSON.stringify({
 
-                            currentPassword:
-                                currentPassword,
+                                currentPassword:
+                                    currentPassword,
 
-                            newPassword:
-                                newPassword,
+                                newPassword:
+                                    newPassword,
 
-                            confirmPassword:
-                                confirmPassword
+                                confirmPassword:
+                                    confirmPassword
 
-                        })
+                            })
 
                     }
                 );
 
 
-            const data =
-                await response.json();
+            let data;
 
 
-            // --------------------------------
-            // ERROR
-            // --------------------------------
+            try {
 
-            if (!response.ok || !data.success) {
+                data =
+                    await response.json();
+
+            }
+
+            catch {
+
+                throw new Error(
+                    "Invalid response from server."
+                );
+
+            }
+
+
+            // ------------------------------------------
+            // LOGIN EXPIRED
+            // ------------------------------------------
+
+            if (
+                response.status === 401 &&
+                data.message ===
+                    "Please login first."
+            ) {
+
+                alert(
+                    "Your login session has expired. Please login again."
+                );
+
+
+                window.location.href =
+                    "admin-login.html";
+
+
+                return;
+
+            }
+
+
+            // ------------------------------------------
+            // BACKEND ERROR
+            // ------------------------------------------
+
+            if (
+                !response.ok ||
+                !data.success
+            ) {
 
                 alert(
                     data.message ||
@@ -276,32 +449,20 @@ async function saveSettings() {
                 );
 
                 return;
+
             }
 
 
-            // --------------------------------
-            // SUCCESS
-            // --------------------------------
+            // ------------------------------------------
+            // PASSWORD SUCCESS
+            // ------------------------------------------
 
             alert(
                 "✅ Password changed successfully!"
             );
 
 
-            // Clear password fields
-
-            document.getElementById(
-                "currentPassword"
-            ).value = "";
-
-            document.getElementById(
-                "newPassword"
-            ).value = "";
-
-            document.getElementById(
-                "confirmPassword"
-            ).value = "";
-
+            clearPasswordFields();
 
         }
 
@@ -322,12 +483,23 @@ async function saveSettings() {
 
         }
 
+        finally {
+
+            saveBtn.disabled =
+                false;
+
+
+            saveBtn.innerHTML =
+                '<i class="fa-solid fa-floppy-disk"></i> Save Changes';
+
+        }
+
     }
 
 
-    // --------------------------------------
-    // SAVE OTHER SETTINGS
-    // --------------------------------------
+    // ==================================================
+    // SAVE NORMAL SETTINGS
+    // ==================================================
 
     if (theme) {
 
@@ -372,15 +544,10 @@ async function saveSettings() {
     applyTheme();
 
 
-    // Only show this when
-    // password wasn't already showing
-    // its own success message.
+    // If password wasn't changed,
+    // show normal settings message.
 
-    if (
-        !currentPassword &&
-        !newPassword &&
-        !confirmPassword
-    ) {
+    if (!passwordEntered) {
 
         alert(
             "✅ Settings Saved Successfully"
@@ -389,333 +556,470 @@ async function saveSettings() {
     }
 
 }
-// Notifications
 
-if(notification){
 
-localStorage.setItem(
+// ======================================================
+// CLEAR PASSWORD FIELDS
+// ======================================================
 
-"notification",
+function clearPasswordFields() {
 
-notification.value
+    const current =
+        document.getElementById(
+            "currentPassword"
+        );
 
-);
+    const newPass =
+        document.getElementById(
+            "newPassword"
+        );
 
-}
+    const confirmPass =
+        document.getElementById(
+            "confirmPassword"
+        );
 
-// Certificate
 
-if(certificate){
+    if (current) {
 
-localStorage.setItem(
+        current.value = "";
 
-"certificate",
+    }
 
-certificate.value
 
-);
+    if (newPass) {
 
-}
+        newPass.value = "";
 
-// Password
+    }
 
-const newPassword=
 
-document.getElementById("newPassword").value;
+    if (confirmPass) {
 
-const confirmPassword=
+        confirmPass.value = "";
 
-document.getElementById("confirmPassword").value;
-
-if(newPassword!=="" || confirmPassword!==""){
-
-if(newPassword!==confirmPassword){
-
-alert("Passwords do not match");
-
-return;
+    }
 
 }
 
 
-applyTheme();
-
-alert("✅ Settings Saved Successfully");
-
-}
-
-// ======================================
+// ======================================================
 // PROFILE IMAGE
-// ======================================
+// ======================================================
 
-if(profileImage){
+if (profileImage) {
 
-profileImage.onchange=function(){
+    profileImage.addEventListener(
+        "change",
+        function () {
 
-const file=this.files[0];
+            const file =
+                this.files[0];
 
-if(!file) return;
 
-const reader=new FileReader();
+            if (!file) {
 
-reader.onload=function(e){
+                return;
 
-localStorage.setItem(
+            }
 
-"profileImage",
 
-e.target.result
+            // Only image files
 
-);
+            if (
+                !file.type.startsWith(
+                    "image/"
+                )
+            ) {
 
-profilePreview.src=
+                alert(
+                    "Please select an image file."
+                );
 
-e.target.result;
+                this.value = "";
 
-};
+                return;
 
-reader.readAsDataURL(file);
+            }
 
-};
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                function (event) {
+
+                    const imageData =
+                        event.target.result;
+
+
+                    localStorage.setItem(
+                        "profileImage",
+                        imageData
+                    );
+
+
+                    if (profilePreview) {
+
+                        profilePreview.src =
+                            imageData;
+
+                    }
+
+
+                    if (topProfilePreview) {
+
+                        topProfilePreview.src =
+                            imageData;
+
+                    }
+
+                };
+
+
+            reader.readAsDataURL(
+                file
+            );
+
+        }
+    );
 
 }
 
-function loadProfileImage(){
 
-const image=
+// ======================================================
+// LOAD PROFILE IMAGE
+// ======================================================
 
-localStorage.getItem("profileImage");
+function loadProfileImage() {
 
-if(image && profilePreview){
+    const image =
+        localStorage.getItem(
+            "profileImage"
+        );
 
-profilePreview.src=image;
+
+    if (!image) {
+
+        return;
+
+    }
+
+
+    if (profilePreview) {
+
+        profilePreview.src =
+            image;
+
+    }
+
+
+    if (topProfilePreview) {
+
+        topProfilePreview.src =
+            image;
+
+    }
 
 }
 
-}
 
-// ======================================
+// ======================================================
 // RESET SETTINGS
-// ======================================
+// ======================================================
 
-if(resetBtn){
+if (resetBtn) {
 
-resetBtn.onclick=function(){
+    resetBtn.addEventListener(
+        "click",
+        () => {
 
-if(!confirm("Reset all settings?")){
+            const confirmed =
+                confirm(
+                    "Reset all dashboard preferences?"
+                );
 
-return;
+
+            if (!confirmed) {
+
+                return;
+
+            }
+
+
+            // Password is NOT reset here.
+            // Password belongs to MySQL.
+
+            localStorage.removeItem(
+                "theme"
+            );
+
+            localStorage.removeItem(
+                "notification"
+            );
+
+            localStorage.removeItem(
+                "certificate"
+            );
+
+            localStorage.removeItem(
+                "autoRefresh"
+            );
+
+            localStorage.removeItem(
+                "profileImage"
+            );
+
+
+            location.reload();
+
+        }
+    );
 
 }
 
-localStorage.removeItem("theme");
 
-localStorage.removeItem("notification");
-
-localStorage.removeItem("certificate");
-
-localStorage.removeItem("profileImage");
-
-location.reload();
-
-};
-
-}
-// ======================================
+// ======================================================
 // APPLY THEME
-// ======================================
+// ======================================================
 
-function applyTheme(){
+function applyTheme() {
 
-const selectedTheme =
-localStorage.getItem("theme") || "Light Mode";
+    const selectedTheme =
+        localStorage.getItem(
+            "theme"
+        ) || "Light Mode";
 
-if(theme){
 
-theme.value = selectedTheme;
+    if (theme) {
+
+        theme.value =
+            selectedTheme;
+
+    }
+
+
+    if (
+        selectedTheme ===
+        "Dark Mode"
+    ) {
+
+        document.body.classList.add(
+            "dark-mode"
+        );
+
+    }
+
+    else {
+
+        document.body.classList.remove(
+            "dark-mode"
+        );
+
+    }
 
 }
 
-if(selectedTheme==="Dark Mode"){
 
-document.body.classList.add("dark-mode");
-
-}else{
-
-document.body.classList.remove("dark-mode");
-
-}
-
-}
-
-// ======================================
+// ======================================================
 // THEME CHANGE
-// ======================================
+// ======================================================
 
-if(theme){
+if (theme) {
 
-theme.addEventListener("change",function(){
+    theme.addEventListener(
+        "change",
+        function () {
 
-localStorage.setItem(
+            localStorage.setItem(
+                "theme",
+                this.value
+            );
 
-"theme",
 
-this.value
+            applyTheme();
 
-);
-
-applyTheme();
-
-});
+        }
+    );
 
 }
 
-// ======================================
+
+// ======================================================
 // NOTIFICATION CHANGE
-// ======================================
+// ======================================================
 
-if(notification){
+if (notification) {
 
-notification.addEventListener("change",function(){
+    notification.addEventListener(
+        "change",
+        function () {
 
-localStorage.setItem(
+            localStorage.setItem(
+                "notification",
+                this.value
+            );
 
-"notification",
-
-this.value
-
-);
-
-});
+        }
+    );
 
 }
 
-// ======================================
+
+// ======================================================
 // CERTIFICATE CHANGE
-// ======================================
+// ======================================================
 
-if(certificate){
+if (certificate) {
 
-certificate.addEventListener("change",function(){
+    certificate.addEventListener(
+        "change",
+        function () {
 
-localStorage.setItem(
+            localStorage.setItem(
+                "certificate",
+                this.value
+            );
 
-"certificate",
-
-this.value
-
-);
-
-});
+        }
+    );
 
 }
 
-// ======================================
+
+// ======================================================
 // AUTO REFRESH
-// ======================================
+// ======================================================
 
-const autoRefresh =
-document.getElementById("autoRefresh");
+if (autoRefresh) {
 
-if(autoRefresh){
+    autoRefresh.addEventListener(
+        "change",
+        function () {
 
-autoRefresh.value =
-localStorage.getItem("autoRefresh") || "5";
+            localStorage.setItem(
+                "autoRefresh",
+                this.value
+            );
 
-autoRefresh.addEventListener("change",function(){
-
-localStorage.setItem(
-
-"autoRefresh",
-
-this.value
-
-);
-
-});
+        }
+    );
 
 }
-// ======================================
+
+
+// ======================================================
 // LOGOUT
-// ======================================
+// ======================================================
 
-function logout(){
+async function logout() {
 
-if(!confirm("Logout from Admin Dashboard?")){
+    const confirmed =
+        confirm(
+            "Logout from Admin Dashboard?"
+        );
 
-return;
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    try {
+
+        await fetch(
+            "/logout",
+            {
+
+                method: "GET",
+
+                credentials:
+                    "include"
+
+            }
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Logout error:",
+            error
+        );
+
+    }
+
+
+    window.location.href =
+        "admin-login.html";
 
 }
 
-fetch("/logout",{
 
-credentials:"include"
-
-})
-
-.then(()=>{
-
-window.location.href="admin-login.html";
-
-})
-
-.catch(()=>{
-
-window.location.href="admin-login.html";
-
-});
-
-}
-
-// ======================================
+// ======================================================
 // CHECK LOGIN
-// ======================================
+// ======================================================
 
-async function checkLogin(){
+async function checkLogin() {
 
-try{
+    try {
 
-const response = await fetch("/api/current-user",{
+        const response =
+            await fetch(
+                "/api/current-user",
+                {
 
-credentials:"include"
+                    credentials:
+                        "include"
 
-});
+                }
+            );
 
-const data = await response.json();
 
-if(!data.loggedIn){
+        const data =
+            await response.json();
 
-window.location.href="admin-login.html";
+
+        if (!data.loggedIn) {
+
+            window.location.href =
+                "admin-login.html";
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Login check error:",
+            error
+        );
+
+
+        window.location.href =
+            "admin-login.html";
+
+    }
 
 }
 
-}
 
-catch(err){
+// ======================================================
+// STATUS
+// ======================================================
 
-console.log(err);
+setInterval(
+    () => {
 
-window.location.href="admin-login.html";
+        console.log(
+            "Settings Running..."
+        );
 
-}
-
-}
-
-// ======================================
-// AUTO STATUS
-// ======================================
-
-setInterval(()=>{
-
-console.log("Settings Running...");
-
-},30000);
-
-// ======================================
-// INITIALIZE
-// ======================================
-window.addEventListener("DOMContentLoaded",()=>{
-
-checkLogin();
-
-});
+    },
+    30000
+);
