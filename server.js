@@ -54,7 +54,6 @@ const db = mysql.createPool({
     connectTimeout: 20000
 });
 
-createTables();
 // ======================================
 // CREATE DATABASE TABLES
 // ======================================
@@ -1482,34 +1481,54 @@ app.delete("/clear", (req, res) => {
 
 });
 // ======================================
-// GET EVENTS
+// GET ALL EVENTS
 // ======================================
 
 app.get("/events", (req, res) => {
 
+    const sql =
+        "SELECT * FROM events ORDER BY event_date ASC";
+
+
     db.query(
-
-        "SELECT * FROM events ORDER BY event_date ASC",
-
+        sql,
         (err, results) => {
 
             if (err) {
 
-                console.log(err);
+                console.error(
+                    "❌ GET EVENTS ERROR:",
+                    err
+                );
 
-                return res.status(500).json([]);
+
+                return res.status(500).json({
+
+                    success: false,
+
+                    message:
+                        "Failed to load events.",
+
+                    error:
+                        err.message
+
+                });
 
             }
+
+
+            console.log(
+                "✅ Events loaded:",
+                results.length
+            );
+
 
             res.json(results);
 
         }
-
     );
 
 });
-
-
 // ======================================
 // ADD EVENT
 // ======================================
@@ -1564,7 +1583,77 @@ app.post("/events", (req, res) => {
     );
 
 });
+// ======================================
+// UPDATE EVENT
+// ======================================
 
+app.put("/events/:id", (req, res) => {
+
+    const {
+        event_name,
+        event_date,
+        venue,
+        fee,
+        status
+    } = req.body;
+
+
+    const sql = `
+        UPDATE events
+        SET
+            event_name = ?,
+            event_date = ?,
+            venue = ?,
+            fee = ?,
+            status = ?
+        WHERE id = ?
+    `;
+
+
+    db.query(
+        sql,
+        [
+            event_name,
+            event_date,
+            venue,
+            fee,
+            status,
+            req.params.id
+        ],
+        (err, result) => {
+
+            if (err) {
+
+                console.error(
+                    "❌ Event update error:",
+                    err
+                );
+
+                return res.status(500).json({
+
+                    success: false,
+
+                    message:
+                        "Event update failed."
+
+                });
+
+            }
+
+
+            res.json({
+
+                success: true,
+
+                message:
+                    "Event updated successfully."
+
+            });
+
+        }
+    );
+
+});
 
 // ======================================
 // DELETE EVENT
