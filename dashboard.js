@@ -244,19 +244,26 @@ function updateCards(){
 
     document.getElementById("attendanceCount").innerText =
     attendance;
-    // Certificates
+    // ---------------------------------------
+// Certificates
+// ---------------------------------------
 
-const certificates =
-students.filter(
+const certificates = students.filter(
     s => Number(s.certificate_generated) === 1
 ).length;
 
-    document.getElementById("certificateCount").innerText =
-    certificates;
+const certificateGenerated =
+    document.getElementById("certificateGenerated");
 
-    document.getElementById("certificateGenerated").innerText =
-    certificates;
+const certificateCount =
+    document.getElementById("certificateCount");
 
+if (certificateGenerated) {
+    certificateGenerated.innerText = certificates;
+}
+
+if (certificateCount) {
+    certificateCount.innerText = certificates;
 }
 // ======================================================
 // CHARTS
