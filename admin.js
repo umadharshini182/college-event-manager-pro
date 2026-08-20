@@ -74,14 +74,15 @@ async function loadDashboard(){
         students = await response.json();
 
         updateCards();
+      loadStudentTable();
 
-        loadStudentTable();
+loadNotifications();
 
-        loadNotifications();
+loadLatestActivity();
 
-        loadLatestActivity();
+loadEvents();
 
-        loadCharts();
+loadCharts();
 
     }
 
@@ -317,16 +318,22 @@ student.attendance==="Present"
 
 document.getElementById("attendanceCount").innerText=
 attendance;
-
 // Certificates
 
-const certificates=
-
-students.filter(student =>
-    student.certificate_generated == 1
+const certificates = students.filter(student =>
+    Number(student.certificate_generated) === 1 ||
+    student.certificate_generated === true ||
+    (
+        student.certificate_id &&
+        student.certificate_id.trim() !== ""
+    )
 ).length;
-document.getElementById("certificateGenerated").innerText=
-certificates;
+
+document.getElementById("certificateGenerated").innerText =
+    certificates;
+
+document.getElementById("certificateCount").innerText =
+    certificates;
 // Today's Revenue
 
 document.getElementById("todayRevenue").innerText =
@@ -484,6 +491,56 @@ row.innerText
 "none";
 
 });
+
+}
+// ======================================================
+// UPCOMING EVENTS
+// ======================================================
+
+async function loadEvents(){
+
+    try{
+
+        const response = await fetch("/events", {
+            credentials: "include"
+        });
+
+        const events = await response.json();
+
+        const eventList =
+            document.getElementById("upcomingEvents");
+
+        if(!eventList) return;
+
+        eventList.innerHTML = "";
+
+        events.slice(0, 4).forEach(event => {
+
+            const date =
+                new Date(event.event_date);
+
+            const formattedDate =
+                date.toLocaleDateString("en-IN", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                });
+
+            eventList.innerHTML += `
+                <li>
+                    ${event.event_name}
+                    <span>${formattedDate}</span>
+                </li>
+            `;
+
+        });
+
+    }
+    catch(error){
+
+        console.log("Events Error:", error);
+
+    }
 
 }
 // ======================================================
