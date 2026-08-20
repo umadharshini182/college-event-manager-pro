@@ -258,6 +258,8 @@ const certificateGenerated =
 const certificateCount =
     document.getElementById("certificateCount");
 
+    document.getElementById("certificateCount").innerText =
+certificates;
 if (certificateGenerated) {
     certificateGenerated.innerText = certificates;
 }
