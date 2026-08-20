@@ -244,13 +244,12 @@ function updateCards(){
 
     document.getElementById("attendanceCount").innerText =
     attendance;
-
     // Certificates
 
-    const certificates =
-    students.filter(
-        s=>s.certificate_id
-    ).length;
+const certificates =
+students.filter(
+    s => Number(s.certificate_generated) === 1
+).length;
 
     document.getElementById("certificateCount").innerText =
     certificates;
