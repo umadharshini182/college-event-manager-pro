@@ -7,66 +7,60 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Verify Payment | Tech Spark 2027</title>
+    <title>Payment Successful | Tech Spark 2027</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
 
-    <link rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossorigin>
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
 
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
         rel="stylesheet"
     >
 
-    <link rel="stylesheet" href="payment-verification.css">
+    <link
+        rel="stylesheet"
+        href="payment-verification.css"
+    >
 
 </head>
 
 
 <body>
 
-    <!-- BACKGROUND -->
-
     <div class="verification-background"></div>
 
 
-    <!-- HEADER -->
-
-    <header class="verification-header">
-
-        <a href="payment.html" class="back-button">
-            ← Back to Payment
-        </a>
-
-
-        <div class="secure-payment">
-            🔒 Secure Payment
-        </div>
-
-    </header>
-
-
-    <!-- MAIN -->
-
     <main class="verification-page">
-
 
         <section class="verification-card">
 
 
-            <!-- STEP -->
+            <!-- SUCCESS ICON -->
 
-            <div class="verification-step">
-                STEP 2 OF 3
+            <div class="success-icon">
+                ✓
             </div>
 
 
-            <h1>Complete Your Payment</h1>
+            <!-- SUCCESS TEXT -->
+
+            <p class="verification-step">
+                PAYMENT VERIFIED
+            </p>
+
+
+            <h1>
+                Payment Successful!
+            </h1>
+
 
             <p class="verification-description">
-                Scan the QR code using any UPI application to complete your registration payment.
+                Your registration payment has been successfully confirmed.
             </p>
 
 
@@ -74,56 +68,39 @@
 
             <div class="amount-section">
 
-                <span>Amount to Pay</span>
+                <span>Amount Paid</span>
 
                 <strong>₹1,000</strong>
 
                 <small id="selectedMethodText">
-                    UPI Payment
+                    QR Payment
                 </small>
 
             </div>
 
 
-            <!-- QR -->
+            <!-- SUCCESS MESSAGE -->
 
-            <div class="qr-section">
-             <div class="qr-code-box">
+            <div class="success-message">
 
-    <div id="paymentQRCode"></div>
-
-</div>
-
-
-                <h2>Scan to Pay</h2>
+                <span>✓</span>
 
                 <p>
-                    Open Google Pay, PhonePe, Paytm or any UPI app and scan this QR code.
+                    Payment confirmed successfully
                 </p>
 
             </div>
 
 
-            <!-- PAYMENT STATUS -->
-
-            <div class="payment-status">
-
-                <div class="status-dot"></div>
-
-                <span>Waiting for payment confirmation...</span>
-
-            </div>
-
-
-            <!-- DEMO BUTTON -->
+            <!-- RECEIPT BUTTON -->
 
             <button
                 type="button"
                 class="confirm-payment-button"
-                id="confirmPayment"
+                id="viewReceipt"
             >
 
-                I Have Completed Payment
+                View Payment Receipt
 
                 <span>→</span>
 
@@ -131,9 +108,7 @@
 
 
             <p class="verification-note">
-
-                For this project demonstration, click the button after scanning or completing the payment.
-
+                Your registration and payment details are ready.
             </p>
 
 
@@ -141,7 +116,7 @@
 
     </main>
 
-     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
     <script src="payment-verification.js"></script>
 
 </body>

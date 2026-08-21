@@ -148,14 +148,19 @@ document.addEventListener("DOMContentLoaded", function () {
     // =========================================
     // QR PAYMENT COMPLETED
     // =========================================
-
     paidButton.addEventListener("click", function () {
 
-        qrModal.classList.remove("show");
+    selectedPaymentMethod = "QR Payment";
 
-        startProcessing();
+    localStorage.setItem(
+        "selectedPaymentMethod",
+        selectedPaymentMethod
+    );
 
-    });
+    window.location.href =
+        "payment-verification.html";
+
+});
 
     // =========================================
     // PROCESS PAYMENT

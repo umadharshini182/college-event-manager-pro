@@ -1,40 +1,40 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    // ==========================================
+    // =========================================
     // GET RECEIPT DATA
-    // ==========================================
+    // =========================================
 
     const receiptData = JSON.parse(
         localStorage.getItem("receiptData")
     );
 
 
-    // ==========================================
-    // IF DATA DOES NOT EXIST
-    // ==========================================
+    // =========================================
+    // IF RECEIPT DATA DOES NOT EXIST
+    // =========================================
 
     if (!receiptData) {
 
         alert("Receipt data not found.");
 
-        window.location.href = "register.html";
+        window.location.href = "payment.html";
 
         return;
 
     }
 
 
-    // ==========================================
+    // =========================================
     // SHOW EVENT DETAILS
-    // ==========================================
+    // =========================================
 
     document.getElementById("receiptEvent").textContent =
         receiptData.event || "Event Registration";
 
 
-    // ==========================================
+    // =========================================
     // SHOW STUDENT DETAILS
-    // ==========================================
+    // =========================================
 
     document.getElementById("receiptName").textContent =
         receiptData.fullname || "-";
@@ -56,9 +56,9 @@ document.addEventListener("DOMContentLoaded", function () {
         receiptData.year || "-";
 
 
-    // ==========================================
+    // =========================================
     // SHOW PAYMENT DETAILS
-    // ==========================================
+    // =========================================
 
     document.getElementById("receiptMethod").textContent =
         receiptData.paymentMethod || "-";
@@ -73,36 +73,76 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     document.getElementById("receiptAmount").textContent =
-        "₹" + (
+        "₹" +
+        Number(
             receiptData.amount || 1000
         ).toLocaleString("en-IN");
 
 
-    // ==========================================
-    // OPEN RECEIPT QR VERIFICATION PAGE
-    // ==========================================
+    // =========================================
+    // VERIFY REGISTRATION BUTTON
+    // =========================================
 
-    document.getElementById("openQR").addEventListener(
-        "click",
-        function () {
-
-            window.location.href = "verification.html";
-
-        }
-    );
+    const openQR =
+        document.getElementById("openQR");
 
 
-    // ==========================================
-    // DOWNLOAD / PRINT RECEIPT
-    // ==========================================
+    if (openQR) {
 
-    document.getElementById("downloadReceipt").addEventListener(
-        "click",
-        function () {
+        openQR.addEventListener("click", function () {
+        window.location.href =
+    "verification.html";
 
-            window.print();
+        });
 
-        }
-    );
+    }
+
+
+    // =========================================
+    // PRINT / SAVE RECEIPT
+    // =========================================
+
+    const downloadReceipt =
+        document.getElementById("downloadReceipt");
+
+
+    if (downloadReceipt) {
+
+        downloadReceipt.addEventListener(
+            "click",
+            function () {
+
+                // Change button temporarily
+
+                const originalText =
+                    downloadReceipt.innerHTML;
+
+
+                downloadReceipt.innerHTML =
+                    "Preparing Receipt...";
+
+
+                downloadReceipt.disabled = true;
+
+
+                // Open browser print dialog
+
+                setTimeout(function () {
+
+                    downloadReceipt.innerHTML =
+                        originalText;
+
+
+                    downloadReceipt.disabled = false;
+
+
+                    window.print();
+
+                }, 500);
+
+            }
+        );
+
+    }
 
 });

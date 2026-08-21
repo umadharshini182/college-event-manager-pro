@@ -7,8 +7,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const selectedMethodText =
         document.getElementById("selectedMethodText");
 
-    const confirmPayment =
-        document.getElementById("confirmPayment");
+    const viewReceipt =
+        document.getElementById("viewReceipt");
 
 
     // =========================================
@@ -16,39 +16,37 @@ document.addEventListener("DOMContentLoaded", function () {
     // =========================================
 
     const selectedMethod =
-        localStorage.getItem("selectedPaymentMethod");
+        localStorage.getItem("selectedPaymentMethod") ||
+        "QR Payment";
 
 
-    if (selectedMethod) {
+    // Show selected payment method
+
+    if (selectedMethodText) {
 
         selectedMethodText.textContent =
             selectedMethod;
-
-    } else {
-
-        selectedMethodText.textContent =
-            "UPI Payment";
 
     }
 
 
     // =========================================
-    // CONFIRM PAYMENT
+    // VIEW RECEIPT
     // =========================================
 
-    confirmPayment.addEventListener(
-        "click",
-        function () {
+    if (viewReceipt) {
 
-            // Disable button
+        viewReceipt.addEventListener("click", function () {
 
-            confirmPayment.disabled = true;
+            // Button loading state
 
-            confirmPayment.innerHTML =
-                "Processing Payment...";
+            viewReceipt.disabled = true;
+
+            viewReceipt.innerHTML =
+                "Opening Receipt... <span>→</span>";
 
 
-            // Get old registration data
+            // Get registration data
 
             const registrationData = JSON.parse(
                 localStorage.getItem("registrationData")
@@ -60,6 +58,8 @@ document.addEventListener("DOMContentLoaded", function () {
             // =========================================
 
             const receiptData = {
+
+                // STUDENT DETAILS
 
                 fullname:
                     registrationData.fullname || "-",
@@ -76,6 +76,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 year:
                     registrationData.year || "-",
 
+
+                // EVENT DETAILS
+
                 event:
                     registrationData.event ||
                     "Tech Spark 2027",
@@ -84,8 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 // PAYMENT DETAILS
 
                 paymentMethod:
-                    selectedMethod ||
-                    "QR Payment",
+                    selectedMethod,
 
                 amount:
                     1000,
@@ -94,8 +96,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     new Date().toLocaleString("en-IN"),
 
                 transactionId:
-                    "TXN" +
-                    Date.now()
+                    "TXN" + Date.now()
 
             };
 
@@ -111,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
             // =========================================
-            // GO TO RECEIPT
+            // OPEN RECEIPT PAGE
             // =========================================
 
             setTimeout(function () {
@@ -119,9 +120,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 window.location.href =
                     "receipt.html";
 
-            }, 1800);
+            }, 700);
 
-        }
-    );
+        });
+
+    }
 
 });

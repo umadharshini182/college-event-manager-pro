@@ -1,21 +1,21 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    // ==========================================
+    // =========================================
     // GET RECEIPT DATA
-    // ==========================================
+    // =========================================
 
     const receiptData = JSON.parse(
         localStorage.getItem("receiptData")
     );
 
 
-    // ==========================================
-    // CHECK DATA
-    // ==========================================
+    // =========================================
+    // IF DATA DOES NOT EXIST
+    // =========================================
 
     if (!receiptData) {
 
-        alert("Verification data not found.");
+        alert("Registration verification data not found.");
 
         window.location.href = "index.html";
 
@@ -24,9 +24,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    // ==========================================
+    // =========================================
     // STUDENT INFORMATION
-    // ==========================================
+    // =========================================
 
     document.getElementById("verifyName").textContent =
         receiptData.fullname || "-";
@@ -44,17 +44,17 @@ document.addEventListener("DOMContentLoaded", function () {
         receiptData.year || "-";
 
 
-    // ==========================================
+    // =========================================
     // EVENT INFORMATION
-    // ==========================================
+    // =========================================
 
     document.getElementById("verifyEvent").textContent =
-        receiptData.event || "-";
+        receiptData.event || "Event Registration";
 
 
-    // ==========================================
+    // =========================================
     // PAYMENT INFORMATION
-    // ==========================================
+    // =========================================
 
     document.getElementById("verifyMethod").textContent =
         receiptData.paymentMethod || "-";
@@ -65,7 +65,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     document.getElementById("verifyAmount").textContent =
-        "₹" + (
+        "₹" +
+        Number(
             receiptData.amount || 1000
         ).toLocaleString("en-IN");
 
