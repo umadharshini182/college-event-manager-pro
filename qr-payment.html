@@ -5,12 +5,39 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>QR Payment | College Event Manager</title>
 
-    <link rel="stylesheet" href="qr-payment.css">
+
+    <!-- FONT -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- CSS -->
+
+    <link
+        rel="stylesheet"
+        href="qr-payment.css"
+    >
 
 </head>
 
@@ -25,22 +52,33 @@
 
     <header class="qr-header">
 
-        <div class="qr-brand">
+        <a
+            href="index.html"
+            class="qr-brand"
+        >
 
             <div class="qr-brand-icon">
                 🎓
             </div>
 
-            <h2>
-                College Event Manager
-            </h2>
+            <div>
 
-        </div>
+                <strong>
+                    College Event Manager
+                </strong>
+
+                <small>
+                    TECH SPARK 2027
+                </small>
+
+            </div>
+
+        </a>
 
 
         <div class="qr-secure-badge">
 
-            🔒 SECURE QR PAYMENT
+            🔒 SECURE DEMO PAYMENT
 
         </div>
 
@@ -58,15 +96,24 @@
         <div class="qr-title">
 
             <p class="qr-small-title">
-                STEP 2 • QR PAYMENT
+
+                STEP 2 OF 3 • QR PAYMENT
+
             </p>
 
+
             <h1>
+
                 Scan & Complete Payment
+
             </h1>
 
+
             <p>
-                Scan the QR code using your preferred UPI application.
+
+                Scan the QR code using another device, or continue
+                the demo payment on this device.
+
             </p>
 
         </div>
@@ -82,26 +129,38 @@
 
             <section class="qr-card">
 
+
                 <div class="qr-code-box">
 
-                    <!-- QR CODE -->
+                    <!-- REAL GENERATED QR CODE -->
 
-                    <div class="qr-placeholder">
-                        QR
-                    </div>
+                    <div id="paymentQRCode"></div>
 
                 </div>
 
 
                 <h3>
-                    Scan to Pay
+
+                    Scan Using Another Device
+
                 </h3>
 
 
                 <p>
-                    Open Google Pay, PhonePe, Paytm or any UPI
-                    application and scan the QR code.
+
+                    Scan this QR code using your phone camera.
+                    The demo payment page will open on your phone.
+
                 </p>
+
+
+                <div class="phone-scan-note">
+
+                    📱 Complete payment on your phone and this
+                    page will automatically update.
+
+                </div>
+
 
             </section>
 
@@ -111,85 +170,123 @@
 
             <section class="qr-details-card">
 
+
                 <h2>
+
                     Payment Details
+
                 </h2>
 
+
+
+                <!-- STUDENT -->
 
                 <div class="qr-detail-row">
 
                     <span class="qr-detail-label">
+
                         Student
+
                     </span>
+
 
                     <strong
                         class="qr-detail-value"
                         id="qrStudentName"
                     >
+
                         Loading...
+
                     </strong>
 
                 </div>
 
 
+
+                <!-- EVENT -->
+
                 <div class="qr-detail-row">
 
                     <span class="qr-detail-label">
+
                         Event
+
                     </span>
+
 
                     <strong
                         class="qr-detail-value"
                         id="qrEventName"
                     >
+
                         Loading...
+
                     </strong>
 
                 </div>
 
 
+
+                <!-- COLLEGE -->
+
                 <div class="qr-detail-row">
 
                     <span class="qr-detail-label">
+
                         College
+
                     </span>
+
 
                     <strong
                         class="qr-detail-value"
                         id="qrCollegeName"
                     >
+
                         Loading...
+
                     </strong>
 
                 </div>
 
+
+
+                <!-- METHOD -->
 
                 <div class="qr-detail-row">
 
                     <span class="qr-detail-label">
+
                         Payment Method
+
                     </span>
 
-                    <strong
-                        class="qr-detail-value"
-                    >
-                        QR / UPI
+
+                    <strong class="qr-detail-value">
+
+                        QR / UPI Demo
+
                     </strong>
 
                 </div>
 
 
 
-                <!-- ================= AMOUNT ================= -->
+                <!-- AMOUNT -->
 
                 <div class="qr-amount-box">
 
                     <span>
+
                         TOTAL AMOUNT
+
                     </span>
 
+
                     <strong>
+
                         ₹1,000
+
                     </strong>
 
                 </div>
@@ -198,21 +295,75 @@
 
                 <!-- ================= STATUS ================= -->
 
-                <div class="scan-status">
+                <div
+                    class="scan-status"
+                    id="scanStatus"
+                >
 
-                    <span>
+                    <span class="status-dot">
+
                         ●
+
                     </span>
 
-                    <span>
-                        Waiting for payment confirmation
+
+                    <span id="scanStatusText">
+
+                        Waiting for payment confirmation...
+
                     </span>
 
                 </div>
 
 
 
-                <!-- ================= BUTTON ================= -->
+                <!-- ================= OR DIVIDER ================= -->
+
+                <div class="demo-divider">
+
+                    <span></span>
+
+                    <p>OR</p>
+
+                    <span></span>
+
+                </div>
+
+
+
+                <!-- ================= SAME DEVICE OPTION ================= -->
+
+                <div class="same-device-info">
+
+                    <div class="same-device-icon">
+
+                        💻
+
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+
+                            Don't have another device?
+
+                        </strong>
+
+
+                        <p>
+
+                            Continue the demo payment on this device.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ================= DEMO PAYMENT BUTTON ================= -->
 
                 <button
                     id="qrPayButton"
@@ -220,9 +371,22 @@
                     type="button"
                 >
 
-                    I Have Completed Payment →
+                    Continue Demo Payment
+
+                    <span>→</span>
 
                 </button>
+
+
+
+                <!-- DEMO NOTE -->
+
+                <p class="demo-note">
+
+                    This is a project demonstration.
+                    No real money will be charged.
+
+                </p>
 
 
             </section>
@@ -250,7 +414,15 @@
 </div>
 
 
+<!-- ================= QR CODE LIBRARY ================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
 <script src="qr-payment.js"></script>
+
 
 </body>
 

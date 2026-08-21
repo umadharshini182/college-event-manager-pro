@@ -1833,6 +1833,134 @@ app.get("/payment-verification/:id", (req, res) => {
     );
 
 });
+// =========================================
+// DEMO QR PAYMENT SESSIONS
+// =========================================
+
+const paymentSessions = {};
+
+
+// CREATE PAYMENT SESSION
+
+app.post("/create-payment-session", function (req, res) {
+
+    const sessionId = req.body.sessionId;
+
+    if (!sessionId) {
+
+        return res.status(400).json({
+            success: false,
+            message: "Session ID is required"
+        });
+
+    }
+
+
+    paymentSessions[sessionId] = {
+
+        status: "pending",
+
+        createdAt: new Date()
+
+    };
+
+
+    res.json({
+
+        success: true,
+
+        sessionId: sessionId,
+
+        status: "pending"
+
+    });
+
+});
+
+
+// GET PAYMENT STATUS
+
+app.get("/payment-status/:sessionId", function (req, res) {
+
+    const sessionId = req.params.sessionId;
+
+    const session =
+        paymentSessions[sessionId];
+
+
+    if (!session) {
+
+        return res.status(404).json({
+
+            success: false,
+
+            message: "Payment session not found"
+
+        });
+
+    }
+
+
+    res.json({
+
+        success: true,
+
+        sessionId: sessionId,
+
+        status: session.status
+
+    });
+
+});
+
+
+// COMPLETE DEMO PAYMENT
+
+app.post("/complete-demo-payment", function (req, res) {
+
+    const sessionId = req.body.sessionId;
+
+    const session =
+        paymentSessions[sessionId];
+
+
+    if (!session) {
+
+        return res.status(404).json({
+
+            success: false,
+
+            message: "Payment session not found"
+
+        });
+
+    }
+
+
+    session.status = "paid";
+
+    session.paymentDate =
+        new Date().toLocaleString("en-IN");
+
+    session.transactionId =
+        "TXN" + Date.now();
+
+
+    res.json({
+
+        success: true,
+
+        message: "Payment completed successfully",
+
+        status: "paid",
+
+        paymentDate: session.paymentDate,
+
+        transactionId: session.transactionId
+
+    });
+
+});
 // ======================================
 // SERVER START
 // ======================================
