@@ -1838,7 +1838,137 @@ app.get("/payment-verification/:id", (req, res) => {
 // =========================================
 
 const paymentSessions = {};
+// =========================================
+// SAVE COMPLETED PAYMENT TO DATABASE
+// =========================================
 
+function saveCompletedRegistration(
+    paymentSession,
+    callback
+) {
+
+    // Prevent duplicate database inserts
+
+    if (
+        paymentSession.savedToDatabase
+    ) {
+
+        if (callback) {
+
+            callback(
+                null,
+                paymentSession.registrationId
+            );
+
+        }
+
+        return;
+
+    }
+
+
+    const registrationData =
+        paymentSession.registrationData || {};
+
+
+    const sql = `
+        INSERT INTO registrations
+        (
+            fullname,
+            email,
+            college,
+            department,
+            year,
+            event,
+            payment_status,
+            amount,
+            payment_method,
+            transaction_id,
+            payment_date
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+
+    const values = [
+
+        registrationData.fullname || "",
+
+        registrationData.email || "",
+
+        registrationData.college || "",
+
+        registrationData.department || "",
+
+        registrationData.year || "",
+
+        registrationData.event ||
+        "Tech Spark 2027",
+
+        "Paid",
+
+        paymentSession.amount || 1000,
+
+        paymentSession.paymentMethod ||
+        "QR / UPI Demo",
+
+        paymentSession.transactionId,
+
+        paymentSession.paymentDate
+
+    ];
+
+
+    db.query(
+        sql,
+        values,
+        function (err, result) {
+
+            if (err) {
+
+                console.error(
+                    "❌ Payment registration save error:",
+                    err
+                );
+
+                if (callback) {
+
+                    callback(err);
+
+                }
+
+                return;
+
+            }
+
+
+            paymentSession.savedToDatabase =
+                true;
+
+
+            paymentSession.registrationId =
+                result.insertId;
+
+
+            console.log(
+                "💾 Registration saved to database:",
+                result.insertId
+            );
+
+
+            if (callback) {
+
+                callback(
+                    null,
+                    result.insertId
+                );
+
+            }
+
+        }
+    );
+
+}
 
 // =========================================
 // CREATE PAYMENT SESSION
@@ -2022,27 +2152,6 @@ app.post(
 
         }
 
-
-        // Already paid
-
-        if (
-            paymentSession.status === "paid"
-        ) {
-
-            return res.json({
-
-                success: true,
-
-                status: "paid",
-
-                message:
-                    "Payment already completed"
-
-            });
-
-        }
-
-
         // Mark QR as scanned
 
         paymentSession.scanned = true;
@@ -2101,31 +2210,23 @@ app.post(
 
 
         setTimeout(function () {
+         paymentSession.paymentDate =
+    new Date().toLocaleString("en-IN");
 
-            // Complete automatically
+paymentSession.transactionId =
+    "TXN" + Date.now();
 
-            paymentSession.status =
-                "paid";
+savePaymentToDatabase(paymentSession);
 
+paymentSession.status = "paid";
 
-            paymentSession.paymentDate =
-                new Date().toLocaleString(
-                    "en-IN"
-                );
-
-
-            paymentSession.transactionId =
-                "TXN" +
-                Date.now();
+console.log(
+    "✅ Payment completed:",
+    sessionId
+);
 
 
-            console.log(
-                "✅ Payment completed:",
-                sessionId
-            );
-
-
-        }, 4000);
+      }, 4000);
 
     }
 );
@@ -2162,7 +2263,6 @@ app.post(
 
 
         // Do not restart a payment
-
         if (
             paymentSession.status === "paid"
         ) {
@@ -2198,31 +2298,28 @@ app.post(
 
 
         // Automatic demo payment
+     setTimeout(function () {
 
-        setTimeout(function () {
+    paymentSession.paymentDate =
+        new Date().toLocaleString(
+            "en-IN"
+        );
 
-            paymentSession.status =
-                "paid";
+    paymentSession.transactionId =
+        "TXN" +
+        Date.now();
 
+    savePaymentToDatabase(paymentSession);
 
-            paymentSession.paymentDate =
-                new Date().toLocaleString(
-                    "en-IN"
-                );
+    paymentSession.status =
+        "paid";
 
+    console.log(
+        "✅ Same-device payment completed:",
+        sessionId
+    );
 
-            paymentSession.transactionId =
-                "TXN" +
-                Date.now();
-
-
-            console.log(
-                "✅ Same-device payment completed:",
-                sessionId
-            );
-
-        }, 3500);
-
+}, 3500);
     }
 );
 // ======================================
