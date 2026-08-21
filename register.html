@@ -188,7 +188,6 @@ Tech Spark 2027 – Empowering Innovation Through Technology.
 </p>
 
 </footer>
-
 <script>
 
 // Get selected event from URL
@@ -196,34 +195,102 @@ const params = new URLSearchParams(window.location.search);
 
 const selectedEvent = params.get("event");
 
-if(selectedEvent){
-
-document.getElementById("event").value = selectedEvent;
-
+if (selectedEvent) {
+    document.getElementById("event").value = selectedEvent;
 }
-document.getElementById("registrationForm").addEventListener("submit", async function(e){
 
-    e.preventDefault();
 
-    const studentData = {
-        fullname: document.getElementById("fullname").value,
-        email: document.getElementById("email").value,
-        college: document.getElementById("college").value,
-        department: document.getElementById("department").value,
-        year: document.getElementById("year").value,
-        event: document.getElementById("event").value
-    };
+// Registration form
+document.getElementById("registrationForm").addEventListener(
+    "submit",
+    function(e) {
 
-    localStorage.setItem("studentData", JSON.stringify(studentData));
+        e.preventDefault();
 
-// Notify dashboard that a new registration was created
-localStorage.setItem(
-"dashboardRefresh",
-Date.now()
+        const fullname =
+            document.getElementById("fullname").value;
+
+        const email =
+            document.getElementById("email").value;
+
+        const college =
+            document.getElementById("college").value;
+
+        const department =
+            document.getElementById("department").value;
+
+        const year =
+            document.getElementById("year").value;
+
+        const event =
+            document.getElementById("event").value;
+
+
+        // Save data for payment page
+
+        localStorage.setItem(
+            "studentName",
+            fullname
+        );
+
+        localStorage.setItem(
+            "studentEmail",
+            email
+        );
+
+        localStorage.setItem(
+            "college",
+            college
+        );
+
+        localStorage.setItem(
+            "department",
+            department
+        );
+
+        localStorage.setItem(
+            "year",
+            year
+        );
+
+        localStorage.setItem(
+            "eventName",
+            event
+        );
+
+
+        // Also save complete student data
+
+        const studentData = {
+            fullname: fullname,
+            email: email,
+            college: college,
+            department: department,
+            year: year,
+            event: event
+        };
+      localStorage.setItem("studentName", studentData.fullname);
+localStorage.setItem("studentEmail", studentData.email);
+localStorage.setItem("college", studentData.college);
+localStorage.setItem("department", studentData.department);
+localStorage.setItem("year", studentData.year);
+localStorage.setItem("eventName", studentData.event);
+
+        // Notify dashboard
+
+        localStorage.setItem(
+            "dashboardRefresh",
+            Date.now()
+        );
+
+
+        // Go to payment page
+
+        window.location.href = "payment.html";
+
+    }
 );
 
-window.location.href = "payment.html";
-});
 </script>
 </body>
 
