@@ -1836,7 +1836,42 @@ app.get("/payment-verification/:id", (req, res) => {
 // ======================================
 // SERVER START
 // ======================================
+const paymentSessions = {};
 
+app.post("/create-payment-session", function (req, res) {
+
+    const {
+        sessionId,
+        registrationData,
+        paymentMethod
+    } = req.body;
+
+    if (!sessionId) {
+        return res.status(400).json({
+            success: false,
+            message: "Session ID is required"
+        });
+    }
+
+    paymentSessions[sessionId] = {
+        sessionId: sessionId,
+        status: "waiting",
+        scanned: false,
+        createdAt: new Date(),
+        paymentMethod: paymentMethod || "QR Payment",
+        registrationData: registrationData || {},
+        amount: 1000,
+        transactionId: null,
+        paymentDate: null
+    };
+
+    res.json({
+        success: true,
+        sessionId: sessionId,
+        status: "waiting"
+    });
+
+});
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
