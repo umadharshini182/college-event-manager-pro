@@ -5,17 +5,12 @@
 
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <title>QR Verification | College Event Manager</title>
+    <title>QR Payment | College Event Manager</title>
 
-    <link
-        rel="stylesheet"
-        href="qr-payment.css"
-    >
+    <link rel="stylesheet" href="qr-payment.css">
 
 </head>
 
@@ -23,246 +18,239 @@
 <body>
 
 
-    <!-- =========================================
-         HEADER
-         ========================================= -->
+<div class="qr-page">
+
+
+    <!-- ================= HEADER ================= -->
 
     <header class="qr-header">
 
+        <div class="qr-brand">
 
-        <!-- BRAND -->
-
-        <a
-            href="payment.html"
-            class="qr-brand"
-        >
-
-            <span>
+            <div class="qr-brand-icon">
                 🎓
-            </span>
+            </div>
 
-            College Event Manager
-
-        </a>
-
-
-
-        <!-- NAVIGATION -->
-
-        <nav class="qr-nav">
-
-            <a href="index.html">
-                Home
-            </a>
-
-            <a href="about.html">
-                About
-            </a>
-
-            <a href="privacy.html">
-                Privacy
-            </a>
-
-        </nav>
-
-
-
-        <!-- SECURE -->
-
-        <div class="qr-secure">
-
-            🔒 Secure Verification
+            <h2>
+                College Event Manager
+            </h2>
 
         </div>
 
+
+        <div class="qr-secure-badge">
+
+            🔒 SECURE QR PAYMENT
+
+        </div>
 
     </header>
 
 
 
-    <!-- =========================================
-         MAIN
-         ========================================= -->
+    <!-- ================= MAIN ================= -->
 
-    <main class="qr-page">
+    <main class="qr-container">
 
 
-        <section class="qr-card">
+        <!-- ================= TITLE ================= -->
 
+        <div class="qr-title">
 
-            <!-- =================================
-                 ICON
-                 ================================= -->
-
-            <div class="qr-page-icon">
-
-                ▦
-
-            </div>
-
-
-
-            <!-- =================================
-                 LABEL
-                 ================================= -->
-
-            <span class="qr-label">
-
-                QR VERIFICATION
-
-            </span>
-
-
-
-            <!-- =================================
-                 HEADING
-                 ================================= -->
-
-            <h1>
-
-                Scan to Verify Registration
-
-            </h1>
-
-
-
-            <p class="qr-description">
-
-                Scan this QR code using any
-                compatible QR scanner to view
-                the registration details.
-
+            <p class="qr-small-title">
+                STEP 2 • QR PAYMENT
             </p>
 
+            <h1>
+                Scan & Complete Payment
+            </h1>
 
+            <p>
+                Scan the QR code using your preferred UPI application.
+            </p>
 
-            <!-- =================================
-                 STUDENT
-                 ================================= -->
-
-            <div class="qr-student">
-
-
-                <span>
-
-                    Registered Student
-
-                </span>
-
-
-                <strong id="qrStudentName">
-
-                    Loading...
-
-                </strong>
-
-
-            </div>
+        </div>
 
 
 
-            <!-- =================================
-                 QR CODE
-                 ================================= -->
+        <!-- ================= CONTENT ================= -->
 
-            <div class="qr-frame">
+        <div class="qr-content">
 
 
-                <div
-                    id="registrationQRCode"
-                    class="registration-qr"
-                ></div>
+            <!-- ================= QR CARD ================= -->
 
+            <section class="qr-card">
 
-            </div>
+                <div class="qr-code-box">
 
+                    <!-- QR CODE -->
 
-
-            <!-- =================================
-                 STATUS
-                 ================================= -->
-
-            <div class="qr-scan-status">
-
-
-                <span class="status-dot"></span>
-
-
-                QR ready to scan
-
-
-            </div>
-
-
-
-            <!-- =================================
-                 INFORMATION
-                 ================================= -->
-
-            <div class="qr-info">
-
-
-                <div class="qr-info-icon">
-
-                    ✓
+                    <div class="qr-placeholder">
+                        QR
+                    </div>
 
                 </div>
 
 
+                <h3>
+                    Scan to Pay
+                </h3>
 
-                <div>
+
+                <p>
+                    Open Google Pay, PhonePe, Paytm or any UPI
+                    application and scan the QR code.
+                </p>
+
+            </section>
 
 
-                    <strong>
 
-                        Registration Verification
+            <!-- ================= PAYMENT DETAILS ================= -->
 
+            <section class="qr-details-card">
+
+                <h2>
+                    Payment Details
+                </h2>
+
+
+                <div class="qr-detail-row">
+
+                    <span class="qr-detail-label">
+                        Student
+                    </span>
+
+                    <strong
+                        class="qr-detail-value"
+                        id="qrStudentName"
+                    >
+                        Loading...
                     </strong>
 
+                </div>
 
-                    <p>
 
-                        After scanning, the
-                        registration details will
-                        open in a separate page.
+                <div class="qr-detail-row">
 
-                    </p>
+                    <span class="qr-detail-label">
+                        Event
+                    </span>
 
+                    <strong
+                        class="qr-detail-value"
+                        id="qrEventName"
+                    >
+                        Loading...
+                    </strong>
 
                 </div>
 
 
-            </div>
+                <div class="qr-detail-row">
+
+                    <span class="qr-detail-label">
+                        College
+                    </span>
+
+                    <strong
+                        class="qr-detail-value"
+                        id="qrCollegeName"
+                    >
+                        Loading...
+                    </strong>
+
+                </div>
+
+
+                <div class="qr-detail-row">
+
+                    <span class="qr-detail-label">
+                        Payment Method
+                    </span>
+
+                    <strong
+                        class="qr-detail-value"
+                    >
+                        QR / UPI
+                    </strong>
+
+                </div>
 
 
 
-            <!-- =================================
-                 BACK
-                 ================================= -->
+                <!-- ================= AMOUNT ================= -->
 
-            <a
-                href="payment.html"
-                class="back-payment"
-            >
+                <div class="qr-amount-box">
 
-                ← Back to Payment
+                    <span>
+                        TOTAL AMOUNT
+                    </span>
 
-            </a>
+                    <strong>
+                        ₹1,000
+                    </strong>
+
+                </div>
 
 
-        </section>
+
+                <!-- ================= STATUS ================= -->
+
+                <div class="scan-status">
+
+                    <span>
+                        ●
+                    </span>
+
+                    <span>
+                        Waiting for payment confirmation
+                    </span>
+
+                </div>
+
+
+
+                <!-- ================= BUTTON ================= -->
+
+                <button
+                    id="qrPayButton"
+                    class="qr-pay-button"
+                    type="button"
+                >
+
+                    I Have Completed Payment →
+
+                </button>
+
+
+            </section>
+
+
+        </div>
+
+
+
+        <!-- ================= BACK ================= -->
+
+        <a
+            href="payment.html"
+            class="back-payment"
+        >
+
+            ← Back to Payment Methods
+
+        </a>
 
 
     </main>
 
 
+</div>
 
-    <!-- =========================================
-         QR SCRIPT
-         ========================================= -->
 
-    <script src="qr-payment.js"></script>
-
+<script src="qr-payment.js"></script>
 
 </body>
 

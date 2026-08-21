@@ -1,336 +1,108 @@
-// ======================================================
-// RECEIPT PAGE
-// ======================================================
-
 document.addEventListener("DOMContentLoaded", function () {
 
-    const student =
-        JSON.parse(
-            localStorage.getItem("studentData")
-        );
+    // ==========================================
+    // GET RECEIPT DATA
+    // ==========================================
 
-    // ------------------------------------------
-    // CHECK STUDENT DATA
-    // ------------------------------------------
+    const receiptData = JSON.parse(
+        localStorage.getItem("receiptData")
+    );
 
-    if (!student) {
 
-        alert("Registration details not found.");
+    // ==========================================
+    // IF DATA DOES NOT EXIST
+    // ==========================================
+
+    if (!receiptData) {
+
+        alert("Receipt data not found.");
+
+        window.location.href = "register.html";
 
         return;
-    }
-
-    console.log("RECEIPT STUDENT DATA:", student);
-
-
-    // ------------------------------------------
-    // STUDENT DETAILS
-    // ------------------------------------------
-
-    const studentName =
-        document.getElementById("studentName");
-
-    const studentEmail =
-        document.getElementById("studentEmail");
-
-    const college =
-        document.getElementById("college");
-
-    const department =
-        document.getElementById("department");
-
-    const year =
-        document.getElementById("year");
-
-    const event =
-        document.getElementById("event");
-
-
-    if (studentName) {
-        studentName.textContent =
-            student.fullname || "—";
-    }
-
-    if (studentEmail) {
-        studentEmail.textContent =
-            student.email || "—";
-    }
-
-    if (college) {
-        college.textContent =
-            student.college || "—";
-    }
-
-    if (department) {
-        department.textContent =
-            student.department || "—";
-    }
-
-    if (year) {
-        year.textContent =
-            student.year || "—";
-    }
-
-    if (event) {
-        event.textContent =
-            student.event || "—";
-    }
-
-
-    // ------------------------------------------
-    // REGISTRATION ID
-    // ------------------------------------------
-
-    const registrationId =
-        document.getElementById("registrationId");
-
-    if (registrationId) {
-
-        registrationId.textContent =
-            student.registrationId || "—";
 
     }
 
 
-    // ------------------------------------------
-    // TRANSACTION ID
-    // ------------------------------------------
-    const receiptData =
-    JSON.parse(
-        localStorage.getItem("paymentReceipt") || "null"
-    );
+    // ==========================================
+    // SHOW EVENT DETAILS
+    // ==========================================
 
-transactionId.textContent =
-    student.paymentId ||
-    receiptData?.transactionId ||
-    "—";
+    document.getElementById("receiptEvent").textContent =
+        receiptData.event || "Event Registration";
 
 
-    // ------------------------------------------
-    // RECEIPT NUMBER
-    // ------------------------------------------
+    // ==========================================
+    // SHOW STUDENT DETAILS
+    // ==========================================
 
-    const receiptNumber =
-        "REC-" +
-        new Date().getFullYear() +
-        "-" +
-        String(
-            student.registrationId ||
-            Math.floor(
-                Math.random() * 999999
-            )
-        ).padStart(6, "0");
-
-     const receiptIdBody =
-    document.getElementById("receiptIdBody");
-
-if (receiptIdBody) {
-    receiptIdBody.textContent =
-        receiptNumber;
-}
-
-const receiptIdHeader =
-    document.getElementById("receiptIdHeader");
-
-if (receiptIdHeader) {
-    receiptIdHeader.textContent =
-        receiptNumber;
-}
+    document.getElementById("receiptName").textContent =
+        receiptData.fullname || "-";
 
 
-    // ------------------------------------------
-    // PAYMENT DATE
-    // ------------------------------------------
-
-    const paymentDate =
-        document.getElementById("paymentDate");
-
-    if (paymentDate) {
-          const savedDate = student.paymentDate;
-
-let date = new Date();
-
-if (savedDate) {
-
-    const parsedDate =
-        new Date(savedDate);
-
-    if (!isNaN(parsedDate.getTime())) {
-        date = parsedDate;
-    }
-
-}
-
-paymentDate.textContent =
-    date.toLocaleString("en-IN", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit"
-    }); 
-
-        paymentDate.textContent =
-            date.toLocaleString("en-IN", {
-                day: "2-digit",
-                month: "short",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit"
-            });
-
-    }
+    document.getElementById("receiptEmail").textContent =
+        receiptData.email || "-";
 
 
-    // ------------------------------------------
-    // QR CODE
-    // ------------------------------------------
+    document.getElementById("receiptCollege").textContent =
+        receiptData.college || "-";
 
-    const qrCode =
-        document.getElementById("qrCode");
 
-    if (qrCode) {
-          const verificationURL =
-    window.location.origin +
-    "/payment-verification.html?id=" +
-    encodeURIComponent(
-        student.registrationId || ""
+    document.getElementById("receiptDepartment").textContent =
+        receiptData.department || "-";
+
+
+    document.getElementById("receiptYear").textContent =
+        receiptData.year || "-";
+
+
+    // ==========================================
+    // SHOW PAYMENT DETAILS
+    // ==========================================
+
+    document.getElementById("receiptMethod").textContent =
+        receiptData.paymentMethod || "-";
+
+
+    document.getElementById("receiptTransaction").textContent =
+        receiptData.transactionId || "-";
+
+
+    document.getElementById("receiptDate").textContent =
+        receiptData.paymentDate || "-";
+
+
+    document.getElementById("receiptAmount").textContent =
+        "₹" + (
+            receiptData.amount || 1000
+        ).toLocaleString("en-IN");
+
+
+    // ==========================================
+    // OPEN RECEIPT QR VERIFICATION PAGE
+    // ==========================================
+
+    document.getElementById("openQR").addEventListener(
+        "click",
+        function () {
+
+            window.location.href = "verification.html";
+
+        }
     );
 
 
-        qrCode.src =
-            "https://api.qrserver.com/v1/create-qr-code/" +
-            "?size=180x180" +
-            "&margin=10" +
-            "&data=" +
-            encodeURIComponent(
-                verificationURL
-            );
+    // ==========================================
+    // DOWNLOAD / PRINT RECEIPT
+    // ==========================================
 
+    document.getElementById("downloadReceipt").addEventListener(
+        "click",
+        function () {
 
-        qrCode.onerror =
-            function () {
+            window.print();
 
-                console.log(
-                    "QR code could not be loaded."
-                );
-
-            };
-
-    }
+        }
+    );
 
 });
-
-
-// ======================================================
-// DOWNLOAD RECEIPT
-// ======================================================
-
-async function downloadReceipt() {
-
-    const receipt =
-        document.querySelector(".receipt-box");
-
-    if (!receipt) {
-
-        alert("Receipt not found.");
-
-        return;
-    }
-
-
-    if (
-        typeof html2canvas === "undefined" ||
-        typeof window.jspdf === "undefined"
-    ) {
-
-        window.print();
-
-        return;
-    }
-
-
-    try {
-
-        const canvas =
-            await html2canvas(
-                receipt,
-                {
-                    scale: 2,
-                    useCORS: true,
-                    backgroundColor: "#ffffff"
-                }
-            );
-
-
-        const image =
-            canvas.toDataURL("image/png");
-
-
-        const {
-            jsPDF
-        } = window.jspdf;
-
-
-        const pdf =
-            new jsPDF(
-                "portrait",
-                "mm",
-                "a4"
-            );
-
-
-        const pageWidth =
-            pdf.internal.pageSize.getWidth();
-
-        const pageHeight =
-            pdf.internal.pageSize.getHeight();
-
-
-        const margin = 10;
-
-        const width =
-            pageWidth - margin * 2;
-
-
-        const height =
-            canvas.height *
-            width /
-            canvas.width;
-
-
-        const finalHeight =
-            Math.min(
-                height,
-                pageHeight - margin * 2
-            );
-
-
-        pdf.addImage(
-            image,
-            "PNG",
-            margin,
-            margin,
-            width,
-            finalHeight
-        );
-
-
-        pdf.save(
-            "College-Event-Payment-Receipt.pdf"
-        );
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "Receipt download error:",
-            error
-        );
-
-        window.print();
-
-    }
-
-}

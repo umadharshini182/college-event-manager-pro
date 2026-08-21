@@ -1,28 +1,29 @@
 /* =========================================
-   QR PAYMENT / VERIFICATION PAGE
-   ========================================= */
+   GOOGLE FONT
+========================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+
+/* =========================================
+   RESET
+========================================= */
 
 * {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
-html {
-    scroll-behavior: smooth;
-}
+
+/* =========================================
+   BODY - SAME HOME PAGE BACKGROUND
+========================================= */
 
 body {
-    margin: 0;
     min-height: 100vh;
 
-    font-family:
-        Inter,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Arial,
-        sans-serif;
-
-    color: #ffffff;
+    font-family: "Poppins", sans-serif;
 
     background:
         linear-gradient(
@@ -36,585 +37,504 @@ body {
     background-attachment: fixed;
     background-repeat: no-repeat;
 
-    overflow-x: hidden;
-}
-
-
-/* =========================================
-   HEADER
-   ========================================= */
-
-.qr-header {
-    min-height: 72px;
-
-    padding: 0 6%;
-
-    display: flex;
-    align-items: center;
-
-    background: rgba(5, 20, 45, 0.92);
-
-    border-bottom: 1px solid rgba(255,255,255,0.12);
-
-    backdrop-filter: blur(12px);
-
-    position: sticky;
-    top: 0;
-
-    z-index: 100;
-}
-
-.qr-brand {
-    display: flex;
-    align-items: center;
-
-    gap: 9px;
-
-    color: #ffffff;
-
-    text-decoration: none;
-
-    font-size: 19px;
-    font-weight: 750;
-}
-
-.qr-brand span {
-    font-size: 21px;
-}
-
-
-/* =========================================
-   NAVIGATION
-   ========================================= */
-
-.qr-nav {
-    display: flex;
-    align-items: center;
-
-    gap: 30px;
-
-    margin-left: auto;
-    margin-right: 30px;
-}
-
-.qr-nav a {
-    color: #dbeafe;
-
-    text-decoration: none;
-
-    font-size: 12px;
-    font-weight: 650;
-
-    transition: 0.2s ease;
-}
-
-.qr-nav a:hover {
-    color: #60a5fa;
-}
-
-.qr-nav a:first-child {
     color: #ffffff;
 }
 
-.qr-secure {
-    color: #86efac;
-
-    font-size: 11px;
-    font-weight: 650;
-
-    white-space: nowrap;
-}
-
 
 /* =========================================
-   PAGE
-   ========================================= */
+   PAGE OVERLAY
+========================================= */
 
 .qr-page {
-    min-height: calc(100vh - 72px);
+    min-height: 100vh;
 
-    padding: 40px 16px 60px;
-
-    display: flex;
-
-    align-items: flex-start;
-    justify-content: center;
-
-    background: transparent;
+    padding: 40px 20px 60px;
 }
 
 
 /* =========================================
-   CARD
-   ========================================= */
+   TOP HEADER
+========================================= */
 
-.qr-card {
+.qr-header {
     width: 100%;
+    max-width: 1100px;
 
-    max-width: 520px;
-
-    padding: 32px;
-
-    background: rgba(5, 20, 45, 0.76);
-
-    border: 1px solid rgba(255,255,255,0.15);
-
-    border-radius: 24px;
-
-    box-shadow:
-        0 20px 60px rgba(0,0,0,0.28);
-
-    backdrop-filter: blur(14px);
-
-    text-align: center;
-}
-
-
-/* =========================================
-   PAGE ICON
-   ========================================= */
-
-.qr-page-icon {
-    width: 58px;
-    height: 58px;
-
-    margin: 0 auto 14px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 16px;
-
-    background: rgba(37,99,235,0.20);
-
-    border: 1px solid rgba(96,165,250,0.30);
-
-    color: #60a5fa;
-
-    font-size: 29px;
-}
-
-
-/* =========================================
-   LABEL
-   ========================================= */
-
-.qr-label {
-    display: inline-block;
-
-    padding: 6px 10px;
-
-    border-radius: 20px;
-
-    background: rgba(37,99,235,0.16);
-
-    border: 1px solid rgba(96,165,250,0.25);
-
-    color: #93c5fd;
-
-    font-size: 9px;
-    font-weight: 800;
-
-    letter-spacing: 0.7px;
-}
-
-
-/* =========================================
-   HEADING
-   ========================================= */
-
-.qr-card h1 {
-    margin: 16px 0 9px;
-
-    color: #ffffff;
-
-    font-size: 27px;
-
-    line-height: 1.25;
-
-    letter-spacing: -0.4px;
-}
-
-.qr-description {
-    max-width: 410px;
-
-    margin: 0 auto 22px;
-
-    color: #a9bad1;
-
-    font-size: 12px;
-
-    line-height: 1.6;
-}
-
-
-/* =========================================
-   STUDENT
-   ========================================= */
-
-.qr-student {
-    padding: 13px 16px;
-
-    margin-bottom: 22px;
+    margin: 0 auto 35px;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    gap: 15px;
+    padding: 20px 28px;
 
-    border: 1px solid rgba(255,255,255,0.10);
+    background: rgba(7, 22, 48, 0.82);
 
-    border-radius: 13px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
 
-    background: rgba(255,255,255,0.045);
+    border-radius: 18px;
 
-    text-align: left;
+    backdrop-filter: blur(14px);
 }
 
-.qr-student span {
-    color: #a9bad1;
 
-    font-size: 11px;
+.qr-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-.qr-student strong {
-    max-width: 60%;
 
-    color: #ffffff;
+.qr-brand-icon {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 24px;
+
+    border-radius: 14px;
+
+    background: rgba(79, 140, 255, 0.16);
+
+    border: 1px solid rgba(79, 140, 255, 0.25);
+}
+
+
+.qr-brand h2 {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+
+.qr-secure-badge {
+    padding: 10px 16px;
+
+    border-radius: 30px;
+
+    background: rgba(34, 197, 94, 0.12);
+
+    border: 1px solid rgba(34, 197, 94, 0.22);
+
+    color: #a7f3c0;
 
     font-size: 12px;
-
-    text-align: right;
-
-    overflow-wrap: anywhere;
+    font-weight: 600;
 }
 
 
 /* =========================================
-   QR FRAME
-   ========================================= */
+   MAIN CONTAINER
+========================================= */
 
-.qr-frame {
-    width: 310px;
-    height: 310px;
+.qr-container {
+    width: 100%;
+    max-width: 900px;
 
     margin: 0 auto;
 
-    padding: 17px;
+    padding: 45px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: rgba(7, 22, 48, 0.88);
 
-    background: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.13);
 
-    border: 1px solid rgba(255,255,255,0.20);
+    border-radius: 28px;
 
-    border-radius: 20px;
+    backdrop-filter: blur(16px);
 
     box-shadow:
-        0 10px 30px rgba(0,0,0,0.25);
+        0 25px 70px rgba(0, 0, 0, 0.4);
 }
 
 
 /* =========================================
-   ACTUAL QR
-   ========================================= */
+   TITLE
+========================================= */
 
-.registration-qr {
-    width: 276px;
-    height: 276px;
+.qr-title {
+    text-align: center;
+
+    margin-bottom: 35px;
+}
+
+
+.qr-small-title {
+    color: #8ab4ff;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 10px;
+}
+
+
+.qr-title h1 {
+    font-size: 34px;
+    font-weight: 700;
+
+    margin-bottom: 10px;
+}
+
+
+.qr-title p {
+    color: #b5c2d8;
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   PAYMENT LAYOUT
+========================================= */
+
+.qr-content {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 28px;
+
+    align-items: stretch;
+}
+
+
+/* =========================================
+   QR CARD
+========================================= */
+
+.qr-card {
+    padding: 35px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    background: rgba(255, 255, 255, 0.055);
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    border-radius: 22px;
+}
+
+
+.qr-code-box {
+    width: 240px;
+    height: 240px;
+
+    padding: 12px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
     background: #ffffff;
+
+    border-radius: 18px;
+
+    margin-bottom: 24px;
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.28);
 }
 
-.registration-qr img,
-.registration-qr canvas {
-    width: 276px !important;
-    height: 276px !important;
 
-    display: block;
-}
-
-
-/* =========================================
-   REAL QR IMAGE
-   ========================================= */
-
-.real-qr-image {
-    width: 276px;
-    height: 276px;
-
-    display: block;
+.qr-code-box img {
+    width: 100%;
+    height: 100%;
 
     object-fit: contain;
-
-    background: #ffffff;
 }
 
 
-/* =========================================
-   QR ERROR
-   ========================================= */
-
-.qr-error {
+.qr-placeholder {
     width: 100%;
     height: 100%;
 
     display: flex;
-    flex-direction: column;
-
     align-items: center;
     justify-content: center;
 
-    gap: 8px;
+    background:
+        repeating-linear-gradient(
+            45deg,
+            #111 0px,
+            #111 8px,
+            #fff 8px,
+            #fff 16px
+        );
 
-    color: #f87171;
-
-    font-size: 12px;
-
-    text-align: center;
+    color: white;
 }
 
-.qr-error span {
-    color: #64748b;
 
-    font-size: 10px;
+.qr-card h3 {
+    font-size: 19px;
+
+    margin-bottom: 8px;
+}
+
+
+.qr-card p {
+    color: #aebdd2;
+
+    font-size: 13px;
+    line-height: 1.7;
 }
 
 
 /* =========================================
-   STATUS
-   ========================================= */
+   PAYMENT DETAILS CARD
+========================================= */
 
-.qr-scan-status {
-    margin-top: 15px;
+.qr-details-card {
+    padding: 32px;
 
+    background: rgba(255, 255, 255, 0.055);
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    border-radius: 22px;
+}
+
+
+.qr-details-card h2 {
+    font-size: 22px;
+
+    margin-bottom: 25px;
+}
+
+
+/* =========================================
+   DETAIL ROW
+========================================= */
+
+.qr-detail-row {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
 
-    gap: 7px;
+    gap: 20px;
 
-    color: #86efac;
+    padding: 16px 0;
 
-    font-size: 10px;
-    font-weight: 650;
+    border-bottom:
+        1px solid rgba(255, 255, 255, 0.08);
 }
 
-.status-dot {
-    width: 7px;
-    height: 7px;
 
-    border-radius: 50%;
+.qr-detail-row:last-of-type {
+    border-bottom: none;
+}
 
-    background: #22c55e;
 
-    box-shadow:
-        0 0 0 4px rgba(34,197,94,0.12);
+.qr-detail-label {
+    color: #9caec6;
+
+    font-size: 12px;
+}
+
+
+.qr-detail-value {
+    color: white;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    text-align: right;
 }
 
 
 /* =========================================
-   INFO
-   ========================================= */
+   AMOUNT BOX
+========================================= */
 
-.qr-info {
+.qr-amount-box {
     margin-top: 22px;
 
-    padding: 14px;
+    padding: 22px;
 
-    display: flex;
+    text-align: center;
 
-    align-items: flex-start;
+    border-radius: 16px;
 
-    gap: 11px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(37, 99, 235, 0.2),
+            rgba(79, 140, 255, 0.08)
+        );
 
-    border: 1px solid rgba(96,165,250,0.20);
-
-    border-radius: 14px;
-
-    background: rgba(37,99,235,0.08);
-
-    text-align: left;
+    border:
+        1px solid rgba(79, 140, 255, 0.25);
 }
 
-.qr-info-icon {
-    width: 28px;
-    height: 28px;
 
-    flex-shrink: 0;
+.qr-amount-box span {
+    display: block;
+
+    color: #9dbcf8;
+
+    font-size: 12px;
+
+    margin-bottom: 8px;
+}
+
+
+.qr-amount-box strong {
+    font-size: 32px;
+
+    color: white;
+}
+
+
+/* =========================================
+   SCAN STATUS
+========================================= */
+
+.scan-status {
+    margin-top: 22px;
+
+    padding: 14px 16px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    border-radius: 50%;
+    gap: 10px;
 
-    background: #2563eb;
+    border-radius: 12px;
 
-    color: #ffffff;
+    background: rgba(34, 197, 94, 0.08);
+
+    border:
+        1px solid rgba(34, 197, 94, 0.18);
+
+    color: #b7f7c9;
 
     font-size: 12px;
-    font-weight: 800;
 }
 
-.qr-info strong {
-    display: block;
 
-    margin-bottom: 4px;
+/* =========================================
+   PAYMENT BUTTON
+========================================= */
 
-    color: #ffffff;
+.qr-pay-button {
+    width: 100%;
 
-    font-size: 11px;
+    margin-top: 22px;
+
+    padding: 16px;
+
+    border: none;
+    border-radius: 14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #1d4ed8
+        );
+
+    color: white;
+
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
-.qr-info p {
-    margin: 0;
 
-    color: #a9bad1;
+.qr-pay-button:hover {
+    transform: translateY(-2px);
 
-    font-size: 9px;
-
-    line-height: 1.5;
+    box-shadow:
+        0 12px 28px rgba(37, 99, 235, 0.35);
 }
 
 
 /* =========================================
    BACK BUTTON
-   ========================================= */
+========================================= */
 
 .back-payment {
-    display: inline-block;
+    display: block;
 
-    margin-top: 23px;
+    width: fit-content;
 
-    color: #60a5fa;
+    margin: 30px auto 0;
+
+    color: #a9c4ff;
 
     text-decoration: none;
 
-    font-size: 11px;
+    font-size: 13px;
 
-    font-weight: 700;
+    transition: 0.25s ease;
 }
+
 
 .back-payment:hover {
-    color: #93c5fd;
-
-    text-decoration: underline;
+    color: white;
 }
 
 
 /* =========================================
-   MOBILE
-   ========================================= */
+   RESPONSIVE
+========================================= */
 
-@media (max-width: 700px) {
+@media (max-width: 800px) {
 
-    .qr-header {
-        min-height: 65px;
-
-        padding: 11px 16px;
-
-        flex-wrap: wrap;
-
-        gap: 8px;
+    .qr-content {
+        grid-template-columns: 1fr;
     }
 
-    .qr-brand {
-        font-size: 15px;
-    }
+}
 
-    .qr-nav {
-        order: 3;
 
-        width: 100%;
-
-        margin: 0;
-
-        padding-bottom: 5px;
-
-        justify-content: center;
-
-        gap: 22px;
-    }
-
-    .qr-nav a {
-        font-size: 11px;
-    }
-
-    .qr-secure {
-        font-size: 9px;
-    }
+@media (max-width: 600px) {
 
     .qr-page {
-        min-height: calc(100vh - 65px);
-
-        padding: 20px 10px 40px;
+        padding: 20px 12px 40px;
     }
 
-    .qr-card {
-        padding: 23px 16px;
-
-        border-radius: 19px;
+    .qr-header {
+        padding: 16px;
     }
 
-    .qr-card h1 {
-        font-size: 23px;
-    }
-
-    .qr-description {
-        font-size: 11px;
-    }
-
-    .qr-frame {
-        width: min(290px, 90vw);
-        height: min(290px, 90vw);
-
-        padding: 13px;
-    }
-
-    .registration-qr {
-        width: min(264px, calc(90vw - 26px));
-        height: min(264px, calc(90vw - 26px));
-    }
-
-    .registration-qr img,
-    .registration-qr canvas {
-        width: min(264px, calc(90vw - 26px)) !important;
-        height: min(264px, calc(90vw - 26px)) !important;
-    }
-
-    .real-qr-image {
-        width: min(264px, calc(90vw - 26px));
-        height: min(264px, calc(90vw - 26px));
-    }
-
-}
-
-
-/* =========================================
-   VERY SMALL PHONES
-   ========================================= */
-
-@media (max-width: 360px) {
-
-    .qr-secure {
+    .qr-secure-badge {
         display: none;
     }
 
-    .qr-card {
-        padding: 20px 13px;
+    .qr-container {
+        padding: 28px 18px;
     }
 
-    .qr-card h1 {
-        font-size: 21px;
+    .qr-title h1 {
+        font-size: 26px;
+    }
+
+    .qr-card,
+    .qr-details-card {
+        padding: 24px 18px;
+    }
+
+    .qr-code-box {
+        width: 210px;
+        height: 210px;
     }
 
 }

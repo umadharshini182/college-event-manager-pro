@@ -1,0 +1,425 @@
+/* =========================================
+   RESET
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   BODY BACKGROUND
+========================================= */
+
+body {
+    min-height: 100vh;
+
+    font-family: "Poppins", sans-serif;
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            rgba(5, 15, 35, 0.82),
+            rgba(5, 15, 35, 0.92)
+        ),
+        url("IMAGE FOR UMA EVENT.jpeg");
+
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.verification-header {
+    min-height: 82px;
+
+    padding: 15px 7%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: rgba(8, 19, 40, 0.78);
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+    backdrop-filter: blur(18px);
+}
+
+.back-button {
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    transition: 0.2s;
+}
+
+.back-button:hover {
+    color: #8bb5ff;
+}
+
+.secure-payment {
+    padding: 9px 16px;
+
+    border: 1px solid rgba(74, 222, 128, 0.25);
+    border-radius: 50px;
+
+    background: rgba(34, 197, 94, 0.1);
+
+    color: #a7f3d0;
+
+    font-size: 13px;
+}
+
+
+/* =========================================
+   PAGE
+========================================= */
+
+.verification-page {
+    min-height: calc(100vh - 82px);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 60px 20px;
+}
+
+
+/* =========================================
+   CARD
+========================================= */
+
+.verification-card {
+    width: 100%;
+    max-width: 620px;
+
+    padding: 45px 40px;
+
+    text-align: center;
+
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 28px;
+
+    background: rgba(13, 30, 58, 0.92);
+
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35);
+
+    backdrop-filter: blur(20px);
+}
+
+
+/* =========================================
+   STEP
+========================================= */
+
+.verification-step {
+    display: inline-block;
+
+    margin-bottom: 20px;
+    padding: 7px 14px;
+
+    border-radius: 50px;
+
+    background: rgba(37, 99, 235, 0.18);
+
+    color: #8bb5ff;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+}
+
+
+/* =========================================
+   HEADINGS
+========================================= */
+
+.verification-card h1 {
+    margin-bottom: 12px;
+
+    font-size: 34px;
+}
+
+.verification-description {
+    max-width: 480px;
+
+    margin: 0 auto;
+
+    color: #afbdd1;
+
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+
+/* =========================================
+   AMOUNT
+========================================= */
+
+.amount-section {
+    margin: 30px 0;
+
+    padding: 20px;
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.amount-section span,
+.amount-section small {
+    display: block;
+
+    color: #9eacc0;
+
+    font-size: 12px;
+}
+
+.amount-section strong {
+    display: block;
+
+    margin: 5px 0;
+
+    color: #8bb5ff;
+
+    font-size: 32px;
+}
+
+
+/* =========================================
+   QR SECTION
+========================================= */
+
+.qr-section {
+    margin: 30px 0;
+}
+
+.qr-code-box {
+    width: 250px;
+    height: 250px;
+
+    margin: 0 auto 22px;
+    padding: 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 22px;
+
+    background: #ffffff;
+
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.22);
+}
+
+.qr-code {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        repeating-linear-gradient(
+            90deg,
+            #111 0px,
+            #111 10px,
+            #fff 10px,
+            #fff 18px
+        );
+
+    color: #111;
+
+    overflow: hidden;
+}
+
+.qr-pattern {
+    padding: 15px;
+
+    background: white;
+
+    color: #111;
+
+    font-size: 35px;
+    font-weight: 700;
+
+    line-height: 1.2;
+}
+
+.qr-section h2 {
+    margin-bottom: 8px;
+
+    font-size: 24px;
+}
+
+.qr-section p {
+    max-width: 400px;
+
+    margin: auto;
+
+    color: #afbdd1;
+
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+
+/* =========================================
+   WAITING STATUS
+========================================= */
+
+.payment-status {
+    padding: 14px 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    border-radius: 13px;
+
+    background: rgba(255, 193, 7, 0.08);
+
+    color: #facc6b;
+
+    font-size: 13px;
+}
+
+.status-dot {
+    width: 9px;
+    height: 9px;
+
+    border-radius: 50%;
+
+    background: #facc15;
+
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.6);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+}
+
+
+/* =========================================
+   CONFIRM BUTTON
+========================================= */
+
+.confirm-payment-button {
+    width: 100%;
+    min-height: 58px;
+
+    margin-top: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+
+    border: none;
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #4f46e5
+        );
+
+    color: white;
+
+    font-family: inherit;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.confirm-payment-button:hover {
+    transform: translateY(-2px);
+
+    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.3);
+}
+
+
+/* =========================================
+   NOTE
+========================================= */
+
+.verification-note {
+    margin-top: 15px;
+
+    color: #7f8ea5;
+
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .verification-header {
+        padding: 14px 20px;
+    }
+
+    .verification-page {
+        padding: 35px 15px;
+    }
+
+    .verification-card {
+        padding: 32px 18px;
+    }
+
+    .verification-card h1 {
+        font-size: 28px;
+    }
+
+    .qr-code-box {
+        width: 220px;
+        height: 220px;
+    }
+
+    .secure-payment {
+        padding: 8px 10px;
+
+        font-size: 10px;
+    }
+}

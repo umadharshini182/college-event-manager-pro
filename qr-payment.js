@@ -1,133 +1,140 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    // Get registration data
-    let student = null;
+    // ==========================================
+    // GET STUDENT DATA
+    // ==========================================
 
-    const savedData =
-        localStorage.getItem("studentData");
-
-    if (savedData) {
-        try {
-            student = JSON.parse(savedData);
-        } catch (error) {
-            console.error("Could not read student data:", error);
-        }
-    }
-
-    // Fallback
-    if (!student) {
-        student = {
-            fullname: localStorage.getItem("fullname") || "Student",
-            email: localStorage.getItem("email") || "",
-            college: localStorage.getItem("college") || "",
-            department: localStorage.getItem("department") || "",
-            year: localStorage.getItem("year") || "",
-            event: localStorage.getItem("event") || "College Event"
-        };
-    }
+    const studentData = JSON.parse(
+        localStorage.getItem("studentData")
+    );
 
 
-    // Show student name
-    const studentName =
-        document.getElementById("qrStudentName");
+    // ==========================================
+    // CHECK REGISTRATION DATA
+    // ==========================================
 
-    if (studentName) {
-        studentName.textContent =
-            student.fullname || "Student";
-    }
+    if (!studentData) {
 
+        alert("Registration data not found. Please register again.");
 
-    // QR container
-    const qrContainer =
-        document.getElementById("registrationQRCode");
+        window.location.href = "register.html";
 
-    if (!qrContainer) {
         return;
+
     }
 
 
-    // Build the page that should open after scanning
-    const detailsURL =
-        new URL(
-            "payment-details.html",
-            window.location.href
-        );
+    // ==========================================
+    // SHOW STUDENT DETAILS
+    // ==========================================
+
+    document.getElementById("qrStudentName").textContent =
+        studentData.fullname || "-";
 
 
-    detailsURL.searchParams.set(
-        "name",
-        student.fullname || "Student"
-    );
-
-    detailsURL.searchParams.set(
-        "email",
-        student.email || ""
-    );
-
-    detailsURL.searchParams.set(
-        "college",
-        student.college || ""
-    );
-
-    detailsURL.searchParams.set(
-        "department",
-        student.department || ""
-    );
-
-    detailsURL.searchParams.set(
-        "year",
-        student.year || ""
-    );
-
-    detailsURL.searchParams.set(
-        "event",
-        student.event || "College Event"
-    );
+    document.getElementById("qrEventName").textContent =
+        studentData.event || "-";
 
 
-    // Create QR image
-    const qrImage =
-        document.createElement("img");
-
-    qrImage.alt =
-        "Registration Verification QR Code";
-
-    qrImage.className =
-        "real-qr-image";
+    document.getElementById("qrCollegeName").textContent =
+        studentData.college || "-";
 
 
-    qrImage.src =
-        "https://api.qrserver.com/v1/create-qr-code/" +
-        "?size=500x500" +
-        "&margin=15" +
-        "&data=" +
-        encodeURIComponent(
-            detailsURL.toString()
-        );
+    // ==========================================
+    // QR PAYMENT COMPLETED
+    // ==========================================
+
+    const qrPayButton =
+        document.getElementById("qrPayButton");
 
 
-    // Add image
-    qrContainer.innerHTML = "";
-
-    qrContainer.appendChild(qrImage);
-
-
-    // Error handling
-    qrImage.onerror = function () {
-
-        qrContainer.innerHTML = `
-            <div class="qr-error">
-                <strong>QR could not be loaded</strong>
-                <span>Please refresh the page.</span>
-            </div>
-        `;
-
-    };
+    qrPayButton.addEventListener(
+        "click",
+        function () {
 
 
-    console.log(
-        "QR destination:",
-        detailsURL.toString()
+            // Create transaction ID
+
+            const transactionId =
+                "QR" + Date.now();
+
+
+            // Save transaction ID
+
+            localStorage.setItem(
+                "transactionId",
+                transactionId
+            );
+
+
+            // Create receipt data
+
+            const receiptData = {
+
+                fullname:
+                    studentData.fullname,
+
+                email:
+                    studentData.email,
+
+                college:
+                    studentData.college,
+
+                department:
+                    studentData.department,
+
+                year:
+                    studentData.year,
+
+                event:
+                    studentData.event,
+
+                paymentMethod:
+                    "QR / UPI Payment",
+
+                amount:
+                    1000,
+
+                transactionId:
+                    transactionId,
+
+                paymentStatus:
+                    "Paid",
+
+                paymentDate:
+                    new Date().toLocaleString("en-IN")
+
+            };
+
+
+            // Save receipt data
+
+            localStorage.setItem(
+                "receiptData",
+                JSON.stringify(receiptData)
+            );
+
+
+            // Change button text
+
+            qrPayButton.textContent =
+                "Payment Confirmed ✓";
+
+
+            qrPayButton.disabled = true;
+
+
+            // Go to receipt
+
+            setTimeout(function () {
+
+                window.location.href =
+                    "receipt.html";
+
+            }, 1200);
+
+
+        }
     );
 
 });

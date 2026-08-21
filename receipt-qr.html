@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Registration QR | College Event Manager</title>
+
+    <link rel="stylesheet" href="receipt-qr.css">
+
+</head>
+
+<body>
+
+<header class="qr-header">
+
+    <a href="receipt.html" class="brand">
+        🎓 College Event Manager
+    </a>
+
+    <span class="verified">
+        ✓ Registration Verified
+    </span>
+
+</header>
+
+
+<main class="qr-page">
+
+    <section class="qr-card">
+
+        <div class="qr-icon">
+            ✓
+        </div>
+
+        <span class="qr-label">
+            REGISTRATION VERIFICATION
+        </span>
+
+        <h1>Verify Event Registration</h1>
+
+        <p class="description">
+            Scan this QR code to verify the student's
+            event registration and payment details.
+        </p>
+
+
+        <!-- STUDENT -->
+
+        <div class="student-card">
+
+            <span>REGISTERED STUDENT</span>
+
+            <strong id="qrStudentName">
+                Loading...
+            </strong>
+
+            <p id="qrEventName">
+                Loading...
+            </p>
+
+        </div>
+
+
+        <!-- QR CODE -->
+
+        <div class="qr-frame">
+
+            <div id="registrationQRCode">
+
+                QR
+
+            </div>
+
+        </div>
+
+
+        <p class="scan-text">
+            ▣ Scan QR code for registration verification
+        </p>
+
+
+        <!-- DETAILS -->
+
+        <div class="verification-details">
+
+            <div>
+                <span>Transaction ID</span>
+                <strong id="qrTransaction">
+                    -
+                </strong>
+            </div>
+
+            <div>
+                <span>Payment Status</span>
+                <strong class="paid">
+                    ✓ Paid
+                </strong>
+            </div>
+
+        </div>
+
+
+        <a href="receipt.html" class="back-button">
+            ← Back to Receipt
+        </a>
+
+    </section>
+
+</main>
+
+
+<script src="receipt-qr.js"></script>
+
+</body>
+
+</html>
