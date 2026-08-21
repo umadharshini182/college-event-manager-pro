@@ -1,6 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    const API_URL = "https://college-event-manager-pro.onrender.com";
+    // =========================================
+    // BACKEND URL
+    // =========================================
+
+    const API_URL =
+        "https://college-event-manager-pro.onrender.com";
 
 
     // =========================================
@@ -22,12 +27,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const qrPayButton =
         document.getElementById("qrPayButton");
 
-    const scanStatusText =
-        document.getElementById("scanStatusText");
+    const scanStatus =
+        document.querySelector(".scan-status");
 
 
     // =========================================
-    // REGISTRATION DATA
+    // GET REGISTRATION DATA
     // =========================================
 
     const registrationData = JSON.parse(
@@ -35,43 +40,73 @@ document.addEventListener("DOMContentLoaded", function () {
     ) || {};
 
 
-    qrStudentName.textContent =
-        registrationData.fullname || "Student";
+    // =========================================
+    // SHOW REGISTRATION DETAILS
+    // =========================================
 
-    qrEventName.textContent =
-        registrationData.event || "Tech Spark 2027";
+    if (qrStudentName) {
 
-    qrCollegeName.textContent =
-        registrationData.college || "College";
+        qrStudentName.textContent =
+            registrationData.fullname || "Student";
+
+    }
+
+
+    if (qrEventName) {
+
+        qrEventName.textContent =
+            registrationData.event ||
+            "Tech Spark 2027";
+
+    }
+
+
+    if (qrCollegeName) {
+
+        qrCollegeName.textContent =
+            registrationData.college || "College";
+
+    }
 
 
     // =========================================
-    // CREATE SESSION ID
+    // CREATE UNIQUE SESSION ID
     // =========================================
 
     const paymentSessionId =
-        "PAY-" + Date.now() + "-" +
-        Math.floor(Math.random() * 10000);
+        "PAY-" +
+        Date.now() +
+        "-" +
+        Math.floor(Math.random() * 100000);
 
 
     // =========================================
-    // CREATE SESSION IN BACKEND
+    // CREATE PAYMENT SESSION
     // =========================================
 
     fetch(
         API_URL + "/create-payment-session",
         {
+
             method: "POST",
 
             headers: {
+
                 "Content-Type":
                     "application/json"
+
             },
 
             body: JSON.stringify({
 
                 sessionId:
-                    paymentSessionId
+                    paymentSessionId,
+
+                registrationData:
+                    registrationData,
+
+                paymentMethod:
+                    "QR / UPI Demo"
 
             })
 
@@ -88,16 +123,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (!data.success) {
 
-            scanStatusText.textContent =
-                "Unable to start payment session.";
-
-            return;
+            throw new Error(
+                data.message ||
+                "Unable to create payment session."
+            );
 
         }
 
 
         // =====================================
-        // CREATE QR URL
+        // CREATE PHONE PAYMENT URL
         // =====================================
 
         const phonePaymentURL =
@@ -113,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         // =====================================
-        // GENERATE QR
+        // GENERATE QR CODE
         // =====================================
 
         if (
@@ -123,26 +158,30 @@ document.addEventListener("DOMContentLoaded", function () {
 
             qrContainer.innerHTML = "";
 
-            new QRCode(qrContainer, {
 
-                text:
-                    phonePaymentURL,
+            new QRCode(
+                qrContainer,
+                {
 
-                width:
-                    220,
+                    text:
+                        phonePaymentURL,
 
-                height:
-                    220,
+                    width:
+                        220,
 
-                correctLevel:
-                    QRCode.CorrectLevel.H
+                    height:
+                        220,
 
-            });
+                    correctLevel:
+                        QRCode.CorrectLevel.H
+
+                }
+            );
 
         }
 
 
-        // Start checking payment status
+        // Start automatic checking
 
         checkPaymentStatus();
 
@@ -152,128 +191,335 @@ document.addEventListener("DOMContentLoaded", function () {
 
         console.error(error);
 
-        scanStatusText.textContent =
-            "Payment server is unavailable.";
+        updateStatus(
+            "⚠ Unable to connect to payment server."
+        );
 
     });
+
+
+    // =========================================
+    // UPDATE STATUS TEXT
+    // =========================================
+
+    function updateStatus(text) {
+
+        if (!scanStatus) {
+
+            return;
+
+        }
+
+
+        const statusText =
+            scanStatus.querySelector(
+                "span:last-child"
+            );
+
+
+        if (statusText) {
+
+            statusText.textContent =
+                text;
+
+        }
+
+    }
 
 
     // =========================================
     // CHECK PAYMENT STATUS
     // =========================================
 
+    let paymentCompleted = false;
+
+
     function checkPaymentStatus() {
 
-        setInterval(function () {
+        const statusInterval = setInterval(
+            function () {
 
-            fetch(
-                API_URL +
-                "/payment-status/" +
-                encodeURIComponent(
-                    paymentSessionId
-                )
-            )
+                if (paymentCompleted) {
 
-            .then(function (response) {
-
-                return response.json();
-
-            })
-
-            .then(function (data) {
-
-                if (data.status === "paid") {
-
-                    scanStatusText.textContent =
-                        "✓ Payment confirmed successfully!";
-
-
-                    // Save payment details
-
-                    const receiptData = {
-
-                        fullname:
-                            registrationData.fullname || "-",
-
-                        email:
-                            registrationData.email || "-",
-
-                        college:
-                            registrationData.college || "-",
-
-                        department:
-                            registrationData.department || "-",
-
-                        year:
-                            registrationData.year || "-",
-
-                        event:
-                            registrationData.event ||
-                            "Tech Spark 2027",
-
-                        paymentMethod:
-                            "QR / UPI Demo",
-
-                        amount:
-                            1000,
-
-                        paymentDate:
-                            data.paymentDate ||
-                            new Date().toLocaleString("en-IN"),
-
-                        transactionId:
-                            data.transactionId ||
-                            "TXN" + Date.now()
-
-                    };
-
-
-                    localStorage.setItem(
-                        "receiptData",
-                        JSON.stringify(receiptData)
+                    clearInterval(
+                        statusInterval
                     );
 
-
-                    // Go to success page
-
-                    setTimeout(function () {
-
-                        window.location.href =
-                            "payment-verification.html";
-
-                    }, 1200);
+                    return;
 
                 }
 
-            })
 
-            .catch(function (error) {
+                fetch(
+                    API_URL +
+                    "/payment-status/" +
+                    encodeURIComponent(
+                        paymentSessionId
+                    )
+                )
 
-                console.error(error);
+                .then(function (response) {
 
-            });
+                    return response.json();
 
-        }, 2000);
+                })
+
+                .then(function (data) {
+
+                    if (!data.success) {
+
+                        return;
+
+                    }
+
+
+                    // =============================
+                    // WAITING
+                    // =============================
+
+                    if (
+                        data.status === "waiting"
+                    ) {
+
+                        updateStatus(
+                            "Waiting for QR scan..."
+                        );
+
+                    }
+
+
+                    // =============================
+                    // QR SCANNED
+                    // =============================
+
+                    if (
+                        data.status === "scanned"
+                    ) {
+
+                        updateStatus(
+                            "📱 QR scanned on another device. Processing payment..."
+                        );
+
+                    }
+
+
+                    // =============================
+                    // PROCESSING
+                    // =============================
+
+                    if (
+                        data.status === "processing"
+                    ) {
+
+                        updateStatus(
+                            "⏳ Verifying payment securely..."
+                        );
+
+                    }
+
+
+                    // =============================
+                    // PAID
+                    // =============================
+
+                    if (
+                        data.status === "paid"
+                    ) {
+
+                        paymentCompleted = true;
+
+                        clearInterval(
+                            statusInterval
+                        );
+
+
+                        updateStatus(
+                            "✓ Payment successful! Redirecting..."
+                        );
+
+
+                        // =========================
+                        // CREATE RECEIPT DATA
+                        // =========================
+
+                        const backendRegistrationData =
+                            data.registrationData || {};
+
+
+                        const receiptData = {
+
+                            fullname:
+                                backendRegistrationData.fullname ||
+                                registrationData.fullname ||
+                                "-",
+
+                            email:
+                                backendRegistrationData.email ||
+                                registrationData.email ||
+                                "-",
+
+                            college:
+                                backendRegistrationData.college ||
+                                registrationData.college ||
+                                "-",
+
+                            department:
+                                backendRegistrationData.department ||
+                                registrationData.department ||
+                                "-",
+
+                            year:
+                                backendRegistrationData.year ||
+                                registrationData.year ||
+                                "-",
+
+                            event:
+                                backendRegistrationData.event ||
+                                registrationData.event ||
+                                "Tech Spark 2027",
+
+                            paymentMethod:
+                                data.paymentMethod ||
+                                "QR / UPI Demo",
+
+                            amount:
+                                data.amount || 1000,
+
+                            paymentDate:
+                                data.paymentDate ||
+                                new Date().toLocaleString(
+                                    "en-IN"
+                                ),
+
+                            transactionId:
+                                data.transactionId ||
+                                "TXN" + Date.now()
+
+                        };
+
+
+                        // Save receipt locally
+
+                        localStorage.setItem(
+                            "receiptData",
+                            JSON.stringify(
+                                receiptData
+                            )
+                        );
+
+
+                        // Go to success page
+
+                        setTimeout(function () {
+
+                            window.location.href =
+                                "payment-verification.html?session=" +
+                                encodeURIComponent(
+                                    paymentSessionId
+                                );
+
+                        }, 1200);
+
+                    }
+
+                })
+
+                .catch(function (error) {
+
+                    console.error(error);
+
+                });
+
+            },
+
+            1000
+        );
 
     }
 
 
     // =========================================
-    // SAME DEVICE DEMO PAYMENT
+    // SAME DEVICE PAYMENT
     // =========================================
 
-    qrPayButton.addEventListener(
-        "click",
-        function () {
+    if (qrPayButton) {
 
-            window.location.href =
-                "phone-payment.html?session=" +
-                encodeURIComponent(
-                    paymentSessionId
-                ) +
-                "&sameDevice=true";
+        qrPayButton.addEventListener(
+            "click",
+            function () {
 
-        }
-    );
+                qrPayButton.disabled = true;
+
+                qrPayButton.textContent =
+                    "Processing Payment...";
+
+
+                fetch(
+                    API_URL +
+                    "/start-auto-payment",
+                    {
+
+                        method: "POST",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json"
+
+                        },
+
+                        body: JSON.stringify({
+
+                            sessionId:
+                                paymentSessionId
+
+                        })
+
+                    }
+                )
+
+                .then(function (response) {
+
+                    return response.json();
+
+                })
+
+                .then(function (data) {
+
+                    if (!data.success) {
+
+                        qrPayButton.disabled =
+                            false;
+
+                        qrPayButton.textContent =
+                            "Try Again";
+
+                        return;
+
+                    }
+
+
+                    updateStatus(
+                        "⏳ Processing secure payment..."
+                    );
+
+                })
+
+                .catch(function (error) {
+
+                    console.error(error);
+
+                    qrPayButton.disabled =
+                        false;
+
+                    qrPayButton.textContent =
+                        "Try Again";
+
+                });
+
+            }
+        );
+
+    }
 
 });

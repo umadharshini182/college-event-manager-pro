@@ -1834,17 +1834,24 @@ app.get("/payment-verification/:id", (req, res) => {
 
 });
 // =========================================
-// DEMO QR PAYMENT SESSIONS
+// DEMO PAYMENT SESSIONS
 // =========================================
 
 const paymentSessions = {};
 
 
+// =========================================
 // CREATE PAYMENT SESSION
+// =========================================
 
 app.post("/create-payment-session", function (req, res) {
 
-    const sessionId = req.body.sessionId;
+    const {
+        sessionId,
+        registrationData,
+        paymentMethod
+    } = req.body;
+
 
     if (!sessionId) {
 
@@ -1858,109 +1865,366 @@ app.post("/create-payment-session", function (req, res) {
 
     paymentSessions[sessionId] = {
 
-        status: "pending",
+        sessionId: sessionId,
 
-        createdAt: new Date()
+        status: "waiting",
+
+        scanned: false,
+
+        createdAt: new Date(),
+
+        paymentMethod:
+            paymentMethod || "QR Payment",
+
+        registrationData: {
+
+            fullname:
+                registrationData?.fullname || "",
+
+            email:
+                registrationData?.email || "",
+
+            college:
+                registrationData?.college || "",
+
+            department:
+                registrationData?.department || "",
+
+            year:
+                registrationData?.year || "",
+
+            event:
+                registrationData?.event ||
+                "Tech Spark 2027"
+
+        },
+
+        amount: 1000,
+
+        transactionId: null,
+
+        paymentDate: null
 
     };
 
 
+    console.log(
+        "💳 Payment session created:",
+        sessionId
+    );
+
+
     res.json({
 
         success: true,
 
         sessionId: sessionId,
 
-        status: "pending"
+        status: "waiting",
+
+        paymentSession:
+            paymentSessions[sessionId]
 
     });
 
 });
 
 
+// =========================================
 // GET PAYMENT STATUS
+// LAPTOP CHECKS THIS AUTOMATICALLY
+// =========================================
 
-app.get("/payment-status/:sessionId", function (req, res) {
+app.get(
+    "/payment-status/:sessionId",
+    function (req, res) {
 
-    const sessionId = req.params.sessionId;
+        const sessionId =
+            req.params.sessionId;
 
-    const session =
-        paymentSessions[sessionId];
+        const paymentSession =
+            paymentSessions[sessionId];
 
 
-    if (!session) {
+        if (!paymentSession) {
 
-        return res.status(404).json({
+            return res.status(404).json({
 
-            success: false,
+                success: false,
 
-            message: "Payment session not found"
+                message:
+                    "Payment session not found"
+
+            });
+
+        }
+
+
+        res.json({
+
+            success: true,
+
+            sessionId: sessionId,
+
+            status:
+                paymentSession.status,
+
+            scanned:
+                paymentSession.scanned,
+
+            paymentMethod:
+                paymentSession.paymentMethod,
+
+            registrationData:
+                paymentSession.registrationData,
+
+            amount:
+                paymentSession.amount,
+
+            transactionId:
+                paymentSession.transactionId,
+
+            paymentDate:
+                paymentSession.paymentDate
 
         });
 
     }
+);
 
 
-    res.json({
+// =========================================
+// QR SCANNED ON PHONE
+// =========================================
 
-        success: true,
+app.post(
+    "/payment-scanned",
+    function (req, res) {
 
-        sessionId: sessionId,
-
-        status: session.status
-
-    });
-
-});
-
-
-// COMPLETE DEMO PAYMENT
-
-app.post("/complete-demo-payment", function (req, res) {
-
-    const sessionId = req.body.sessionId;
-
-    const session =
-        paymentSessions[sessionId];
+        const sessionId =
+            req.body.sessionId;
 
 
-    if (!session) {
+        const paymentSession =
+            paymentSessions[sessionId];
 
-        return res.status(404).json({
 
-            success: false,
+        if (!paymentSession) {
 
-            message: "Payment session not found"
+            return res.status(404).json({
+
+                success: false,
+
+                message:
+                    "Payment session not found"
+
+            });
+
+        }
+
+
+        // Already paid
+
+        if (
+            paymentSession.status === "paid"
+        ) {
+
+            return res.json({
+
+                success: true,
+
+                status: "paid",
+
+                message:
+                    "Payment already completed"
+
+            });
+
+        }
+
+
+        // Mark QR as scanned
+
+        paymentSession.scanned = true;
+
+        paymentSession.status = "scanned";
+
+
+        console.log(
+            "📱 QR scanned:",
+            sessionId
+        );
+
+
+        res.json({
+
+            success: true,
+
+            status: "scanned",
+
+            message:
+                "QR scanned successfully"
 
         });
 
+
+        // =================================
+        // AUTOMATIC DEMO PAYMENT
+        // No button required
+        // =================================
+
+        setTimeout(function () {
+
+            // Check again because
+            // session may already be paid
+
+            if (
+                paymentSession.status === "paid"
+            ) {
+
+                return;
+
+            }
+
+
+            paymentSession.status =
+                "processing";
+
+
+            console.log(
+                "⏳ Processing payment:",
+                sessionId
+            );
+
+
+        }, 1000);
+
+
+        setTimeout(function () {
+
+            // Complete automatically
+
+            paymentSession.status =
+                "paid";
+
+
+            paymentSession.paymentDate =
+                new Date().toLocaleString(
+                    "en-IN"
+                );
+
+
+            paymentSession.transactionId =
+                "TXN" +
+                Date.now();
+
+
+            console.log(
+                "✅ Payment completed:",
+                sessionId
+            );
+
+
+        }, 4000);
+
     }
+);
 
 
-    session.status = "paid";
+// =========================================
+// SAME DEVICE AUTO PAYMENT
+// =========================================
 
-    session.paymentDate =
-        new Date().toLocaleString("en-IN");
+app.post(
+    "/start-auto-payment",
+    function (req, res) {
 
-    session.transactionId =
-        "TXN" + Date.now();
+        const sessionId =
+            req.body.sessionId;
 
 
-    res.json({
+        const paymentSession =
+            paymentSessions[sessionId];
 
-        success: true,
 
-        message: "Payment completed successfully",
+        if (!paymentSession) {
 
-        status: "paid",
+            return res.status(404).json({
 
-        paymentDate: session.paymentDate,
+                success: false,
 
-        transactionId: session.transactionId
+                message:
+                    "Payment session not found"
 
-    });
+            });
 
-});
+        }
+
+
+        // Do not restart a payment
+
+        if (
+            paymentSession.status === "paid"
+        ) {
+
+            return res.json({
+
+                success: true,
+
+                status: "paid"
+
+            });
+
+        }
+
+
+        paymentSession.status =
+            "processing";
+
+
+        console.log(
+            "💻 Same-device payment started:",
+            sessionId
+        );
+
+
+        res.json({
+
+            success: true,
+
+            status: "processing"
+
+        });
+
+
+        // Automatic demo payment
+
+        setTimeout(function () {
+
+            paymentSession.status =
+                "paid";
+
+
+            paymentSession.paymentDate =
+                new Date().toLocaleString(
+                    "en-IN"
+                );
+
+
+            paymentSession.transactionId =
+                "TXN" +
+                Date.now();
+
+
+            console.log(
+                "✅ Same-device payment completed:",
+                sessionId
+            );
+
+        }, 3500);
+
+    }
+);
 // ======================================
 // SERVER START
 // ======================================

@@ -3,25 +3,13 @@ document.addEventListener("DOMContentLoaded", function () {
     // =========================================
     // BACKEND URL
     // =========================================
-     const API_URL = "https://college-event-manager-pro.onrender.com";
+
+    const API_URL =
+        "https://college-event-manager-pro.onrender.com";
 
 
     // =========================================
-    // GET ELEMENTS
-    // =========================================
-
-    const phoneEvent =
-        document.getElementById("phoneEvent");
-
-    const phoneStudent =
-        document.getElementById("phoneStudent");
-
-    const completeDemoPayment =
-        document.getElementById("completeDemoPayment");
-
-
-    // =========================================
-    // GET URL PARAMETERS
+    // GET SESSION ID FROM QR URL
     // =========================================
 
     const params =
@@ -32,84 +20,175 @@ document.addEventListener("DOMContentLoaded", function () {
     const paymentSessionId =
         params.get("session");
 
-    const sameDevice =
-        params.get("sameDevice");
+
+    // =========================================
+    // GET PAGE ELEMENTS
+    // =========================================
+
+    const phoneEvent =
+        document.getElementById("phoneEvent");
+
+    const phoneStudent =
+        document.getElementById("phoneStudent");
+
+    const paymentStatus =
+        document.getElementById("paymentStatus");
 
 
     // =========================================
-    // GET REGISTRATION DATA
+    // CHECK SESSION
     // =========================================
 
-    const registrationData = JSON.parse(
-        localStorage.getItem("registrationData")
-    ) || {};
+    if (!paymentSessionId) {
+
+        document.body.innerHTML = `
+            <div style="
+                min-height:100vh;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                font-family:Arial;
+                text-align:center;
+                padding:20px;
+            ">
+                <div>
+                    <h1>Invalid Payment Link</h1>
+                    <p>
+                        This QR payment session could not be found.
+                    </p>
+                </div>
+            </div>
+        `;
+
+        return;
+
+    }
 
 
     // =========================================
-    // SHOW DETAILS
+    // QR OPENED = SCANNED
     // =========================================
 
-    phoneEvent.textContent =
-        registrationData.event || "Tech Spark 2027";
+    fetch(
+        API_URL + "/payment-scanned",
+        {
 
-    phoneStudent.textContent =
-        registrationData.fullname || "Student";
+            method: "POST",
+
+            headers: {
+                "Content-Type":
+                    "application/json"
+            },
+
+            body: JSON.stringify({
+
+                sessionId:
+                    paymentSessionId
+
+            })
+
+        }
+    )
+
+    .then(function (response) {
+
+        return response.json();
+
+    })
+
+    .then(function (data) {
+
+        if (!data.success) {
+
+            throw new Error(
+                data.message ||
+                "Unable to start payment."
+            );
+
+        }
 
 
-    // =========================================
-    // COMPLETE DEMO PAYMENT
-    // =========================================
+        // Show processing
 
-    completeDemoPayment.addEventListener(
-        "click",
-        function () {
+        if (paymentStatus) {
 
-            // Check session
+            paymentStatus.textContent =
+                "QR verified. Processing payment...";
 
-            if (!paymentSessionId) {
+        }
 
-                alert(
-                    "Payment session not found."
-                );
 
-                return;
+        // Get complete session details
+
+        return fetch(
+            API_URL +
+            "/payment-status/" +
+            encodeURIComponent(
+                paymentSessionId
+            )
+        );
+
+    })
+
+    .then(function (response) {
+
+        return response.json();
+
+    })
+
+    .then(function (data) {
+
+        if (data.registrationData) {
+
+            if (phoneStudent) {
+
+                phoneStudent.textContent =
+                    data.registrationData.fullname ||
+                    "Student";
 
             }
 
 
-            // Disable button
+            if (phoneEvent) {
 
-            completeDemoPayment.disabled = true;
+                phoneEvent.textContent =
+                    data.registrationData.event ||
+                    "Tech Spark 2027";
 
-            completeDemoPayment.innerHTML =
-                "Processing Payment...";
+            }
+
+        }
+
+    })
+
+    .catch(function (error) {
+
+        console.error(error);
 
 
-            // =================================
-            // SEND PAYMENT TO BACKEND
-            // =================================
+        if (paymentStatus) {
+
+            paymentStatus.textContent =
+                "Unable to connect to payment server.";
+
+        }
+
+    });
+
+
+    // =========================================
+    // AUTOMATIC STATUS CHECK
+    // =========================================
+
+    const statusInterval = setInterval(
+        function () {
 
             fetch(
-                API_URL + "/complete-demo-payment",
-                {
-
-                    method: "POST",
-
-                    headers: {
-
-                        "Content-Type":
-                            "application/json"
-
-                    },
-
-                    body: JSON.stringify({
-
-                        sessionId:
-                            paymentSessionId
-
-                    })
-
-                }
+                API_URL +
+                "/payment-status/" +
+                encodeURIComponent(
+                    paymentSessionId
+                )
             )
 
             .then(function (response) {
@@ -120,101 +199,44 @@ document.addEventListener("DOMContentLoaded", function () {
 
             .then(function (data) {
 
-                // Payment failed
+                if (data.status === "processing") {
 
-                if (!data.success) {
+                    if (paymentStatus) {
 
-                    alert(
-                        data.message ||
-                        "Payment could not be completed."
-                    );
+                        paymentStatus.textContent =
+                            "Verifying secure payment...";
 
-                    completeDemoPayment.disabled =
-                        false;
-
-                    completeDemoPayment.innerHTML =
-                        "Complete Demo Payment →";
-
-                    return;
+                    }
 
                 }
 
 
-                // =============================
-                // PAYMENT SUCCESS
-                // =============================
+                if (data.status === "paid") {
 
-                completeDemoPayment.innerHTML =
-                    "✓ Payment Successful";
+                    clearInterval(
+                        statusInterval
+                    );
 
 
-                // =============================
-                // SAME DEVICE
-                // =============================
+                    if (paymentStatus) {
 
-                if (sameDevice === "true") {
+                        paymentStatus.textContent =
+                            "✓ Payment Successful!";
+
+                    }
+
+
+                    // Go to success page
 
                     setTimeout(function () {
 
                         window.location.href =
-                            "payment-verification.html";
+                            "payment-verification.html?session=" +
+                            encodeURIComponent(
+                                paymentSessionId
+                            );
 
                     }, 1200);
-
-                }
-
-
-                // =============================
-                // ANOTHER DEVICE
-                // =============================
-
-                else {
-
-                    document.body.innerHTML = `
-                    
-                    <div style="
-                        min-height:100vh;
-                        display:flex;
-                        align-items:center;
-                        justify-content:center;
-                        font-family:Poppins, sans-serif;
-                        padding:20px;
-                        text-align:center;
-                    ">
-
-                        <div>
-
-                            <div style="
-                                width:80px;
-                                height:80px;
-                                margin:auto;
-                                display:flex;
-                                align-items:center;
-                                justify-content:center;
-                                border-radius:50%;
-                                font-size:40px;
-                                background:#dcfce7;
-                            ">
-                                ✓
-                            </div>
-
-                            <h1>
-                                Payment Successful!
-                            </h1>
-
-                            <p>
-                                Your payment has been completed successfully.
-                            </p>
-
-                            <p>
-                                You can now return to your original device.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                    `;
 
                 }
 
@@ -224,19 +246,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 console.error(error);
 
-                alert(
-                    "Unable to connect to payment server."
-                );
-
-                completeDemoPayment.disabled =
-                    false;
-
-                completeDemoPayment.innerHTML =
-                    "Complete Demo Payment →";
-
             });
 
-        }
+        },
+
+        1000
     );
 
 });
