@@ -3,9 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // =========================================
     // BACKEND URL
     // =========================================
-
-    const API_URL =
-        "http://localhost:5000";
+     const API_URL = "https://college-event-manager-pro.onrender.com";
 
 
     // =========================================
