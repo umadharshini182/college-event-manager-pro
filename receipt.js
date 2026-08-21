@@ -1,86 +1,258 @@
 document.addEventListener("DOMContentLoaded", function () {
 
     // =========================================
-    // GET RECEIPT DATA
+    // BACKEND URL
     // =========================================
 
-    const receiptData = JSON.parse(
-        localStorage.getItem("receiptData")
-    );
+    const API_URL =
+        "https://college-event-manager-pro.onrender.com";
 
 
     // =========================================
-    // IF RECEIPT DATA DOES NOT EXIST
+    // GET SESSION ID FROM URL
     // =========================================
 
-    if (!receiptData) {
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
 
-        alert("Receipt data not found.");
+    const paymentSessionId =
+        params.get("session");
 
-        window.location.href = "payment.html";
 
-        return;
+    // =========================================
+    // LOAD RECEIPT
+    // =========================================
+
+    if (paymentSessionId) {
+
+        loadReceiptFromBackend();
+
+    } else {
+
+        // Fallback for old same-device flow
+
+        const receiptData = JSON.parse(
+            localStorage.getItem("receiptData")
+        );
+
+        if (!receiptData) {
+
+            alert("Receipt data not found.");
+
+            window.location.href =
+                "payment.html";
+
+            return;
+
+        }
+
+        showReceipt(receiptData);
 
     }
 
 
     // =========================================
-    // SHOW EVENT DETAILS
+    // LOAD DATA FROM BACKEND
     // =========================================
 
-    document.getElementById("receiptEvent").textContent =
-        receiptData.event || "Event Registration";
+    function loadReceiptFromBackend() {
+
+        fetch(
+            API_URL +
+            "/payment-status/" +
+            encodeURIComponent(
+                paymentSessionId
+            )
+        )
+
+        .then(function (response) {
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to load payment details."
+                );
+
+            }
+
+            return response.json();
+
+        })
+
+        .then(function (data) {
+
+            if (data.status !== "paid") {
+
+                alert(
+                    "Payment is not completed yet."
+                );
+
+                window.location.href =
+                    "payment.html";
+
+                return;
+
+            }
+
+
+            // =========================================
+            // CREATE RECEIPT DATA
+            // =========================================
+
+            const registrationData =
+                data.registrationData || {};
+
+
+            const receiptData = {
+
+                fullname:
+                    registrationData.fullname || "-",
+
+                email:
+                    registrationData.email || "-",
+
+                college:
+                    registrationData.college || "-",
+
+                department:
+                    registrationData.department || "-",
+
+                year:
+                    registrationData.year || "-",
+
+                event:
+                    registrationData.event ||
+                    "Tech Spark 2027",
+
+                paymentMethod:
+                    data.paymentMethod ||
+                    "QR / UPI Demo",
+
+                amount:
+                    data.amount || 1000,
+
+                transactionId:
+                    data.transactionId || "-",
+
+                paymentDate:
+                    data.paymentDate || "-"
+
+            };
+
+
+            // Save locally too
+
+            localStorage.setItem(
+                "receiptData",
+                JSON.stringify(receiptData)
+            );
+
+
+            // Show receipt
+
+            showReceipt(receiptData);
+
+        })
+
+        .catch(function (error) {
+
+            console.error(
+                "Receipt loading error:",
+                error
+            );
+
+            alert(
+                "Unable to load receipt details."
+            );
+
+        });
+
+    }
 
 
     // =========================================
-    // SHOW STUDENT DETAILS
+    // SHOW RECEIPT DATA
     // =========================================
 
-    document.getElementById("receiptName").textContent =
-        receiptData.fullname || "-";
+    function showReceipt(receiptData) {
 
 
-    document.getElementById("receiptEmail").textContent =
-        receiptData.email || "-";
+        // EVENT
+
+        document.getElementById(
+            "receiptEvent"
+        ).textContent =
+            receiptData.event ||
+            "Event Registration";
 
 
-    document.getElementById("receiptCollege").textContent =
-        receiptData.college || "-";
+        // STUDENT DETAILS
+
+        document.getElementById(
+            "receiptName"
+        ).textContent =
+            receiptData.fullname || "-";
 
 
-    document.getElementById("receiptDepartment").textContent =
-        receiptData.department || "-";
+        document.getElementById(
+            "receiptEmail"
+        ).textContent =
+            receiptData.email || "-";
 
 
-    document.getElementById("receiptYear").textContent =
-        receiptData.year || "-";
+        document.getElementById(
+            "receiptCollege"
+        ).textContent =
+            receiptData.college || "-";
+
+
+        document.getElementById(
+            "receiptDepartment"
+        ).textContent =
+            receiptData.department || "-";
+
+
+        document.getElementById(
+            "receiptYear"
+        ).textContent =
+            receiptData.year || "-";
+
+
+        // PAYMENT DETAILS
+
+        document.getElementById(
+            "receiptMethod"
+        ).textContent =
+            receiptData.paymentMethod || "-";
+
+
+        document.getElementById(
+            "receiptTransaction"
+        ).textContent =
+            receiptData.transactionId || "-";
+
+
+        document.getElementById(
+            "receiptDate"
+        ).textContent =
+            receiptData.paymentDate || "-";
+
+
+        document.getElementById(
+            "receiptAmount"
+        ).textContent =
+            "₹" +
+            Number(
+                receiptData.amount || 1000
+            ).toLocaleString("en-IN");
+
+    }
 
 
     // =========================================
-    // SHOW PAYMENT DETAILS
-    // =========================================
-
-    document.getElementById("receiptMethod").textContent =
-        receiptData.paymentMethod || "-";
-
-
-    document.getElementById("receiptTransaction").textContent =
-        receiptData.transactionId || "-";
-
-
-    document.getElementById("receiptDate").textContent =
-        receiptData.paymentDate || "-";
-
-
-    document.getElementById("receiptAmount").textContent =
-        "₹" +
-        Number(
-            receiptData.amount || 1000
-        ).toLocaleString("en-IN");
-
-
-    // =========================================
-    // VERIFY REGISTRATION BUTTON
+    // VERIFY REGISTRATION
     // =========================================
 
     const openQR =
@@ -89,11 +261,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (openQR) {
 
-        openQR.addEventListener("click", function () {
-        window.location.href =
-    "verification.html";
+        openQR.addEventListener(
+            "click",
+            function () {
 
-        });
+                if (paymentSessionId) {
+
+                    window.location.href =
+                        "verification.html?session=" +
+                        encodeURIComponent(
+                            paymentSessionId
+                        );
+
+                } else {
+
+                    window.location.href =
+                        "verification.html";
+
+                }
+
+            }
+        );
 
     }
 
@@ -103,7 +291,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // =========================================
 
     const downloadReceipt =
-        document.getElementById("downloadReceipt");
+        document.getElementById(
+            "downloadReceipt"
+        );
 
 
     if (downloadReceipt) {
@@ -111,8 +301,6 @@ document.addEventListener("DOMContentLoaded", function () {
         downloadReceipt.addEventListener(
             "click",
             function () {
-
-                // Change button temporarily
 
                 const originalText =
                     downloadReceipt.innerHTML;
@@ -122,10 +310,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     "Preparing Receipt...";
 
 
-                downloadReceipt.disabled = true;
+                downloadReceipt.disabled =
+                    true;
 
-
-                // Open browser print dialog
 
                 setTimeout(function () {
 
@@ -133,7 +320,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         originalText;
 
 
-                    downloadReceipt.disabled = false;
+                    downloadReceipt.disabled =
+                        false;
 
 
                     window.print();

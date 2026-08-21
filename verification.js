@@ -1,23 +1,155 @@
 document.addEventListener("DOMContentLoaded", function () {
 
     // =========================================
-    // GET RECEIPT DATA
+    // BACKEND URL
     // =========================================
 
-    const receiptData = JSON.parse(
-        localStorage.getItem("receiptData")
-    );
+    const API_URL =
+        "https://college-event-manager-pro.onrender.com";
 
 
     // =========================================
-    // IF DATA DOES NOT EXIST
+    // GET SESSION ID FROM URL
     // =========================================
 
-    if (!receiptData) {
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
 
-        alert("Registration verification data not found.");
+    const paymentSessionId =
+        params.get("session");
 
-        window.location.href = "index.html";
+
+    // =========================================
+    // LOAD FROM BACKEND
+    // =========================================
+
+    if (paymentSessionId) {
+
+        fetch(
+            API_URL +
+            "/payment-status/" +
+            encodeURIComponent(
+                paymentSessionId
+            )
+        )
+
+        .then(function (response) {
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to load verification details."
+                );
+
+            }
+
+            return response.json();
+
+        })
+
+        .then(function (data) {
+
+            if (data.status !== "paid") {
+
+                alert(
+                    "This payment has not been completed."
+                );
+
+                window.location.href =
+                    "index.html";
+
+                return;
+
+            }
+
+
+            const registrationData =
+                data.registrationData || {};
+
+
+            // =========================================
+            // STUDENT INFORMATION
+            // =========================================
+
+            document.getElementById(
+                "verifyName"
+            ).textContent =
+                registrationData.fullname || "-";
+
+
+            document.getElementById(
+                "verifyCollege"
+            ).textContent =
+                registrationData.college || "-";
+
+
+            document.getElementById(
+                "verifyDepartment"
+            ).textContent =
+                registrationData.department || "-";
+
+
+            document.getElementById(
+                "verifyYear"
+            ).textContent =
+                registrationData.year || "-";
+
+
+            // =========================================
+            // EVENT INFORMATION
+            // =========================================
+
+            document.getElementById(
+                "verifyEvent"
+            ).textContent =
+                registrationData.event ||
+                "Event Registration";
+
+
+            // =========================================
+            // PAYMENT INFORMATION
+            // =========================================
+
+            document.getElementById(
+                "verifyMethod"
+            ).textContent =
+                data.paymentMethod ||
+                "QR / UPI Demo";
+
+
+            document.getElementById(
+                "verifyTransaction"
+            ).textContent =
+                data.transactionId || "-";
+
+
+            document.getElementById(
+                "verifyAmount"
+            ).textContent =
+                "₹" +
+                Number(
+                    data.amount || 1000
+                ).toLocaleString(
+                    "en-IN"
+                );
+
+        })
+
+        .catch(function (error) {
+
+            console.error(
+                "Verification loading error:",
+                error
+            );
+
+            alert(
+                "Unable to load registration verification."
+            );
+
+        });
+
 
         return;
 
@@ -25,46 +157,74 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =========================================
-    // STUDENT INFORMATION
+    // FALLBACK: OLD LOCALSTORAGE FLOW
     // =========================================
 
-    document.getElementById("verifyName").textContent =
+    const receiptData = JSON.parse(
+        localStorage.getItem("receiptData")
+    );
+
+
+    if (!receiptData) {
+
+        alert(
+            "Registration verification data not found."
+        );
+
+        window.location.href =
+            "index.html";
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "verifyName"
+    ).textContent =
         receiptData.fullname || "-";
 
 
-    document.getElementById("verifyCollege").textContent =
+    document.getElementById(
+        "verifyCollege"
+    ).textContent =
         receiptData.college || "-";
 
 
-    document.getElementById("verifyDepartment").textContent =
+    document.getElementById(
+        "verifyDepartment"
+    ).textContent =
         receiptData.department || "-";
 
 
-    document.getElementById("verifyYear").textContent =
+    document.getElementById(
+        "verifyYear"
+    ).textContent =
         receiptData.year || "-";
 
 
-    // =========================================
-    // EVENT INFORMATION
-    // =========================================
+    document.getElementById(
+        "verifyEvent"
+    ).textContent =
+        receiptData.event ||
+        "Event Registration";
 
-    document.getElementById("verifyEvent").textContent =
-        receiptData.event || "Event Registration";
 
-
-    // =========================================
-    // PAYMENT INFORMATION
-    // =========================================
-
-    document.getElementById("verifyMethod").textContent =
+    document.getElementById(
+        "verifyMethod"
+    ).textContent =
         receiptData.paymentMethod || "-";
 
 
-    document.getElementById("verifyTransaction").textContent =
+    document.getElementById(
+        "verifyTransaction"
+    ).textContent =
         receiptData.transactionId || "-";
 
 
-    document.getElementById("verifyAmount").textContent =
+    document.getElementById(
+        "verifyAmount"
+    ).textContent =
         "₹" +
         Number(
             receiptData.amount || 1000

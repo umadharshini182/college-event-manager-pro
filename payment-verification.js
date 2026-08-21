@@ -1,31 +1,94 @@
 document.addEventListener("DOMContentLoaded", function () {
 
     // =========================================
+    // BACKEND URL
+    // =========================================
+
+    const API_URL =
+        "https://college-event-manager-pro.onrender.com";
+
+
+    // =========================================
+    // GET SESSION ID FROM URL
+    // =========================================
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    const paymentSessionId =
+        params.get("session");
+
+
+    // =========================================
     // GET ELEMENTS
     // =========================================
 
     const selectedMethodText =
-        document.getElementById("selectedMethodText");
+        document.getElementById(
+            "selectedMethodText"
+        );
 
     const viewReceipt =
-        document.getElementById("viewReceipt");
+        document.getElementById(
+            "viewReceipt"
+        );
 
 
     // =========================================
-    // GET SELECTED PAYMENT METHOD
+    // LOAD PAYMENT DETAILS FROM BACKEND
     // =========================================
 
-    const selectedMethod =
-        localStorage.getItem("selectedPaymentMethod") ||
-        "QR Payment";
+    if (paymentSessionId) {
+
+        fetch(
+            API_URL +
+            "/payment-status/" +
+            encodeURIComponent(
+                paymentSessionId
+            )
+        )
+
+        .then(function (response) {
+
+            return response.json();
+
+        })
+
+        .then(function (data) {
+
+            if (data.status !== "paid") {
+
+                console.log(
+                    "Payment not completed yet."
+                );
+
+                return;
+
+            }
 
 
-    // Show selected payment method
+            // Show payment method
 
-    if (selectedMethodText) {
+            if (selectedMethodText) {
 
-        selectedMethodText.textContent =
-            selectedMethod;
+                selectedMethodText.textContent =
+                    data.paymentMethod ||
+                    "QR / UPI Demo";
+
+            }
+
+        })
+
+        .catch(function (error) {
+
+            console.error(
+                "Unable to load payment:",
+                error
+            );
+
+        });
 
     }
 
@@ -36,93 +99,43 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (viewReceipt) {
 
-        viewReceipt.addEventListener("click", function () {
+        viewReceipt.addEventListener(
+            "click",
+            function () {
 
-            // Button loading state
+                viewReceipt.disabled = true;
 
-            viewReceipt.disabled = true;
-
-            viewReceipt.innerHTML =
-                "Opening Receipt... <span>→</span>";
-
-
-            // Get registration data
-
-            const registrationData = JSON.parse(
-                localStorage.getItem("registrationData")
-            ) || {};
+                viewReceipt.innerHTML =
+                    "Opening Receipt... <span>→</span>";
 
 
-            // =========================================
-            // CREATE RECEIPT DATA
-            // =========================================
+                // IMPORTANT:
+                // Send the same payment session
+                // to the receipt page.
 
-            const receiptData = {
+                setTimeout(function () {
 
-                // STUDENT DETAILS
+                    if (paymentSessionId) {
 
-                fullname:
-                    registrationData.fullname || "-",
+                        window.location.href =
+                            "receipt.html?session=" +
+                            encodeURIComponent(
+                                paymentSessionId
+                            );
 
-                email:
-                    registrationData.email || "-",
+                    } else {
 
-                college:
-                    registrationData.college || "-",
+                        // Old fallback flow
 
-                department:
-                    registrationData.department || "-",
+                        window.location.href =
+                            "receipt.html";
 
-                year:
-                    registrationData.year || "-",
+                    }
 
+                }, 700);
 
-                // EVENT DETAILS
-
-                event:
-                    registrationData.event ||
-                    "Tech Spark 2027",
-
-
-                // PAYMENT DETAILS
-
-                paymentMethod:
-                    selectedMethod,
-
-                amount:
-                    1000,
-
-                paymentDate:
-                    new Date().toLocaleString("en-IN"),
-
-                transactionId:
-                    "TXN" + Date.now()
-
-            };
-
-
-            // =========================================
-            // SAVE RECEIPT DATA
-            // =========================================
-
-            localStorage.setItem(
-                "receiptData",
-                JSON.stringify(receiptData)
-            );
-
-
-            // =========================================
-            // OPEN RECEIPT PAGE
-            // =========================================
-
-            setTimeout(function () {
-
-                window.location.href =
-                    "receipt.html";
-
-            }, 700);
-
-        });
+            }
+        );
 
     }
 
