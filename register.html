@@ -190,106 +190,193 @@ Tech Spark 2027 – Empowering Innovation Through Technology.
 </footer>
 <script>
 
-// Get selected event from URL
-const params = new URLSearchParams(window.location.search);
+document.addEventListener("DOMContentLoaded", function () {
 
-const selectedEvent = params.get("event");
+    // =====================================
+    // GET SELECTED EVENT
+    // =====================================
 
-if (selectedEvent) {
-    document.getElementById("event").value = selectedEvent;
-}
+    const params = new URLSearchParams(
+        window.location.search
+    );
 
+    const selectedEvent =
+        params.get("event");
 
-// Registration form
-document.getElementById("registrationForm").addEventListener(
-    "submit",
-    function(e) {
-
-        e.preventDefault();
-
-        const fullname =
-            document.getElementById("fullname").value;
-
-        const email =
-            document.getElementById("email").value;
-
-        const college =
-            document.getElementById("college").value;
-
-        const department =
-            document.getElementById("department").value;
-
-        const year =
-            document.getElementById("year").value;
-
-        const event =
-            document.getElementById("event").value;
+    const eventInput =
+        document.getElementById("event");
 
 
-        // Save data for payment page
+    if (eventInput) {
 
-        localStorage.setItem(
-            "studentName",
-            fullname
-        );
-
-        localStorage.setItem(
-            "studentEmail",
-            email
-        );
-
-        localStorage.setItem(
-            "college",
-            college
-        );
-
-        localStorage.setItem(
-            "department",
-            department
-        );
-
-        localStorage.setItem(
-            "year",
-            year
-        );
-
-        localStorage.setItem(
-            "eventName",
-            event
-        );
-
-
-        // Also save complete student data
-
-        const studentData = {
-            fullname: fullname,
-            email: email,
-            college: college,
-            department: department,
-            year: year,
-            event: event
-        };
-      localStorage.setItem("studentName", studentData.fullname);
-localStorage.setItem("studentEmail", studentData.email);
-localStorage.setItem("college", studentData.college);
-localStorage.setItem("department", studentData.department);
-localStorage.setItem("year", studentData.year);
-localStorage.setItem("eventName", studentData.event);
-
-        // Notify dashboard
-
-        localStorage.setItem(
-            "dashboardRefresh",
-            Date.now()
-        );
-
-
-        // Go to payment page
-
-        window.location.href = "payment.html";
+        eventInput.value =
+            selectedEvent || "Tech Spark 2027";
 
     }
-);
+
+
+    // =====================================
+    // REGISTRATION FORM
+    // =====================================
+
+    const registrationForm =
+        document.getElementById("registrationForm");
+
+
+    if (!registrationForm) {
+
+        console.error(
+            "Registration form not found"
+        );
+
+        return;
+
+    }
+
+
+    registrationForm.addEventListener(
+        "submit",
+        function (e) {
+
+            e.preventDefault();
+
+
+            // =====================================
+            // GET FORM DATA
+            // =====================================
+
+            const studentData = {
+
+                fullname:
+                    document
+                        .getElementById("fullname")
+                        .value
+                        .trim(),
+
+                email:
+                    document
+                        .getElementById("email")
+                        .value
+                        .trim(),
+
+                college:
+                    document
+                        .getElementById("college")
+                        .value
+                        .trim(),
+
+                department:
+                    document
+                        .getElementById("department")
+                        .value
+                        .trim(),
+
+                year:
+                    document
+                        .getElementById("year")
+                        .value,
+
+                event:
+                    document
+                        .getElementById("event")
+                        .value
+            };
+
+
+            console.log(
+                "SAVING STUDENT DATA:",
+                studentData
+            );
+            
+
+            // =====================================
+            // SAVE COMPLETE OBJECT
+            // THESE TWO WERE MISSING
+            // =====================================
+
+            localStorage.setItem(
+                "studentData",
+                JSON.stringify(studentData)
+            );
+
+
+            localStorage.setItem(
+                "registrationData",
+                JSON.stringify(studentData)
+            );
+
+
+            // =====================================
+            // SAVE INDIVIDUAL VALUES ALSO
+            // =====================================
+
+            localStorage.setItem(
+                "studentName",
+                studentData.fullname
+            );
+
+            localStorage.setItem(
+                "studentEmail",
+                studentData.email
+            );
+
+            localStorage.setItem(
+                "college",
+                studentData.college
+            );
+
+            localStorage.setItem(
+                "department",
+                studentData.department
+            );
+
+            localStorage.setItem(
+                "year",
+                studentData.year
+            );
+
+            localStorage.setItem(
+                "eventName",
+                studentData.event
+            );
+
+
+            // =====================================
+            // DASHBOARD REFRESH
+            // =====================================
+
+            localStorage.setItem(
+                "dashboardRefresh",
+                Date.now().toString()
+            );
+
+
+            // =====================================
+            // CHECK BEFORE REDIRECT
+            // =====================================
+
+            console.log(
+                "studentData saved:",
+                localStorage.getItem("studentData")
+            );
+
+            console.log(
+                "registrationData saved:",
+                localStorage.getItem("registrationData")
+            );
+
+
+            // =====================================
+            // GO TO PAYMENT
+            // =====================================
+
+            window.location.href =
+                "payment.html";
+
+        }
+    );
+
+});
 
 </script>
 </body>

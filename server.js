@@ -1939,6 +1939,7 @@ app.post("/payment-scanned", function (req, res) {
           
         paymentSession.paymentDate =
     new Date().toISOString();
+    
         paymentSession.transactionId =
             "TXN" + Date.now();
 
