@@ -46,7 +46,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         try {
 
-            const value = localStorage.getItem(key);
+            const value =
+                localStorage.getItem(key);
 
             if (!value) {
                 return null;
@@ -63,6 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             return null;
         }
+
     }
 
 
@@ -82,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
             getStorageData("receiptData");
 
 
-        const data =
+        let data =
             registrationData ||
             studentData ||
             receiptData ||
@@ -94,34 +96,30 @@ document.addEventListener("DOMContentLoaded", function () {
             fullname:
                 data.fullname ||
                 data.name ||
-                localStorage.getItem("studentName") ||
                 "",
 
             email:
                 data.email ||
-                localStorage.getItem("studentEmail") ||
                 "",
 
             college:
                 data.college ||
-                localStorage.getItem("college") ||
                 "",
 
             department:
                 data.department ||
-                localStorage.getItem("department") ||
                 "",
 
             year:
                 data.year ||
-                localStorage.getItem("year") ||
                 "",
 
             event:
                 data.event ||
-                localStorage.getItem("eventName") ||
                 "Tech Spark 2027"
+
         };
+
     }
 
 
@@ -131,37 +129,38 @@ document.addEventListener("DOMContentLoaded", function () {
 
     paymentMethods.forEach(function (method) {
 
-        method.addEventListener("click", function () {
+        method.addEventListener(
+            "click",
+            function () {
 
-            paymentMethods.forEach(function (item) {
+                paymentMethods.forEach(
+                    function (item) {
 
-                item.classList.remove("selected");
+                        item.classList.remove(
+                            "selected"
+                        );
 
-            });
-
-
-            method.classList.add("selected");
-
-
-            selectedMethod =
-                method.dataset.method ||
-                method.getAttribute("data-method") ||
-                method.textContent.trim() ||
-                "Google Pay";
+                    }
+                );
 
 
-            localStorage.setItem(
-                "selectedPaymentMethod",
-                selectedMethod
-            );
+                method.classList.add(
+                    "selected"
+                );
 
 
-            console.log(
-                "SELECTED PAYMENT METHOD:",
-                selectedMethod
-            );
+                selectedMethod =
+                    method.dataset.method ||
+                    "Google Pay";
 
-        });
+
+                console.log(
+                    "SELECTED PAYMENT METHOD:",
+                    selectedMethod
+                );
+
+            }
+        );
 
     });
 
@@ -176,10 +175,20 @@ document.addEventListener("DOMContentLoaded", function () {
             "click",
             function () {
 
+
+                // =================================
+                // GET REGISTRATION DATA
+                // =================================
+
                 const registrationData =
                     getRegistrationData();
 
-  
+
+                console.log(
+                    "PAYMENT DATA:",
+                    registrationData
+                );
+
 
                 // =================================
                 // CHECK REQUIRED DATA
@@ -199,6 +208,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     );
 
                     return;
+
                 }
 
 
@@ -208,12 +218,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 localStorage.setItem(
                     "registrationData",
-                    JSON.stringify(registrationData)
+                    JSON.stringify(
+                        registrationData
+                    )
                 );
+
 
                 localStorage.setItem(
                     "studentData",
-                    JSON.stringify(registrationData)
+                    JSON.stringify(
+                        registrationData
+                    )
                 );
 
 
@@ -231,11 +246,17 @@ document.addEventListener("DOMContentLoaded", function () {
                         .toUpperCase();
 
 
+                // =================================
+                // BUTTON LOADING
+                // =================================
+
                 const originalButtonText =
                     continuePayment.innerHTML;
 
 
-                continuePayment.disabled = true;
+                continuePayment.disabled =
+                    true;
+
 
                 continuePayment.innerHTML =
                     "Preparing secure payment...";
@@ -246,7 +267,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 // =================================
 
                 fetch(
-                    API_URL + "/create-payment-session",
+                    API_URL +
+                    "/create-payment-session",
                     {
 
                         method: "POST",
@@ -256,18 +278,19 @@ document.addEventListener("DOMContentLoaded", function () {
                                 "application/json"
                         },
 
-                        body: JSON.stringify({
+                        body:
+                            JSON.stringify({
 
-                            sessionId:
-                                sessionId,
+                                sessionId:
+                                    sessionId,
 
-                            registrationData:
-                                registrationData,
+                                registrationData:
+                                    registrationData,
 
-                            paymentMethod:
-                                selectedMethod
+                                paymentMethod:
+                                    selectedMethod
 
-                        })
+                            })
 
                     }
                 )
@@ -299,9 +322,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
 
 
-                    // =================================
+                    // =============================
                     // SAVE SESSION ID
-                    // =================================
+                    // =============================
 
                     localStorage.setItem(
                         "paymentSessionId",
@@ -309,46 +332,34 @@ document.addEventListener("DOMContentLoaded", function () {
                     );
 
 
-                    // =================================
+                    // =============================
                     // OPEN QR MODAL
-                    // IMPORTANT: USE "show"
-                    // =================================
-                 console.log("QR MODAL:", qrModal);
-console.log("QR CONTAINER:", paymentQRCode);
-console.log("QRCODE LIBRARY:", typeof QRCode);
+                    // =============================
 
-if (!qrModal) {
-    alert("QR modal not found in payment.html");
-    return;
-}
+                    if (qrModal) {
 
-if (!paymentQRCode) {
-    alert("QR container not found in payment.html");
-    return;
-}
-
-qrModal.classList.add("show");
-qrModal.classList.add("active");
-
-qrModal.style.display = "flex";
-qrModal.style.visibility = "visible";
-qrModal.style.opacity = "1";
-qrModal.style.zIndex = "999999";
-
-                    // =================================
-                    // CLEAR OLD QR
-                    // =================================
-
-                    if (paymentQRCode) {
-
-                        paymentQRCode.innerHTML = "";
+                        qrModal.classList.add(
+                            "active"
+                        );
 
                     }
 
 
-                    // =================================
+                    // =============================
+                    // CLEAR OLD QR
+                    // =============================
+
+                    if (paymentQRCode) {
+
+                        paymentQRCode.innerHTML =
+                            "";
+
+                    }
+
+
+                    // =============================
                     // CREATE PHONE PAYMENT URL
-                    // =================================
+                    // =============================
 
                     const phonePaymentURL =
                         window.location.origin +
@@ -357,15 +368,20 @@ qrModal.style.zIndex = "999999";
                             "phone-payment.html"
                         ) +
                         "?session=" +
-                        encodeURIComponent(sessionId);
+                        encodeURIComponent(
+                            sessionId
+                        );
 
 
+                    console.log(
+                        "PHONE PAYMENT URL:",
+                        phonePaymentURL
+                    );
 
 
-
-                    // =================================
+                    // =============================
                     // GENERATE QR CODE
-                    // =================================
+                    // =============================
 
                     if (
                         paymentQRCode &&
@@ -391,18 +407,12 @@ qrModal.style.zIndex = "999999";
                             }
                         );
 
-                    } else {
-
-                        console.error(
-                            "QR Code library not loaded"
-                        );
-
                     }
 
 
-                    // =================================
+                    // =============================
                     // PAYMENT STATUS
-                    // =================================
+                    // =============================
 
                     if (paymentStatus) {
 
@@ -412,11 +422,13 @@ qrModal.style.zIndex = "999999";
                     }
 
 
-                    // =================================
+                    // =============================
                     // START STATUS CHECKING
-                    // =================================
+                    // =============================
 
-                    checkPaymentStatus(sessionId);
+                    checkPaymentStatus(
+                        sessionId
+                    );
 
                 })
 
@@ -427,6 +439,7 @@ qrModal.style.zIndex = "999999";
                         error
                     );
 
+
                     alert(
                         "Unable to start payment: " +
                         error.message
@@ -436,7 +449,8 @@ qrModal.style.zIndex = "999999";
 
                 .finally(function () {
 
-                    continuePayment.disabled = false;
+                    continuePayment.disabled =
+                        false;
 
                     continuePayment.innerHTML =
                         originalButtonText;
@@ -448,43 +462,22 @@ qrModal.style.zIndex = "999999";
 
     }
 
+
     // =========================================
-// CLOSE QR MODAL
-// =========================================
-
-if (closeQR) {
-
-    closeQR.addEventListener("click", function () {
-
-        if (qrModal) {
-
-            qrModal.classList.remove("show");
-            qrModal.classList.remove("active");
-
-            qrModal.style.display = "none";
-            qrModal.style.visibility = "hidden";
-            qrModal.style.opacity = "0";
-
-        }
-
-    });
-
-}
-    // =========================================
-    // CLICK OUTSIDE MODAL TO CLOSE
+    // CLOSE QR MODAL
     // =========================================
 
-    if (qrModal) {
+    if (closeQR) {
 
-        qrModal.addEventListener(
+        closeQR.addEventListener(
             "click",
-            function (event) {
+            function () {
 
-                if (event.target === qrModal) {
+                if (qrModal) {
 
-                    qrModal.classList.remove("show");
-qrModal.classList.remove("active");
-qrModal.style.display = "none";
+                    qrModal.classList.remove(
+                        "active"
+                    );
 
                 }
 
@@ -507,7 +500,9 @@ qrModal.style.display = "none";
                     fetch(
                         API_URL +
                         "/payment-status/" +
-                        encodeURIComponent(sessionId)
+                        encodeURIComponent(
+                            sessionId
+                        )
                     )
 
                     .then(function (response) {
@@ -526,8 +521,14 @@ qrModal.style.display = "none";
 
                     .then(function (data) {
 
+
+                        // =========================
+                        // WAITING
+                        // =========================
+
                         if (
-                            data.status === "waiting"
+                            data.status ===
+                            "waiting"
                         ) {
 
                             if (paymentStatus) {
@@ -540,8 +541,13 @@ qrModal.style.display = "none";
                         }
 
 
+                        // =========================
+                        // SCANNED
+                        // =========================
+
                         if (
-                            data.status === "scanned"
+                            data.status ===
+                            "scanned"
                         ) {
 
                             if (paymentStatus) {
@@ -554,8 +560,13 @@ qrModal.style.display = "none";
                         }
 
 
+                        // =========================
+                        // PROCESSING
+                        // =========================
+
                         if (
-                            data.status === "processing"
+                            data.status ===
+                            "processing"
                         ) {
 
                             if (paymentStatus) {
@@ -568,87 +579,246 @@ qrModal.style.display = "none";
                         }
 
 
+                        // =========================
+                        // PAID
+                        // =========================
+
                         if (
-                            data.status === "paid"
+                            data.status ===
+                            "paid"
                         ) {
 
-                            clearInterval(statusInterval);
+                            clearInterval(
+                                statusInterval
+                            );
 
 
                             if (paymentStatus) {
 
                                 paymentStatus.textContent =
-                                    "✓ Payment successful! Opening receipt...";
+                                    "✓ Payment successful! Saving registration...";
 
                             }
 
+
+                            // =========================
+                            // GET PAID REGISTRATION DATA
+                            // =========================
 
                             const backendRegistrationData =
                                 data.registrationData ||
                                 getRegistrationData();
 
 
-                            const receiptData = {
-
-                                fullname:
-                                    backendRegistrationData.fullname ||
-                                    "",
-
-                                email:
-                                    backendRegistrationData.email ||
-                                    "",
-
-                                college:
-                                    backendRegistrationData.college ||
-                                    "",
-
-                                department:
-                                    backendRegistrationData.department ||
-                                    "",
-
-                                year:
-                                    backendRegistrationData.year ||
-                                    "",
-
-                                event:
-                                    backendRegistrationData.event ||
-                                    "Tech Spark 2027",
-
-                                paymentMethod:
-                                    data.paymentMethod ||
-                                    selectedMethod,
-
-                                transactionId:
-                                    data.transactionId ||
-                                    "",
-
-                                paymentDate:
-                                    data.paymentDate ||
-                                    new Date().toLocaleString("en-IN"),
-
-                                amount:
-                                    data.amount ||
-                                    1000
-
-                            };
+                            const transactionId =
+                                data.transactionId ||
+                                "TXN" +
+                                Date.now();
 
 
-                            localStorage.setItem(
-                                "receiptData",
-                                JSON.stringify(receiptData)
-                            );
+                            // =========================
+                            // SAVE TO BACKEND DATABASE
+                            // =========================
+
+                            fetch(
+                                API_URL +
+                                "/register",
+                                {
+
+                                    method: "POST",
+
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json"
+                                    },
+
+                                    body:
+                                        JSON.stringify({
+
+                                            fullname:
+                                                backendRegistrationData.fullname,
+
+                                            email:
+                                                backendRegistrationData.email,
+
+                                            college:
+                                                backendRegistrationData.college,
+
+                                            department:
+                                                backendRegistrationData.department,
+
+                                            year:
+                                                backendRegistrationData.year,
+
+                                            event:
+                                                backendRegistrationData.event,
+
+                                            paymentMethod:
+                                                data.paymentMethod ||
+                                                selectedMethod,
+
+                                            paymentStatus:
+                                                "Paid",
+
+                                            paymentAmount:
+                                                data.amount ||
+                                                1000,
+
+                                            paymentId:
+                                                transactionId
+
+                                        })
+
+                                }
+                            )
+
+                            .then(function (response) {
+
+                                if (!response.ok) {
+
+                                    throw new Error(
+                                        "Registration save failed. Server returned " +
+                                        response.status
+                                    );
+
+                                }
+
+                                return response.json();
+
+                            })
+
+                            .then(function (saveResult) {
+
+                                console.log(
+                                    "DATABASE SAVE RESULT:",
+                                    saveResult
+                                );
 
 
-                            setTimeout(
-                                function () {
+                                if (
+                                    !saveResult.success
+                                ) {
 
-                                    window.location.href =
-                                        "receipt.html?session=" +
-                                        encodeURIComponent(sessionId);
+                                    throw new Error(
+                                        saveResult.message ||
+                                        "Registration could not be saved."
+                                    );
 
-                                },
-                                1200
-                            );
+                                }
+
+
+                                // =====================
+                                // CREATE RECEIPT DATA
+                                // =====================
+
+                                const receiptData = {
+
+                                    fullname:
+                                        backendRegistrationData.fullname ||
+                                        "",
+
+                                    email:
+                                        backendRegistrationData.email ||
+                                        "",
+
+                                    college:
+                                        backendRegistrationData.college ||
+                                        "",
+
+                                    department:
+                                        backendRegistrationData.department ||
+                                        "",
+
+                                    year:
+                                        backendRegistrationData.year ||
+                                        "",
+
+                                    event:
+                                        backendRegistrationData.event ||
+                                        "Tech Spark 2027",
+
+                                    paymentMethod:
+                                        data.paymentMethod ||
+                                        selectedMethod,
+
+                                    transactionId:
+                                        transactionId,
+
+                                    paymentDate:
+                                        data.paymentDate ||
+                                        new Date().toISOString(),
+
+                                    amount:
+                                        data.amount ||
+                                        1000,
+
+                                    registrationId:
+                                        saveResult.id
+
+                                };
+
+
+                                // =====================
+                                // SAVE RECEIPT LOCALLY
+                                // =====================
+
+                                localStorage.setItem(
+                                    "receiptData",
+                                    JSON.stringify(
+                                        receiptData
+                                    )
+                                );
+
+
+                                if (paymentStatus) {
+
+                                    paymentStatus.textContent =
+                                        "✓ Registration saved! Opening receipt...";
+
+                                }
+
+
+                                // =====================
+                                // OPEN RECEIPT
+                                // =====================
+
+                                setTimeout(
+                                    function () {
+
+                                        window.location.href =
+                                            "receipt.html?session=" +
+                                            encodeURIComponent(
+                                                sessionId
+                                            );
+
+                                    },
+                                    1200
+                                );
+
+                            })
+
+                            .catch(function (error) {
+
+                                console.error(
+                                    "DATABASE SAVE ERROR:",
+                                    error
+                                );
+
+
+                                if (paymentStatus) {
+
+                                    paymentStatus.textContent =
+                                        "Payment completed, but registration could not be saved.";
+
+                                }
+
+
+                                alert(
+                                    "Payment completed, but registration could not be saved: " +
+                                    error.message
+                                );
+
+                            });
 
                         }
 
