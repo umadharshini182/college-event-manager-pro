@@ -1,7 +1,6 @@
 // ==========================
 // REGISTRATION FORM
 // ==========================
-
 const form = document.getElementById("registrationForm");
 
 if (form) {
@@ -19,8 +18,6 @@ if (form) {
             event: document.getElementById("event").value
         };
 
-        console.log("SAVING STUDENT DATA:", studentData);
-
         localStorage.setItem(
             "studentData",
             JSON.stringify(studentData)
@@ -31,10 +28,7 @@ if (form) {
             JSON.stringify(studentData)
         );
 
-        console.log(
-            "SAVED:",
-            localStorage.getItem("studentData")
-        );
+        console.log("SAVED DATA:", studentData);
 
         window.location.href = "payment.html";
 
