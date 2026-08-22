@@ -1,9 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    // =========================================
-    // BACKEND URL
-    // =========================================
-
     const API_URL =
         "https://college-event-manager-pro.onrender.com";
 
@@ -32,22 +28,112 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =========================================
-    // GET REGISTRATION DATA
+    // SAFE LOCAL STORAGE READER
     // =========================================
 
-    const registrationData = JSON.parse(
-        localStorage.getItem("registrationData")
-    ) || {};
+    function getStoredObject(key) {
+
+        try {
+
+            const value =
+                localStorage.getItem(key);
+
+            return value ?
+                JSON.parse(value) :
+                {};
+
+        } catch (error) {
+
+            console.error(
+                "Storage error:",
+                key,
+                error
+            );
+
+            return {};
+
+        }
+
+    }
 
 
     // =========================================
-    // SHOW REGISTRATION DETAILS
+    // GET DATA FROM ALL PROJECT STORAGE FORMATS
+    // =========================================
+
+    const registrationDataStored =
+        getStoredObject("registrationData");
+
+    const studentDataStored =
+        getStoredObject("studentData");
+
+
+    // Merge old + new project data
+    const registrationData = {
+
+        fullname:
+            registrationDataStored.fullname ||
+            studentDataStored.fullname ||
+            localStorage.getItem("fullname") ||
+            "",
+
+        email:
+            registrationDataStored.email ||
+            studentDataStored.email ||
+            localStorage.getItem("email") ||
+            "",
+
+        college:
+            registrationDataStored.college ||
+            studentDataStored.college ||
+            localStorage.getItem("college") ||
+            "",
+
+        department:
+            registrationDataStored.department ||
+            studentDataStored.department ||
+            localStorage.getItem("department") ||
+            "",
+
+        year:
+            registrationDataStored.year ||
+            studentDataStored.year ||
+            localStorage.getItem("year") ||
+            "",
+
+        event:
+            registrationDataStored.event ||
+            studentDataStored.event ||
+            localStorage.getItem("event") ||
+            "Tech Spark 2027"
+
+    };
+
+
+    // Save one clean format for all pages
+    localStorage.setItem(
+        "registrationData",
+        JSON.stringify(registrationData)
+    );
+
+    localStorage.setItem(
+        "studentData",
+        JSON.stringify({
+            ...studentDataStored,
+            ...registrationData
+        })
+    );
+
+
+    // =========================================
+    // SHOW DETAILS ON QR PAGE
     // =========================================
 
     if (qrStudentName) {
 
         qrStudentName.textContent =
-            registrationData.fullname || "Student";
+            registrationData.fullname ||
+            "Student";
 
     }
 
@@ -64,20 +150,61 @@ document.addEventListener("DOMContentLoaded", function () {
     if (qrCollegeName) {
 
         qrCollegeName.textContent =
-            registrationData.college || "College";
+            registrationData.college ||
+            "College";
 
     }
 
 
     // =========================================
-    // CREATE UNIQUE SESSION ID
+    // CREATE UNIQUE PAYMENT SESSION
     // =========================================
 
     const paymentSessionId =
         "PAY-" +
         Date.now() +
         "-" +
-        Math.floor(Math.random() * 100000);
+        Math.floor(
+            Math.random() * 100000
+        );
+
+
+    localStorage.setItem(
+        "paymentSessionId",
+        paymentSessionId
+    );
+
+
+    // =========================================
+    // UPDATE STATUS
+    // =========================================
+
+    function updateStatus(text) {
+
+        if (!scanStatus) {
+
+            return;
+
+        }
+
+        const statusText =
+            scanStatus.querySelector(
+                "span:last-child"
+            );
+
+        if (statusText) {
+
+            statusText.textContent =
+                text;
+
+        } else {
+
+            scanStatus.textContent =
+                text;
+
+        }
+
+    }
 
 
     // =========================================
@@ -91,10 +218,8 @@ document.addEventListener("DOMContentLoaded", function () {
             method: "POST",
 
             headers: {
-
                 "Content-Type":
                     "application/json"
-
             },
 
             body: JSON.stringify({
@@ -114,6 +239,15 @@ document.addEventListener("DOMContentLoaded", function () {
     )
 
     .then(function (response) {
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Server error: " +
+                response.status
+            );
+
+        }
 
         return response.json();
 
@@ -151,289 +285,367 @@ document.addEventListener("DOMContentLoaded", function () {
         // GENERATE QR CODE
         // =====================================
 
-        if (
-            qrContainer &&
-            typeof QRCode !== "undefined"
-        ) {
+        if (!qrContainer) {
 
-            qrContainer.innerHTML = "";
-
-
-            new QRCode(
-                qrContainer,
-                {
-
-                    text:
-                        phonePaymentURL,
-
-                    width:
-                        220,
-
-                    height:
-                        220,
-
-                    correctLevel:
-                        QRCode.CorrectLevel.H
-
-                }
+            throw new Error(
+                "QR container not found."
             );
 
         }
 
 
-        // Start automatic checking
+        if (
+            typeof QRCode ===
+            "undefined"
+        ) {
 
+            throw new Error(
+                "QR code library not loaded."
+            );
+
+        }
+
+
+        qrContainer.innerHTML = "";
+
+
+        new QRCode(
+            qrContainer,
+            {
+
+                text:
+                    phonePaymentURL,
+
+                width:
+                    220,
+
+                height:
+                    220,
+
+                correctLevel:
+                    QRCode.CorrectLevel.H
+
+            }
+        );
+
+
+        updateStatus(
+            "Scan the QR code to continue payment."
+        );
+
+
+        // Start laptop status checking
         checkPaymentStatus();
 
     })
 
     .catch(function (error) {
 
-        console.error(error);
+        console.error(
+            "QR PAYMENT ERROR:",
+            error
+        );
 
         updateStatus(
-            "⚠ Unable to connect to payment server."
+            "Unable to start secure payment."
         );
 
     });
 
 
     // =========================================
-    // UPDATE STATUS TEXT
-    // =========================================
-
-    function updateStatus(text) {
-
-        if (!scanStatus) {
-
-            return;
-
-        }
-
-
-        const statusText =
-            scanStatus.querySelector(
-                "span:last-child"
-            );
-
-
-        if (statusText) {
-
-            statusText.textContent =
-                text;
-
-        }
-
-    }
-
-
-    // =========================================
     // CHECK PAYMENT STATUS
     // =========================================
 
-    let paymentCompleted = false;
+    let paymentCompleted =
+        false;
+
+    let statusInterval =
+        null;
 
 
     function checkPaymentStatus() {
 
-        const statusInterval = setInterval(
-            function () {
+        statusInterval =
+            setInterval(
+                function () {
 
-                if (paymentCompleted) {
+                    if (paymentCompleted) {
 
-                    clearInterval(
-                        statusInterval
-                    );
-
-                    return;
-
-                }
-
-
-                fetch(
-                    API_URL +
-                    "/payment-status/" +
-                    encodeURIComponent(
-                        paymentSessionId
-                    )
-                )
-
-                .then(function (response) {
-
-                    return response.json();
-
-                })
-
-                .then(function (data) {
-
-                    if (!data.success) {
+                        clearInterval(
+                            statusInterval
+                        );
 
                         return;
 
                     }
 
 
-                    // =============================
-                    // WAITING
-                    // =============================
+                    fetch(
+                        API_URL +
+                        "/payment-status/" +
+                        encodeURIComponent(
+                            paymentSessionId
+                        )
+                    )
 
-                    if (
-                        data.status === "waiting"
-                    ) {
+                    .then(function (response) {
 
-                        updateStatus(
-                            "Waiting for QR scan..."
+                        if (!response.ok) {
+
+                            throw new Error(
+                                "Unable to check payment status."
+                            );
+
+                        }
+
+                        return response.json();
+
+                    })
+
+                    .then(function (data) {
+
+                        if (!data.success) {
+
+                            return;
+
+                        }
+
+
+                        // Update local data from backend
+                        if (
+                            data.registrationData
+                        ) {
+
+                            Object.assign(
+                                registrationData,
+                                data.registrationData
+                            );
+
+                            localStorage.setItem(
+                                "registrationData",
+                                JSON.stringify(
+                                    registrationData
+                                )
+                            );
+
+                            localStorage.setItem(
+                                "studentData",
+                                JSON.stringify(
+                                    registrationData
+                                )
+                            );
+
+                        }
+
+
+                        if (
+                            data.status ===
+                            "waiting"
+                        ) {
+
+                            updateStatus(
+                                "Waiting for QR scan..."
+                            );
+
+                        }
+
+
+                        if (
+                            data.status ===
+                            "scanned"
+                        ) {
+
+                            updateStatus(
+                                "QR scanned. Processing payment..."
+                            );
+
+                        }
+
+
+                        if (
+                            data.status ===
+                            "processing"
+                        ) {
+
+                            updateStatus(
+                                "Verifying secure payment..."
+                            );
+
+                        }
+
+
+                        if (
+                            data.status ===
+                            "paid" &&
+                            !paymentCompleted
+                        ) {
+
+                            paymentCompleted =
+                                true;
+
+                            clearInterval(
+                                statusInterval
+                            );
+
+
+                            const finalRegistrationData =
+                                data.registrationData ||
+                                registrationData;
+
+
+                            const receiptData = {
+
+                                fullname:
+                                    finalRegistrationData.fullname ||
+                                    registrationData.fullname ||
+                                    "Student",
+
+                                email:
+                                    finalRegistrationData.email ||
+                                    registrationData.email ||
+                                    "-",
+
+                                college:
+                                    finalRegistrationData.college ||
+                                    registrationData.college ||
+                                    "-",
+
+                                department:
+                                    finalRegistrationData.department ||
+                                    registrationData.department ||
+                                    "-",
+
+                                year:
+                                    finalRegistrationData.year ||
+                                    registrationData.year ||
+                                    "-",
+
+                                event:
+                                    finalRegistrationData.event ||
+                                    registrationData.event ||
+                                    "Tech Spark 2027",
+
+                                paymentMethod:
+                                    data.paymentMethod ||
+                                    "QR / UPI Demo",
+
+                                amount:
+                                    data.amount ||
+                                    1000,
+
+                                transactionId:
+                                    data.transactionId ||
+                                    "TXN" +
+                                    Date.now(),
+
+                                paymentDate:
+                                    data.paymentDate ||
+                                    new Date().toLocaleString(
+                                        "en-IN"
+                                    )
+
+                            };
+
+
+                            // IMPORTANT:
+                            // Save for receipt fallback
+
+                            localStorage.setItem(
+                                "receiptData",
+                                JSON.stringify(
+                                    receiptData
+                                )
+                            );
+
+
+                            localStorage.setItem(
+                                "registrationData",
+                                JSON.stringify(
+                                    {
+                                        fullname:
+                                            receiptData.fullname,
+
+                                        email:
+                                            receiptData.email,
+
+                                        college:
+                                            receiptData.college,
+
+                                        department:
+                                            receiptData.department,
+
+                                        year:
+                                            receiptData.year,
+
+                                        event:
+                                            receiptData.event
+                                    }
+                                )
+                            );
+
+
+                            localStorage.setItem(
+                                "studentData",
+                                JSON.stringify(
+                                    {
+                                        fullname:
+                                            receiptData.fullname,
+
+                                        email:
+                                            receiptData.email,
+
+                                        college:
+                                            receiptData.college,
+
+                                        department:
+                                            receiptData.department,
+
+                                        year:
+                                            receiptData.year,
+
+                                        event:
+                                            receiptData.event
+                                    }
+                                )
+                            );
+
+
+                            updateStatus(
+                                "Payment successful! Opening receipt..."
+                            );
+
+
+                            setTimeout(
+                                function () {
+
+                                    window.location.href =
+                                        "receipt.html?session=" +
+                                        encodeURIComponent(
+                                            paymentSessionId
+                                        );
+
+                                },
+                                1200
+                            );
+
+                        }
+
+                    })
+
+                    .catch(function (error) {
+
+                        console.error(
+                            "STATUS ERROR:",
+                            error
                         );
 
-                    }
+                    });
 
+                },
 
-                    // =============================
-                    // QR SCANNED
-                    // =============================
-
-                    if (
-                        data.status === "scanned"
-                    ) {
-
-                        updateStatus(
-                            "📱 QR scanned on another device. Processing payment..."
-                        );
-
-                    }
-
-
-                    // =============================
-                    // PROCESSING
-                    // =============================
-
-                    if (
-                        data.status === "processing"
-                    ) {
-
-                        updateStatus(
-                            "⏳ Verifying payment securely..."
-                        );
-
-                    }
-
-
-                    // =============================
-                    // PAID
-                    // =============================
-
-                    if (
-                        data.status === "paid"
-                    ) {
-
-                        paymentCompleted = true;
-
-                        clearInterval(
-                            statusInterval
-                        );
-
-
-                        updateStatus(
-                            "✓ Payment successful! Redirecting..."
-                        );
-
-
-                        // =========================
-                        // CREATE RECEIPT DATA
-                        // =========================
-
-                        const backendRegistrationData =
-                            data.registrationData || {};
-
-
-                        const receiptData = {
-
-                            fullname:
-                                backendRegistrationData.fullname ||
-                                registrationData.fullname ||
-                                "-",
-
-                            email:
-                                backendRegistrationData.email ||
-                                registrationData.email ||
-                                "-",
-
-                            college:
-                                backendRegistrationData.college ||
-                                registrationData.college ||
-                                "-",
-
-                            department:
-                                backendRegistrationData.department ||
-                                registrationData.department ||
-                                "-",
-
-                            year:
-                                backendRegistrationData.year ||
-                                registrationData.year ||
-                                "-",
-
-                            event:
-                                backendRegistrationData.event ||
-                                registrationData.event ||
-                                "Tech Spark 2027",
-
-                            paymentMethod:
-                                data.paymentMethod ||
-                                "QR / UPI Demo",
-
-                            amount:
-                                data.amount || 1000,
-
-                            paymentDate:
-                                data.paymentDate ||
-                                new Date().toLocaleString(
-                                    "en-IN"
-                                ),
-
-                            transactionId:
-                                data.transactionId ||
-                                "TXN" + Date.now()
-
-                        };
-
-
-                        // Save receipt locally
-
-                        localStorage.setItem(
-                            "receiptData",
-                            JSON.stringify(
-                                receiptData
-                            )
-                        );
-
-
-                        // Go to success page
-
-                        setTimeout(function () {
-
-                            window.location.href =
-                                "payment-verification.html?session=" +
-                                encodeURIComponent(
-                                    paymentSessionId
-                                );
-
-                        }, 1200);
-
-                    }
-
-                })
-
-                .catch(function (error) {
-
-                    console.error(error);
-
-                });
-
-            },
-
-            1000
-        );
+                1000
+            );
 
     }
 
@@ -448,7 +660,8 @@ document.addEventListener("DOMContentLoaded", function () {
             "click",
             function () {
 
-                qrPayButton.disabled = true;
+                qrPayButton.disabled =
+                    true;
 
                 qrPayButton.textContent =
                     "Processing Payment...";
@@ -459,26 +672,36 @@ document.addEventListener("DOMContentLoaded", function () {
                     "/start-auto-payment",
                     {
 
-                        method: "POST",
+                        method:
+                            "POST",
 
                         headers: {
-
                             "Content-Type":
                                 "application/json"
-
                         },
 
-                        body: JSON.stringify({
+                        body:
+                            JSON.stringify(
+                                {
 
-                            sessionId:
-                                paymentSessionId
+                                    sessionId:
+                                        paymentSessionId
 
-                        })
+                                }
+                            )
 
                     }
                 )
 
                 .then(function (response) {
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            "Unable to start payment."
+                        );
+
+                    }
 
                     return response.json();
 
@@ -488,32 +711,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     if (!data.success) {
 
-                        qrPayButton.disabled =
-                            false;
-
-                        qrPayButton.textContent =
-                            "Try Again";
-
-                        return;
+                        throw new Error(
+                            data.message ||
+                            "Payment failed."
+                        );
 
                     }
 
 
                     updateStatus(
-                        "⏳ Processing secure payment..."
+                        "Processing secure payment..."
                     );
 
                 })
 
                 .catch(function (error) {
 
-                    console.error(error);
+                    console.error(
+                        "AUTO PAYMENT ERROR:",
+                        error
+                    );
 
                     qrPayButton.disabled =
                         false;
 
                     qrPayButton.textContent =
                         "Try Again";
+
+                    updateStatus(
+                        "Unable to start payment."
+                    );
 
                 });
 

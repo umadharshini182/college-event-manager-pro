@@ -1,15 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    // =========================================
-    // BACKEND URL
-    // =========================================
-
     const API_URL =
         "https://college-event-manager-pro.onrender.com";
 
 
     // =========================================
-    // GET SESSION ID FROM URL
+    // GET SESSION ID
     // =========================================
 
     const params =
@@ -17,217 +13,221 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.search
         );
 
-    const paymentSessionId =
+    const sessionId =
         params.get("session");
 
 
     // =========================================
-    // LOAD FROM BACKEND
+    // GET ELEMENTS
     // =========================================
 
-    if (paymentSessionId) {
+    const verifyName =
+        document.getElementById("verifyName");
 
-        fetch(
-            API_URL +
-            "/payment-status/" +
-            encodeURIComponent(
-                paymentSessionId
-            )
-        )
+    const verifyCollege =
+        document.getElementById("verifyCollege");
 
-        .then(function (response) {
+    const verifyDepartment =
+        document.getElementById("verifyDepartment");
 
-            if (!response.ok) {
+    const verifyYear =
+        document.getElementById("verifyYear");
 
-                throw new Error(
-                    "Unable to load verification details."
-                );
+    const verifyEvent =
+        document.getElementById("verifyEvent");
 
-            }
+    const verifyMethod =
+        document.getElementById("verifyMethod");
 
-            return response.json();
+    const verifyTransaction =
+        document.getElementById("verifyTransaction");
 
-        })
-
-        .then(function (data) {
-
-            if (data.status !== "paid") {
-
-                alert(
-                    "This payment has not been completed."
-                );
-
-                window.location.href =
-                    "index.html";
-
-                return;
-
-            }
+    const verifyAmount =
+        document.getElementById("verifyAmount");
 
 
-            const registrationData =
-                data.registrationData || {};
+    // =========================================
+    // LOAD PAYMENT DATA FROM BACKEND
+    // =========================================
+
+    if (!sessionId) {
+
+        console.error("No payment session found.");
+
+        return;
+
+    }
 
 
-            // =========================================
-            // STUDENT INFORMATION
-            // =========================================
+    fetch(
+        API_URL +
+        "/payment-status/" +
+        encodeURIComponent(sessionId)
+    )
 
-            document.getElementById(
-                "verifyName"
-            ).textContent =
-                registrationData.fullname || "-";
+    .then(function (response) {
 
+        if (!response.ok) {
 
-            document.getElementById(
-                "verifyCollege"
-            ).textContent =
-                registrationData.college || "-";
+            throw new Error(
+                "Unable to load payment details."
+            );
 
+        }
 
-            document.getElementById(
-                "verifyDepartment"
-            ).textContent =
-                registrationData.department || "-";
+        return response.json();
 
+    })
 
-            document.getElementById(
-                "verifyYear"
-            ).textContent =
-                registrationData.year || "-";
+    .then(function (data) {
+
+        const registrationData =
+            data.registrationData || {};
 
 
-            // =========================================
-            // EVENT INFORMATION
-            // =========================================
+        // =====================================
+        // STUDENT DETAILS
+        // =====================================
 
-            document.getElementById(
-                "verifyEvent"
-            ).textContent =
+        if (verifyName) {
+
+            verifyName.textContent =
+                registrationData.fullname ||
+                "Student";
+
+        }
+
+
+        if (verifyCollege) {
+
+            verifyCollege.textContent =
+                registrationData.college ||
+                "-";
+
+        }
+
+
+        if (verifyDepartment) {
+
+            verifyDepartment.textContent =
+                registrationData.department ||
+                "-";
+
+        }
+
+
+        if (verifyYear) {
+
+            verifyYear.textContent =
+                registrationData.year ||
+                "-";
+
+        }
+
+
+        // =====================================
+        // EVENT DETAILS
+        // =====================================
+
+        if (verifyEvent) {
+
+            verifyEvent.textContent =
                 registrationData.event ||
-                "Event Registration";
+                "Tech Spark 2027";
+
+        }
 
 
-            // =========================================
-            // PAYMENT INFORMATION
-            // =========================================
+        // =====================================
+        // PAYMENT DETAILS
+        // =====================================
 
-            document.getElementById(
-                "verifyMethod"
-            ).textContent =
+        if (verifyMethod) {
+
+            verifyMethod.textContent =
                 data.paymentMethod ||
                 "QR / UPI Demo";
 
-
-            document.getElementById(
-                "verifyTransaction"
-            ).textContent =
-                data.transactionId || "-";
+        }
 
 
-            document.getElementById(
-                "verifyAmount"
-            ).textContent =
+        if (verifyTransaction) {
+
+            verifyTransaction.textContent =
+                data.transactionId ||
+                "Processing...";
+
+        }
+
+
+        if (verifyAmount) {
+
+            verifyAmount.textContent =
                 "₹" +
                 Number(
                     data.amount || 1000
-                ).toLocaleString(
-                    "en-IN"
-                );
+                ).toLocaleString("en-IN");
 
-        })
-
-        .catch(function (error) {
-
-            console.error(
-                "Verification loading error:",
-                error
-            );
-
-            alert(
-                "Unable to load registration verification."
-            );
-
-        });
+        }
 
 
-        return;
+        // =====================================
+        // SAVE FOR RECEIPT
+        // =====================================
 
-    }
+        localStorage.setItem(
+            "receiptData",
+            JSON.stringify({
 
+                fullname:
+                    registrationData.fullname,
 
-    // =========================================
-    // FALLBACK: OLD LOCALSTORAGE FLOW
-    // =========================================
+                email:
+                    registrationData.email,
 
-    const receiptData = JSON.parse(
-        localStorage.getItem("receiptData")
-    );
+                college:
+                    registrationData.college,
 
+                department:
+                    registrationData.department,
 
-    if (!receiptData) {
+                year:
+                    registrationData.year,
 
-        alert(
-            "Registration verification data not found."
+                event:
+                    registrationData.event,
+
+                paymentMethod:
+                    data.paymentMethod,
+
+                amount:
+                    data.amount,
+
+                transactionId:
+                    data.transactionId,
+
+                paymentDate:
+                    data.paymentDate
+
+            })
         );
 
-        window.location.href =
-            "index.html";
+    })
 
-        return;
+    .catch(function (error) {
 
-    }
+        console.error(
+            "VERIFICATION ERROR:",
+            error
+        );
 
+        if (verifyName) {
 
-    document.getElementById(
-        "verifyName"
-    ).textContent =
-        receiptData.fullname || "-";
+            verifyName.textContent =
+                "Unable to load";
 
+        }
 
-    document.getElementById(
-        "verifyCollege"
-    ).textContent =
-        receiptData.college || "-";
-
-
-    document.getElementById(
-        "verifyDepartment"
-    ).textContent =
-        receiptData.department || "-";
-
-
-    document.getElementById(
-        "verifyYear"
-    ).textContent =
-        receiptData.year || "-";
-
-
-    document.getElementById(
-        "verifyEvent"
-    ).textContent =
-        receiptData.event ||
-        "Event Registration";
-
-
-    document.getElementById(
-        "verifyMethod"
-    ).textContent =
-        receiptData.paymentMethod || "-";
-
-
-    document.getElementById(
-        "verifyTransaction"
-    ).textContent =
-        receiptData.transactionId || "-";
-
-
-    document.getElementById(
-        "verifyAmount"
-    ).textContent =
-        "₹" +
-        Number(
-            receiptData.amount || 1000
-        ).toLocaleString("en-IN");
+    });
 
 });
