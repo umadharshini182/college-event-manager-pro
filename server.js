@@ -1939,12 +1939,12 @@ app.post("/payment-scanned", function (req, res) {
           
         paymentSession.paymentDate =
     new Date().toISOString();
-    
+
         paymentSession.transactionId =
             "TXN" + Date.now();
 
         if (typeof savePaymentToDatabase === "function") {
-            savePaymentToDatabase(paymentSession);
+           saveCompletedRegistration(paymentSession);
         }
 
         console.log(
