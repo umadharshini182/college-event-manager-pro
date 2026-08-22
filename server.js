@@ -1872,6 +1872,89 @@ app.post("/create-payment-session", function (req, res) {
     });
 
 });
+app.get("/payment-status/:sessionId", function (req, res) {
+
+    const sessionId = req.params.sessionId;
+    const paymentSession = paymentSessions[sessionId];
+
+    if (!paymentSession) {
+        return res.status(404).json({
+            success: false,
+            message: "Payment session not found"
+        });
+    }
+
+    res.json({
+        success: true,
+        sessionId: sessionId,
+        status: paymentSession.status,
+        scanned: paymentSession.scanned,
+        paymentMethod: paymentSession.paymentMethod,
+        registrationData: paymentSession.registrationData,
+        amount: paymentSession.amount,
+        transactionId: paymentSession.transactionId,
+        paymentDate: paymentSession.paymentDate
+    });
+
+});
+
+
+app.post("/payment-scanned", function (req, res) {
+
+    const sessionId = req.body.sessionId;
+    const paymentSession = paymentSessions[sessionId];
+
+    if (!paymentSession) {
+        return res.status(404).json({
+            success: false,
+            message: "Payment session not found"
+        });
+    }
+
+    if (paymentSession.status === "paid") {
+        return res.json({
+            success: true,
+            status: "paid"
+        });
+    }
+
+    paymentSession.scanned = true;
+    paymentSession.status = "scanned";
+
+    res.json({
+        success: true,
+        status: "scanned"
+    });
+
+    setTimeout(function () {
+
+        paymentSession.status = "processing";
+
+    }, 1000);
+
+
+    setTimeout(function () {
+
+        paymentSession.status = "paid";
+
+        paymentSession.paymentDate =
+            new Date().toLocaleString("en-IN");
+
+        paymentSession.transactionId =
+            "TXN" + Date.now();
+
+        if (typeof savePaymentToDatabase === "function") {
+            savePaymentToDatabase(paymentSession);
+        }
+
+        console.log(
+            "Payment completed:",
+            sessionId
+        );
+
+    }, 4000);
+
+});
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {

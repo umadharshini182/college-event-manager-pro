@@ -1,29 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    // =========================================
-    // BACKEND URL
-    // =========================================
-
     const API_URL =
         "https://college-event-manager-pro.onrender.com";
 
-
-    // =========================================
-    // GET SESSION ID FROM QR URL
-    // =========================================
-
     const params =
-        new URLSearchParams(
-            window.location.search
-        );
+        new URLSearchParams(window.location.search);
 
     const paymentSessionId =
         params.get("session");
 
-
-    // =========================================
-    // GET PAGE ELEMENTS
-    // =========================================
 
     const phoneEvent =
         document.getElementById("phoneEvent");
@@ -35,127 +20,111 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("paymentStatus");
 
 
-    // =========================================
-    // CHECK SESSION
-    // =========================================
-
     if (!paymentSessionId) {
 
-        document.body.innerHTML = `
-            <div style="
-                min-height:100vh;
-                display:flex;
-                align-items:center;
-                justify-content:center;
-                font-family:Arial;
-                text-align:center;
-                padding:20px;
-            ">
-                <div>
-                    <h1>Invalid Payment Link</h1>
-                    <p>
-                        This QR payment session could not be found.
-                    </p>
-                </div>
-            </div>
-        `;
+        if (paymentStatus) {
+            paymentStatus.textContent =
+                "Invalid payment session.";
+        }
 
         return;
 
     }
 
 
-    // =========================================
-    // QR OPENED = SCANNED
-    // =========================================
-
-    fetch(
-        API_URL + "/payment-scanned",
-        {
-
-            method: "POST",
-
-            headers: {
-                "Content-Type":
-                    "application/json"
-            },
-
-            body: JSON.stringify({
-
-                sessionId:
-                    paymentSessionId
-
-            })
-
-        }
-    )
-
-    .then(function (response) {
-
-        return response.json();
-
-    })
-
-    .then(function (data) {
-
-        if (!data.success) {
-
-            throw new Error(
-                data.message ||
-                "Unable to start payment."
-            );
-
-        }
-
-
-        // Show processing
-
-        if (paymentStatus) {
-
-            paymentStatus.textContent =
-                "QR verified. Processing payment...";
-
-        }
-
-
-        // Get complete session details
+    function getPaymentStatus() {
 
         return fetch(
             API_URL +
             "/payment-status/" +
-            encodeURIComponent(
-                paymentSessionId
-            )
+            encodeURIComponent(paymentSessionId)
+        )
+        .then(function (response) {
+
+            if (!response.ok) {
+                throw new Error(
+                    "Payment session not found"
+                );
+            }
+
+            return response.json();
+
+        });
+
+    }
+
+
+    function showPaymentDetails(data) {
+
+        if (
+            data.registrationData &&
+            phoneStudent
+        ) {
+
+            phoneStudent.textContent =
+                data.registrationData.fullname ||
+                "Student";
+
+        }
+
+
+        if (
+            data.registrationData &&
+            phoneEvent
+        ) {
+
+            phoneEvent.textContent =
+                data.registrationData.event ||
+                "Tech Spark 2027";
+
+        }
+
+    }
+
+
+    getPaymentStatus()
+
+    .then(function (data) {
+
+        showPaymentDetails(data);
+
+        return fetch(
+            API_URL + "/payment-scanned",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body: JSON.stringify({
+                    sessionId:
+                        paymentSessionId
+                })
+            }
         );
 
     })
 
     .then(function (response) {
 
+        if (!response.ok) {
+            throw new Error(
+                "Unable to start demo payment."
+            );
+        }
+
         return response.json();
 
     })
 
-    .then(function (data) {
+    .then(function () {
 
-        if (data.registrationData) {
+        if (paymentStatus) {
 
-            if (phoneStudent) {
-
-                phoneStudent.textContent =
-                    data.registrationData.fullname ||
-                    "Student";
-
-            }
-
-
-            if (phoneEvent) {
-
-                phoneEvent.textContent =
-                    data.registrationData.event ||
-                    "Tech Spark 2027";
-
-            }
+            paymentStatus.textContent =
+                "QR verified. Processing secure payment...";
 
         }
 
@@ -164,7 +133,6 @@ document.addEventListener("DOMContentLoaded", function () {
     .catch(function (error) {
 
         console.error(error);
-
 
         if (paymentStatus) {
 
@@ -176,35 +144,22 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 
-    // =========================================
-    // AUTOMATIC STATUS CHECK
-    // =========================================
-
     const statusInterval = setInterval(
         function () {
 
-            fetch(
-                API_URL +
-                "/payment-status/" +
-                encodeURIComponent(
-                    paymentSessionId
-                )
-            )
-
-            .then(function (response) {
-
-                return response.json();
-
-            })
+            getPaymentStatus()
 
             .then(function (data) {
+
+                showPaymentDetails(data);
+
 
                 if (data.status === "processing") {
 
                     if (paymentStatus) {
 
                         paymentStatus.textContent =
-                            "Verifying secure payment...";
+                            "Verifying payment...";
 
                     }
 
@@ -213,25 +168,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (data.status === "paid") {
 
-                    clearInterval(
-                        statusInterval
-                    );
+                    clearInterval(statusInterval);
 
 
                     if (paymentStatus) {
 
                         paymentStatus.textContent =
-                            "✓ Payment Successful!";
+                            "Payment successful! Opening receipt...";
 
                     }
 
 
-                    // Go to success page
-
                     setTimeout(function () {
 
                         window.location.href =
-                            "payment-verification.html?session=" +
+                            "receipt.html?session=" +
                             encodeURIComponent(
                                 paymentSessionId
                             );
