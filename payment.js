@@ -9,384 +9,329 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =========================================
-    // GET ELEMENTS
+    // GET STUDENT DATA
+    // Supports BOTH studentData and registrationData
     // =========================================
 
-    const paymentMethods =
-        document.querySelectorAll(".payment-method");
+    let studentData = null;
 
-    const continuePayment =
-        document.getElementById("continuePayment");
+    try {
 
-    const qrModal =
-        document.getElementById("qrModal");
+        studentData =
+            JSON.parse(
+                localStorage.getItem("studentData")
+            );
 
-    const closeQR =
-        document.getElementById("closeQR");
+    } catch (error) {
 
-    const paymentQRCode =
-        document.getElementById("paymentQRCode");
-
-    const paymentStatus =
-        document.getElementById("paymentStatus");
-
-
-    // =========================================
-    // DEFAULT PAYMENT METHOD
-    // =========================================
-
-    let selectedMethod = "Google Pay";
-
-
-    // =========================================
-    // SELECT PAYMENT METHOD
-    // =========================================
-
-    paymentMethods.forEach(function (method) {
-
-        method.addEventListener("click", function () {
-
-            paymentMethods.forEach(function (item) {
-
-                item.classList.remove("selected");
-
-            });
-
-
-            method.classList.add("selected");
-
-
-            selectedMethod =
-                method.dataset.method ||
-                "Google Pay";
-
-        });
-
-    });
-
-
-    // =========================================
-    // CONTINUE PAYMENT
-    // =========================================
-
-    if (continuePayment) {
-
-        continuePayment.addEventListener(
-            "click",
-            function () {
-
-
-                // =================================
-                // GET SAVED REGISTRATION DATA
-                // =================================
-
-                const savedRegistration =
-                    JSON.parse(
-                        localStorage.getItem(
-                            "registrationData"
-                        )
-                    ) ||
-                    JSON.parse(
-                        localStorage.getItem(
-                            "studentData"
-                        )
-                    ) ||
-                    {};
-
-
-                // =================================
-                // CREATE CLEAN REGISTRATION DATA
-                // =================================
-
-                const registrationData = {
-
-                    fullname:
-                        savedRegistration.fullname ||
-                        savedRegistration.name ||
-                        "",
-
-                    email:
-                        savedRegistration.email ||
-                        "",
-
-                    college:
-                        savedRegistration.college ||
-                        "",
-
-                    department:
-                        savedRegistration.department ||
-                        "",
-
-                    year:
-                        savedRegistration.year ||
-                        "",
-
-                    event:
-                        savedRegistration.event ||
-                        "Tech Spark 2027"
-
-                };
-
-
-                // =================================
-                // CREATE UNIQUE SESSION ID
-                // =================================
-
-                const sessionId =
-                    "PAY-" +
-                    Date.now() +
-                    "-" +
-                    Math.random()
-                        .toString(36)
-                        .substring(2, 8)
-                        .toUpperCase();
-
-
-                console.log(
-                    "PAYMENT DATA:",
-                    registrationData
-                );
-
-
-                // =================================
-                // BUTTON LOADING STATE
-                // =================================
-
-                const originalButtonText =
-                    continuePayment.innerHTML;
-
-
-                continuePayment.disabled = true;
-
-
-                continuePayment.innerHTML =
-                    "Preparing secure payment...";
-
-
-                // =================================
-                // CREATE PAYMENT SESSION
-                // =================================
-
-                fetch(
-                    API_URL +
-                    "/create-payment-session",
-                    {
-
-                        method: "POST",
-
-                        headers: {
-
-                            "Content-Type":
-                                "application/json"
-
-                        },
-
-                        body:
-                            JSON.stringify({
-
-                                sessionId:
-                                    sessionId,
-
-                                registrationData:
-                                    registrationData,
-
-                                paymentMethod:
-                                    selectedMethod
-
-                            })
-
-                    }
-                )
-
-                .then(function (response) {
-
-                    if (!response.ok) {
-
-                        throw new Error(
-                            "Server returned " +
-                            response.status
-                        );
-
-                    }
-
-                    return response.json();
-
-                })
-
-                .then(function (data) {
-
-                    if (!data.success) {
-
-                        throw new Error(
-                            data.message ||
-                            "Unable to create payment session."
-                        );
-
-                    }
-
-
-                    // =============================
-                    // OPEN QR MODAL
-                    // =============================
-
-                    if (qrModal) {
-
-                        qrModal.classList.add(
-                            "active"
-                        );
-
-                    }
-
-
-                    // =============================
-                    // CLEAR OLD QR
-                    // =============================
-
-                    if (paymentQRCode) {
-
-                        paymentQRCode.innerHTML =
-                            "";
-
-                    }
-
-
-                    // =============================
-                    // CREATE PHONE PAYMENT URL
-                    // =============================
-
-                    const phonePaymentURL =
-                        window.location.origin +
-                        window.location.pathname.replace(
-                            "payment.html",
-                            "phone-payment.html"
-                        ) +
-                        "?session=" +
-                        encodeURIComponent(
-                            sessionId
-                        );
-
-
-                    console.log(
-                        "PHONE PAYMENT URL:",
-                        phonePaymentURL
-                    );
-
-
-                    // =============================
-                    // GENERATE QR CODE
-                    // =============================
-
-                    if (
-                        paymentQRCode &&
-                        typeof QRCode !== "undefined"
-                    ) {
-
-                        new QRCode(
-                            paymentQRCode,
-                            {
-
-                                text:
-                                    phonePaymentURL,
-
-                                width:
-                                    220,
-
-                                height:
-                                    220,
-
-                                correctLevel:
-                                    QRCode.CorrectLevel.H
-
-                            }
-                        );
-
-                    }
-
-
-                    // =============================
-                    // PAYMENT STATUS
-                    // =============================
-
-                    if (paymentStatus) {
-
-                        paymentStatus.textContent =
-                            "Scan this QR code using another device.";
-
-                    }
-
-
-                    // =============================
-                    // START STATUS CHECKING
-                    // =============================
-
-                    checkPaymentStatus(
-                        sessionId
-                    );
-
-                })
-
-                .catch(function (error) {
-
-                    console.error(
-                        "PAYMENT ERROR:",
-                        error
-                    );
-
-
-                    alert(
-                        "Unable to start payment: " +
-                        error.message
-                    );
-
-                })
-
-                .finally(function () {
-
-                    continuePayment.disabled =
-                        false;
-
-                    continuePayment.innerHTML =
-                        originalButtonText;
-
-                });
-
-            }
+        console.error(
+            "Unable to read studentData:",
+            error
         );
 
     }
 
 
+    // Fallback for old registrationData storage
+
+    if (!studentData) {
+
+        try {
+
+            studentData =
+                JSON.parse(
+                    localStorage.getItem(
+                        "registrationData"
+                    )
+                );
+
+        } catch (error) {
+
+            console.error(
+                "Unable to read registrationData:",
+                error
+            );
+
+        }
+
+    }
+
+
     // =========================================
-    // CLOSE QR MODAL
+    // IF NO DATA, SHOW ERROR
     // =========================================
 
-    if (closeQR) {
+    if (!studentData) {
 
-        closeQR.addEventListener(
-            "click",
-            function () {
+        console.error(
+            "No student registration data found."
+        );
 
-                if (qrModal) {
+        const qrStatus =
+            document.getElementById("qrStatus");
 
-                    qrModal.classList.remove(
-                        "active"
-                    );
+        if (qrStatus) {
+
+            qrStatus.textContent =
+                "Registration data not found. Please register again.";
+
+        }
+
+        return;
+
+    }
+
+
+    console.log(
+        "PAYMENT DATA:",
+        studentData
+    );
+
+
+    // =========================================
+    // GET PAGE ELEMENTS
+    // =========================================
+
+    const qrCode =
+        document.getElementById("qrCode");
+
+    const qrStatus =
+        document.getElementById("qrStatus");
+
+    const paymentAmount =
+        document.getElementById("paymentAmount");
+
+    const amount =
+        document.getElementById("amount");
+
+    const eventName =
+        document.getElementById("eventName");
+
+    const studentName =
+        document.getElementById("studentName");
+
+
+    // =========================================
+    // SHOW PAYMENT DETAILS
+    // =========================================
+
+    if (paymentAmount) {
+
+        paymentAmount.textContent =
+            "₹1,000";
+
+    }
+
+
+    if (amount) {
+
+        amount.textContent =
+            "₹1,000";
+
+    }
+
+
+    if (eventName) {
+
+        eventName.textContent =
+            studentData.event ||
+            "Tech Spark 2027";
+
+    }
+
+
+    if (studentName) {
+
+        studentName.textContent =
+            studentData.fullname ||
+            "Student";
+
+    }
+
+
+    // =========================================
+    // CREATE PAYMENT SESSION
+    // =========================================
+
+    fetch(
+        API_URL +
+        "/create-payment-session",
+        {
+
+            method: "POST",
+
+            headers: {
+
+                "Content-Type":
+                    "application/json"
+
+            },
+
+            body: JSON.stringify({
+
+                fullname:
+                    studentData.fullname,
+
+                email:
+                    studentData.email,
+
+                college:
+                    studentData.college,
+
+                department:
+                    studentData.department,
+
+                year:
+                    studentData.year,
+
+                event:
+                    studentData.event,
+
+                amount: 1000
+
+            })
+
+        }
+    )
+
+    .then(function (response) {
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Server error: " +
+                response.status
+            );
+
+        }
+
+        return response.json();
+
+    })
+
+    .then(function (data) {
+
+        console.log(
+            "PAYMENT SESSION:",
+            data
+        );
+
+
+        // =========================================
+        // CHECK SESSION ID
+        // =========================================
+
+        const sessionId =
+            data.sessionId ||
+            data.session ||
+            data.paymentSessionId;
+
+
+        if (!sessionId) {
+
+            throw new Error(
+                "Payment session ID not received."
+            );
+
+        }
+
+
+        // =========================================
+        // SAVE SESSION LOCALLY
+        // =========================================
+
+        localStorage.setItem(
+            "paymentSessionId",
+            sessionId
+        );
+
+
+        // =========================================
+        // CREATE PHONE PAYMENT URL
+        // =========================================
+
+        const phonePaymentURL =
+            API_URL +
+            "/phone-payment.html?session=" +
+            encodeURIComponent(
+                sessionId
+            );
+
+
+        console.log(
+            "PHONE PAYMENT URL:",
+            phonePaymentURL
+        );
+
+
+        // =========================================
+        // GENERATE QR CODE
+        // =========================================
+
+        if (qrCode) {
+
+            qrCode.innerHTML = "";
+
+
+            if (
+                typeof QRCode !==
+                "undefined"
+            ) {
+
+                new QRCode(
+                    qrCode,
+                    {
+
+                        text:
+                            phonePaymentURL,
+
+                        width:
+                            280,
+
+                        height:
+                            280,
+
+                        correctLevel:
+                            QRCode.CorrectLevel.H
+
+                    }
+                );
+
+            } else {
+
+                console.error(
+                    "QRCode library not loaded."
+                );
+
+                if (qrStatus) {
+
+                    qrStatus.textContent =
+                        "Unable to generate QR code.";
 
                 }
 
             }
-        );
 
-    }
+        }
 
 
-    // =========================================
-    // CHECK PAYMENT STATUS
-    // =========================================
+        // =========================================
+        // UPDATE STATUS
+        // =========================================
 
-    function checkPaymentStatus(sessionId) {
+        if (qrStatus) {
 
-        const statusInterval =
+            qrStatus.textContent =
+                "Scan the QR code to continue payment.";
+
+        }
+
+
+        // =========================================
+        // CHECK PAYMENT STATUS
+        // =========================================
+
+        const paymentInterval =
             setInterval(
                 function () {
 
@@ -398,12 +343,16 @@ document.addEventListener("DOMContentLoaded", function () {
                         )
                     )
 
-                    .then(function (response) {
+                    .then(function (
+                        response
+                    ) {
 
-                        if (!response.ok) {
+                        if (
+                            !response.ok
+                        ) {
 
                             throw new Error(
-                                "Unable to check payment."
+                                "Unable to check payment status."
                             );
 
                         }
@@ -412,61 +361,68 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     })
 
-                    .then(function (data) {
+                    .then(function (
+                        paymentData
+                    ) {
+
+                        console.log(
+                            "PAYMENT STATUS:",
+                            paymentData
+                        );
+
+
+                        // ---------------------------------
+                        // QR SCANNED
+                        // ---------------------------------
 
                         if (
-                            data.status ===
-                            "scanned"
-                        ) {
-
-                            if (paymentStatus) {
-
-                                paymentStatus.textContent =
-                                    "QR scanned. Waiting for payment...";
-
-                            }
-
-                        }
-
-
-                        if (
-                            data.status ===
+                            paymentData.status ===
                             "processing"
                         ) {
 
-                            if (paymentStatus) {
+                            if (qrStatus) {
 
-                                paymentStatus.textContent =
-                                    "Payment is being processed...";
+                                qrStatus.textContent =
+                                    "QR scanned. Processing payment...";
 
                             }
 
                         }
 
 
+                        // ---------------------------------
+                        // PAYMENT SUCCESS
+                        // ---------------------------------
+
                         if (
-                            data.status ===
+                            paymentData.status ===
                             "paid"
                         ) {
 
                             clearInterval(
-                                statusInterval
+                                paymentInterval
                             );
 
 
-                            if (paymentStatus) {
+                            if (qrStatus) {
 
-                                paymentStatus.textContent =
+                                qrStatus.textContent =
                                     "✓ Payment successful! Opening receipt...";
 
                             }
 
 
+                            // Save complete receipt data
+
                             localStorage.setItem(
-                                "paymentSessionId",
-                                sessionId
+                                "receiptData",
+                                JSON.stringify(
+                                    paymentData
+                                )
                             );
 
+
+                            // Redirect desktop to receipt
 
                             setTimeout(
                                 function () {
@@ -485,7 +441,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     })
 
-                    .catch(function (error) {
+                    .catch(function (
+                        error
+                    ) {
 
                         console.error(
                             "STATUS ERROR:",
@@ -499,6 +457,24 @@ document.addEventListener("DOMContentLoaded", function () {
                 1000
             );
 
-    }
+    })
+
+    .catch(function (error) {
+
+        console.error(
+            "PAYMENT ERROR:",
+            error
+        );
+
+
+        if (qrStatus) {
+
+            qrStatus.textContent =
+                "Unable to start payment: " +
+                error.message;
+
+        }
+
+    });
 
 });
