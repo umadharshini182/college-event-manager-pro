@@ -1938,7 +1938,7 @@ app.post("/payment-scanned", function (req, res) {
         paymentSession.status = "paid";
           
         paymentSession.paymentDate =
-    new Date().toISOString();
+    new Date();
 
         paymentSession.transactionId =
             "TXN" + Date.now();
