@@ -1065,3 +1065,43 @@ body {
     z-index: 10 !important;
     pointer-events: auto !important;
 }
+#closeQR {
+    position: relative;
+    z-index: 9999;
+    cursor: pointer;
+}
+/* QR CLOSE BUTTON */
+
+#closeQR {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+
+    width: 42px;
+    height: 42px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #2a3d5f;
+    color: white;
+
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 42px;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 99999;
+
+    transition: 0.2s ease;
+}
+
+#closeQR:hover {
+    transform: scale(1.08);
+    background: #3b5278;
+}
