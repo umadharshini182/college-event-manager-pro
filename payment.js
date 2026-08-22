@@ -179,12 +179,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const registrationData =
                     getRegistrationData();
 
-
-                console.log(
-                    "PAYMENT DATA:",
-                    registrationData
-                );
-
+  
 
                 // =================================
                 // CHECK REQUIRED DATA
@@ -318,13 +313,27 @@ document.addEventListener("DOMContentLoaded", function () {
                     // OPEN QR MODAL
                     // IMPORTANT: USE "show"
                     // =================================
+                 console.log("QR MODAL:", qrModal);
+console.log("QR CONTAINER:", paymentQRCode);
+console.log("QRCODE LIBRARY:", typeof QRCode);
 
-                    if (qrModal) {
+if (!qrModal) {
+    alert("QR modal not found in payment.html");
+    return;
+}
 
-                        qrModal.classList.add("show");
+if (!paymentQRCode) {
+    alert("QR container not found in payment.html");
+    return;
+}
 
-                    }
+qrModal.classList.add("show");
+qrModal.classList.add("active");
 
+qrModal.style.display = "flex";
+qrModal.style.visibility = "visible";
+qrModal.style.opacity = "1";
+qrModal.style.zIndex = "999999";
 
                     // =================================
                     // CLEAR OLD QR
@@ -351,10 +360,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         encodeURIComponent(sessionId);
 
 
-                    console.log(
-                        "PHONE PAYMENT URL:",
-                        phonePaymentURL
-                    );
+
 
 
                     // =================================
@@ -442,30 +448,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
-
     // =========================================
-    // CLOSE QR MODAL
-    // IMPORTANT: USE "show"
-    // =========================================
+// CLOSE QR MODAL
+// =========================================
 
-    if (closeQR) {
+if (closeQR) {
 
-        closeQR.addEventListener(
-            "click",
-            function () {
+    closeQR.addEventListener("click", function () {
 
-                if (qrModal) {
+        if (qrModal) {
 
-                    qrModal.classList.remove("show");
+            qrModal.classList.remove("show");
+            qrModal.classList.remove("active");
 
-                }
+            qrModal.style.display = "none";
+            qrModal.style.visibility = "hidden";
+            qrModal.style.opacity = "0";
 
-            }
-        );
+        }
 
-    }
+    });
 
-
+}
     // =========================================
     // CLICK OUTSIDE MODAL TO CLOSE
     // =========================================
@@ -479,6 +483,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (event.target === qrModal) {
 
                     qrModal.classList.remove("show");
+qrModal.classList.remove("active");
+qrModal.style.display = "none";
 
                 }
 
