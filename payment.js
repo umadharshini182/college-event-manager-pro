@@ -1,261 +1,159 @@
-// ==========================================
-// PAYMENT.JS
-// COLLEGE EVENT MANAGER
-// ==========================================
-
 document.addEventListener("DOMContentLoaded", function () {
 
-    console.log("PAYMENT.JS IS RUNNING");
+    // =========================================
+    // BACKEND URL
+    // =========================================
 
-    // ==========================================
-    // GET REGISTRATION DATA
-    // ==========================================
-
-    let studentData = null;
-
-    try {
-
-        const savedStudentData =
-            localStorage.getItem("studentData");
-
-        const savedRegistrationData =
-            localStorage.getItem("registrationData");
+    const API_URL =
+        "https://college-event-manager-pro.onrender.com";
 
 
-        if (savedStudentData) {
+    // =========================================
+    // GET ELEMENTS
+    // =========================================
 
-            studentData = JSON.parse(savedStudentData);
-
-        } else if (savedRegistrationData) {
-
-            studentData = JSON.parse(savedRegistrationData);
-
-        }
-
-    } catch (error) {
-
-        console.error(
-            "Error reading registration data:",
-            error
-        );
-
-    }
-
-
-    // ==========================================
-    // FALLBACK DATA FROM INDIVIDUAL STORAGE
-    // ==========================================
-
-    if (!studentData) {
-
-        const studentName =
-            localStorage.getItem("studentName");
-
-        const studentEmail =
-            localStorage.getItem("studentEmail");
-
-        const college =
-            localStorage.getItem("college");
-
-        const department =
-            localStorage.getItem("department");
-
-        const year =
-            localStorage.getItem("year");
-
-        const eventName =
-            localStorage.getItem("eventName");
-
-
-        if (
-            studentName ||
-            studentEmail ||
-            college ||
-            department ||
-            year ||
-            eventName
-        ) {
-
-            studentData = {
-
-                fullname:
-                    studentName || "",
-
-                email:
-                    studentEmail || "",
-
-                college:
-                    college || "",
-
-                department:
-                    department || "",
-
-                year:
-                    year || "",
-
-                event:
-                    eventName ||
-                    "Tech Spark 2027"
-
-            };
-
-        }
-
-    }
-
-
-    console.log(
-        "LOADED STUDENT DATA:",
-        studentData
-    );
-
-
-    // ==========================================
-    // UPDATE EVENT NAME
-    // ==========================================
-
-    const paymentEvent =
-        document.getElementById("paymentEvent");
-
-
-    if (paymentEvent && studentData) {
-
-        paymentEvent.textContent =
-            studentData.event ||
-            "Tech Spark 2027";
-
-    }
-
-
-    // ==========================================
-    // PAYMENT METHOD SELECTION
-    // ==========================================
     const paymentMethods =
-    document.querySelectorAll(
-        ".payment-method, .payment-option, .bank-option"
-    );
+        document.querySelectorAll(".payment-method");
 
-const selectedMethodDisplay =
-    document.getElementById("selectedMethod");
+    const continuePayment =
+        document.getElementById("continuePayment");
 
+    const qrModal =
+        document.getElementById("qrModal");
 
-    let selectedMethod =
-        "Google Pay";
+    const closeQR =
+        document.getElementById("closeQR");
 
+    const paymentQRCode =
+        document.getElementById("paymentQRCode");
 
-    // Remove old selection first
-    paymentMethods.forEach(function (method) {
-
-        method.classList.remove("selected");
-
-    });
-
-   // =========================================
-// SELECT PAYMENT METHOD
-// =========================================
-
-paymentMethods.forEach(function (method) {
-
-    method.style.cursor = "pointer";
-
-    method.addEventListener("click", function (event) {
-
-        event.preventDefault();
-
-        paymentMethods.forEach(function (item) {
-
-            item.classList.remove("selected");
-
-        });
+    const paymentStatus =
+        document.getElementById("paymentStatus");
 
 
-        this.classList.add("selected");
+    // =========================================
+    // DEFAULT PAYMENT METHOD
+    // =========================================
+
+    let selectedMethod = "Google Pay";
 
 
-        selectedMethod =
-            this.dataset.method ||
-            this.textContent.trim();
+    // =========================================
+    // SAFE LOCAL STORAGE FUNCTION
+    // =========================================
 
+    function getStorageData(key) {
 
-        // Update "Selected method" text
+        try {
 
-        if (selectedMethodDisplay) {
+            const value = localStorage.getItem(key);
 
-            selectedMethodDisplay.textContent =
-                selectedMethod;
-
-        }
-
-
-        // Save selected method
-
-        localStorage.setItem(
-            "selectedPaymentMethod",
-            selectedMethod
-        );
-
-
-        console.log(
-            "SELECTED PAYMENT METHOD:",
-            selectedMethod
-        );
-
-    });
-
-});
-
-
-    // IMPORTANT:
-    // Event delegation makes ALL payment
-    // methods selectable
-
-    document.addEventListener(
-        "click",
-        function (event) {
-
-            const clickedMethod =
-                event.target.closest(
-                    ".payment-method"
-                );
-
-
-            if (!clickedMethod) {
-
-                return;
-
+            if (!value) {
+                return null;
             }
 
+            return JSON.parse(value);
 
-            console.log(
-                "CLICKED:",
-                clickedMethod.dataset.method
+        } catch (error) {
+
+            console.error(
+                "Storage error for " + key + ":",
+                error
             );
 
-
-            // Remove selection from all methods
-
-            paymentMethods.forEach(
-                function (method) {
-
-                    method.classList.remove(
-                        "selected"
-                    );
-
-                }
-            );
+            return null;
+        }
+    }
 
 
-            // Add selection to clicked method
+    // =========================================
+    // GET REGISTRATION DATA
+    // =========================================
 
-            clickedMethod.classList.add(
-                "selected"
-            );
+    function getRegistrationData() {
+
+        const registrationData =
+            getStorageData("registrationData");
+
+        const studentData =
+            getStorageData("studentData");
+
+        const receiptData =
+            getStorageData("receiptData");
 
 
-            // Save selected method
+        const data =
+            registrationData ||
+            studentData ||
+            receiptData ||
+            {};
+
+
+        return {
+
+            fullname:
+                data.fullname ||
+                data.name ||
+                localStorage.getItem("studentName") ||
+                "",
+
+            email:
+                data.email ||
+                localStorage.getItem("studentEmail") ||
+                "",
+
+            college:
+                data.college ||
+                localStorage.getItem("college") ||
+                "",
+
+            department:
+                data.department ||
+                localStorage.getItem("department") ||
+                "",
+
+            year:
+                data.year ||
+                localStorage.getItem("year") ||
+                "",
+
+            event:
+                data.event ||
+                localStorage.getItem("eventName") ||
+                "Tech Spark 2027"
+        };
+    }
+
+
+    // =========================================
+    // SELECT PAYMENT METHOD
+    // =========================================
+
+    paymentMethods.forEach(function (method) {
+
+        method.addEventListener("click", function () {
+
+            paymentMethods.forEach(function (item) {
+
+                item.classList.remove("selected");
+
+            });
+
+
+            method.classList.add("selected");
+
 
             selectedMethod =
-                clickedMethod.dataset.method;
+                method.dataset.method ||
+                method.getAttribute("data-method") ||
+                method.textContent.trim() ||
+                "Google Pay";
+
+
+            localStorage.setItem(
+                "selectedPaymentMethod",
+                selectedMethod
+            );
 
 
             console.log(
@@ -263,56 +161,14 @@ paymentMethods.forEach(function (method) {
                 selectedMethod
             );
 
+        });
 
-            // Store selected payment method
-
-            localStorage.setItem(
-                "selectedPaymentMethod",
-                selectedMethod
-            );
-
-        },
-        true
-    );
+    });
 
 
-    // ==========================================
-    // QR MODAL ELEMENTS
-    // ==========================================
-
-    const continuePayment =
-        document.getElementById(
-            "continuePayment"
-        );
-
-
-    const qrModal =
-        document.getElementById(
-            "qrModal"
-        );
-
-
-    const closeQR =
-        document.getElementById(
-            "closeQR"
-        );
-
-
-    const paymentQRCode =
-        document.getElementById(
-            "paymentQRCode"
-        );
-
-
-    const paymentStatus =
-        document.getElementById(
-            "paymentStatus"
-        );
-
-
-    // ==========================================
+    // =========================================
     // CONTINUE PAYMENT
-    // ==========================================
+    // =========================================
 
     if (continuePayment) {
 
@@ -320,218 +176,266 @@ paymentMethods.forEach(function (method) {
             "click",
             function () {
 
-                console.log(
-                    "CONTINUE PAYMENT CLICKED"
-                );
+                const registrationData =
+                    getRegistrationData();
 
 
                 console.log(
-                    "SELECTED METHOD:",
-                    selectedMethod
+                    "PAYMENT DATA:",
+                    registrationData
                 );
 
 
-                // Check registration data
+                // =================================
+                // CHECK REQUIRED DATA
+                // =================================
 
-                if (!studentData) {
+                if (
+                    !registrationData.fullname ||
+                    !registrationData.email ||
+                    !registrationData.college ||
+                    !registrationData.department ||
+                    !registrationData.year ||
+                    !registrationData.event
+                ) {
 
                     alert(
                         "Registration data not found. Please register again."
                     );
 
                     return;
-
                 }
 
 
-                // Show modal
+                // =================================
+                // SAVE DATA
+                // =================================
 
-                if (qrModal) {
+                localStorage.setItem(
+                    "registrationData",
+                    JSON.stringify(registrationData)
+                );
 
-                    qrModal.classList.add(
-                        "show"
-                    );
-
-                }
-
-
-                // Clear old QR
-
-                if (paymentQRCode) {
-
-                    paymentQRCode.innerHTML = "";
-
-                }
-
-
-                // QR payment data
-
-                const paymentId =
-                    "PAY-" +
-                    Date.now();
-
-
-                const qrData =
-                    "upi://pay?pa=collegeeventmanager@upi" +
-                    "&pn=College Event Manager" +
-                    "&am=1000" +
-                    "&cu=INR" +
-                    "&tn=" +
-                    encodeURIComponent(
-                        studentData.event
-                    );
-
-
-                console.log(
-                    "GENERATING QR:",
-                    qrData
+                localStorage.setItem(
+                    "studentData",
+                    JSON.stringify(registrationData)
                 );
 
 
-                // Generate QR
+                // =================================
+                // CREATE SESSION ID
+                // =================================
 
-                if (
-                    typeof QRCode !==
-                    "undefined"
-                ) {
-
-                    new QRCode(
-                        paymentQRCode,
-                        {
-
-                            text: qrData,
-
-                            width: 220,
-
-                            height: 220,
-
-                            correctLevel:
-                                QRCode.CorrectLevel.H
-
-                        }
-                    );
-
-                } else {
-
-                    paymentQRCode.innerHTML =
-                        "<p>QR code could not be loaded.</p>";
-
-                }
+                const sessionId =
+                    "PAY-" +
+                    Date.now() +
+                    "-" +
+                    Math.random()
+                        .toString(36)
+                        .substring(2, 8)
+                        .toUpperCase();
 
 
-                // Update status
-
-                if (paymentStatus) {
-
-                    paymentStatus.textContent =
-                        "Waiting for payment confirmation...";
-
-                }
+                const originalButtonText =
+                    continuePayment.innerHTML;
 
 
-                // ==================================
-                // DEMO PAYMENT CONFIRMATION
-                // ==================================
+                continuePayment.disabled = true;
 
-                setTimeout(
-                    function () {
-
-                        if (paymentStatus) {
-
-                            paymentStatus.textContent =
-                                "Payment successful! Redirecting...";
-
-                        }
+                continuePayment.innerHTML =
+                    "Preparing secure payment...";
 
 
-                        // Create receipt data
+                // =================================
+                // CREATE PAYMENT SESSION
+                // =================================
 
-                        const receiptData = {
+                fetch(
+                    API_URL + "/create-payment-session",
+                    {
 
-                            paymentId:
-                                paymentId,
+                        method: "POST",
 
-                            fullname:
-                                studentData.fullname,
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
 
-                            email:
-                                studentData.email,
+                        body: JSON.stringify({
 
-                            college:
-                                studentData.college,
+                            sessionId:
+                                sessionId,
 
-                            department:
-                                studentData.department,
-
-                            year:
-                                studentData.year,
-
-                            event:
-                                studentData.event,
+                            registrationData:
+                                registrationData,
 
                             paymentMethod:
-                                selectedMethod,
+                                selectedMethod
 
-                            amount:
-                                1000,
+                        })
 
-                            paymentStatus:
-                                "Paid",
+                    }
+                )
 
-                            paymentDate:
-                                new Date()
-                                .toLocaleString()
+                .then(function (response) {
 
-                        };
+                    if (!response.ok) {
 
-
-                        console.log(
-                            "RECEIPT DATA:",
-                            receiptData
+                        throw new Error(
+                            "Server returned " +
+                            response.status
                         );
 
+                    }
 
-                        // Save receipt data
+                    return response.json();
 
-                        localStorage.setItem(
-                            "receiptData",
-                            JSON.stringify(
-                                receiptData
-                            )
+                })
+
+                .then(function (data) {
+
+                    if (!data.success) {
+
+                        throw new Error(
+                            data.message ||
+                            "Unable to create payment session."
                         );
 
+                    }
 
-                        // Save payment method
 
-                        localStorage.setItem(
-                            "selectedPaymentMethod",
-                            selectedMethod
+                    // =================================
+                    // SAVE SESSION ID
+                    // =================================
+
+                    localStorage.setItem(
+                        "paymentSessionId",
+                        sessionId
+                    );
+
+
+                    // =================================
+                    // OPEN QR MODAL
+                    // IMPORTANT: USE "show"
+                    // =================================
+
+                    if (qrModal) {
+
+                        qrModal.classList.add("show");
+
+                    }
+
+
+                    // =================================
+                    // CLEAR OLD QR
+                    // =================================
+
+                    if (paymentQRCode) {
+
+                        paymentQRCode.innerHTML = "";
+
+                    }
+
+
+                    // =================================
+                    // CREATE PHONE PAYMENT URL
+                    // =================================
+
+                    const phonePaymentURL =
+                        window.location.origin +
+                        window.location.pathname.replace(
+                            "payment.html",
+                            "phone-payment.html"
+                        ) +
+                        "?session=" +
+                        encodeURIComponent(sessionId);
+
+
+                    console.log(
+                        "PHONE PAYMENT URL:",
+                        phonePaymentURL
+                    );
+
+
+                    // =================================
+                    // GENERATE QR CODE
+                    // =================================
+
+                    if (
+                        paymentQRCode &&
+                        typeof QRCode !== "undefined"
+                    ) {
+
+                        new QRCode(
+                            paymentQRCode,
+                            {
+
+                                text:
+                                    phonePaymentURL,
+
+                                width:
+                                    220,
+
+                                height:
+                                    220,
+
+                                correctLevel:
+                                    QRCode.CorrectLevel.H
+
+                            }
                         );
 
+                    } else {
 
-                        // Refresh dashboard
-
-                        localStorage.setItem(
-                            "dashboardRefresh",
-                            Date.now().toString()
+                        console.error(
+                            "QR Code library not loaded"
                         );
 
+                    }
 
-                        // Go to receipt page
 
-                        setTimeout(
-                            function () {
+                    // =================================
+                    // PAYMENT STATUS
+                    // =================================
 
-                                window.location.href =
-                                    "receipt.html";
+                    if (paymentStatus) {
 
-                            },
-                            1500
-                        );
+                        paymentStatus.textContent =
+                            "Scan this QR code using another device.";
 
-                    },
-                    3000
-                );
+                    }
+
+
+                    // =================================
+                    // START STATUS CHECKING
+                    // =================================
+
+                    checkPaymentStatus(sessionId);
+
+                })
+
+                .catch(function (error) {
+
+                    console.error(
+                        "PAYMENT ERROR:",
+                        error
+                    );
+
+                    alert(
+                        "Unable to start payment: " +
+                        error.message
+                    );
+
+                })
+
+                .finally(function () {
+
+                    continuePayment.disabled = false;
+
+                    continuePayment.innerHTML =
+                        originalButtonText;
+
+                });
 
             }
         );
@@ -539,9 +443,10 @@ paymentMethods.forEach(function (method) {
     }
 
 
-    // ==========================================
+    // =========================================
     // CLOSE QR MODAL
-    // ==========================================
+    // IMPORTANT: USE "show"
+    // =========================================
 
     if (closeQR) {
 
@@ -551,9 +456,7 @@ paymentMethods.forEach(function (method) {
 
                 if (qrModal) {
 
-                    qrModal.classList.remove(
-                        "show"
-                    );
+                    qrModal.classList.remove("show");
 
                 }
 
@@ -563,7 +466,9 @@ paymentMethods.forEach(function (method) {
     }
 
 
-    // Close when clicking outside QR panel
+    // =========================================
+    // CLICK OUTSIDE MODAL TO CLOSE
+    // =========================================
 
     if (qrModal) {
 
@@ -571,13 +476,9 @@ paymentMethods.forEach(function (method) {
             "click",
             function (event) {
 
-                if (
-                    event.target === qrModal
-                ) {
+                if (event.target === qrModal) {
 
-                    qrModal.classList.remove(
-                        "show"
-                    );
+                    qrModal.classList.remove("show");
 
                 }
 
@@ -587,26 +488,180 @@ paymentMethods.forEach(function (method) {
     }
 
 
-    // ==========================================
-    // ESCAPE KEY CLOSES MODAL
-    // ==========================================
+    // =========================================
+    // CHECK PAYMENT STATUS
+    // =========================================
 
-    document.addEventListener(
-        "keydown",
-        function (event) {
+    function checkPaymentStatus(sessionId) {
 
-            if (
-                event.key === "Escape" &&
-                qrModal
-            ) {
+        const statusInterval =
+            setInterval(
+                function () {
 
-                qrModal.classList.remove(
-                    "show"
-                );
+                    fetch(
+                        API_URL +
+                        "/payment-status/" +
+                        encodeURIComponent(sessionId)
+                    )
 
-            }
+                    .then(function (response) {
 
-        }
-    );
+                        if (!response.ok) {
+
+                            throw new Error(
+                                "Unable to check payment."
+                            );
+
+                        }
+
+                        return response.json();
+
+                    })
+
+                    .then(function (data) {
+
+                        if (
+                            data.status === "waiting"
+                        ) {
+
+                            if (paymentStatus) {
+
+                                paymentStatus.textContent =
+                                    "Waiting for QR scan...";
+
+                            }
+
+                        }
+
+
+                        if (
+                            data.status === "scanned"
+                        ) {
+
+                            if (paymentStatus) {
+
+                                paymentStatus.textContent =
+                                    "QR scanned. Waiting for payment...";
+
+                            }
+
+                        }
+
+
+                        if (
+                            data.status === "processing"
+                        ) {
+
+                            if (paymentStatus) {
+
+                                paymentStatus.textContent =
+                                    "Payment is being processed...";
+
+                            }
+
+                        }
+
+
+                        if (
+                            data.status === "paid"
+                        ) {
+
+                            clearInterval(statusInterval);
+
+
+                            if (paymentStatus) {
+
+                                paymentStatus.textContent =
+                                    "✓ Payment successful! Opening receipt...";
+
+                            }
+
+
+                            const backendRegistrationData =
+                                data.registrationData ||
+                                getRegistrationData();
+
+
+                            const receiptData = {
+
+                                fullname:
+                                    backendRegistrationData.fullname ||
+                                    "",
+
+                                email:
+                                    backendRegistrationData.email ||
+                                    "",
+
+                                college:
+                                    backendRegistrationData.college ||
+                                    "",
+
+                                department:
+                                    backendRegistrationData.department ||
+                                    "",
+
+                                year:
+                                    backendRegistrationData.year ||
+                                    "",
+
+                                event:
+                                    backendRegistrationData.event ||
+                                    "Tech Spark 2027",
+
+                                paymentMethod:
+                                    data.paymentMethod ||
+                                    selectedMethod,
+
+                                transactionId:
+                                    data.transactionId ||
+                                    "",
+
+                                paymentDate:
+                                    data.paymentDate ||
+                                    new Date().toLocaleString("en-IN"),
+
+                                amount:
+                                    data.amount ||
+                                    1000
+
+                            };
+
+
+                            localStorage.setItem(
+                                "receiptData",
+                                JSON.stringify(receiptData)
+                            );
+
+
+                            setTimeout(
+                                function () {
+
+                                    window.location.href =
+                                        "receipt.html?session=" +
+                                        encodeURIComponent(sessionId);
+
+                                },
+                                1200
+                            );
+
+                        }
+
+                    })
+
+                    .catch(function (error) {
+
+                        console.error(
+                            "STATUS ERROR:",
+                            error
+                        );
+
+                    });
+
+                },
+
+                1000
+            );
+
+    }
 
 });
