@@ -1,5 +1,628 @@
+/* =========================================
+   RESET
+========================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Poppins", Arial, sans-serif;
+    background: #08111f;
+    color: #f5f7fb;
+    min-height: 100vh;
+}
+
+
+/* =========================================
+   NAVBAR
+========================================= */
+
+.payment-navbar {
+    width: 100%;
+    height: 76px;
+    padding: 0 7%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #0d1b30;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.brand-mark {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #2b6cb0;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.payment-navbar nav {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.payment-navbar nav a {
+    color: #b9c6d8;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.payment-navbar nav a:hover {
+    color: #ffffff;
+}
+
+
+/* =========================================
+   PAGE
+========================================= */
+
+.payment-page {
+    min-height: calc(100vh - 76px);
+    padding: 55px 20px 80px;
+    background:
+        radial-gradient(circle at top left, rgba(43, 108, 176, 0.18), transparent 35%),
+        linear-gradient(135deg, #08111f, #101d33);
+}
+
+.payment-wrapper {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+
+/* =========================================
+   PROCESS BAR
+========================================= */
+
+.process-bar {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    margin-bottom: 55px;
+}
+
+.process-step {
+    width: 110px;
+    text-align: center;
+    color: #718096;
+}
+
+.process-step span {
+    width: 38px;
+    height: 38px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid #52647d;
+    background: #111e31;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.process-step p {
+    margin-top: 9px;
+    font-size: 11px;
+}
+
+.process-step.completed,
+.process-step.active {
+    color: #dbeafe;
+}
+
+.process-step.completed span,
+.process-step.active span {
+    background: #2b6cb0;
+    border-color: #60a5fa;
+    color: #ffffff;
+}
+
+.process-line {
+    width: 110px;
+    height: 2px;
+    margin-top: 19px;
+    background: #34445a;
+}
+
+.process-line.completed {
+    background: #2b6cb0;
+}
+
+
+/* =========================================
+   TITLE
+========================================= */
+
+.payment-title {
+    text-align: center;
+    margin-bottom: 38px;
+}
+
+.secure-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    margin-bottom: 18px;
+    border-radius: 30px;
+    background: rgba(43, 108, 176, 0.16);
+    border: 1px solid rgba(96, 165, 250, 0.25);
+    color: #8fc5ff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+}
+
+.secure-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #4ade80;
+}
+
+.payment-title h1 {
+    margin-bottom: 13px;
+    font-size: 40px;
+    line-height: 1.2;
+    color: #ffffff;
+}
+
+.payment-title > p {
+    color: #9dacbf;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+
+/* =========================================
+   PAYMENT SUMMARY
+========================================= */
+
+.payment-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 25px 30px;
+    margin-bottom: 38px;
+    border-radius: 20px;
+    background: rgba(20, 35, 57, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.summary-event,
+.summary-amount {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.summary-event span,
+.summary-amount span {
+    color: #7d8da3;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.4px;
+}
+
+.summary-event strong {
+    color: #ffffff;
+    font-size: 18px;
+}
+
+.summary-amount {
+    text-align: right;
+}
+
+.summary-amount strong {
+    color: #7dd3fc;
+    font-size: 30px;
+}
+
+
+/* =========================================
+   METHOD SECTIONS
+========================================= */
+
+.method-section {
+    margin-bottom: 34px;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.section-heading > span {
+    color: #dbeafe;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.section-heading small {
+    color: #77879b;
+    font-size: 11px;
+}
+
+.payment-method {
+    width: 100%;
+    min-height: 82px;
+    margin-bottom: 12px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    text-align: left;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    background: #142238;
+    color: #ffffff;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.payment-method:hover {
+    transform: translateY(-2px);
+    border-color: rgba(96, 165, 250, 0.7);
+}
+
+.payment-method.selected {
+    border-color: #60a5fa;
+    background: #172b47;
+    box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.12);
+}
+
+
+/* =========================================
+   METHOD LOGOS
+========================================= */
+
+.method-logo {
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: #223a5d;
+}
+
+.gpay-logo {
+    background: #ffffff;
+    gap: 2px;
+}
+
+.gpay-g {
+    color: #4285f4;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+}
+
+.gpay-pay {
+    color: #202124;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+}
+
+.phonepe-logo {
+    background: #5f259f;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.paytm-logo {
+    background: #ffffff;
+    gap: 1px;
+    font-size: 14px;
+}
+
+.paytm-logo b:first-child {
+    color: #1f3b72;
+}
+
+.paytm-logo b:last-child {
+    color: #00baf2;
+}
+
+.bank-logo {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.sbi-logo {
+    color: #6ab7ff;
+    background: #17375d;
+}
+
+.hdfc-logo {
+    background: #ffffff;
+}
+
+.hdfc-logo span {
+    width: 20px;
+    height: 20px;
+    border: 5px solid #e11d48;
+    outline: 3px solid #2563eb;
+}
+
+.icici-logo {
+    background: #8c3b23;
+    font-style: italic;
+}
+
+.axis-logo {
+    background: #7f1d1d;
+}
+
+
+/* =========================================
+   METHOD TEXT
+========================================= */
+
+.method-name {
+    margin-left: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.method-name strong {
+    color: #ffffff;
+    font-size: 15px;
+}
+
+.method-name small {
+    color: #91a0b3;
+    font-size: 11px;
+}
+
+.method-check {
+    width: 30px;
+    height: 30px;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid #53667f;
+    color: transparent;
+    font-size: 14px;
+}
+
+.payment-method.selected .method-check {
+    background: #60a5fa;
+    border-color: #60a5fa;
+    color: #08111f;
+}
+
+
+/* =========================================
+   CONTINUE BUTTON
+========================================= */
+
+.continue-payment {
+    width: 100%;
+    height: 62px;
+    padding: 0 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: none;
+    border-radius: 17px;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.continue-payment:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.28);
+}
+
+.button-arrow {
+    font-size: 22px;
+}
+
+.security-text {
+    margin-top: 16px;
+    text-align: center;
+    color: #7e8da2;
+    font-size: 11px;
+}
+
+.lock-icon {
+    margin-right: 5px;
+}
+
+
+/* =========================================
+   QR MODAL
+========================================= */
+
+.qr-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(2, 8, 18, 0.80);
+    backdrop-filter: blur(7px);
+}
+
+.qr-modal.show {
+    display: flex;
+}
+
+.qr-panel {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    padding: 38px;
+    border-radius: 28px;
+    background: #172842;
+    border: 1px solid rgba(140, 180, 230, 0.25);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+}
+
+.close-btn {
+    position: absolute;
+    top: 16px;
+    right: 18px;
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: #cbd5e1;
+    font-size: 28px;
+    line-height: 38px;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.qr-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 26px;
+}
+
+.qr-icon {
+    width: 58px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    background: #29466e;
+    color: #9ecaff;
+    font-size: 25px;
+}
+
+.qr-header p {
+    margin-bottom: 5px;
+    color: #8ba1bb;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.qr-header h2 {
+    color: #ffffff;
+    font-size: 27px;
+}
+
+.qr-image-box {
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 18px;
+    border-radius: 22px;
+    background: #ffffff;
+}
+
+.qr-image-box img,
+.qr-image-box canvas {
+    display: block;
+    max-width: 100%;
+    height: auto !important;
+}
+
+.qr-status-row {
+    margin-top: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    color: #b7c4d5;
+    font-size: 12px;
+}
+
+.status-spinner {
+    width: 17px;
+    height: 17px;
+    border: 2px solid #39516e;
+    border-top-color: #60a5fa;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.qr-info {
+    margin-top: 22px;
+    padding: 16px 18px;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 13px;
+    background: rgba(7, 17, 31, 0.35);
+}
+
+.qr-info span {
+    color: #9aabc0;
+    font-size: 13px;
+}
+
+.qr-info strong {
+    color: #ffffff;
+    font-size: 17px;
+}
+
+.qr-help {
+    margin-top: 18px;
+    color: #91a0b4;
+    text-align: center;
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+
 /* =====================================
-   FINAL MOBILE / PHONE RESPONSIVE FIX
+   MOBILE / PHONE RESPONSIVE
 ===================================== */
 
 @media (max-width: 600px) {
@@ -8,8 +631,6 @@
         overflow-x: hidden;
         background-attachment: scroll;
     }
-
-    /* NAVBAR */
 
     .payment-navbar {
         height: 68px;
@@ -37,9 +658,6 @@
         font-size: 12px;
     }
 
-
-    /* PAGE */
-
     .payment-page {
         min-height: calc(100vh - 68px);
         padding: 30px 12px 50px;
@@ -49,9 +667,6 @@
         width: 100%;
         max-width: 100%;
     }
-
-
-    /* PROCESS BAR */
 
     .process-bar {
         width: 100%;
@@ -83,9 +698,6 @@
         margin-top: 15px;
     }
 
-
-    /* TITLE */
-
     .payment-title {
         margin-bottom: 28px;
     }
@@ -107,9 +719,6 @@
         padding: 0 8px;
     }
 
-
-    /* PAYMENT SUMMARY */
-
     .payment-summary {
         padding: 18px;
         margin-bottom: 30px;
@@ -123,9 +732,6 @@
     .summary-amount strong {
         font-size: 24px;
     }
-
-
-    /* PAYMENT METHODS */
 
     .method-section {
         margin-bottom: 28px;
@@ -178,17 +784,11 @@
         font-size: 12px;
     }
 
-
-    /* CONTINUE BUTTON */
-
     .continue-payment {
         height: 58px;
         border-radius: 15px;
         font-size: 14px;
     }
-
-
-    /* QR MODAL */
 
     .qr-modal {
         padding: 12px;
@@ -200,9 +800,7 @@
         max-width: 390px;
         max-height: 92vh;
         overflow-y: auto;
-
         padding: 24px 16px 20px;
-
         border-radius: 22px;
     }
 
@@ -254,16 +852,11 @@
         margin-top: 13px;
     }
 
-
-    /* QR CLOSE BUTTON */
-
     #closeQR {
         top: 10px;
         right: 10px;
-
         width: 36px;
         height: 36px;
-
         font-size: 24px;
         line-height: 36px;
     }
@@ -271,7 +864,9 @@
 }
 
 
-/* EXTRA SMALL PHONES */
+/* =====================================
+   EXTRA SMALL PHONES
+===================================== */
 
 @media (max-width: 380px) {
 
@@ -307,4 +902,236 @@
         font-size: 13px;
     }
 
+}
+/* =====================================
+   PROFESSIONAL PAYMENT METHOD LOGOS
+===================================== */
+
+.method-logo {
+    width: 54px;
+    height: 54px;
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 14px;
+
+    font-family: Arial, sans-serif;
+    font-weight: 700;
+}
+
+
+/* =====================================
+   GOOGLE PAY
+===================================== */
+
+.gpay-logo {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    gap: 1px;
+}
+
+.gpay-g {
+    font-size: 26px;
+    font-weight: 700;
+    color: #4285f4;
+}
+
+.gpay-pay {
+    font-size: 17px;
+    font-weight: 600;
+    color: #202124;
+}
+
+
+/* =====================================
+   PHONEPE
+===================================== */
+
+.phonepe-logo {
+    background: #5f259f;
+    color: white;
+}
+
+.phonepe-symbol {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 2px solid rgba(255,255,255,0.85);
+    border-radius: 50%;
+
+    font-size: 16px;
+    font-weight: 700;
+}
+
+
+/* =====================================
+   PAYTM
+===================================== */
+
+.paytm-logo {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+
+    display: flex;
+    gap: 0;
+    align-items: baseline;
+}
+
+.paytm-pay {
+    font-size: 16px;
+    font-weight: 700;
+    color: #002970;
+}
+
+.paytm-tm {
+    font-size: 16px;
+    font-weight: 700;
+    color: #00b9f5;
+}
+
+/* =====================================
+   SBI CSS LOGO
+===================================== */
+
+.sbi-logo {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+}
+
+.sbi-mark {
+    width: 36px;
+    height: 36px;
+    background: #1f6fbe;
+    border-radius: 50%;
+    position: relative;
+    display: block;
+}
+
+.sbi-hole {
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    background: #ffffff;
+    border-radius: 50%;
+    top: 7px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.sbi-mark::after {
+    content: "";
+    position: absolute;
+    width: 9px;
+    height: 16px;
+    background: #ffffff;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
+/* =====================================
+   HDFC CSS LOGO
+===================================== */
+
+.hdfc-logo {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+}
+
+.hdfc-mark {
+    width: 36px;
+    height: 36px;
+    background: #e31e3b;
+    padding: 6px;
+    box-sizing: border-box;
+    display: block;
+    position: relative;
+}
+
+.hdfc-mark::before {
+    content: "";
+    position: absolute;
+    background: #ffffff;
+    width: 18px;
+    height: 18px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.hdfc-inner {
+    position: absolute;
+    background: #1f4f8f;
+    width: 10px;
+    height: 10px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+/* =====================================
+   ICICI BANK
+===================================== */
+
+.icici-logo {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+}
+
+.icici-symbol {
+    width: 31px;
+    height: 31px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #f58220;
+    color: #9e1b32;
+
+    font-family: Georgia, serif;
+    font-size: 27px;
+    font-weight: 700;
+    font-style: italic;
+}
+
+
+/* =====================================
+   AXIS BANK
+===================================== */
+
+.axis-logo {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+}
+
+.axis-symbol {
+    color: #97144d;
+
+    font-size: 30px;
+    font-weight: 700;
+
+    transform: scaleX(1.25);
+}
+
+
+/* =====================================
+   HOVER EFFECT
+===================================== */
+
+.payment-method:hover .method-logo {
+    transform: scale(1.04);
+}
+
+.method-logo {
+    transition: transform 0.2s ease;
 }
