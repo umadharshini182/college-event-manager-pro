@@ -1045,3 +1045,23 @@ body {
     }
 
 }
+/* FIX PAYMENT OPTIONS NOT CLICKABLE */
+
+.payment-method {
+    position: relative !important;
+    z-index: 100 !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
+.method-section {
+    position: relative !important;
+    z-index: 100 !important;
+    pointer-events: auto !important;
+}
+
+.payment-wrapper {
+    position: relative !important;
+    z-index: 10 !important;
+    pointer-events: auto !important;
+}
