@@ -1,9 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    // =========================================
-    // BACKEND URL
-    // =========================================
-
     const API_URL =
         "https://college-event-manager-pro.onrender.com";
 
@@ -17,53 +13,286 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.search
         );
 
-    const paymentSessionId =
+    const sessionId =
         params.get("session");
 
 
     // =========================================
-    // LOAD RECEIPT
+    // GET RECEIPT ELEMENTS
     // =========================================
 
-    if (paymentSessionId) {
+    const receiptEvent =
+        document.getElementById("receiptEvent");
 
-        loadReceiptFromBackend();
+    const receiptName =
+        document.getElementById("receiptName");
 
-    } else {
+    const receiptEmail =
+        document.getElementById("receiptEmail");
 
-        // Fallback for old same-device flow
+    const receiptCollege =
+        document.getElementById("receiptCollege");
 
-        const receiptData = JSON.parse(
-            localStorage.getItem("receiptData")
-        );
+    const receiptDepartment =
+        document.getElementById("receiptDepartment");
 
-        if (!receiptData) {
+    const receiptYear =
+        document.getElementById("receiptYear");
 
-            alert("Receipt data not found.");
+    const receiptMethod =
+        document.getElementById("receiptMethod");
 
-            window.location.href =
-                "payment.html";
+    const receiptTransaction =
+        document.getElementById("receiptTransaction");
 
-            return;
+    const receiptDate =
+        document.getElementById("receiptDate");
+
+    const receiptAmount =
+        document.getElementById("receiptAmount");
+
+
+    // =========================================
+    // SET TEXT SAFELY
+    // =========================================
+
+    function setText(element, value) {
+
+        if (element) {
+
+            element.textContent =
+                value !== undefined &&
+                value !== null &&
+                value !== ""
+                    ? value
+                    : "-";
 
         }
-
-        showReceipt(receiptData);
 
     }
 
 
     // =========================================
-    // LOAD DATA FROM BACKEND
+    // FORMAT DATE AND TIME - INDIA
     // =========================================
 
-    function loadReceiptFromBackend() {
+    function formatIndianDateTime(dateValue) {
+
+        if (!dateValue) {
+
+            return "-";
+
+        }
+
+        const date =
+            new Date(dateValue);
+
+
+        if (isNaN(date.getTime())) {
+
+            return dateValue;
+
+        }
+
+
+        return date.toLocaleString(
+            "en-IN",
+            {
+                timeZone: "Asia/Kolkata",
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                hour12: true
+            }
+        );
+
+    }
+
+
+    // =========================================
+    // SHOW RECEIPT
+    // =========================================
+
+    function showReceipt(data) {
+
+        console.log(
+            "RECEIPT DATA:",
+            data
+        );
+
+
+        const registrationData =
+            data.registrationData ||
+            data.registration ||
+            {};
+
+
+        setText(
+            receiptEvent,
+            registrationData.event ||
+            data.event ||
+            "Tech Spark 2027"
+        );
+
+        setText(
+            receiptName,
+            registrationData.fullname ||
+            registrationData.name ||
+            data.fullname ||
+            data.name
+        );
+
+        setText(
+            receiptEmail,
+            registrationData.email ||
+            data.email
+        );
+
+        setText(
+            receiptCollege,
+            registrationData.college ||
+            data.college
+        );
+
+        setText(
+            receiptDepartment,
+            registrationData.department ||
+            data.department
+        );
+
+        setText(
+            receiptYear,
+            registrationData.year ||
+            data.year
+        );
+
+        setText(
+            receiptMethod,
+            data.paymentMethod ||
+            registrationData.paymentMethod ||
+            "QR / UPI Demo"
+        );
+
+        setText(
+            receiptTransaction,
+            data.transactionId ||
+            data.sessionId ||
+            sessionId
+        );
+
+
+        // =====================================
+        // CORRECT INDIA DATE AND TIME
+        // =====================================
+
+        const paymentDate =
+            data.paymentDate ||
+            data.paidAt ||
+            data.createdAt;
+
+
+        setText(
+            receiptDate,
+            formatIndianDateTime(
+                paymentDate
+            )
+        );
+
+
+        // =====================================
+        // AMOUNT
+        // =====================================
+
+        if (receiptAmount) {
+
+            const amount =
+                Number(
+                    data.amount ||
+                    registrationData.amount ||
+                    1000
+                );
+
+            receiptAmount.textContent =
+                "₹" +
+                amount.toLocaleString(
+                    "en-IN"
+                );
+
+        }
+
+
+        // =====================================
+        // SAVE LOCAL BACKUP
+        // =====================================
+
+        localStorage.setItem(
+            "receiptData",
+            JSON.stringify({
+
+                fullname:
+                    registrationData.fullname ||
+                    registrationData.name ||
+                    data.fullname ||
+                    data.name,
+
+                email:
+                    registrationData.email ||
+                    data.email,
+
+                college:
+                    registrationData.college ||
+                    data.college,
+
+                department:
+                    registrationData.department ||
+                    data.department,
+
+                year:
+                    registrationData.year ||
+                    data.year,
+
+                event:
+                    registrationData.event ||
+                    data.event,
+
+                paymentMethod:
+                    data.paymentMethod ||
+                    registrationData.paymentMethod ||
+                    "QR / UPI Demo",
+
+                transactionId:
+                    data.transactionId ||
+                    data.sessionId ||
+                    sessionId,
+
+                paymentDate:
+                    paymentDate,
+
+                amount:
+                    data.amount ||
+                    registrationData.amount ||
+                    1000
+
+            })
+        );
+
+    }
+
+
+    // =========================================
+    // LOAD FROM BACKEND
+    // =========================================
+
+    if (sessionId) {
 
         fetch(
             API_URL +
             "/payment-status/" +
             encodeURIComponent(
-                paymentSessionId
+                sessionId
             )
         )
 
@@ -72,7 +301,8 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!response.ok) {
 
                 throw new Error(
-                    "Unable to load payment details."
+                    "Unable to load receipt. Server returned " +
+                    response.status
                 );
 
             }
@@ -83,89 +313,51 @@ document.addEventListener("DOMContentLoaded", function () {
 
         .then(function (data) {
 
-            if (data.status !== "paid") {
-
-                alert(
-                    "Payment is not completed yet."
-                );
-
-                window.location.href =
-                    "payment.html";
-
-                return;
-
-            }
-
-
-            // =========================================
-            // CREATE RECEIPT DATA
-            // =========================================
-
-            const registrationData =
-                data.registrationData || {};
-
-
-            const receiptData = {
-
-                fullname:
-                    registrationData.fullname || "-",
-
-                email:
-                    registrationData.email || "-",
-
-                college:
-                    registrationData.college || "-",
-
-                department:
-                    registrationData.department || "-",
-
-                year:
-                    registrationData.year || "-",
-
-                event:
-                    registrationData.event ||
-                    "Tech Spark 2027",
-
-                paymentMethod:
-                    data.paymentMethod ||
-                    "QR / UPI Demo",
-
-                amount:
-                    data.amount || 1000,
-
-                transactionId:
-                    data.transactionId || "-",
-
-                paymentDate:
-                    data.paymentDate || "-"
-
-            };
-
-
-            // Save locally too
-
-            localStorage.setItem(
-                "receiptData",
-                JSON.stringify(receiptData)
-            );
-
-
-            // Show receipt
-
-            showReceipt(receiptData);
+            showReceipt(data);
 
         })
 
         .catch(function (error) {
 
             console.error(
-                "Receipt loading error:",
+                "RECEIPT ERROR:",
                 error
             );
 
-            alert(
-                "Unable to load receipt details."
-            );
+
+            // =================================
+            // FALLBACK TO LOCAL DATA
+            // =================================
+
+            const savedData =
+                JSON.parse(
+                    localStorage.getItem(
+                        "receiptData"
+                    )
+                );
+
+
+            if (savedData) {
+
+                showReceipt({
+
+                    registrationData: savedData,
+
+                    paymentMethod:
+                        savedData.paymentMethod,
+
+                    transactionId:
+                        savedData.transactionId,
+
+                    paymentDate:
+                        savedData.paymentDate,
+
+                    amount:
+                        savedData.amount
+
+                });
+
+            }
 
         });
 
@@ -173,121 +365,47 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =========================================
-    // SHOW RECEIPT DATA
+    // NO SESSION - LOCAL FALLBACK
     // =========================================
 
-    function showReceipt(receiptData) {
+    else {
+
+        const savedData =
+            JSON.parse(
+                localStorage.getItem(
+                    "receiptData"
+                )
+            );
 
 
-        // EVENT
+        if (savedData) {
 
-        document.getElementById(
-            "receiptEvent"
-        ).textContent =
-            receiptData.event ||
-            "Event Registration";
+            showReceipt({
 
+                registrationData:
+                    savedData,
 
-        // STUDENT DETAILS
+                paymentMethod:
+                    savedData.paymentMethod,
 
-        document.getElementById(
-            "receiptName"
-        ).textContent =
-            receiptData.fullname || "-";
+                transactionId:
+                    savedData.transactionId,
 
+                paymentDate:
+                    savedData.paymentDate,
 
-        document.getElementById(
-            "receiptEmail"
-        ).textContent =
-            receiptData.email || "-";
+                amount:
+                    savedData.amount
 
+            });
 
-        document.getElementById(
-            "receiptCollege"
-        ).textContent =
-            receiptData.college || "-";
-
-
-        document.getElementById(
-            "receiptDepartment"
-        ).textContent =
-            receiptData.department || "-";
-
-
-        document.getElementById(
-            "receiptYear"
-        ).textContent =
-            receiptData.year || "-";
-
-
-        // PAYMENT DETAILS
-
-        document.getElementById(
-            "receiptMethod"
-        ).textContent =
-            receiptData.paymentMethod || "-";
-
-
-        document.getElementById(
-            "receiptTransaction"
-        ).textContent =
-            receiptData.transactionId || "-";
-
-
-        document.getElementById(
-            "receiptDate"
-        ).textContent =
-            receiptData.paymentDate || "-";
-
-
-        document.getElementById(
-            "receiptAmount"
-        ).textContent =
-            "₹" +
-            Number(
-                receiptData.amount || 1000
-            ).toLocaleString("en-IN");
+        }
 
     }
 
 
     // =========================================
-    // VERIFY REGISTRATION
-    // =========================================
-
-    const openQR =
-        document.getElementById("openQR");
-
-
-    if (openQR) {
-
-        openQR.addEventListener(
-            "click",
-            function () {
-
-                if (paymentSessionId) {
-
-                    window.location.href =
-                        "verification.html?session=" +
-                        encodeURIComponent(
-                            paymentSessionId
-                        );
-
-                } else {
-
-                    window.location.href =
-                        "verification.html";
-
-                }
-
-            }
-        );
-
-    }
-
-
-    // =========================================
-    // PRINT / SAVE RECEIPT
+    // PRINT RECEIPT
     // =========================================
 
     const downloadReceipt =
@@ -302,31 +420,7 @@ document.addEventListener("DOMContentLoaded", function () {
             "click",
             function () {
 
-                const originalText =
-                    downloadReceipt.innerHTML;
-
-
-                downloadReceipt.innerHTML =
-                    "Preparing Receipt...";
-
-
-                downloadReceipt.disabled =
-                    true;
-
-
-                setTimeout(function () {
-
-                    downloadReceipt.innerHTML =
-                        originalText;
-
-
-                    downloadReceipt.disabled =
-                        false;
-
-
-                    window.print();
-
-                }, 500);
+                window.print();
 
             }
         );
