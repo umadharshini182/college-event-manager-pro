@@ -431,14 +431,32 @@ document.addEventListener("DOMContentLoaded", function () {
 const openQR = document.getElementById("openQR");
 
 if (openQR) {
+
     openQR.addEventListener("click", function () {
 
-        const transactionId =
-            document.getElementById("receiptTransaction").textContent.trim();
+        // Get the real payment session ID from receipt page URL
+        const params = new URLSearchParams(
+            window.location.search
+        );
 
+        const paymentSessionId =
+            params.get("session");
+
+        if (!paymentSessionId) {
+
+            alert(
+                "Payment session not found. Please complete payment again."
+            );
+
+            return;
+
+        }
+
+        // Open verification page with the SESSION parameter
         window.location.href =
-            "verification.html?transaction=" +
-            encodeURIComponent(transactionId);
+            "verification.html?session=" +
+            encodeURIComponent(paymentSessionId);
 
     });
+
 }
