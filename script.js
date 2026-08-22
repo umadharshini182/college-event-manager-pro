@@ -5,9 +5,9 @@
 
 window.addEventListener("load", function () {
 
-    // ==========================
+    // ==========================================
     // LOADER
-    // ==========================
+    // ==========================================
 
     const loader = document.getElementById("loader");
 
@@ -16,9 +16,9 @@ window.addEventListener("load", function () {
     }
 
 
-    // ==========================
-    // EVENT NAME
-    // ==========================
+    // ==========================================
+    // EVENT NAME FROM URL
+    // ==========================================
 
     const params = new URLSearchParams(
         window.location.search
@@ -33,20 +33,20 @@ window.addEventListener("load", function () {
     }
 
 
-    // ==========================
+    // ==========================================
     // EVENT FEE
-    // ==========================
+    // ==========================================
 
     const fee = document.getElementById("fee");
 
     if (fee) {
-        fee.innerHTML = "₹1000";
+        fee.textContent = "₹1000";
     }
 
 
-    // ==========================
+    // ==========================================
     // REGISTRATION FORM
-    // ==========================
+    // ==========================================
 
     const form = document.getElementById(
         "registrationForm"
@@ -61,72 +61,65 @@ window.addEventListener("load", function () {
                 e.preventDefault();
 
 
-                const fullname =
-                    document.querySelector(
-                        'input[name="fullname"]'
-                    ).value.trim();
-
-
-                const email =
-                    document.querySelector(
-                        'input[name="email"]'
-                    ).value.trim();
-
-
-                const college =
-                    document.querySelector(
-                        'input[name="college"]'
-                    ).value.trim();
-
-
-                const department =
-                    document.getElementById(
-                        "department"
-                    ).value;
-
-
-                const year =
-                    document.getElementById(
-                        "year"
-                    ).value;
-
-
-                const event =
-                    document.getElementById(
-                        "event"
-                    ).value;
-
-
-                // ==========================
-                // STUDENT DATA
-                // ==========================
-
                 const studentData = {
 
-                    fullname: fullname,
+                    fullname:
+                        document
+                            .querySelector(
+                                'input[name="fullname"]'
+                            )
+                            .value
+                            .trim(),
 
-                    email: email,
+                    email:
+                        document
+                            .querySelector(
+                                'input[name="email"]'
+                            )
+                            .value
+                            .trim(),
 
-                    college: college,
+                    college:
+                        document
+                            .querySelector(
+                                'input[name="college"]'
+                            )
+                            .value
+                            .trim(),
 
-                    department: department,
+                    department:
+                        document
+                            .getElementById("department")
+                            .value,
 
-                    year: year,
+                    year:
+                        document
+                            .getElementById("year")
+                            .value,
 
-                    event: event
-
+                    event:
+                        document
+                            .getElementById("event")
+                            .value
                 };
 
 
-                // ==========================
-                // SAVE COMPLETE DATA
-                // ==========================
+                // Check data
+
+                console.log(
+                    "SAVING REGISTRATION DATA:",
+                    studentData
+                );
+
+
+                // IMPORTANT:
+                // Save using BOTH names so all
+                // payment and receipt pages can use it
 
                 localStorage.setItem(
                     "studentData",
                     JSON.stringify(studentData)
                 );
-
 
                 localStorage.setItem(
                     "registrationData",
@@ -134,59 +127,40 @@ window.addEventListener("load", function () {
                 );
 
 
-                // ==========================
-                // SAVE INDIVIDUAL DATA
-                // ==========================
+                // Also save individual values
 
                 localStorage.setItem(
                     "fullname",
-                    fullname
+                    studentData.fullname
                 );
-
 
                 localStorage.setItem(
                     "email",
-                    email
+                    studentData.email
                 );
-
 
                 localStorage.setItem(
                     "college",
-                    college
+                    studentData.college
                 );
-
 
                 localStorage.setItem(
                     "department",
-                    department
+                    studentData.department
                 );
-
 
                 localStorage.setItem(
                     "year",
-                    year
+                    studentData.year
                 );
-
 
                 localStorage.setItem(
                     "event",
-                    event
+                    studentData.event
                 );
 
 
-                // ==========================
-                // CHECK DATA
-                // ==========================
-
-                console.log(
-                    "REGISTRATION DATA SAVED:",
-                    studentData
-                );
-
-
-                // ==========================
-                // GO TO PAYMENT
-                // ==========================
+                // Go to payment page
 
                 window.location.href =
                     "payment.html";
@@ -197,20 +171,28 @@ window.addEventListener("load", function () {
     }
 
 
-    // ==========================
+    // ==========================================
     // COUNTDOWN
-    // ==========================
+    // ==========================================
+
+    const daysElement =
+        document.getElementById("days");
+
+    const hoursElement =
+        document.getElementById("hours");
+
+    const minutesElement =
+        document.getElementById("minutes");
+
+    const secondsElement =
+        document.getElementById("seconds");
+
 
     if (
-
-        document.getElementById("days") &&
-
-        document.getElementById("hours") &&
-
-        document.getElementById("minutes") &&
-
-        document.getElementById("seconds")
-
+        daysElement &&
+        hoursElement &&
+        minutesElement &&
+        secondsElement
     ) {
 
         const eventDate =
@@ -224,28 +206,16 @@ window.addEventListener("load", function () {
             const now =
                 new Date().getTime();
 
-
             const distance =
                 eventDate - now;
 
 
             if (distance <= 0) {
 
-                document.getElementById(
-                    "days"
-                ).textContent = "0";
-
-                document.getElementById(
-                    "hours"
-                ).textContent = "0";
-
-                document.getElementById(
-                    "minutes"
-                ).textContent = "0";
-
-                document.getElementById(
-                    "seconds"
-                ).textContent = "0";
+                daysElement.textContent = "0";
+                hoursElement.textContent = "0";
+                minutesElement.textContent = "0";
+                secondsElement.textContent = "0";
 
                 return;
 
@@ -285,46 +255,22 @@ window.addEventListener("load", function () {
             );
 
 
-            document.getElementById(
-                "days"
-            ).textContent = days;
+            daysElement.textContent =
+                String(days).padStart(2, "0");
 
+            hoursElement.textContent =
+                String(hours).padStart(2, "0");
 
-            document.getElementById(
-                "hours"
-            ).textContent =
-                String(hours).padStart(
-                    2,
-                    "0"
-                );
+            minutesElement.textContent =
+                String(minutes).padStart(2, "0");
 
-
-            document.getElementById(
-                "minutes"
-            ).textContent =
-                String(minutes).padStart(
-                    2,
-                    "0"
-                );
-
-
-            document.getElementById(
-                "seconds"
-            ).textContent =
-                String(seconds).padStart(
-                    2,
-                    "0"
-                );
+            secondsElement.textContent =
+                String(seconds).padStart(2, "0");
 
         }
 
 
-        // Run immediately
-
         updateCountdown();
-
-
-        // Update every second
 
         setInterval(
             updateCountdown,
@@ -333,135 +279,8 @@ window.addEventListener("load", function () {
 
     }
 
+
 });
-
-
-// ===========================================
-// PAYMENT PAGE
-// ===========================================
-
-const paymentForm =
-    document.getElementById("paymentForm");
-
-
-if (paymentForm) {
-
-    paymentForm.addEventListener(
-        "submit",
-        function (e) {
-
-            e.preventDefault();
-
-
-            const fullname =
-                localStorage.getItem(
-                    "fullname"
-                );
-
-
-            const email =
-                localStorage.getItem(
-                    "email"
-                );
-
-
-            const college =
-                localStorage.getItem(
-                    "college"
-                );
-
-
-            const department =
-                localStorage.getItem(
-                    "department"
-                );
-
-
-            const year =
-                localStorage.getItem(
-                    "year"
-                );
-
-
-            const event =
-                localStorage.getItem(
-                    "event"
-                );
-
-
-            fetch(
-                "https://college-event-manager-pro.onrender.com/register",
-                {
-
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body: JSON.stringify({
-
-                        fullname: fullname,
-
-                        email: email,
-
-                        college: college,
-
-                        department: department,
-
-                        year: year,
-
-                        event: event
-
-                    })
-
-                }
-            )
-
-            .then(function (response) {
-
-                return response.json();
-
-            })
-
-            .then(function (data) {
-
-                if (data.success) {
-
-                    localStorage.setItem(
-                        "registrationId",
-                        data.registrationId
-                    );
-
-
-                    window.location.href =
-                        "registration-success.html";
-
-                }
-
-                else {
-
-                    alert(
-                        "Registration Failed"
-                    );
-
-                }
-
-            })
-
-            .catch(function () {
-
-                alert(
-                    "Server Error"
-                );
-
-            });
-
-        }
-    );
-
-}
 
 
 // ===========================================
@@ -469,49 +288,42 @@ if (paymentForm) {
 // ===========================================
 
 const studentName =
-    document.getElementById(
-        "studentName"
-    );
-
+    document.getElementById("studentName");
 
 const regId =
-    document.getElementById(
-        "registrationId"
-    );
-
+    document.getElementById("registrationId");
 
 const eventName =
-    document.getElementById(
-        "eventName"
-    );
+    document.getElementById("eventName");
+
+
+const savedStudentData =
+    JSON.parse(
+        localStorage.getItem("studentData")
+    ) || {};
 
 
 if (studentName) {
 
-    studentName.innerHTML =
-        localStorage.getItem(
-            "fullname"
-        ) || "";
+    studentName.textContent =
+        savedStudentData.fullname || "";
 
 }
 
 
 if (regId) {
 
-    regId.innerHTML =
-        localStorage.getItem(
-            "registrationId"
-        ) || "";
+    regId.textContent =
+        localStorage.getItem("registrationId") ||
+        "";
 
 }
 
 
 if (eventName) {
 
-    eventName.innerHTML =
-        localStorage.getItem(
-            "event"
-        ) || "";
+    eventName.textContent =
+        savedStudentData.event || "";
 
 }
 
@@ -522,58 +334,35 @@ if (eventName) {
 
 function searchStudent() {
 
-    const searchInput =
-        document.getElementById(
-            "search"
-        );
-
+    const searchElement =
+        document.getElementById("search");
 
     const table =
-        document.getElementById(
-            "studentTable"
-        );
+        document.getElementById("studentTable");
 
 
-    if (!searchInput || !table) {
-
+    if (!searchElement || !table) {
         return;
-
     }
 
 
     const input =
-        searchInput.value.toLowerCase();
-
+        searchElement.value.toLowerCase();
 
     const rows =
-        table.getElementsByTagName(
-            "tr"
-        );
+        table.getElementsByTagName("tr");
 
 
-    for (
-        let i = 0;
-        i < rows.length;
-        i++
-    ) {
+    for (let i = 0; i < rows.length; i++) {
 
         const text =
             rows[i].innerText.toLowerCase();
 
 
-        if (
-            text.indexOf(input) > -1
-        ) {
-
-            rows[i].style.display = "";
-
-        }
-
-        else {
-
-            rows[i].style.display = "none";
-
-        }
+        rows[i].style.display =
+            text.includes(input)
+                ? ""
+                : "none";
 
     }
 
@@ -581,115 +370,80 @@ function searchStudent() {
 
 
 // ===========================================
-// STUDENT COUNT
+// DASHBOARD COUNTS
 // ===========================================
 
 function updateDashboardCounts(data) {
 
     if (!data) {
-
         return;
-
     }
 
 
-    const total =
-        data.length;
-
+    const total = data.length;
 
     let paid = 0;
-
     let pending = 0;
-
     let revenue = 0;
 
 
-    data.forEach(
-        function (student) {
+    data.forEach(function (student) {
 
-            if (
-                student.payment_status ===
-                "Paid"
-            ) {
+        if (
+            student.payment_status === "Paid"
+        ) {
 
-                paid++;
+            paid++;
 
-                revenue += Number(
-                    student.amount
-                ) || 0;
+            revenue += Number(
+                student.amount || 0
+            );
 
-            }
+        } else {
 
-            else {
-
-                pending++;
-
-            }
+            pending++;
 
         }
-    );
+
+    });
 
 
     const countElement =
-        document.getElementById(
-            "count"
-        );
-
+        document.getElementById("count");
 
     const paidElement =
-        document.getElementById(
-            "paid"
-        );
-
+        document.getElementById("paid");
 
     const pendingElement =
-        document.getElementById(
-            "pending"
-        );
-
+        document.getElementById("pending");
 
     const revenueElement =
-        document.getElementById(
-            "revenue"
-        );
+        document.getElementById("revenue");
 
 
     if (countElement) {
-
-        countElement.innerText =
-            total;
-
+        countElement.textContent = total;
     }
-
 
     if (paidElement) {
-
-        paidElement.innerText =
-            paid;
-
+        paidElement.textContent = paid;
     }
-
 
     if (pendingElement) {
-
-        pendingElement.innerText =
-            pending;
-
+        pendingElement.textContent = pending;
     }
 
-
     if (revenueElement) {
-
-        revenueElement.innerText =
-            "₹" + revenue;
-
+        revenueElement.textContent =
+            "₹" +
+            revenue.toLocaleString("en-IN");
     }
 
 }
 
 
 // ===========================================
-// EVENT COUNT
+// EVENT COUNTS
 // ===========================================
 
 function getEventCounts(data) {
@@ -697,25 +451,17 @@ function getEventCounts(data) {
     const events = {};
 
 
-    data.forEach(
-        function (student) {
+    data.forEach(function (student) {
 
-            if (
-                events[student.event]
-            ) {
+        if (!events[student.event]) {
 
-                events[student.event]++;
-
-            }
-
-            else {
-
-                events[student.event] = 1;
-
-            }
+            events[student.event] = 0;
 
         }
-    );
+
+        events[student.event]++;
+
+    });
 
 
     return events;
@@ -732,7 +478,6 @@ function updateTrendingEvent(data) {
     const events =
         getEventCounts(data);
 
-
     let max = 0;
 
     let trending = "-";
@@ -740,16 +485,11 @@ function updateTrendingEvent(data) {
 
     for (const event in events) {
 
-        if (
-            events[event] > max
-        ) {
+        if (events[event] > max) {
 
-            max =
-                events[event];
+            max = events[event];
 
-
-            trending =
-                event;
+            trending = event;
 
         }
 
@@ -757,14 +497,12 @@ function updateTrendingEvent(data) {
 
 
     const trendingElement =
-        document.getElementById(
-            "trending"
-        );
+        document.getElementById("trending");
 
 
     if (trendingElement) {
 
-        trendingElement.innerText =
+        trendingElement.textContent =
             trending;
 
     }
