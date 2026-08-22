@@ -1936,10 +1936,9 @@ app.post("/payment-scanned", function (req, res) {
     setTimeout(function () {
 
         paymentSession.status = "paid";
-
+          
         paymentSession.paymentDate =
-            new Date().toLocaleString("en-IN");
-
+    new Date().toISOString();
         paymentSession.transactionId =
             "TXN" + Date.now();
 

@@ -52,7 +52,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
             });
 
+
             method.classList.add("selected");
+
 
             selectedMethod =
                 method.dataset.method ||
@@ -73,21 +75,62 @@ document.addEventListener("DOMContentLoaded", function () {
             "click",
             function () {
 
-                // =====================================
-                // GET REGISTRATION DATA
-                // =====================================
 
-                const registrationData =
+                // =================================
+                // GET SAVED REGISTRATION DATA
+                // =================================
+
+                const savedRegistration =
                     JSON.parse(
                         localStorage.getItem(
                             "registrationData"
                         )
-                    ) || {};
+                    ) ||
+                    JSON.parse(
+                        localStorage.getItem(
+                            "studentData"
+                        )
+                    ) ||
+                    {};
 
 
-                // =====================================
+                // =================================
+                // CREATE CLEAN REGISTRATION DATA
+                // =================================
+
+                const registrationData = {
+
+                    fullname:
+                        savedRegistration.fullname ||
+                        savedRegistration.name ||
+                        "",
+
+                    email:
+                        savedRegistration.email ||
+                        "",
+
+                    college:
+                        savedRegistration.college ||
+                        "",
+
+                    department:
+                        savedRegistration.department ||
+                        "",
+
+                    year:
+                        savedRegistration.year ||
+                        "",
+
+                    event:
+                        savedRegistration.event ||
+                        "Tech Spark 2027"
+
+                };
+
+
+                // =================================
                 // CREATE UNIQUE SESSION ID
-                // =====================================
+                // =================================
 
                 const sessionId =
                     "PAY-" +
@@ -95,22 +138,34 @@ document.addEventListener("DOMContentLoaded", function () {
                     "-" +
                     Math.random()
                         .toString(36)
-                        .substring(2, 8);
+                        .substring(2, 8)
+                        .toUpperCase();
 
 
-                // =====================================
+                console.log(
+                    "PAYMENT DATA:",
+                    registrationData
+                );
+
+
+                // =================================
                 // BUTTON LOADING STATE
-                // =====================================
+                // =================================
+
+                const originalButtonText =
+                    continuePayment.innerHTML;
+
 
                 continuePayment.disabled = true;
+
 
                 continuePayment.innerHTML =
                     "Preparing secure payment...";
 
 
-                // =====================================
+                // =================================
                 // CREATE PAYMENT SESSION
-                // =====================================
+                // =================================
 
                 fetch(
                     API_URL +
@@ -126,40 +181,35 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         },
 
-                        body: JSON.stringify({
+                        body:
+                            JSON.stringify({
 
-                            sessionId:
-                                sessionId,
+                                sessionId:
+                                    sessionId,
 
-                            registrationData:
-                                registrationData,
+                                registrationData:
+                                    registrationData,
 
-                            paymentMethod:
-                                selectedMethod
+                                paymentMethod:
+                                    selectedMethod
 
-                        })
+                            })
 
                     }
                 )
 
                 .then(function (response) {
 
-                    return response.json()
-                        .then(function (data) {
+                    if (!response.ok) {
 
-                            if (!response.ok) {
+                        throw new Error(
+                            "Server returned " +
+                            response.status
+                        );
 
-                                throw new Error(
-                                    data.message ||
-                                    "Server error: " +
-                                    response.status
-                                );
+                    }
 
-                            }
-
-                            return data;
-
-                        });
+                    return response.json();
 
                 })
 
@@ -175,9 +225,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
 
 
-                    // =================================
+                    // =============================
                     // OPEN QR MODAL
-                    // =================================
+                    // =============================
 
                     if (qrModal) {
 
@@ -188,37 +238,43 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
 
 
-                    // =================================
+                    // =============================
                     // CLEAR OLD QR
-                    // =================================
+                    // =============================
 
                     if (paymentQRCode) {
 
-                        paymentQRCode.innerHTML = "";
+                        paymentQRCode.innerHTML =
+                            "";
 
                     }
 
 
-                    // =================================
+                    // =============================
                     // CREATE PHONE PAYMENT URL
-                    // =================================
+                    // =============================
 
                     const phonePaymentURL =
                         window.location.origin +
-                        window.location.pathname
-                            .replace(
-                                "payment.html",
-                                "phone-payment.html"
-                            ) +
+                        window.location.pathname.replace(
+                            "payment.html",
+                            "phone-payment.html"
+                        ) +
                         "?session=" +
                         encodeURIComponent(
                             sessionId
                         );
 
 
-                    // =================================
+                    console.log(
+                        "PHONE PAYMENT URL:",
+                        phonePaymentURL
+                    );
+
+
+                    // =============================
                     // GENERATE QR CODE
-                    // =================================
+                    // =============================
 
                     if (
                         paymentQRCode &&
@@ -244,57 +300,30 @@ document.addEventListener("DOMContentLoaded", function () {
                             }
                         );
 
-                    } else {
-
-                        throw new Error(
-                            "QR Code library is not loaded."
-                        );
-
                     }
 
 
-                    // =================================
-                    // SHOW PAYMENT STATUS
-                    // =================================
+                    // =============================
+                    // PAYMENT STATUS
+                    // =============================
 
                     if (paymentStatus) {
 
                         paymentStatus.textContent =
-                            "Scan the QR code to continue payment.";
+                            "Scan this QR code using another device.";
 
                     }
 
 
-                    // =================================
-                    // SAVE SESSION ID
-                    // =================================
-
-                    localStorage.setItem(
-                        "paymentSessionId",
-                        sessionId
-                    );
-
-
-                    localStorage.setItem(
-                        "selectedPaymentMethod",
-                        selectedMethod
-                    );
-
-
-                    // =================================
-                    // START STATUS CHECK
-                    // =================================
+                    // =============================
+                    // START STATUS CHECKING
+                    // =============================
 
                     checkPaymentStatus(
                         sessionId
                     );
 
                 })
-
-
-                // =====================================
-                // ERROR
-                // =====================================
 
                 .catch(function (error) {
 
@@ -303,22 +332,21 @@ document.addEventListener("DOMContentLoaded", function () {
                         error
                     );
 
+
                     alert(
                         "Unable to start payment: " +
                         error.message
                     );
 
-                    continuePayment.disabled = false;
+                })
 
-                    continuePayment.innerHTML = `
-                        <span>
-                            Continue securely
-                        </span>
+                .finally(function () {
 
-                        <span class="button-arrow">
-                            →
-                        </span>
-                    `;
+                    continuePayment.disabled =
+                        false;
+
+                    continuePayment.innerHTML =
+                        originalButtonText;
 
                 });
 
@@ -332,15 +360,19 @@ document.addEventListener("DOMContentLoaded", function () {
     // CLOSE QR MODAL
     // =========================================
 
-    if (closeQR && qrModal) {
+    if (closeQR) {
 
         closeQR.addEventListener(
             "click",
             function () {
 
-                qrModal.classList.remove(
-                    "active"
-                );
+                if (qrModal) {
+
+                    qrModal.classList.remove(
+                        "active"
+                    );
+
+                }
 
             }
         );
@@ -349,12 +381,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =========================================
-    // AUTOMATIC PAYMENT STATUS CHECK
+    // CHECK PAYMENT STATUS
     // =========================================
 
-    function checkPaymentStatus(
-        sessionId
-    ) {
+    function checkPaymentStatus(sessionId) {
 
         const statusInterval =
             setInterval(
@@ -373,7 +403,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         if (!response.ok) {
 
                             throw new Error(
-                                "Unable to check payment status."
+                                "Unable to check payment."
                             );
 
                         }
@@ -384,7 +414,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     .then(function (data) {
 
-                        // PROCESSING
+                        if (
+                            data.status ===
+                            "scanned"
+                        ) {
+
+                            if (paymentStatus) {
+
+                                paymentStatus.textContent =
+                                    "QR scanned. Waiting for payment...";
+
+                            }
+
+                        }
+
 
                         if (
                             data.status ===
@@ -400,8 +443,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         }
 
-
-                        // PAID
 
                         if (
                             data.status ===
@@ -419,6 +460,12 @@ document.addEventListener("DOMContentLoaded", function () {
                                     "✓ Payment successful! Opening receipt...";
 
                             }
+
+
+                            localStorage.setItem(
+                                "paymentSessionId",
+                                sessionId
+                            );
 
 
                             setTimeout(
@@ -449,7 +496,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 },
 
-                1500
+                1000
             );
 
     }
