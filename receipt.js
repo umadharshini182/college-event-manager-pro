@@ -428,3 +428,17 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
+const openQR = document.getElementById("openQR");
+
+if (openQR) {
+    openQR.addEventListener("click", function () {
+
+        const transactionId =
+            document.getElementById("receiptTransaction").textContent.trim();
+
+        window.location.href =
+            "verification.html?transaction=" +
+            encodeURIComponent(transactionId);
+
+    });
+}
