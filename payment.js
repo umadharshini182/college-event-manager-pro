@@ -335,15 +335,31 @@ document.addEventListener("DOMContentLoaded", function () {
                     // =============================
                     // OPEN QR MODAL
                     // =============================
+                     // =================================
+// OPEN QR MODAL
+// =================================
 
-                    if (qrModal) {
+console.log("QR MODAL:", qrModal);
+console.log("QR CONTAINER:", paymentQRCode);
+console.log("QRCODE LIBRARY:", typeof QRCode);
 
-                        qrModal.classList.add(
-                            "active"
-                        );
+if (!qrModal) {
+    alert("QR modal not found in payment.html");
+    return;
+}
 
-                    }
+if (!paymentQRCode) {
+    alert("QR container not found in payment.html");
+    return;
+}
 
+qrModal.classList.add("show");
+qrModal.classList.add("active");
+
+qrModal.style.display = "flex";
+qrModal.style.visibility = "visible";
+qrModal.style.opacity = "1";
+qrModal.style.zIndex = "999999";
 
                     // =============================
                     // CLEAR OLD QR
