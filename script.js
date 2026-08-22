@@ -1,6 +1,7 @@
 // ==========================
 // REGISTRATION FORM
 // ==========================
+console.log("SCRIPT.JS IS RUNNING");
 const form = document.getElementById("registrationForm");
 
 if (form) {
