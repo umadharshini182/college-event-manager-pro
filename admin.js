@@ -319,14 +319,9 @@ student.attendance==="Present"
 document.getElementById("attendanceCount").innerText=
 attendance;
 // Certificates
-
 const certificates = students.filter(student =>
     Number(student.certificate_generated) === 1 ||
-    student.certificate_generated === true ||
-    (
-        student.certificate_id &&
-        student.certificate_id.trim() !== ""
-    )
+    student.certificate_generated === true
 ).length;
 
 document.getElementById("certificateGenerated").innerText =

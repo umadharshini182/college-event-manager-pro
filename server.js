@@ -483,16 +483,15 @@ app.post("/register", (req, res) => {
     // --------------------------------------
     // CERTIFICATE ID
     // --------------------------------------
-
     const certificateId =
-        "CEM-" +
-        new Date().getFullYear() +
-        "-" +
-        String(
-            Math.floor(
-                Math.random() * 999999
-            )
-        ).padStart(6, "0");
+    "CEM-" +
+    new Date().getFullYear() +
+    "-" +
+    String(
+        Math.floor(
+            Math.random() * 999999
+        )
+    ).padStart(6, "0");
 
 
     // --------------------------------------
@@ -594,11 +593,10 @@ app.post("/register", (req, res) => {
             finalPaymentMethod,
             finalPaymentId,
             finalPaymentDate,
-
             "Absent",
-            false,
-            certificateId,
-            null
+             false,
+             null,
+             null
 
         ],
 
@@ -1897,7 +1895,104 @@ app.get("/payment-status/:sessionId", function (req, res) {
     });
 
 });
+// ======================================
+// SAVE COMPLETED QR PAYMENT TO DATABASE
+// ======================================
 
+function saveCompletedRegistration(paymentSession) {
+
+    const registrationData =
+        paymentSession.registrationData || {};
+
+    const certificateId =
+        "CEM-" +
+        new Date().getFullYear() +
+        "-" +
+        String(
+            Math.floor(Math.random() * 999999)
+        ).padStart(6, "0");
+
+
+    const sql = `
+        INSERT INTO registrations (
+
+            fullname,
+            email,
+            college,
+            department,
+            year,
+            event,
+
+            payment_status,
+            amount,
+            payment_method,
+            transaction_id,
+            payment_date,
+
+            attendance,
+            certificate_generated,
+            certificate_id,
+            certificate_date
+
+        )
+
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+
+    const values = [
+
+        registrationData.fullname,
+        registrationData.email,
+        registrationData.college,
+        registrationData.department,
+        registrationData.year,
+        registrationData.event,
+
+        "Paid",
+        paymentSession.amount || 1000,
+        paymentSession.paymentMethod || "QR Payment",
+        paymentSession.transactionId,
+        paymentSession.paymentDate,
+
+        "Absent",
+        false,
+        certificateId,
+        null
+
+    ];
+
+
+    db.query(
+        sql,
+        values,
+        function (err, result) {
+
+            if (err) {
+
+                console.error(
+                    "❌ QR payment database save error:",
+                    err
+                );
+
+                return;
+
+            }
+
+
+            paymentSession.registrationId =
+                result.insertId;
+
+
+            console.log(
+                "✅ QR payment registration saved:",
+                result.insertId
+            );
+
+        }
+    );
+
+}
 
 app.post("/payment-scanned", function (req, res) {
 
@@ -1942,10 +2037,7 @@ app.post("/payment-scanned", function (req, res) {
 
         paymentSession.transactionId =
             "TXN" + Date.now();
-
-        if (typeof savePaymentToDatabase === "function") {
-           saveCompletedRegistration(paymentSession);
-        }
+         saveCompletedRegistration(paymentSession);
 
         console.log(
             "Payment completed:",
@@ -1955,6 +2047,82 @@ app.post("/payment-scanned", function (req, res) {
     }, 4000);
 
 });
+function saveCompletedRegistration(paymentSession) {
+
+    const data = paymentSession.registrationData;
+
+    if (
+        !data.fullname ||
+        !data.email ||
+        !data.college ||
+        !data.department ||
+        !data.year ||
+        !data.event
+    ) {
+        console.log("❌ Payment registration data incomplete");
+        return;
+    }
+
+    const sql = `
+        INSERT INTO registrations (
+            fullname,
+            email,
+            college,
+            department,
+            year,
+            event,
+            payment_status,
+            amount,
+            payment_method,
+            transaction_id,
+            payment_date,
+            attendance,
+            certificate_generated,
+            certificate_id,
+            certificate_date
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    db.query(
+        sql,
+        [
+            data.fullname,
+            data.email,
+            data.college,
+            data.department,
+            data.year,
+            data.event,
+
+            "Paid",
+            paymentSession.amount || 1000,
+            paymentSession.paymentMethod || "QR Payment",
+            paymentSession.transactionId,
+            paymentSession.paymentDate,
+
+            "Absent",
+            false,
+            null,
+            null
+        ],
+        (err, result) => {
+
+            if (err) {
+                console.error(
+                    "❌ Payment database save error:",
+                    err
+                );
+                return;
+            }
+
+            console.log(
+                "✅ Payment and registration saved:",
+                result.insertId
+            );
+
+        }
+    );
+}
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
