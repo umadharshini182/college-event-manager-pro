@@ -1,6 +1,6 @@
-/* =========================================
-   PHONE PAYMENT PAGE
-========================================= */
+/* ===============================
+   RESET
+================================ */
 
 * {
     margin: 0;
@@ -8,238 +8,925 @@
     box-sizing: border-box;
 }
 
+
+/* ===============================
+   BODY / HOME BACKGROUND
+================================ */
+
 body {
     min-height: 100vh;
-    font-family: Arial, sans-serif;
 
-    background:
-        linear-gradient(
-            rgba(3, 12, 32, 0.88),
-            rgba(3, 12, 32, 0.94)
-        ),
-        url("IMAGE FOR UMA EVENT.jpg");
-
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-
-    color: #ffffff;
-}
-
-
-/* =========================================
-   MAIN PAYMENT PAGE
-========================================= */
-
-.phone-payment-page {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    padding: 25px 18px;
-}
-
-
-/* =========================================
-   PAYMENT CONTAINER
-========================================= */
-
-.phone-payment-container {
-    width: 100%;
-    max-width: 460px;
-
-    background:
-        rgba(12, 28, 55, 0.92);
-
-    border:
-        1px solid rgba(255, 255, 255, 0.14);
-
-    border-radius: 28px;
-
-    padding: 30px 24px;
-
-    box-shadow:
-        0 25px 70px rgba(0, 0, 0, 0.45);
-
-    backdrop-filter:
-        blur(16px);
-}
-
-
-/* =========================================
-   HEADER
-========================================= */
-
-.payment-logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-
-    margin-bottom: 35px;
-}
-
-.payment-logo-icon {
-    width: 48px;
-    height: 48px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 15px;
+    font-family: "Poppins", sans-serif;
+    color: #f5f8ff;
 
     background:
         linear-gradient(
             135deg,
-            #2f72c4,
-            #183a6d
-        );
+            rgba(5, 15, 35, 0.88),
+            rgba(9, 25, 58, 0.82)
+        ),
+        url("IMAGE FOR UMA EVENT.jpeg");
 
-    font-size: 24px;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
 }
 
-.payment-logo h2 {
-    font-size: 21px;
+
+/* ===============================
+   NAVBAR
+================================ */
+
+.payment-navbar {
+    height: 76px;
+    padding: 0 7%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: rgba(7, 18, 42, 0.65);
+    backdrop-filter: blur(18px);
+
+    border-bottom:
+        1px solid rgba(255, 255, 255, 0.1);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    color: #ffffff;
+    text-decoration: none;
+
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.brand-mark {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #3b82f6,
+            #6366f1
+        );
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.payment-navbar nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.payment-navbar nav a {
+    color: rgba(255, 255, 255, 0.72);
+    text-decoration: none;
+
+    font-size: 14px;
+
+    transition: 0.25s ease;
+}
+
+.payment-navbar nav a:hover {
     color: #ffffff;
 }
 
-.payment-logo p {
-    margin-top: 4px;
 
-    font-size: 12px;
-    letter-spacing: 1.5px;
+/* ===============================
+   PAGE
+================================ */
 
-    color: #a9b9d0;
+.payment-page {
+    min-height: calc(100vh - 76px);
+
+    display: flex;
+    justify-content: center;
+
+    padding: 55px 20px 80px;
+}
+
+.payment-wrapper {
+    width: 100%;
+    max-width: 760px;
 }
 
 
-/* =========================================
-   SECURITY BADGE
-========================================= */
+/* ===============================
+   PROCESS BAR
+================================ */
 
-.secure-badge {
+.process-bar {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+
+    margin-bottom: 55px;
+}
+
+.process-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    min-width: 100px;
+}
+
+.process-step span {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.25);
+
+    border-radius: 50%;
+
+    color: rgba(255, 255, 255, 0.5);
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.process-step p {
+    margin-top: 9px;
+
+    color: rgba(255, 255, 255, 0.5);
+
+    font-size: 11px;
+}
+
+.process-step.completed span {
+    background: #2563eb;
+    border-color: #2563eb;
+
+    color: #ffffff;
+}
+
+.process-step.completed p {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.process-step.active span {
+    border: 2px solid #60a5fa;
+
+    background: rgba(37, 99, 235, 0.25);
+
+    color: #9dccff;
+
+    box-shadow:
+        0 0 0 7px
+        rgba(59, 130, 246, 0.1);
+}
+
+.process-step.active p {
+    color: #ffffff;
+}
+
+.process-line {
+    width: 115px;
+    height: 1px;
+
+    margin-top: 17px;
+
+    background:
+        rgba(255, 255, 255, 0.18);
+}
+
+.process-line.completed {
+    background:
+        linear-gradient(
+            90deg,
+            #2563eb,
+            #60a5fa
+        );
+}
+
+
+/* ===============================
+   TITLE
+================================ */
+
+.payment-title {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.secure-pill {
     display: inline-flex;
     align-items: center;
     gap: 8px;
 
-    padding: 9px 14px;
+    padding: 8px 14px;
 
-    border-radius: 50px;
-
-    background:
-        rgba(49, 120, 210, 0.18);
+    margin-bottom: 17px;
 
     border:
-        1px solid rgba(90, 150, 230, 0.3);
+        1px solid rgba(96, 165, 250, 0.25);
 
-    color: #9bc8ff;
+    border-radius: 30px;
 
-    font-size: 13px;
+    background:
+        rgba(30, 64, 175, 0.15);
 
-    margin-bottom: 20px;
+    color: #9dccff;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 1.7px;
+}
+
+.secure-dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #22c55e;
+
+    box-shadow:
+        0 0 12px
+        rgba(34, 197, 94, 0.9);
+}
+
+.payment-title h1 {
+    margin-bottom: 10px;
+
+    font-size: 38px;
+    font-weight: 600;
+
+    letter-spacing: -1px;
+}
+
+.payment-title > p {
+    color: rgba(255, 255, 255, 0.62);
+
+    font-size: 14px;
 }
 
 
-/* =========================================
-   TITLE
-========================================= */
+/* ===============================
+   PAYMENT SUMMARY
+================================ */
 
-.payment-title {
-    font-size: 32px;
-    line-height: 1.2;
-
-    margin-bottom: 12px;
-}
-
-.payment-description {
-    color: #aebbd0;
-
-    line-height: 1.6;
-
-    margin-bottom: 28px;
-}
-
-
-/* =========================================
-   PAYMENT DETAILS
-========================================= */
-
-.payment-details {
-    display: flex;
-    flex-direction: column;
-
-    gap: 14px;
-
-    margin-bottom: 25px;
-}
-
-.payment-detail-row {
+.payment-summary {
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    padding: 17px;
+    padding: 25px 30px;
+
+    margin-bottom: 42px;
 
     background:
-        rgba(255, 255, 255, 0.07);
+        rgba(13, 31, 63, 0.72);
+
+    backdrop-filter: blur(16px);
 
     border:
-        1px solid rgba(255, 255, 255, 0.08);
+        1px solid rgba(255, 255, 255, 0.1);
 
-    border-radius: 16px;
+    border-radius: 20px;
 }
 
-.payment-detail-label {
-    color: #9daec6;
-    font-size: 13px;
+.summary-event,
+.summary-amount {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
-.payment-detail-value {
-    margin-top: 5px;
+.summary-event span,
+.summary-amount span {
+    color: rgba(255, 255, 255, 0.5);
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 1.7px;
+}
+
+.summary-event strong {
+    font-size: 19px;
+}
+
+.summary-amount {
+    text-align: right;
+}
+
+.summary-amount strong {
+    color: #9dccff;
+
+    font-size: 31px;
+    font-weight: 600;
+}
+
+
+/* ===============================
+   METHOD SECTION
+================================ */
+
+.method-section {
+    margin-bottom: 35px;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0 4px;
+
+    margin-bottom: 12px;
+}
+
+.section-heading > span {
+    color: rgba(255, 255, 255, 0.55);
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 1.7px;
+}
+
+.section-heading small {
+    color: rgba(255, 255, 255, 0.4);
+
+    font-size: 11px;
+}
+
+
+/* ===============================
+   PAYMENT METHODS
+================================ */
+
+.payment-method {
+    width: 100%;
+    min-height: 78px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 13px 22px;
+
+    border: none;
+    border-bottom:
+        1px solid rgba(255, 255, 255, 0.09);
+
+    background:
+        rgba(12, 29, 58, 0.74);
 
     color: #ffffff;
 
-    font-size: 16px;
+    font-family: inherit;
+
+    cursor: pointer;
+
+    transition:
+        background 0.25s ease,
+        transform 0.25s ease;
+}
+
+.payment-method:first-of-type {
+    border-radius: 18px 18px 0 0;
+}
+
+.payment-method:last-child {
+    border-bottom: none;
+
+    border-radius: 0 0 18px 18px;
+}
+
+.payment-method:only-of-type {
+    border-radius: 18px;
+}
+
+.payment-method:hover {
+    background:
+        rgba(25, 55, 105, 0.78);
+}
+
+.payment-method.selected {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(31, 92, 170, 0.85),
+            rgba(25, 55, 105, 0.8)
+        );
+
+    box-shadow:
+        inset 3px 0 0 #60a5fa;
+}
+
+
+/* ===============================
+   METHOD NAME
+================================ */
+
+.method-name {
+    display: flex;
+    flex-direction: column;
+
+    flex: 1;
+
+    gap: 3px;
+
+    margin-left: 17px;
+
+    text-align: left;
+}
+
+.method-name strong {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.method-name small {
+    color: rgba(255, 255, 255, 0.45);
+
+    font-size: 11px;
+}
+
+
+/* ===============================
+   METHOD LOGO BASE
+================================ */
+
+.method-logo {
+    width: 48px;
+    height: 48px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 13px;
+
+    background:
+        rgba(255, 255, 255, 0.96);
+
+    overflow: hidden;
+}
+
+
+/* ===============================
+   CSS GOOGLE PAY
+================================ */
+
+.gpay-logo {
+    gap: 1px;
+
+    font-size: 17px;
+
+    font-weight: 600;
+}
+
+.gpay-g {
+    color: #4285f4;
+
+    font-style: normal;
+
+    font-size: 22px;
+
     font-weight: 700;
 }
 
-.amount-value {
-    color: #8fc3ff;
+.gpay-pay {
+    color: #5f6368;
 
-    font-size: 26px;
+    font-style: normal;
+
+    font-size: 14px;
 }
 
 
-/* =========================================
-   PAYMENT PROCESSING
-========================================= */
+/* ===============================
+   CSS PHONEPE
+================================ */
 
-.payment-processing {
-    text-align: center;
+.phonepe-logo {
+    background:
+        linear-gradient(
+            135deg,
+            #6d2a91,
+            #4d186c
+        );
 
-    padding: 24px 10px;
+    color: #ffffff;
+
+    font-size: 27px;
+    font-weight: 600;
+
+    font-family: Georgia, serif;
 }
 
-.processing-spinner {
-    width: 42px;
-    height: 42px;
 
-    margin: 0 auto 18px;
+/* ===============================
+   CSS PAYTM
+================================ */
+
+.paytm-logo {
+    flex-direction: column;
+
+    gap: 0;
+
+    background: #ffffff;
+
+    font-size: 12px;
+
+    line-height: 10px;
+}
+
+.paytm-logo b:first-child {
+    color: #142c4c;
+}
+
+.paytm-logo b:last-child {
+    color: #00b9f2;
+}
+
+
+/* ===============================
+   BANK LOGOS - CSS
+================================ */
+
+.bank-logo {
+    font-weight: 700;
+}
+
+
+/* SBI */
+
+.sbi-logo {
+    background: #1372b8;
+
+    color: #ffffff;
+
+    font-size: 32px;
+
+    position: relative;
+}
+
+.sbi-logo::after {
+    content: "";
+
+    position: absolute;
+
+    width: 10px;
+    height: 10px;
 
     border-radius: 50%;
 
-    border: 4px solid
-        rgba(255, 255, 255, 0.15);
+    background: #1372b8;
 
-    border-top-color:
-        #65aaff;
-
-    animation:
-        paymentSpin 1s linear infinite;
+    bottom: 3px;
 }
 
-@keyframes paymentSpin {
+
+/* HDFC */
+
+.hdfc-logo {
+    background: #ffffff;
+
+    border: 6px solid #dc2f2f;
+}
+
+.hdfc-logo span {
+    width: 18px;
+    height: 18px;
+
+    border:
+        4px solid #164f9b;
+
+    background: #ffffff;
+}
+
+
+/* ICICI */
+
+.icici-logo {
+    background:
+        linear-gradient(
+            135deg,
+            #a93c28,
+            #e36b24
+        );
+
+    color: #ffffff;
+
+    font-family: Georgia, serif;
+
+    font-size: 30px;
+    font-style: italic;
+}
+
+
+/* AXIS */
+
+.axis-logo {
+    background: #8b1538;
+
+    color: #ffffff;
+
+    font-size: 20px;
+}
+
+
+/* ===============================
+   CHECK BUTTON
+================================ */
+
+.method-check {
+    width: 29px;
+    height: 29px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.28);
+
+    border-radius: 50%;
+
+    color: transparent;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    transition: 0.2s ease;
+}
+
+.payment-method.selected .method-check {
+    background: #5da6ed;
+    border-color: #5da6ed;
+
+    color: #0a2d54;
+}
+
+
+/* ===============================
+   CONTINUE BUTTON
+================================ */
+
+.continue-payment {
+    width: 100%;
+    height: 62px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+
+    border: none;
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2877e6,
+            #4f46e5
+        );
+
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 16px 35px
+        rgba(37, 99, 235, 0.3);
+
+    transition: 0.25s ease;
+}
+
+.continue-payment:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 20px 40px
+        rgba(37, 99, 235, 0.42);
+}
+
+.button-arrow {
+    font-size: 20px;
+}
+
+
+/* ===============================
+   SECURITY TEXT
+================================ */
+
+.security-text {
+    margin-top: 17px;
+
+    text-align: center;
+
+    color: rgba(255, 255, 255, 0.42);
+
+    font-size: 11px;
+}
+
+.lock-icon {
+    margin-right: 5px;
+
+    color: #60a5fa;
+}
+
+
+/* ===============================
+   QR MODAL
+================================ */
+
+.qr-modal {
+    position: fixed;
+    inset: 0;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(2, 8, 22, 0.82);
+
+    backdrop-filter: blur(12px);
+
+    z-index: 9999;
+}
+
+.qr-modal.active {
+    display: flex;
+}
+
+.qr-panel {
+    position: relative;
+
+    width: 100%;
+    max-width: 430px;
+
+    padding: 32px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20, 45, 87, 0.98),
+            rgba(8, 24, 53, 0.98)
+        );
+
+    border:
+        1px solid rgba(255, 255, 255, 0.14);
+
+    border-radius: 24px;
+
+    box-shadow:
+        0 30px 90px
+        rgba(0, 0, 0, 0.55);
+}
+
+.close-button {
+    position: absolute;
+
+    top: 15px;
+    right: 16px;
+
+    width: 38px;
+    height: 38px;
+
+    border: none;
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, 0.09);
+
+    color: #ffffff;
+
+    font-size: 26px;
+
+    cursor: pointer;
+}
+
+.qr-header {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    margin-bottom: 25px;
+}
+
+.qr-icon {
+    width: 45px;
+    height: 45px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background:
+        rgba(59, 130, 246, 0.2);
+
+    color: #8ec5ff;
+
+    font-size: 23px;
+}
+
+.qr-header p {
+    color: #8ec5ff;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 1.6px;
+}
+
+.qr-header h2 {
+    margin-top: 3px;
+
+    font-size: 22px;
+    font-weight: 600;
+}
+
+
+/* REAL QR IMAGE */
+
+.qr-image-box {
+    width: fit-content;
+
+    margin: 0 auto 22px;
+
+    padding: 15px;
+
+    background: #ffffff;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 15px 35px
+        rgba(0, 0, 0, 0.25);
+}
+
+.qr-image-box img {
+    display: block;
+}
+
+
+/* ===============================
+   QR LOADING STATUS
+================================ */
+
+.qr-status-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    color: rgba(255, 255, 255, 0.7);
+
+    font-size: 12px;
+}
+
+.status-spinner {
+    width: 16px;
+    height: 16px;
+
+    border:
+        2px solid rgba(255, 255, 255, 0.18);
+
+    border-top-color: #60a5fa;
+
+    border-radius: 50%;
+
+    animation:
+        spin 0.8s linear infinite;
+}
+
+@keyframes spin {
 
     to {
         transform: rotate(360deg);
@@ -247,64 +934,179 @@ body {
 
 }
 
-#paymentStatus {
-    color: #b8c6da;
+.qr-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-    font-size: 15px;
+    margin-top: 23px;
+    padding: 15px 17px;
 
-    line-height: 1.6;
+    background:
+        rgba(255, 255, 255, 0.06);
+
+    border-radius: 13px;
+}
+
+.qr-info span {
+    color: rgba(255, 255, 255, 0.5);
+
+    font-size: 11px;
+}
+
+.qr-info strong {
+    color: #9dccff;
+
+    font-size: 22px;
+}
+
+.qr-help {
+    margin-top: 17px;
+
+    color: rgba(255, 255, 255, 0.48);
+
+    text-align: center;
+
+    font-size: 11px;
+    line-height: 1.7;
 }
 
 
-/* =========================================
-   SECURITY FOOTER
-========================================= */
+/* ===============================
+   MOBILE
+================================ */
 
-.payment-security {
-    margin-top: 22px;
+@media (max-width: 600px) {
 
-    padding-top: 20px;
+    .payment-navbar {
+        padding: 0 20px;
+    }
 
-    border-top:
-        1px solid rgba(255, 255, 255, 0.1);
+    .brand {
+        font-size: 14px;
+    }
+
+    .brand-mark {
+        width: 34px;
+        height: 34px;
+    }
+
+    .payment-navbar nav {
+        gap: 16px;
+    }
+
+    .payment-page {
+        padding: 38px 14px 60px;
+    }
+
+    .process-line {
+        width: 45px;
+    }
+
+    .process-step {
+        min-width: 75px;
+    }
+
+    .process-step p {
+        font-size: 9px;
+    }
+
+    .payment-title h1 {
+        font-size: 29px;
+    }
+
+    .payment-summary {
+        padding: 21px;
+    }
+
+    .summary-event strong {
+        font-size: 15px;
+    }
+
+    .summary-amount strong {
+        font-size: 26px;
+    }
+
+    .payment-method {
+        padding: 12px 15px;
+    }
+
+    .method-logo {
+        width: 44px;
+        height: 44px;
+    }
+
+    .method-name {
+        margin-left: 13px;
+    }
+
+    .qr-panel {
+        padding: 28px 18px;
+    }
+
+}
+
+
+/* FIX PAYMENT OPTIONS NOT CLICKABLE */
+
+.payment-method {
+    position: relative !important;
+    z-index: 100 !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
+.method-section {
+    position: relative !important;
+    z-index: 100 !important;
+    pointer-events: auto !important;
+}
+
+.payment-wrapper {
+    position: relative !important;
+    z-index: 10 !important;
+    pointer-events: auto !important;
+}
+
+#closeQR {
+    position: relative;
+    z-index: 9999;
+    cursor: pointer;
+}
+
+
+/* QR CLOSE BUTTON */
+
+#closeQR {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+
+    width: 42px;
+    height: 42px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #2a3d5f;
+    color: white;
+
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 42px;
+
+    cursor: pointer;
 
     display: flex;
-    gap: 10px;
-    align-items: flex-start;
+    align-items: center;
+    justify-content: center;
 
-    color: #8494aa;
+    z-index: 99999;
 
-    font-size: 12px;
-
-    line-height: 1.5;
+    transition: 0.2s ease;
 }
 
-
-/* =========================================
-   MOBILE
-========================================= */
-
-@media (max-width: 500px) {
-
-    .phone-payment-page {
-        padding: 15px;
-        align-items: flex-start;
-    }
-
-    .phone-payment-container {
-        margin-top: 15px;
-
-        padding: 26px 18px;
-
-        border-radius: 23px;
-    }
-
-    .payment-title {
-        font-size: 28px;
-    }
-
-    .amount-value {
-        font-size: 23px;
-    }
-
+#closeQR:hover {
+    transform: scale(1.08);
+    background: #3b5278;
 }
