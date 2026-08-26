@@ -7,8 +7,6 @@ const BACKEND_URL =
     "https://college-event-manager-pro.onrender.com";
 
 let allPayments = [];
-
-
 // ======================================================
 // PAGE LOAD
 // ======================================================
