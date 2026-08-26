@@ -234,12 +234,10 @@ function openQRModal() {
     status.textContent =
         "Waiting for payment confirmation...";
 
-
     const paymentURL =
-        window.location.origin +
-        "/payment-confirm.html?sessionId=" +
-        encodeURIComponent(currentSessionId);
-
+    window.location.origin +
+    "/phone-payment.html?sessionId=" +
+    encodeURIComponent(currentSessionId);
 
     if (typeof QRCode !== "undefined") {
 
