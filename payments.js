@@ -251,7 +251,7 @@ function openQRModal() {
 
             }
         );
-
+          
     }
 
     else {

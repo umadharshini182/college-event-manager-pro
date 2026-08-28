@@ -64,21 +64,26 @@ document.addEventListener("DOMContentLoaded", function () {
         "/payment-status/" +
         encodeURIComponent(sessionId)
     )
+    .then(async function (response) {
 
-    .then(function (response) {
+    console.log("Payment status:", response.status);
 
-        if (!response.ok) {
+    const responseText = await response.text();
 
-            throw new Error(
-                "Unable to load payment details."
-            );
+    console.log("Payment response:", responseText);
 
-        }
+    if (!response.ok) {
 
-        return response.json();
+        throw new Error(
+            "Unable to load payment details. Status: " +
+            response.status
+        );
 
-    })
+    }
 
+    return JSON.parse(responseText);
+
+})
     .then(function (data) {
 
         const registrationData =

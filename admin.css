@@ -72,7 +72,21 @@ background:linear-gradient(
 #1E3A8A,
 #2563EB
 );
+.sidebar a {
+    color: white !important;
+    text-decoration: none;
+}
 
+.sidebar a i {
+    color: white !important;
+}
+.sidebar a.active {
+    color: #2f4f85 !important;
+}
+
+.sidebar a.active i {
+    color: #2f4f85 !important;
+}
 padding:25px;
 
 overflow-y:auto;

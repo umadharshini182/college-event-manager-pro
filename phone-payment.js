@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const paymentSessionId =
         params.get("session");
 
-
     const phoneEvent =
         document.getElementById("phoneEvent");
 
@@ -20,11 +19,18 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("paymentStatus");
 
 
+    console.log("PAYMENT SESSION ID:", paymentSessionId);
+
+
     if (!paymentSessionId) {
 
+        console.error("NO SESSION ID FOUND IN URL");
+
         if (paymentStatus) {
+
             paymentStatus.textContent =
                 "Invalid payment session.";
+
         }
 
         return;
@@ -41,10 +47,17 @@ document.addEventListener("DOMContentLoaded", function () {
         )
         .then(function (response) {
 
+            console.log(
+                "Payment status response:",
+                response.status
+            );
+
             if (!response.ok) {
+
                 throw new Error(
                     "Payment session not found"
                 );
+
             }
 
             return response.json();
@@ -55,6 +68,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     function showPaymentDetails(data) {
+
+        console.log(
+            "PAYMENT STATUS DATA:",
+            data
+        );
 
         if (
             data.registrationData &&
@@ -82,126 +100,179 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+    // FIRST CHECK SESSION
     getPaymentStatus()
 
-    .then(function (data) {
+        .then(function (data) {
 
-        showPaymentDetails(data);
+            showPaymentDetails(data);
 
-        return fetch(
-            API_URL + "/payment-scanned",
-            {
-                method: "POST",
+            if (paymentStatus) {
 
-                headers: {
-                    "Content-Type":
-                        "application/json"
-                },
+                paymentStatus.textContent =
+                    "QR verified. Processing secure payment...";
 
-                body: JSON.stringify({
-                    sessionId:
-                        paymentSessionId
-                })
             }
-        );
 
-    })
+            // START PAYMENT PROCESS
+            return fetch(
+                API_URL + "/payment-scanned",
+                {
 
-    .then(function (response) {
+                    method: "POST",
 
-        if (!response.ok) {
-            throw new Error(
-                "Unable to start demo payment."
-            );
-        }
+                    headers: {
 
-        return response.json();
+                        "Content-Type":
+                            "application/json"
 
-    })
+                    },
 
-    .then(function () {
+                    body: JSON.stringify({
 
-        if (paymentStatus) {
+                        sessionId:
+                            paymentSessionId
 
-            paymentStatus.textContent =
-                "QR verified. Processing secure payment...";
-
-        }
-
-    })
-
-    .catch(function (error) {
-
-        console.error(error);
-
-        if (paymentStatus) {
-
-            paymentStatus.textContent =
-                "Unable to connect to payment server.";
-
-        }
-
-    });
-
-
-    const statusInterval = setInterval(
-        function () {
-
-            getPaymentStatus()
-
-            .then(function (data) {
-
-                showPaymentDetails(data);
-
-
-                if (data.status === "processing") {
-
-                    if (paymentStatus) {
-
-                        paymentStatus.textContent =
-                            "Verifying payment...";
-
-                    }
+                    })
 
                 }
+            );
+
+        })
+
+        .then(function (response) {
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to start payment"
+                );
+
+            }
+
+            return response.json();
+
+        })
+
+        .then(function (data) {
+
+            console.log(
+                "PAYMENT SCANNED:",
+                data
+            );
+
+            startStatusChecking();
+
+        })
+
+        .catch(function (error) {
+
+            console.error(
+                "PAYMENT ERROR:",
+                error
+            );
+
+            if (paymentStatus) {
+
+                paymentStatus.textContent =
+                    "Payment session not found. Please start payment again.";
+
+            }
+
+        });
 
 
-                if (data.status === "paid") {
+    function startStatusChecking() {
 
-                    clearInterval(statusInterval);
+        const statusInterval = setInterval(
+            function () {
+
+                getPaymentStatus()
+
+                    .then(function (data) {
+
+                        showPaymentDetails(data);
+
+                        console.log(
+                            "CURRENT STATUS:",
+                            data.status
+                        );
 
 
-                    if (paymentStatus) {
+                        if (
+                            data.status === "waiting"
+                        ) {
 
-                        paymentStatus.textContent =
-                            "Payment successful! Opening receipt...";
+                            paymentStatus.textContent =
+                                "Waiting for payment...";
 
-                    }
+                        }
 
 
-                    setTimeout(function () {
+                        else if (
+                            data.status === "scanned"
+                        ) {
 
-                        window.location.href =
-                            "receipt.html?session=" +
-                            encodeURIComponent(
-                                paymentSessionId
+                            paymentStatus.textContent =
+                                "QR verified. Processing...";
+
+                        }
+
+
+                        else if (
+                            data.status === "processing"
+                        ) {
+
+                            paymentStatus.textContent =
+                                "Verifying payment...";
+
+                        }
+
+
+                        else if (
+                            data.status === "paid"
+                        ) {
+
+                            clearInterval(
+                                statusInterval
                             );
 
-                    }, 1200);
+                            paymentStatus.textContent =
+                                "Payment successful! Opening receipt...";
 
-                }
 
-            })
+                            setTimeout(function () {
 
-            .catch(function (error) {
+                                window.location.href =
+                                    "receipt.html?session=" +
+                                    encodeURIComponent(
+                                        paymentSessionId
+                                    );
 
-                console.error(error);
+                            }, 1200);
 
-            });
+                        }
 
-        },
+                    })
 
-        1000
-    );
+                    .catch(function (error) {
+
+                        console.error(
+                            "STATUS ERROR:",
+                            error
+                        );
+
+                        clearInterval(
+                            statusInterval
+                        );
+
+                    });
+
+            },
+
+            1000
+        );
+
+    }
 
 });
