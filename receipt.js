@@ -1,19 +1,30 @@
 document.addEventListener("DOMContentLoaded", function () {
 
+    // =========================================
+    // BACKEND URL
+    // =========================================
+
     const API_URL =
         "https://college-event-manager-pro.onrender.com";
 
 
     // =========================================
-    // GET SESSION ID FROM URL
+    // GET URL PARAMETERS
     // =========================================
 
     const params =
         new URLSearchParams(
             window.location.search
         );
-     const sessionId =
-    params.get("session") || params.get("id");
+
+    // Payment session ID
+    const sessionId =
+        params.get("session");
+
+    // Database registration ID
+    const registrationId =
+        params.get("id");
+
 
     // =========================================
     // GET RECEIPT ELEMENTS
@@ -49,6 +60,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const receiptAmount =
         document.getElementById("receiptAmount");
 
+    const openQR =
+        document.getElementById("openQR");
+
+    const downloadReceipt =
+        document.getElementById("downloadReceipt");
+
 
     // =========================================
     // SET TEXT SAFELY
@@ -56,42 +73,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function setText(element, value) {
 
-        if (element) {
-
-            element.textContent =
-                value !== undefined &&
-                value !== null &&
-                value !== ""
-                    ? value
-                    : "-";
-
+        if (!element) {
+            return;
         }
+
+        element.textContent =
+            value !== undefined &&
+            value !== null &&
+            value !== ""
+                ? value
+                : "-";
 
     }
 
 
     // =========================================
-    // FORMAT DATE AND TIME - INDIA
+    // FORMAT DATE
     // =========================================
 
     function formatIndianDateTime(dateValue) {
 
         if (!dateValue) {
-
             return "-";
-
         }
 
         const date =
             new Date(dateValue);
 
-
         if (isNaN(date.getTime())) {
-
             return dateValue;
-
         }
-
 
         return date.toLocaleString(
             "en-IN",
@@ -125,6 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const registrationData =
             data.registrationData ||
             data.registration ||
+            data.student ||
             {};
 
 
@@ -132,8 +144,9 @@ document.addEventListener("DOMContentLoaded", function () {
             receiptEvent,
             registrationData.event ||
             data.event ||
-            "Tech Spark 2027"
+            "-"
         );
+
 
         setText(
             receiptName,
@@ -143,11 +156,13 @@ document.addEventListener("DOMContentLoaded", function () {
             data.name
         );
 
+
         setText(
             receiptEmail,
             registrationData.email ||
             data.email
         );
+
 
         setText(
             receiptCollege,
@@ -155,11 +170,13 @@ document.addEventListener("DOMContentLoaded", function () {
             data.college
         );
 
+
         setText(
             receiptDepartment,
             registrationData.department ||
             data.department
         );
+
 
         setText(
             receiptYear,
@@ -167,24 +184,27 @@ document.addEventListener("DOMContentLoaded", function () {
             data.year
         );
 
+
         setText(
             receiptMethod,
             data.paymentMethod ||
             registrationData.paymentMethod ||
-            "QR / UPI Demo"
+            "Online Payment"
         );
+
 
         setText(
             receiptTransaction,
             data.transactionId ||
             data.sessionId ||
-            sessionId
+            (
+                registrationData.id
+                    ? "Registration #" +
+                      registrationData.id
+                    : "-"
+            )
         );
 
-
-        // =====================================
-        // CORRECT INDIA DATE AND TIME
-        // =====================================
 
         const paymentDate =
             data.paymentDate ||
@@ -223,7 +243,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         // =====================================
-        // SAVE LOCAL BACKUP
+        // SAVE RECEIPT DATA
         // =====================================
 
         localStorage.setItem(
@@ -259,12 +279,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 paymentMethod:
                     data.paymentMethod ||
                     registrationData.paymentMethod ||
-                    "QR / UPI Demo",
+                    "Online Payment",
 
                 transactionId:
                     data.transactionId ||
                     data.sessionId ||
-                    sessionId,
+                    (
+                        registrationData.id
+                            ? "Registration #" +
+                              registrationData.id
+                            : ""
+                    ),
 
                 paymentDate:
                     paymentDate,
@@ -281,10 +306,91 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =========================================
-    // LOAD FROM BACKEND
+    // LOAD RECEIPT USING DATABASE ID
     // =========================================
 
-    if (sessionId) {
+    if (registrationId) {
+
+        localStorage.setItem(
+            "receiptRegistrationId",
+            registrationId
+        );
+
+
+        fetch(
+            API_URL +
+            "/payment-verification/" +
+            encodeURIComponent(
+                registrationId
+            )
+        )
+
+        .then(function (response) {
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to load receipt. Server returned " +
+                    response.status
+                );
+
+            }
+
+            return response.json();
+
+        })
+
+        .then(function (data) {
+
+            if (!data.success) {
+
+                throw new Error(
+                    data.message ||
+                    "Receipt not found."
+                );
+
+            }
+
+
+            const student =
+                data.student || {};
+
+
+            showReceipt({
+
+                student: student,
+
+                amount:
+                    student.amount,
+
+                paymentMethod:
+                    "Online Payment",
+
+                transactionId:
+                    "Registration #" +
+                    student.id
+
+            });
+
+        })
+
+        .catch(function (error) {
+
+            console.error(
+                "RECEIPT ERROR:",
+                error
+            );
+
+        });
+
+    }
+
+
+    // =========================================
+    // LOAD RECEIPT USING PAYMENT SESSION
+    // =========================================
+
+    else if (sessionId) {
 
         fetch(
             API_URL +
@@ -323,10 +429,6 @@ document.addEventListener("DOMContentLoaded", function () {
             );
 
 
-            // =================================
-            // FALLBACK TO LOCAL DATA
-            // =================================
-
             const savedData =
                 JSON.parse(
                     localStorage.getItem(
@@ -339,7 +441,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 showReceipt({
 
-                    registrationData: savedData,
+                    registrationData:
+                        savedData,
 
                     paymentMethod:
                         savedData.paymentMethod,
@@ -363,7 +466,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =========================================
-    // NO SESSION - LOCAL FALLBACK
+    // LOCAL FALLBACK
     // =========================================
 
     else {
@@ -403,14 +506,46 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =========================================
-    // PRINT RECEIPT
+    // VERIFY REGISTRATION
     // =========================================
 
-    const downloadReceipt =
-        document.getElementById(
-            "downloadReceipt"
+    if (openQR) {
+
+        openQR.addEventListener(
+            "click",
+            function () {
+
+                const id =
+                    registrationId ||
+                    localStorage.getItem(
+                        "receiptRegistrationId"
+                    );
+
+
+                if (!id) {
+
+                    alert(
+                        "Registration ID not found."
+                    );
+
+                    return;
+
+                }
+
+
+                window.location.href =
+                    "verification.html?id=" +
+                    encodeURIComponent(id);
+
+            }
         );
 
+    }
+
+
+    // =========================================
+    // PRINT / SAVE RECEIPT
+    // =========================================
 
     if (downloadReceipt) {
 
@@ -426,34 +561,3 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
-const openQR = document.getElementById("openQR");
-
-if (openQR) {
-
-    openQR.addEventListener("click", function () {
-
-        // Get the real payment session ID from receipt page URL
-        const params = new URLSearchParams(
-            window.location.search
-        );
-         const paymentSessionId =
-    params.get("session") || params.get("id");
-
-        if (!paymentSessionId) {
-
-            alert(
-                "Payment session not found. Please complete payment again."
-            );
-
-            return;
-
-        }
-
-        // Open verification page with the SESSION parameter
-        window.location.href =
-            "verification.html?session=" +
-            encodeURIComponent(paymentSessionId);
-
-    });
-
-}

@@ -1,11 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
 
+    // =========================================
+    // BACKEND URL
+    // =========================================
+
     const API_URL =
         "https://college-event-manager-pro.onrender.com";
 
 
     // =========================================
-    // GET SESSION ID
+    // GET REGISTRATION ID
     // =========================================
 
     const params =
@@ -13,208 +17,238 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.search
         );
 
-    const sessionId =
-        params.get("session");
+    const registrationId =
+        params.get("id");
 
 
     // =========================================
-    // GET ELEMENTS
+    // GET PAGE ELEMENTS
     // =========================================
 
     const verifyName =
-        document.getElementById("verifyName");
+        document.getElementById(
+            "verifyName"
+        );
 
     const verifyCollege =
-        document.getElementById("verifyCollege");
+        document.getElementById(
+            "verifyCollege"
+        );
 
     const verifyDepartment =
-        document.getElementById("verifyDepartment");
+        document.getElementById(
+            "verifyDepartment"
+        );
 
     const verifyYear =
-        document.getElementById("verifyYear");
+        document.getElementById(
+            "verifyYear"
+        );
 
     const verifyEvent =
-        document.getElementById("verifyEvent");
+        document.getElementById(
+            "verifyEvent"
+        );
 
     const verifyMethod =
-        document.getElementById("verifyMethod");
+        document.getElementById(
+            "verifyMethod"
+        );
 
     const verifyTransaction =
-        document.getElementById("verifyTransaction");
+        document.getElementById(
+            "verifyTransaction"
+        );
 
     const verifyAmount =
-        document.getElementById("verifyAmount");
+        document.getElementById(
+            "verifyAmount"
+        );
 
 
     // =========================================
-    // LOAD PAYMENT DATA FROM BACKEND
+    // CHECK REGISTRATION ID
     // =========================================
 
-    if (!sessionId) {
+    if (!registrationId) {
 
-        console.error("No payment session found.");
+        console.error(
+            "No registration ID found."
+        );
+
+        if (verifyName) {
+            verifyName.textContent =
+                "Registration not found";
+        }
 
         return;
 
     }
 
 
+    // =========================================
+    // LOAD VERIFIED REGISTRATION
+    // =========================================
+
     fetch(
         API_URL +
-        "/payment-status/" +
-        encodeURIComponent(sessionId)
+        "/payment-verification/" +
+        encodeURIComponent(
+            registrationId
+        )
     )
-    .then(async function (response) {
 
-    console.log("Payment status:", response.status);
+    .then(function (response) {
 
-    const responseText = await response.text();
+        if (!response.ok) {
 
-    console.log("Payment response:", responseText);
+            throw new Error(
+                "Unable to load verification. Status: " +
+                response.status
+            );
 
-    if (!response.ok) {
+        }
 
-        throw new Error(
-            "Unable to load payment details. Status: " +
-            response.status
-        );
+        return response.json();
 
-    }
+    })
 
-    return JSON.parse(responseText);
-
-})
     .then(function (data) {
 
-        const registrationData =
-            data.registrationData || {};
+        console.log(
+            "VERIFICATION DATA:",
+            data
+        );
+
+
+        if (!data.success) {
+
+            throw new Error(
+                data.message ||
+                "Payment verification failed."
+            );
+
+        }
+
+
+        const student =
+            data.student || {};
 
 
         // =====================================
-        // STUDENT DETAILS
+        // STUDENT NAME
         // =====================================
 
         if (verifyName) {
 
             verifyName.textContent =
-                registrationData.fullname ||
-                "Student";
-
-        }
-
-
-        if (verifyCollege) {
-
-            verifyCollege.textContent =
-                registrationData.college ||
-                "-";
-
-        }
-
-
-        if (verifyDepartment) {
-
-            verifyDepartment.textContent =
-                registrationData.department ||
-                "-";
-
-        }
-
-
-        if (verifyYear) {
-
-            verifyYear.textContent =
-                registrationData.year ||
-                "-";
+                student.fullname || "-";
 
         }
 
 
         // =====================================
-        // EVENT DETAILS
+        // COLLEGE
+        // =====================================
+
+        if (verifyCollege) {
+
+            verifyCollege.textContent =
+                student.college || "-";
+
+        }
+
+
+        // =====================================
+        // DEPARTMENT
+        // =====================================
+
+        if (verifyDepartment) {
+
+            verifyDepartment.textContent =
+                student.department || "-";
+
+        }
+
+
+        // =====================================
+        // YEAR
+        // =====================================
+
+        if (verifyYear) {
+
+            verifyYear.textContent =
+                student.year || "-";
+
+        }
+
+
+        // =====================================
+        // EVENT
         // =====================================
 
         if (verifyEvent) {
 
             verifyEvent.textContent =
-                registrationData.event ||
-                "Tech Spark 2027";
+                student.event || "-";
 
         }
 
 
         // =====================================
-        // PAYMENT DETAILS
+        // PAYMENT METHOD
         // =====================================
 
         if (verifyMethod) {
 
             verifyMethod.textContent =
-                data.paymentMethod ||
-                "QR / UPI Demo";
+                "Online Payment";
 
         }
 
+
+        // =====================================
+        // REGISTRATION / TRANSACTION ID
+        // =====================================
 
         if (verifyTransaction) {
 
             verifyTransaction.textContent =
-                data.transactionId ||
-                "Processing...";
+                "Registration #" +
+                student.id;
 
         }
 
+
+        // =====================================
+        // AMOUNT
+        // =====================================
 
         if (verifyAmount) {
 
             verifyAmount.textContent =
                 "₹" +
                 Number(
-                    data.amount || 1000
-                ).toLocaleString("en-IN");
+                    student.amount || 0
+                ).toLocaleString(
+                    "en-IN"
+                );
 
         }
 
 
         // =====================================
-        // SAVE FOR RECEIPT
+        // SAVE VERIFIED DATA
         // =====================================
 
         localStorage.setItem(
-            "receiptData",
-            JSON.stringify({
+            "receiptRegistrationId",
+            student.id
+        );
 
-                fullname:
-                    registrationData.fullname,
-
-                email:
-                    registrationData.email,
-
-                college:
-                    registrationData.college,
-
-                department:
-                    registrationData.department,
-
-                year:
-                    registrationData.year,
-
-                event:
-                    registrationData.event,
-
-                paymentMethod:
-                    data.paymentMethod,
-
-                amount:
-                    data.amount,
-
-                transactionId:
-                    data.transactionId,
-
-                paymentDate:
-                    data.paymentDate
-
-            })
+        localStorage.setItem(
+            "verifiedRegistration",
+            JSON.stringify(student)
         );
 
     })
@@ -226,11 +260,45 @@ document.addEventListener("DOMContentLoaded", function () {
             error
         );
 
-        if (verifyName) {
 
+        if (verifyName) {
             verifyName.textContent =
                 "Unable to load";
+        }
 
+        if (verifyCollege) {
+            verifyCollege.textContent =
+                "-";
+        }
+
+        if (verifyDepartment) {
+            verifyDepartment.textContent =
+                "-";
+        }
+
+        if (verifyYear) {
+            verifyYear.textContent =
+                "-";
+        }
+
+        if (verifyEvent) {
+            verifyEvent.textContent =
+                "-";
+        }
+
+        if (verifyMethod) {
+            verifyMethod.textContent =
+                "-";
+        }
+
+        if (verifyTransaction) {
+            verifyTransaction.textContent =
+                "-";
+        }
+
+        if (verifyAmount) {
+            verifyAmount.textContent =
+                "-";
         }
 
     });
