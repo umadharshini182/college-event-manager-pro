@@ -12,10 +12,8 @@ document.addEventListener("DOMContentLoaded", function () {
         new URLSearchParams(
             window.location.search
         );
-
-    const sessionId =
-        params.get("session");
-
+     const sessionId =
+    params.get("session") || params.get("id");
 
     // =========================================
     // GET RECEIPT ELEMENTS
@@ -438,9 +436,8 @@ if (openQR) {
         const params = new URLSearchParams(
             window.location.search
         );
-
-        const paymentSessionId =
-            params.get("session");
+         const paymentSessionId =
+    params.get("session") || params.get("id");
 
         if (!paymentSessionId) {
 
