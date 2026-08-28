@@ -355,23 +355,27 @@ document.addEventListener("DOMContentLoaded", function () {
             const student =
                 data.student || {};
 
+        showReceipt({
 
-            showReceipt({
+    student: student,
 
-                student: student,
+    amount:
+        student.amount,
 
-                amount:
-                    student.amount,
+    paymentMethod:
+        "Online Payment",
 
-                paymentMethod:
-                    "Online Payment",
+    transactionId:
+        "Registration #" +
+        student.id,
 
-                transactionId:
-                    "Registration #" +
-                    student.id
+    paymentDate:
+        student.paymentDate ||
+        student.createdAt ||
+        student.created_at ||
+        student.date
 
-            });
-
+});
         })
 
         .catch(function (error) {
