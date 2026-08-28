@@ -418,12 +418,25 @@ document.addEventListener("DOMContentLoaded", function () {
             return response.json();
 
         })
+      .then(function (data) {
 
-        .then(function (data) {
+    console.log(
+        "PAYMENT STATUS DATA:",
+        data
+    );
 
-            showReceipt(data);
+    if (data.registrationId) {
 
-        })
+        localStorage.setItem(
+            "receiptRegistrationId",
+            data.registrationId
+        );
+
+    }
+
+    showReceipt(data);
+
+})
 
         .catch(function (error) {
 
