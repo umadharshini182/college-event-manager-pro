@@ -637,7 +637,7 @@ app.post("/register", (req, res) => {
 
     success: true,
 
-    sessionId: sessionId,
+    sessionId: req.params.sessionId,
 
     registrationId:
         paymentSession.registrationId || null,
