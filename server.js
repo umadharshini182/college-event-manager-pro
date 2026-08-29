@@ -632,36 +632,23 @@ app.post("/register", (req, res) => {
                 "✅ Registration + payment saved:",
                 result.insertId
             );
-
-        res.json({
+res.json({
 
     success: true,
 
-    sessionId: req.params.sessionId,
+    message: "Registration Successful",
 
-    registrationId:
-        paymentSession.registrationId || null,
+    id: result.insertId,
 
-    status:
-        paymentSession.status,
+    registrationId: result.insertId,
 
-    scanned:
-        paymentSession.scanned,
+    paymentId: finalPaymentId,
 
-    paymentMethod:
-        paymentSession.paymentMethod,
+    paymentStatus: finalPaymentStatus,
 
-    registrationData:
-        paymentSession.registrationData,
+    paymentMethod: finalPaymentMethod,
 
-    amount:
-        paymentSession.amount,
-
-    transactionId:
-        paymentSession.transactionId,
-
-    paymentDate:
-        paymentSession.paymentDate
+    amount: finalAmount
 
 });
         }
